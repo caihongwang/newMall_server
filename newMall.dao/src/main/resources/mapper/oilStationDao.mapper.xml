@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.br.newMall.dao.OilStationDao">
+
+    <sql id="columnList">    <!-- 字段 -->
+        id,
+        oil_station_code,
+        oil_station_name,
+        oil_station_area_spell,
+        oil_station_area_name,
+        oil_station_adress,
+        oil_station_brand_name,
+        oil_station_type,
+        oil_station_discount,
+        oil_station_exhaust,
+        oil_station_position,
+        oil_station_lon,
+        oil_station_lat,
+        oil_station_pay_type,
+        oil_station_price,
+        oil_station_distance,
+        is_manual_modify,
+        oil_station_wx_payment_code_img_url,
+        create_time,
+        update_time
+    </sql>
+
+    <sql id="TColumnList">    <!-- 带表别名的字段 -->
+        oos.id as "id",
+        oos.oil_station_code as "oilStationCode",
+        oos.oil_station_name as "oilStationName",
+        oos.oil_station_area_spell as "oilStationAreaSpell",
+        oos.oil_station_area_name as "oilStationAreaName",
+        oos.oil_station_adress as "oilStationAdress",
+        oos.oil_station_brand_name as "oilStationBrandName",
+        oos.oil_station_type as "oilStationType",
+        oos.oil_station_discount as "oilStationDiscount",
+        oos.oil_station_exhaust as "oilStationExhaust",
+        oos.oil_station_position as "oilStationPosition",
+        oos.oil_station_lon as "oilStationLon",
+        oos.oil_station_lat as "oilStationLat",
+        oos.oil_station_pay_type as "oilStationPayType",
+        oos.oil_station_price as "oilStationPrice",
+        oos.oil_station_distance as "oilStationDistance",
+        oos.is_manual_modify as "isManualModify",
+        oos.oil_station_wx_payment_code_img_url as
+        "oilStationWxPaymentCodeImgUrl",
+        date_format(oos.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
+        date_format(oos.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
+    </sql>
+
+    <sql id="queryConditions"><!-- 查询条件 -->
+        <where>1=1
+            <if test="id != null and id != ''">
+                AND oos.id = #{id}
+            </if>
+            <if test="oilStationCode != null and oilStationCode != ''">
+                AND oos.oil_station_code = #{oilStationCode}
+            </if>
+            <if test="oilStationName != null and oilStationName != ''">
+                AND oos.oil_station_name = #{oilStationName}
+            </if>
+            <if test="oilStationAreaName != null and oilStationAreaName != ''">
+                AND oos.oil_station_area_name like concat('%',#{oilStationAreaName},'%')
+            </if>
+            <!--<if test="oilStationType != null or oilStationType != ''">-->
+                <!--AND oos.oil_station_type = #{oilStationType}-->
+            <!--</if>-->
+            <!--<if test="oilStationType == null or oilStationType == ''">-->
+                <!--AND oos.oil_station_type <![CDATA[ <> ]]> "民营"-->
+            <!--</if>-->
+            <if test="oilStationType != null and oilStationType != ''">
+                AND oos.oil_station_type = #{oilStationType}
+            </if>
+            <if test="isManualModify != null and isManualModify != ''">
+                AND oos.is_manual_modify = #{isManualModify}
+            </if>
+            <if test="minLat != null and maxLat != null and minLon != null and maxLon != null">
+                AND oos.oil_station_lat &gt;= #{minLat} AND oos.oil_station_lat
+                &lt;= #{maxLat}
+                AND oos.oil_station_lon &gt;= #{minLon} AND oos.oil_station_lon
+                &lt;= #{maxLon}
+            </if>
+        </where>
+        ORDER BY oos.oil_station_distance desc
+    </sql>
+
+    <insert id="addOilStation" parameterType="java.util.Map"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into o_oil_station (
+        <include refid="columnList"/>
+        ) values (
+        #{id},
+        #{oilStationCode},
+        #{oilStationName},
+        #{oilStationAreaSpell},
+        #{oilStationAreaName},
+        #{oilStationAdress},
+        #{oilStationBrandName},
+        #{oilStationType},
+        #{oilStationDiscount},
+        #{oilStationExhaust},
+        #{oilStationPosition},
+        #{oilStationLon},
+        #{oilStationLat},
+        #{oilStationPayType},
+        #{oilStationPrice},
+        #{oilStationDistance},
+        #{isManualModify},
+        #{oilStationWxPaymentCodeImgUrl},
+        #{createTime},
+        #{updateTime}
+        )
+    </insert>
+
+    <delete id="deleteOilStation">
+        DELETE FROM o_oil_station WHERE 1=1
+        <if test="id != null and id != ''">
+            AND id = #{id}
+        </if>
+        <if test="oilStationCode != null and oilStationCode != ''">
+            AND oil_station_code = #{oilStationCode}
+        </if>
+    </delete>
+
+    <update id="updateOilStation">
+        update o_oil_station oos
+        <set>
+            <if test="oilStationName != null and oilStationName != ''">
+                oos.oil_station_name = #{oilStationName},
+            </if>
+            <if test="oilStationAreaSpell != null and oilStationAreaSpell != ''">
+                oos.oil_station_area_spell = #{oilStationAreaSpell},
+            </if>
+            <if test="oilStationAreaName != null and oilStationAreaName != ''">
+                oos.oil_station_area_name = #{oilStationAreaName},
+            </if>
+            <if test="oilStationAdress != null and oilStationAdress != ''">
+                oos.oil_station_adress = #{oilStationAdress},
+            </if>
+            <if test="oilStationBrandName != null and oilStationBrandName != ''">
+                oos.oil_station_brand_name = #{oilStationBrandName},
+            </if>
+            <if test="oilStationType != null and oilStationType != ''">
+                oos.oil_station_type = #{oilStationType},
+            </if>
+            <if test="oilStationDiscount != null and oilStationDiscount != ''">
+                oos.oil_station_discount = #{oilStationDiscount},
+            </if>
+            <if test="oilStationExhaust != null and oilStationExhaust != ''">
+                oos.oil_station_exhaust = #{oilStationExhaust},
+            </if>
+            <if test="oilStationPosition != null and oilStationPosition != ''">
+                oos.oil_station_position = #{oilStationPosition},
+            </if>
+            <if test="oilStationLon != null and oilStationLon != ''">
+                oos.oil_station_lon = #{oilStationLon},
+            </if>
+            <if test="oilStationLat != null and oilStationLat != ''">
+                oos.oil_station_lat = #{oilStationLat},
+            </if>
+            <if test="oilStationPayType != null and oilStationPayType != ''">
+                oos.oil_station_pay_type = #{oilStationPayType},
+            </if>
+            <if test="oilStationPrice != null and oilStationPrice != ''">
+                oos.oil_station_price = #{oilStationPrice},
+            </if>
+            <if test="oilStationDistance != null and oilStationDistance != ''">
+                oos.oil_station_distance = #{oilStationDistance},
+            </if>
+            <if test="isManualModify != null and isManualModify != ''">
+                oos.is_manual_modify = #{isManualModify},
+            </if>
+            oos.update_time = CURRENT_TIMESTAMP
+        </set>
+        where 1=1
+        <if test="id != null and id != ''">
+            and oos.id = #{id}
+        </if>
+        <if test="oilStationCode != null and oilStationCode != ''">
+            and oos.oil_station_code = #{oilStationCode}
+        </if>
+    </update>
+
+    <select id="getSimpleOilStationByCondition" resultType="java.util.Map">
+        SELECT
+        <include refid="TColumnList"/>
+        FROM o_oil_station oos
+        <include refid="queryConditions"/>
+        <if test="start != null and size != null">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getSimpleOilStationTotalByCondition"
+            resultType="java.lang.Integer">
+        SELECT
+        COUNT(oos.id) total
+        from o_oil_station oos
+        <include refid="queryConditions"/>
+    </select>
+
+    <select id="getSimpleOilStationTotalByCode"
+            resultType="java.lang.Integer">
+        SELECT
+        COUNT(oos.id) total
+        from o_oil_station oos
+        where oos.oil_station_code = #{oilStationCode}
+    </select>
+
+    <select id="getMaxOilStationCode" resultType="java.util.Map">
+        SELECT
+        MAX(cast(oos.oil_station_code as decimal)) as "oilStationCode"
+        FROM o_oil_station oos
+    </select>
+
+</mapper>

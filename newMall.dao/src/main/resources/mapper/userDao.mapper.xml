@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.br.newMall.dao.UserDao">
+
+    <sql id="columnList">    <!-- 字段 -->
+        id,
+        open_id,
+        nick_name,
+        avatar_url,
+        gender,
+        city,
+        province,
+        country,
+        language,
+        user_remark,
+        gray_status,
+        create_time,
+        update_time
+    </sql>
+
+    <sql id="TColumnList">    <!-- 带表别名的字段 -->
+        ou.id as "id",
+        ou.open_id as "openId",
+        ou.nick_name as "nickName",
+        ou.avatar_url as "avatarUrl",
+        ou.gender as "gender",
+        ou.city as "city",
+        ou.province as "province",
+        ou.country as "country",
+        ou.language as "language",
+        ou.user_remark as "userRemark",
+        ou.gray_status as "grayStatus",
+        ou.create_time as "createTime",
+        ou.update_time as "updateTime"
+    </sql>
+
+    <sql id="queryConditions"><!-- 查询条件 -->
+        <where>1=1
+            <if test="id != null and id != ''">
+                AND ou.id = #{id}
+            </if>
+            <if test="openId != null and openId != ''">
+                AND ou.open_id = #{openId}
+            </if>
+            <if test="nickName != null and nickName != ''">
+                AND ou.nick_name = #{nickName}
+            </if>
+            <if test="avatarUrl != null and avatarUrl != ''">
+                AND ou.avatar_url = #{avatarUrl}
+            </if>
+            <if test="gender != null and gender != ''">
+                AND ou.gender = #{gender}
+            </if>
+            <if test="city != null and city != ''">
+                AND ou.city = #{city}
+            </if>
+            <if test="province != null and province != ''">
+                AND ou.province = #{province}
+            </if>
+            <if test="country != null and country != ''">
+                AND ou.country = #{country}
+            </if>
+            <if test="language != null and language != ''">
+                AND ou.language = #{language}
+            </if>
+            <if test="grayStatus != null and grayStatus != ''">
+                AND ou.gray_status = #{grayStatus}
+            </if>
+            <if test="userRemark != null and userRemark != ''">
+                AND ou.user_remark = #{userRemark}
+            </if>
+        </where>
+        ORDER BY ou.create_time desc
+    </sql>
+
+    <insert id="addUser" parameterType="java.util.Map" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into o_user (
+        <include refid="columnList"/>
+        ) values (
+        #{id},
+        #{openId},
+        #{nickName},
+        #{avatarUrl},
+        #{gender},
+        #{city},
+        #{province},
+        #{country},
+        #{language},
+        #{userRemark},
+        #{grayStatus},
+        #{createTime},
+        #{updateTime}
+        )
+    </insert>
+
+    <delete id="deleteUser">
+        DELETE FROM o_user ou WHERE 1=1
+        <if test="id != null and id != ''">
+            AND ou.id = #{id}
+        </if>
+        <if test="openId != null and openId != ''">
+            AND ou.open_id = #{openId}
+        </if>
+    </delete>
+
+    <update id="updateUser">
+        update o_user ou
+        <set>
+            <if test="openId != null and openId != ''">
+                ou.open_id = #{openId},
+            </if>
+            <if test="nickName != null and nickName != ''">
+                ou.nick_name = #{nickName},
+            </if>
+            <if test="avatarUrl != null and avatarUrl != ''">
+                ou.avatar_url = #{avatarUrl},
+            </if>
+            <if test="gender != null and gender != ''">
+                ou.gender = #{gender},
+            </if>
+            <if test="city != null and city != ''">
+                ou.city = #{city},
+            </if>
+            <if test="province != null and province != ''">
+                ou.province = #{province},
+            </if>
+            <if test="country != null and country != ''">
+                ou.country = #{country},
+            </if>
+            <if test="language != null and language != ''">
+                ou.language = #{language},
+            </if>
+            <if test="grayStatus != null and grayStatus != ''">
+                ou.gray_status = #{grayStatus},
+            </if>
+            <if test="userRemark != null and userRemark != ''">
+                ou.user_remark = #{userRemark},
+            </if>
+            update_time = #{updateTime}
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="getSimpleUserByCondition" resultType="java.util.Map">
+        SELECT
+        <include refid="TColumnList"/>
+        FROM o_user ou
+        <include refid="queryConditions"/>
+        <if test="start != null and start != '' and size != null and size != ''">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getSimpleUserTotalByCondition" resultType="java.lang.Integer">
+        SELECT
+        COUNT(*) total
+        from o_user ou
+        <include refid="queryConditions"/>
+    </select>
+
+</mapper>

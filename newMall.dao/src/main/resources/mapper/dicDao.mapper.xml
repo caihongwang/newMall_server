@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.br.newMall.dao.DicDao">
+
+    <sql id="columnList">    <!-- 字段 -->
+        id,
+        dic_type,
+        dic_code,
+        dic_name,
+        dic_remark,
+        create_time,
+        update_time
+    </sql>
+
+    <sql id="TColumnList">    <!-- 带表别名的字段 -->
+        od.id as "id",
+        od.dic_type as "dicType",
+        od.dic_code as "dicCode",
+        od.dic_name as "dicName",
+        od.dic_remark as "dicRemark",
+        date_format(od.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
+        date_format(od.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
+    </sql>
+
+    <sql id="queryConditions"><!-- 查询条件 -->
+        <where>od.dic_status='0'
+            <if test="id != null and id != ''">
+                AND od.id = #{id}
+            </if>
+            <if test="dicType != null and dicType != ''">
+                AND od.dic_type = #{dicType}
+            </if>
+            <if test="dicCode != null and dicCode != ''">
+                AND od.dic_code = #{dicCode}
+            </if>
+            <if test="dicName != null and dicName != ''">
+                AND od.dic_name like concat('%',#{dicName},'%')
+            </if>
+            <if test="dicRemark != null and dicRemark != ''">
+                AND od.dic_remark like concat('%',#{dicRemark},'%')
+            </if>
+        </where>
+        ORDER BY od.create_time desc
+    </sql>
+
+    <insert id="addDic" parameterType="java.util.Map" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into o_dic (
+        <include refid="columnList"/>
+        ) values (
+        #{id},
+        #{dicType},
+        #{dicCode},
+        #{dicName},
+        #{dicRemark},
+        #{createTime},
+        #{updateTime}
+        )
+    </insert>
+
+    <delete id="deleteDic">
+        DELETE FROM o_dic WHERE 1=1
+        <if test="id != null and id != ''">
+            AND id = #{id}
+        </if>
+        <if test="dicType != null and dicType != ''">
+            AND dic_type = #{dicType}
+        </if>
+        <if test="dicCode != null and dicCode != ''">
+            AND dic_code = #{dicCode}
+        </if>
+    </delete>
+
+    <update id="updateDic">
+        update o_dic od
+        <set>
+            <if test="dicStatus != null and dicStatus != ''">
+                od.dic_status = #{dicStatus},
+            </if>
+            <if test="dicName != null and dicName != ''">
+                od.dic_name = #{dicName},
+            </if>
+            <if test="dicRemark != null and dicRemark != ''">
+                od.dic_remark = #{dicRemark},
+            </if>
+            od.update_time = CURRENT_TIMESTAMP
+        </set>
+        where 1=1
+        <if test="id != null and id != ''">
+            and od.id = #{id}
+        </if>
+        <if test="dicCode != null and dicCode != ''">
+            and od.dic_code = #{dicCode}
+        </if>
+    </update>
+
+    <select id="getSimpleDicByCondition" resultType="java.util.Map">
+        SELECT
+        <include refid="TColumnList"/>
+        FROM o_dic od
+        <include refid="queryConditions"/>
+        <if test="start != null and start != '' and size != null and size != ''">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getSimpleDicTotalByCondition" resultType="java.lang.Integer">
+        SELECT
+        COUNT(*) total
+        from o_dic od
+        <include refid="queryConditions"/>
+    </select>
+
+</mapper>

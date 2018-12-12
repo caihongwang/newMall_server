@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.br.newMall.dao.OilStationOperatorDao">
+
+    <sql id="columnList">    <!-- 字段 -->
+        id,
+        uid,
+        oil_station_code,
+        red_packet_total,
+        operator,
+        status,
+        create_time,
+        update_time
+    </sql>
+
+    <sql id="TColumnList">    <!-- 带表别名的字段 -->
+        ooso.id as "id",
+        ooso.uid as "uid",
+        ooso.oil_station_code as "oilStationCode",
+        ooso.red_packet_total as "redPacketTotal",
+        ooso.operator as "operator",
+        ooso.status as "status",
+        date_format(ooso.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
+        date_format(ooso.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
+    </sql>
+
+    <sql id="queryConditions"><!-- 查询条件 -->
+        <where>status = '0'
+            <if test="id != null and id != ''">
+                AND ooso.id = #{id}
+            </if>
+            <if test="uid != null and uid != ''">
+                AND ooso.uid = #{uid}
+            </if>
+            <if test="oilStationCode != null and oilStationCode != ''">
+                AND ooso.oil_station_code = #{oilStationCode}
+            </if>
+            <if test="operator != null and operator != ''">
+                AND ooso.operator = #{operator}
+            </if>
+            <if test="createTime !=null and createTime !=''">
+                AND ooso.create_time &gt;= date_format(CONCAT(#{createTime}, ' 00:00:00'), '%Y-%m-%d %H:%i:%s')
+                AND ooso.create_time &lt;= date_format(CONCAT(#{createTime}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
+            </if>
+        </where>
+        ORDER BY ooso.create_time desc
+    </sql>
+
+    <insert id="addOilStationOperator" parameterType="java.util.Map"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into o_oil_station_operator (
+        <include refid="columnList"/>
+        ) values (
+        #{id},
+        #{uid},
+        #{oilStationCode},
+        #{redPacketTotal},
+        #{operator},
+        #{status},
+        #{createTime},
+        #{updateTime}
+        )
+    </insert>
+
+    <delete id="deleteOilStationOperator">
+        DELETE FROM o_oil_station_operator WHERE 1=1
+        <if test="id != null and id != ''">
+            AND id = #{id}
+        </if>
+        <if test="uid != null and uid != ''">
+            AND uid = #{uid}
+        </if>
+    </delete>
+
+    <update id="updateOilStationOperator">
+        update o_oil_station_operator ooso
+        <set>
+            <if test="oilStationCode != null and oilStationCode != ''">
+                ooso.oil_station_code = #{oilStationCode},
+            </if>
+            <if test="redPacketTotal != null and redPacketTotal != ''">
+                ooso.red_packet_total = #{redPacketTotal},
+            </if>
+            <if test="operator != null and operator != ''">
+                ooso.operator = #{operator},
+            </if>
+            <if test="status != null and status != ''">
+                ooso.status = #{status},
+            </if>
+            ooso.update_time = CURRENT_TIMESTAMP
+        </set>
+        where 1=1
+        <if test="id != null and id != ''">
+            and ooso.id = #{id}
+        </if>
+        <if test="uid != null and uid != ''">
+            and ooso.uid = #{uid}
+        </if>
+    </update>
+
+    <select id="getSimpleOilStationOperatorByCondition" resultType="java.util.Map">
+        SELECT
+            ou.open_id as "openId",
+            ooso.id as "id",
+            ooso.uid as "uid",
+            ooso.oil_station_code as "oilStationCode",
+            ooso.red_packet_total as "redPacketTotal",
+            ooso.operator as "operator",
+            ooso.status as "status",
+            date_format(IFNULL(ooso.update_time, ooso.create_time), '%Y-%c-%d %H:%i:%s') as "updateTime"
+        from o_oil_station_operator ooso
+        INNER JOIN o_user ou ON ooso.uid = ou.id
+        <include refid="queryConditions"/>
+        <if test="start != null and start != '' and size != null and size != ''">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getSimpleOilStationOperatorTotalByCondition"
+            resultType="java.lang.Integer">
+        SELECT
+        COUNT(*) total
+        from o_oil_station_operator ooso
+        INNER JOIN o_user ou ON ooso.uid = ou.id
+        <include refid="queryConditions"/>
+    </select>
+
+    <select id="getOilStationOperatorByCondition" resultType="java.util.Map">
+        SELECT
+          ooso.uid as "uid",
+          ou.open_id as "openId",
+          IFNULL(sum(ooso.red_packet_total), 0) as "redPacketTotal"
+        from o_oil_station_operator ooso
+          INNER JOIN o_user ou ON ooso.uid = ou.id
+        <if test="createTime!=null and createTime!=''">
+            AND ooso.create_time &gt;= date_format(CONCAT(#{createTime}, ' 00:00:00'), '%Y-%m-%d %H:%i:%s')
+            AND ooso.create_time &lt;= date_format(CONCAT(#{createTime}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
+        </if>
+        GROUP BY ooso.uid, ou.open_id
+    </select>
+
+    <select id="getOilStationOperatorTotalByCondition"
+            resultType="java.lang.Integer">
+        SELECT
+          COUNT(*) total
+        from o_oil_station_operator ooso
+          INNER JOIN o_user ou ON ooso.uid = ou.id
+        GROUP BY ooso.uid, ou.open_id
+    </select>
+
+</mapper>

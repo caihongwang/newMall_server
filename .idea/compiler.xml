@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="newMall.api" />
+        <module name="newMall.center" />
+        <module name="newMall.dao" />
+        <module name="newMall.web" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="newMall" target="1.8" />
+      <module name="newMall.api" target="1.8" />
+      <module name="newMall.center" target="1.8" />
+      <module name="newMall.dao" target="1.8" />
+      <module name="newMall.web" target="1.8" />
+      <module name="newMall_server" target="1.8" />
+      <module name="oilStationMap.api" target="1.8" />
+      <module name="oilStationMap.center" target="1.8" />
+      <module name="oilStationMap.dao" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

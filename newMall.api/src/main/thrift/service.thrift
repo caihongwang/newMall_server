@@ -1,0 +1,156 @@
+namespace java com.br.newMall.api.service
+
+include "dto.thrift"
+
+typedef i16 short
+typedef i32 int
+typedef i64 long
+
+service CommonHandler {
+
+    dto.ResultMapDTO getDecryptPhone(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultMapDTO sendTemplateMessageForMiniProgram(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultMapDTO sendTemplateMessageForWxPublicNumber(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultMapDTO getOpenIdAndSessionKeyForWX(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultMapDTO getSignatureAndJsapiTicketAndNonceStrForWxPublicNumber(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultMapDTO receviceAndSendCustomMessage(1:int tid, 2:map<string, string> paramMap)
+
+}
+
+service UserHandler {
+
+    dto.ResultMapDTO login(1:int tid, 2:map<string, string> paramMap),
+
+    dto.BoolDTO updateUser(1:int tid, 2:map<string, string> paramMap),
+
+    dto.BoolDTO checkSession(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultDTO getSimpleUserByCondition(1:int tid, 2:map<string, string> paramMap),
+
+    dto.MessageDTO getCheckVerificationCode(1:int tid, 2:map<string, string> paramMap)
+
+}
+
+service CommentsHandler {
+
+    dto.BoolDTO addComments(1:int tid, 2:map<string, string> paramMap),
+
+    dto.BoolDTO deleteComments(1:int tid, 2:map<string, string> paramMap),
+
+    dto.BoolDTO updateComments(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultDTO getSimpleCommentsByCondition(1:int tid, 2:map<string, string> paramMap)
+}
+
+service DicHandler {
+
+    dto.BoolDTO addDic(1:int tid, 2:map<string, string> paramMap),
+
+    dto.BoolDTO deleteDic(1:int tid, 2:map<string, string> paramMap),
+
+    dto.BoolDTO updateDic(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultDTO getSimpleDicByCondition(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultMapDTO getMoreDicByCondition(1:int tid, 2:map<string, string> paramMap)
+}
+
+service OrderHandler {
+
+    dto.ResultMapDTO requestWxPayUnifiedOrder(1:int tid, 2:map<string, string> paramMap)
+
+}
+
+service OilStationHandler {
+
+    dto.BoolDTO addOrUpdateOilStation(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultDTO getOilStationList(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultDTO getOilStationByLonLat(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultMapDTO getOneOilStationByCondition(1:int tid, 2:map<string, string> paramMap)
+
+}
+
+service WX_PayHandler {
+
+    dto.ResultMapDTO unifiedOrderPay(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultMapDTO getOauth(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultMapDTO getToOauthUrl(1:int tid, 2:map<string, string> paramMap),
+
+}
+
+service WX_RedPacketHandler {
+
+    dto.ResultMapDTO getRedPacketQrCode(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultMapDTO getOauth(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultMapDTO getToOauthUrl(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultMapDTO enterprisePayment(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultMapDTO sendRedPacket(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultMapDTO sendGroupRedPacket(1:int tid, 2:map<string, string> paramMap)
+
+}
+
+service BannerHandler {
+
+    dto.ResultDTO getActivityBanner(1:int tid, 2:map<string, string> paramMap)
+}
+
+service RedPacketDrawCashHistoryHandler {
+
+    dto.ResultMapDTO getDrawCashMoneyTotal(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultDTO getRedPacketDrawCashHistory(1:int tid, 2:map<string, string> paramMap)
+}
+
+service RedPacketHistoryHandler {
+
+    dto.ResultMapDTO getAllRedPacketMoneyTotal(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultDTO getRedPacketHistoryList(1:int tid, 2:map<string, string> paramMap)
+}
+
+service OilStationOperatorHandler {
+
+    dto.ResultMapDTO cashOilStationOperatorRedPacket(1:int tid, 2:map<string, string> paramMap)
+}
+
+
+service WX_CustomMenuHandler {
+
+    dto.ResultMapDTO getCustomMenu(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultMapDTO createCustomMenu(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultMapDTO deleteCustomMenu(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultMapDTO createPersonalMenu(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultMapDTO deletePersonalMenu(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultMapDTO getCurrentSelfMenuInfo(1:int tid, 2:map<string, string> paramMap)
+}
+
+
+service WX_SourceMaterialHandler {
+
+    dto.ResultMapDTO batchGetMaterial(1:int tid, 2:map<string, string> paramMap)
+}
+
+
+
+
+

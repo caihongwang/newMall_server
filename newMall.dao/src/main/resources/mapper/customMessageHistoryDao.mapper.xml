@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.br.newMall.dao.CustomMessageHistoryDao">
+
+    <sql id="columnList">    <!-- 字段 -->
+        id,
+        open_id,
+        mini_program_id,
+        mini_program_name,
+        custom_message_type,
+        custom_message_code,
+        create_time,
+        update_time
+    </sql>
+
+    <sql id="TColumnList">    <!-- 带表别名的字段 -->
+        ocmh.id as "id",
+        ocmh.open_id as "openId",
+        ocmh.mini_program_id as "miniProgramId",
+        ocmh.mini_program_name as "miniProgramName",
+        ocmh.custom_message_type as "customMessageType",
+        ocmh.custom_message_code as "customMessageCode",
+        date_format(ocmh.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
+        date_format(ocmh.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
+    </sql>
+
+    <sql id="queryConditions"><!-- 查询条件 -->
+        <where>ocmh.CustomMessageHistory_status='0'
+            <if test="id != null and id != ''">
+                AND ocmh.id = #{id}
+            </if>
+            <if test="openId != null and openId != ''">
+                AND ocmh.open_id = #{openId}
+            </if>
+            <if test="miniProgramId != null and miniProgramId != ''">
+                AND ocmh.mini_program_id = #{miniProgramId}
+            </if>
+            <if test="miniProgramName != null and miniProgramName != ''">
+                AND ocmh.mini_program_name like
+                concat('%',#{miniProgramName},'%')
+            </if>
+            <if test="customMessageType != null and customMessageType != ''">
+                AND ocmh.custom_message_type = #{customMessageType}
+            </if>
+            <if test="customMessageCode != null and customMessageCode != ''">
+                AND ocmh.custom_message_code = #{customMessageCode}
+            </if>
+        </where>
+        ORDER BY ocmh.create_time desc
+    </sql>
+
+    <insert id="addCustomMessageHistory" parameterType="java.util.Map"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into o_custom_message_history (
+        <include refid="columnList"/>
+        ) values (
+        #{id},
+        #{openId},
+        #{miniProgramId},
+        #{miniProgramName},
+        #{customMessageType},
+        #{customMessageCode},
+        #{createTime},
+        #{updateTime}
+        )
+    </insert>
+
+    <delete id="deleteCustomMessageHistory">
+        DELETE FROM o_custom_message_history WHERE 1=1
+        <if test="id != null and id != ''">
+            AND id = #{id}
+        </if>
+        <if test="openId != null and openId != ''">
+            AND open_id = #{openId}
+        </if>
+        <if test="miniProgramId != null and miniProgramId != ''">
+            AND mini_program_id = #{miniProgramId}
+        </if>
+    </delete>
+
+    <update id="updateCustomMessageHistory">
+        update o_custom_message_history ocmh
+        <set>
+            <if test="openId != null and openId != ''">
+                ocmh.open_id = #{openId},
+            </if>
+            <if test="miniProgramId != null and miniProgramId != ''">
+                ocmh.mini_program_id = #{miniProgramId},
+            </if>
+            <if test="miniProgramName != null and miniProgramName != ''">
+                ocmh.mini_program_name = #{miniProgramName},
+            </if>
+            <if test="customMessageType != null and customMessageType != ''">
+                ocmh.custom_message_type = #{customMessageType},
+            </if>
+            <if test="customMessageCode != null and customMessageCode != ''">
+                ocmh.custom_message_code = #{customMessageCode},
+            </if>
+            ocmh.update_time = CURRENT_TIMESTAMP
+        </set>
+        where 1=1
+        <if test="id != null and id != ''">
+            and ocmh.id = #{id}
+        </if>
+    </update>
+
+    <select id="getSimpleCustomMessageHistoryByCondition"
+            resultType="java.util.Map">
+        SELECT
+        <include refid="TColumnList"/>
+        FROM o_custom_message_history ocmh
+        <include refid="queryConditions"/>
+        <if test="start != null and start != '' and size != null and size != ''">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getSimpleCustomMessageHistoryTotalByCondition"
+            resultType="java.lang.Integer">
+        SELECT
+        COUNT(*) total
+        from o_custom_message_history ocmh
+        <include refid="queryConditions"/>
+    </select>
+
+</mapper>

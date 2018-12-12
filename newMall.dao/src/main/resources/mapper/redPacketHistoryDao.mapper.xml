@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.br.newMall.dao.RedPacketHistoryDao">
+
+    <sql id="columnList">    <!-- 字段 -->
+        id,
+        uid,
+        operator_id,
+        red_packet_money,
+        remark,
+        status,
+        create_time,
+        update_time
+    </sql>
+
+    <sql id="TColumnList">    <!-- 带表别名的字段 -->
+        orph.id as "id",
+        orph.uid as "uid",
+        orph.operator_id as "operatorId",
+        orph.red_packet_money as "redPacketMoney",
+        orph.remark as "remark",
+        orph.status as "status",
+        date_format(orph.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
+        date_format(orph.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
+    </sql>
+
+    <sql id="queryConditions"><!-- 查询条件 -->
+        <where>orph.status='1'
+            <if test="id != null and id != ''">
+                AND orph.id = #{id}
+            </if>
+            <if test="uid != null and uid != ''">
+                AND orph.uid = #{uid}
+            </if>
+            <if test="operatorId != null and operatorId != ''">
+                AND orph.operator_id = #{operatorId}
+            </if>
+            <if test="redPacketMoney != null and redPacketMoney != ''">
+                AND orph.red_packet_money = #{redPacketMoney}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND orph.remark like concat('%',#{remark},'%')
+            </if>
+        </where>
+        ORDER BY orph.create_time desc
+    </sql>
+
+    <insert id="addRedPacketHistory" parameterType="java.util.Map"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into o_red_packet_history (
+        <include refid="columnList"/>
+        ) values (
+        #{id},
+        #{uid},
+        #{operatorId},
+        #{redPacketMoney},
+        #{remark},
+        #{status},
+        #{createTime},
+        #{updateTime}
+        )
+    </insert>
+
+    <update id="deleteRedPacketHistory">
+        update o_red_packet_history orph
+        set orph.status = "0"
+        where 1=1
+        <if test="id != null and id != ''">
+            AND orph.id = #{id}
+        </if>
+        <if test="uid != null and uid != ''">
+            AND orph.uid = #{uid}
+        </if>
+    </update>
+
+    <update id="updateRedPacketHistory">
+        update o_red_packet_history orph
+        <set>
+            <if test="remark != null and remark != ''">
+                orph.remark = #{remark},
+            </if>
+            orph.update_time = CURRENT_TIMESTAMP
+        </set>
+        where 1=1
+        <if test="id != null and id != ''">
+            and orph.id = #{id}
+        </if>
+        <if test="uid != null and uid != ''">
+            and orph.uid = #{uid}
+        </if>
+    </update>
+
+    <select id="getSimpleRedPacketHistoryByCondition"
+            resultType="java.util.Map">
+        SELECT
+        <include refid="TColumnList"/>
+        FROM o_red_packet_history orph
+        <include refid="queryConditions"/>
+        <if test="start != null and start != '' and size != null and size != ''">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getSimpleRedPacketHistoryTotalByCondition"
+            resultType="java.lang.Integer">
+        SELECT
+        COUNT(*) total
+        from o_red_packet_history orph
+        <include refid="queryConditions"/>
+    </select>
+
+    <select id="getAllRedPacketMoneyTotal" resultType="java.lang.Integer">
+        SELECT
+            SUM(ooso.red_packet_total) as "allRedPacketMoneyTotal"
+        from o_oil_station_operator ooso
+        INNER JOIN o_user ou on ou.id = ooso.uid
+        INNER JOIN o_dic osp on osp.dic_code = ooso.operator and osp.dic_type="oilStationOperator"
+        INNER JOIN o_dic rps on rps.dic_code = ooso.status and rps.dic_type="redPacketStatus"
+        where ou.id = #{uid}
+    </select>
+
+    <select id="getRedPacketHistoryList" resultType="java.util.Map">
+        SELECT
+            ooso.id as "id",
+            ooso.uid as "uid",
+            osp.dic_code as "operator",
+            osp.dic_name as "operatorName",
+            ooso.red_packet_total as "redPacketTotal",
+            rps.dic_name as "statusName",
+            rps.dic_code as "status",
+            date_format(ooso.update_time, '%Y-%c-%d %H:%i:%s') as "createTime"
+        from o_oil_station_operator ooso
+        INNER JOIN o_user ou on ou.id = ooso.uid
+        INNER JOIN o_dic osp on osp.dic_code = ooso.operator and osp.dic_type="oilStationOperator"
+        INNER JOIN o_dic rps on rps.dic_code = ooso.status and rps.dic_type="redPacketStatus"
+        where ou.id = #{uid}
+        order by ooso.update_time DESC
+    </select>
+
+    <select id="getRedPacketHistoryTotal" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*) total
+        from o_oil_station_operator ooso
+        INNER JOIN o_user ou on ou.id = ooso.uid
+        INNER JOIN o_dic osp on osp.dic_code = ooso.operator and osp.dic_type="oilStationOperator"
+        INNER JOIN o_dic rps on rps.dic_code = ooso.status and rps.dic_type="redPacketStatus"
+        where ou.id = #{uid}
+    </select>
+
+    <select id="getRedPacketHistoryByCondition"
+            resultType="java.util.Map">
+        SELECT
+        <include refid="TColumnList"/>
+        FROM o_red_packet_history orph
+        <include refid="queryConditions"/>
+        <if test="start != null and start != '' and size != null and size != ''">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getRedPacketHistoryTotalByCondition"
+            resultType="java.lang.Integer">
+        SELECT
+        COUNT(*) total
+        from o_red_packet_history orph
+        <include refid="queryConditions"/>
+    </select>
+
+</mapper>

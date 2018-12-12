@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.br.newMall.dao.RedPacketDrawCashHistoryDao">
+
+    <sql id="columnList">    <!-- 字段 -->
+        id,
+        uid,
+        draw_cash_money,
+        remark,
+        status,
+        create_time,
+        update_time
+    </sql>
+
+    <sql id="TColumnList">    <!-- 带表别名的字段 -->
+        orpdch.id as "id",
+        orpdch.uid as "uid",
+        orpdch.draw_cash_money as "drawCashMoney",
+        orpdch.remark as "remark",
+        orpdch.status as "status",
+        date_format(orpdch.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
+        date_format(orpdch.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
+    </sql>
+
+    <sql id="queryConditions"><!-- 查询条件 -->
+        <where>orpdch.status='1'
+            <if test="id != null and id != ''">
+                AND orpdch.id = #{id}
+            </if>
+            <if test="uid != null and uid != ''">
+                AND orpdch.uid = #{uid}
+            </if>
+            <if test="drawCashMoney != null and drawCashMoney != ''">
+                AND orpdch.draw_cash_money = #{drawCashMoney}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND orpdch.remark like concat('%',#{remark},'%')
+            </if>
+        </where>
+        ORDER BY orpdch.create_time desc
+    </sql>
+
+    <insert id="addRedPacketDrawCashHistory" parameterType="java.util.Map"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into o_red_packet_draw_cash_history (
+        <include refid="columnList"/>
+        ) values (
+        #{id},
+        #{uid},
+        #{drawCashMoney},
+        #{remark},
+        #{status},
+        #{createTime},
+        #{updateTime}
+        )
+    </insert>
+
+    <update id="deleteRedPacketDrawCashHistory">
+        update o_red_packet_draw_cash_history orpdch
+        set orpdch.status = "0"
+        where 1=1
+        <if test="id != null and id != ''">
+            AND orpdch.id = #{id}
+        </if>
+        <if test="uid != null and uid != ''">
+            AND orpdch.uid = #{uid}
+        </if>
+    </update>
+
+    <update id="updateRedPacketDrawCashHistory">
+        update o_red_packet_draw_cash_history orpdch
+        <set>
+            <if test="remark != null and remark != ''">
+                orpdch.remark = #{remark},
+            </if>
+            orpdch.update_time = CURRENT_TIMESTAMP
+        </set>
+        where 1=1
+        <if test="id != null and id != ''">
+            and orpdch.id = #{id}
+        </if>
+        <if test="uid != null and uid != ''">
+            and orpdch.uid = #{uid}
+        </if>
+    </update>
+
+    <select id="getSimpleRedPacketDrawCashHistoryByCondition"
+            resultType="java.util.Map">
+        SELECT
+        <include refid="TColumnList"/>
+        FROM o_red_packet_draw_cash_history orpdch
+        <include refid="queryConditions"/>
+        <if test="start != null and start != '' and size != null and size != ''">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getSimpleRedPacketDrawCashHistoryTotalByCondition"
+            resultType="java.lang.Integer">
+        SELECT
+        COUNT(*) total
+        from o_red_packet_draw_cash_history orpdch
+        <include refid="queryConditions"/>
+    </select>
+
+    <select id="getDrawCashMoneyTotal" resultType="java.util.Map">
+        SELECT
+        SUM(orpdch.draw_cash_money) as "drawCashMoneyTotal"
+        FROM o_red_packet_draw_cash_history orpdch
+        <include refid="queryConditions"/>
+    </select>
+
+    <select id="getRedPacketDrawCashHistory" resultType="java.util.Map">
+        SELECT
+        <include refid="TColumnList"/>
+        ,wu.nick_name as "nickName"
+        ,wu.phone as "phone",
+        wu.avatar_url as "avatarUrl"
+        FROM o_red_packet_draw_cash_history orpdch
+        INNER JOIN wx_user wu on orpdch.uid = wu.uid
+        <include refid="com.br.newMall.dao.UserDao.queryConditions"/>
+        <if test="start != null and start != '' and size != null and size != ''">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getRedPacketDrawCashHistoryTotal"
+            resultType="java.lang.Integer">
+        SELECT
+        COUNT(*) total
+        FROM o_red_packet_draw_cash_history orpdch
+        INNER JOIN wx_user wu on orpdch.uid = wu.uid
+        <include refid="com.br.newMall.dao.UserDao.queryConditions"/>
+    </select>
+
+</mapper>

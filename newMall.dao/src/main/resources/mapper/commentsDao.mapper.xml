@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.br.newMall.dao.CommentsDao">
+
+    <sql id="columnList">    <!-- 字段 -->
+        id,
+        uid,
+        comments,
+        remark,
+        status,
+        create_time,
+        update_time
+    </sql>
+
+    <sql id="TColumnList">    <!-- 带表别名的字段 -->
+        oc.id as "id",
+        oc.uid as "uid",
+        oc.comments as "comments",
+        oc.remark as "remark",
+        oc.status as "status",
+        date_format(oc.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
+        date_format(oc.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
+    </sql>
+
+    <sql id="queryConditions"><!-- 查询条件 -->
+        <where>status = '0'
+            <if test="id != null and id != ''">
+                AND oc.id = #{id}
+            </if>
+            <if test="uid != null and uid != ''">
+                AND oc.uid = #{uid}
+            </if>
+            <if test="comments != null and comments != ''">
+                AND oc.comments = #{comments}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND oc.remark = #{remark}
+            </if>
+        </where>
+        ORDER BY oc.create_time desc
+    </sql>
+
+    <insert id="addComments" parameterType="java.util.Map"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into o_comments (
+        <include refid="columnList"/>
+        ) values (
+        #{id},
+        #{uid},
+        #{comments},
+        #{remark},
+        #{status},
+        #{createTime},
+        #{updateTime}
+        )
+    </insert>
+
+    <delete id="deleteComments">
+        DELETE FROM o_comments WHERE 1=1
+        <if test="id != null and id != ''">
+            AND id = #{id}
+        </if>
+        <if test="uid != null and uid != ''">
+            AND uid = #{uid}
+        </if>
+    </delete>
+
+    <update id="updateComments">
+        update o_comments oc
+        <set>
+            <if test="comments != null and comments != ''">
+                oc.comments = #{comments},
+            </if>
+            <if test="remark != null and remark != ''">
+                oc.remark = #{remark},
+            </if>
+            <if test="status != null and status != ''">
+                oc.status = #{status},
+            </if>
+            oc.update_time = CURRENT_TIMESTAMP
+        </set>
+        where 1=1
+        <if test="id != null and id != ''">
+            and oc.id = #{id}
+        </if>
+        <if test="uid != null and uid != ''">
+            and oc.uid = #{uid}
+        </if>
+    </update>
+
+    <select id="getSimpleCommentsByCondition" resultType="java.util.Map">
+        SELECT
+        <include refid="TColumnList"/>
+        FROM o_comments oc
+        <include refid="queryConditions"/>
+        <if test="start != null and start != '' and size != null and size != ''">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getSimpleCommentsTotalByCondition"
+            resultType="java.lang.Integer">
+        SELECT
+        COUNT(*) total
+        from o_comments oc
+        <include refid="queryConditions"/>
+    </select>
+
+</mapper>

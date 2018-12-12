@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/newMall.iml" filepath="$PROJECT_DIR$/.idea/newMall.iml" />
+      <module fileurl="file://$PROJECT_DIR$/newMall.api/newMall.api.iml" filepath="$PROJECT_DIR$/newMall.api/newMall.api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/newMall.center/newMall.center.iml" filepath="$PROJECT_DIR$/newMall.center/newMall.center.iml" />
+      <module fileurl="file://$PROJECT_DIR$/newMall.dao/newMall.dao.iml" filepath="$PROJECT_DIR$/newMall.dao/newMall.dao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/newMall.web/newMall.web.iml" filepath="$PROJECT_DIR$/newMall.web/newMall.web.iml" />
+    </modules>
+  </component>
+</project>

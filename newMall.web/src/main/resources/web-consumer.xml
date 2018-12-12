@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="springServiceResolver"
+          class="com.br.rpc.consumer.service.SpringServiceResolver"/>
+    <bean id="configuration" class="com.br.rpc.consumer.ConsumerConfiguration">
+        <property name="loadModel" value="REQISTRY"/>
+        <property name="resolverType" value="SPRING"/>
+        <property name="registers">
+            <array>
+                <bean class="com.br.rpc.common.object.Address">
+                    <property name="ip" value="${newMall.register.ip}"/>
+                    <property name="port"
+                              value="${newMall.register.port}"/>
+                </bean>
+            </array>
+        </property>
+    </bean>
+    <bean id="rpcContext"
+          class="com.br.rpc.consumer.context.SpringRpcContextImpl"
+          init-method="init">
+        <constructor-arg name="configuration" ref="configuration"/>
+    </bean>
+
+    <!-- userHandler -->
+    <bean id="userHandler" class="com.br.rpc.consumer.service.Service">
+        <property name="project" value="newMall_project"/>
+        <property name="serviceClass"
+                  value="com.br.newMall.api.service.UserHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.version}"/>
+        <property name="timeOut" value="30000"/>
+        <property name="poolSize" value="64"/>
+        <property name="retry" value="${newMall.server.retry}"/>
+    </bean>
+
+    <!-- commentsHandler -->
+    <bean id="commentsHandler" class="com.br.rpc.consumer.service.Service">
+        <property name="project" value="newMall_project"/>
+        <property name="serviceClass"
+                  value="com.br.newMall.api.service.CommentsHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.version}"/>
+        <property name="timeOut" value="30000"/>
+        <property name="poolSize" value="64"/>
+        <property name="retry" value="${newMall.server.retry}"/>
+    </bean>
+
+    <!-- dicHandler -->
+    <bean id="dicHandler" class="com.br.rpc.consumer.service.Service">
+        <property name="project" value="newMall_project"/>
+        <property name="serviceClass"
+                  value="com.br.newMall.api.service.DicHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.version}"/>
+        <property name="timeOut" value="30000"/>
+        <property name="poolSize" value="64"/>
+        <property name="retry" value="${newMall.server.retry}"/>
+    </bean>
+
+    <!-- commonHandler -->
+    <bean id="commonHandler" class="com.br.rpc.consumer.service.Service">
+        <property name="project" value="newMall_project"/>
+        <property name="serviceClass"
+                  value="com.br.newMall.api.service.CommonHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.version}"/>
+        <property name="timeOut" value="30000"/>
+        <property name="poolSize" value="64"/>
+        <property name="retry" value="${newMall.server.retry}"/>
+    </bean>
+
+    <!-- orderHandler -->
+    <bean id="orderHandler" class="com.br.rpc.consumer.service.Service">
+        <property name="project" value="newMall_project"/>
+        <property name="serviceClass"
+                  value="com.br.newMall.api.service.OrderHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.version}"/>
+        <property name="timeOut" value="30000"/>
+        <property name="poolSize" value="64"/>
+        <property name="retry" value="${newMall.server.retry}"/>
+    </bean>
+
+    <!-- oilStationHandler -->
+    <bean id="oilStationHandler" class="com.br.rpc.consumer.service.Service">
+        <property name="project" value="newMall_project"/>
+        <property name="serviceClass"
+                  value="com.br.newMall.api.service.OilStationHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.version}"/>
+        <property name="timeOut" value="30000"/>
+        <property name="poolSize" value="64"/>
+        <property name="retry" value="${newMall.server.retry}"/>
+    </bean>
+
+
+    <!-- wx_RedPacketHandler -->
+    <bean id="wx_RedPacketHandler" class="com.br.rpc.consumer.service.Service">
+        <property name="project" value="newMall_project"/>
+        <property name="serviceClass"
+                  value="com.br.newMall.api.service.WX_RedPacketHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.version}"/>
+        <property name="timeOut" value="30000"/>
+        <property name="poolSize" value="64"/>
+        <property name="retry" value="${newMall.server.retry}"/>
+    </bean>
+
+    <!-- wx_PayHandler -->
+    <bean id="wx_PayHandler" class="com.br.rpc.consumer.service.Service">
+        <property name="project" value="newMall_project"/>
+        <property name="serviceClass"
+                  value="com.br.newMall.api.service.WX_PayHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.version}"/>
+        <property name="timeOut" value="30000"/>
+        <property name="poolSize" value="64"/>
+        <property name="retry" value="${newMall.server.retry}"/>
+    </bean>
+
+    <!-- bannerHandler -->
+    <bean id="bannerHandler" class="com.br.rpc.consumer.service.Service">
+        <property name="project" value="newMall_project"/>
+        <property name="serviceClass"
+                  value="com.br.newMall.api.service.BannerHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.version}"/>
+        <property name="timeOut" value="30000"/>
+        <property name="poolSize" value="64"/>
+        <property name="retry" value="${newMall.server.retry}"/>
+    </bean>
+
+    <!-- redPacketDrawCashHistoryHandler -->
+    <bean id="redPacketDrawCashHistoryHandler"
+          class="com.br.rpc.consumer.service.Service">
+        <property name="project" value="newMall_project"/>
+        <property name="serviceClass"
+                  value="com.br.newMall.api.service.RedPacketDrawCashHistoryHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.version}"/>
+        <property name="timeOut" value="30000"/>
+        <property name="poolSize" value="64"/>
+        <property name="retry" value="${newMall.server.retry}"/>
+    </bean>
+
+    <!-- redPacketHistoryHandler -->
+    <bean id="redPacketHistoryHandler"
+          class="com.br.rpc.consumer.service.Service">
+        <property name="project" value="newMall_project"/>
+        <property name="serviceClass"
+                  value="com.br.newMall.api.service.RedPacketHistoryHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.version}"/>
+        <property name="timeOut" value="30000"/>
+        <property name="poolSize" value="64"/>
+        <property name="retry" value="${newMall.server.retry}"/>
+    </bean>
+
+    <!-- wx_CustomMenuHandler -->
+    <bean id="wx_CustomMenuHandler" class="com.br.rpc.consumer.service.Service">
+        <property name="project" value="newMall_project"/>
+        <property name="serviceClass" value="com.br.newMall.api.service.WX_CustomMenuHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.version}"/>
+        <property name="timeOut" value="30000"/>
+        <property name="poolSize" value="64"/>
+        <property name="retry" value="${newMall.server.retry}"/>
+    </bean>
+
+    <!-- oilStationOperatorHandler -->
+    <bean id="oilStationOperatorHandler" class="com.br.rpc.consumer.service.Service">
+        <property name="project" value="newMall_project"/>
+        <property name="serviceClass" value="com.br.newMall.api.service.OilStationOperatorHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.version}"/>
+        <property name="timeOut" value="30000"/>
+        <property name="poolSize" value="64"/>
+        <property name="retry" value="${newMall.server.retry}"/>
+    </bean>
+
+    <!-- wx_SourceMaterialHandler -->
+    <bean id="wx_SourceMaterialHandler" class="com.br.rpc.consumer.service.Service">
+        <property name="project" value="newMall_project"/>
+        <property name="serviceClass" value="com.br.newMall.api.service.WX_SourceMaterialHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.version}"/>
+        <property name="timeOut" value="30000"/>
+        <property name="poolSize" value="64"/>
+        <property name="retry" value="${newMall.server.retry}"/>
+    </bean>
+
+</beans>

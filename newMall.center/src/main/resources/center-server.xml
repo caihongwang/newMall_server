@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="springProcessorResolver"
+          class="com.br.rpc.provider.processor.SpringProcessorResolver"/>
+    <bean id="providerConfiguration"
+          class="com.br.rpc.provider.ProviderConfiguration">
+        <property name="resolverType" value="SPRING"/>
+        <property name="registers">
+            <array>
+                <bean class="com.br.rpc.common.object.Address">
+                    <property name="ip" value="${newMall.register.ip}"/>
+                    <property name="port"
+                              value="${newMall.register.port}"/>
+                </bean>
+            </array>
+        </property>
+        <property name="workerThreads" value="128"/>
+    </bean>
+    <bean id="centerServer"
+          class="com.br.rpc.provider.server.SpringRpcServerImpl"
+          init-method="init">
+        <constructor-arg name="configuration" ref="providerConfiguration"/>
+    </bean>
+
+    <!-- userHandler -->
+    <bean id="userHandler" class="com.br.rpc.provider.processor.Processor">
+        <property name="project" value="newMall_project"/>
+        <property name="handler" value="com.br.newMall.center.handler.UserHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.version}"/>
+    </bean>
+
+    <!-- commentsHandler -->
+    <bean id="commentsHandler" class="com.br.rpc.provider.processor.Processor">
+        <property name="project" value="newMall_project"/>
+        <property name="handler" value="com.br.newMall.center.handler.CommentsHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.version}"/>
+    </bean>
+
+    <!-- dicHandler -->
+    <bean id="dicHandler" class="com.br.rpc.provider.processor.Processor">
+        <property name="project" value="newMall_project"/>
+        <property name="handler" value="com.br.newMall.center.handler.DicHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.version}"/>
+    </bean>
+
+    <!-- commonHandler -->
+    <bean id="commonHandler" class="com.br.rpc.provider.processor.Processor">
+        <property name="project" value="newMall_project"/>
+        <property name="handler" value="com.br.newMall.center.handler.CommonHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.version}"/>
+    </bean>
+
+    <!-- orderHandler -->
+    <bean id="orderHandler" class="com.br.rpc.provider.processor.Processor">
+        <property name="project" value="newMall_project"/>
+        <property name="handler" value="com.br.newMall.center.handler.OrderHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.version}"/>
+    </bean>
+
+    <!-- oilStationHandler -->
+    <bean id="oilStationHandler"
+          class="com.br.rpc.provider.processor.Processor">
+        <property name="project" value="newMall_project"/>
+        <property name="handler" value="com.br.newMall.center.handler.OilStationHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.version}"/>
+    </bean>
+
+    <!-- wx_RedPacketHandler -->
+    <bean id="wx_RedPacketHandler"
+          class="com.br.rpc.provider.processor.Processor">
+        <property name="project" value="newMall_project"/>
+        <property name="handler" value="com.br.newMall.center.handler.WX_RedPacketHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.version}"/>
+    </bean>
+
+    <!-- wx_PayHandler -->
+    <bean id="wx_PayHandler"
+          class="com.br.rpc.provider.processor.Processor">
+        <property name="project" value="newMall_project"/>
+        <property name="handler" value="com.br.newMall.center.handler.WX_PayHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.version}"/>
+    </bean>
+
+    <!-- bannerHandler -->
+    <bean id="bannerHandler" class="com.br.rpc.provider.processor.Processor">
+        <property name="project" value="newMall_project"/>
+        <property name="handler" value="com.br.newMall.center.handler.BannerHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.version}"/>
+    </bean>
+
+    <!-- redPacketDrawCashHistoryHandler -->
+    <bean id="redPacketDrawCashHistoryHandler"
+          class="com.br.rpc.provider.processor.Processor">
+        <property name="project" value="newMall_project"/>
+        <property name="handler" value="com.br.newMall.center.handler.RedPacketDrawCashHistoryHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.version}"/>
+    </bean>
+
+    <!-- redPacketHistoryHandler -->
+    <bean id="redPacketHistoryHandler"
+          class="com.br.rpc.provider.processor.Processor">
+        <property name="project" value="newMall_project"/>
+        <property name="handler" value="com.br.newMall.center.handler.RedPacketHistoryHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.version}"/>
+    </bean>
+
+    <!-- wx_CustomMenuHandler -->
+    <bean id="wx_CustomMenuHandler" class="com.br.rpc.provider.processor.Processor">
+        <property name="project" value="newMall_project"/>
+        <property name="handler" value="com.br.newMall.center.handler.WX_CustomMenuHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.version}"/>
+    </bean>
+
+    <!-- oilStationOperatorHandler -->
+    <bean id="oilStationOperatorHandler" class="com.br.rpc.provider.processor.Processor">
+        <property name="project" value="newMall_project"/>
+        <property name="handler" value="com.br.newMall.center.handler.OilStationOperatorHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.version}"/>
+    </bean>
+
+    <!-- wx_SourceMaterialHandler -->
+    <bean id="wx_SourceMaterialHandler" class="com.br.rpc.provider.processor.Processor">
+        <property name="project" value="newMall_project"/>
+        <property name="handler" value="com.br.newMall.center.handler.WX_SourceMaterialHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.version}"/>
+    </bean>
+
+</beans>

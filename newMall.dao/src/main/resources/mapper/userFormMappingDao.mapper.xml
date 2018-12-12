@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.br.newMall.dao.UserFormMappingDao">
+
+    <sql id="columnList">    <!-- 字段 -->
+        id,
+        uid,
+        form_id,
+        create_time,
+        update_time
+    </sql>
+
+    <sql id="TColumnList">    <!-- 带表别名的字段 -->
+        cufm.id as "id",
+        cufm.uid as "uid",
+        cufm.form_id as "formId",
+        date_format(cufm.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
+        date_format(cufm.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
+    </sql>
+
+    <sql id="queryConditions"><!-- 查询条件 -->
+        <where>1=1
+            <if test="id != null and id != ''">
+                AND cufm.id = #{id}
+            </if>
+            <if test="uid != null and uid != ''">
+                AND cufm.uid = #{uid}
+            </if>
+        </where>
+        ORDER BY cufm.create_time desc
+    </sql>
+
+    <insert id="addUserFormMapping" parameterType="java.util.Map"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into c_user_form_mapping (
+        <include refid="columnList"/>
+        ) values (
+        #{id},
+        #{uid},
+        #{formId},
+        #{createTime},
+        #{updateTime}
+        )
+    </insert>
+
+    <delete id="deleteUserFormMapping">
+        DELETE FROM c_user_form_mapping WHERE 1=1
+        <if test="id != null and id != ''">
+            AND id = #{id}
+        </if>
+        <if test="uid != null and uid != ''">
+            AND uid = #{uid}
+        </if>
+    </delete>
+
+    <update id="updateUserFormMapping">
+        update c_user_form_mapping cufm
+        <set>
+            <if test="formId != null and formId != ''">
+                cufm.form_id = #{formId},
+            </if>
+            cufm.update_time = CURRENT_TIMESTAMP
+        </set>
+        where 1=1
+        <if test="id != null and id != ''">
+            and cufm.id = #{id}
+        </if>
+        <if test="uid != null and uid != ''">
+            and cufm.uid = #{uid}
+        </if>
+    </update>
+
+    <select id="getSimpleUserFormMappingByCondition" resultType="java.util.Map">
+        SELECT
+        <include refid="TColumnList"/>
+        FROM c_user_form_mapping cufm
+        <include refid="queryConditions"/>
+        <if test="start != null and start != '' and size != null and size != ''">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getSimpleUserFormMappingTotalByCondition"
+            resultType="java.lang.Integer">
+        SELECT
+        COUNT(*) total
+        from c_user_form_mapping cufm
+        <include refid="queryConditions"/>
+    </select>
+
+</mapper>
