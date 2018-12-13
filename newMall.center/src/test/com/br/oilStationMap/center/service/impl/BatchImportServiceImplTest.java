@@ -1,6 +1,6 @@
 package com.br.newMall.center.service.impl;
 
-import com.br.newMall.api.code.OilStationMapCode;
+import com.br.newMall.api.code.NewMallCode;
 import com.br.newMall.api.dto.ResultMapDTO;
 import com.br.newMall.center.po.ContactPO;
 import com.br.newMall.center.po.DangerousCompanyPO;
@@ -218,12 +218,12 @@ public class BatchImportServiceImplTest {
                             );       //详细地址
                         }
                         String exlsFilePath = FileUtil.createFile(wb, excelPath, "xls");
-                        resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
+                        resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
                         resultMapDTO.setMessage(exlsFilePath);
                     } catch (Exception e) {
                         logger.error("在LonLatUtil中将excel进行处理再重新创建excel is failed。", e);
-                        resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
-                        resultMapDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+                        resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                        resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
                     }
                 }
                 //3.将获取的加油站数据进行入库处理
@@ -274,8 +274,8 @@ public class BatchImportServiceImplTest {
             }
         } else {
             logger.info("请输入Excel通讯录文件的路径");
-            resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
-            resultMapDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+            resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+            resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
         return resultMapDTO;
     }

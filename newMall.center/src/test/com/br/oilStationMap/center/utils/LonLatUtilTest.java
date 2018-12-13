@@ -1,10 +1,10 @@
-package com.br.oilStationMap.center.utils;
+package com.br.newMall.center.utils;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.br.oilStationMap.api.code.OilStationMapCode;
-import com.br.oilStationMap.center.service.OilStationService;
-import com.br.oilStationMap.dao.OilStationDao;
+import com.br.newMall.api.code.NewMallCode;
+import com.br.newMall.center.service.OilStationService;
+import com.br.newMall.dao.OilStationDao;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.http.HttpEntity;
@@ -68,33 +68,33 @@ public class LonLatUtilTest {
                 List<Map<String, Object>> oilStationList = getDetailAddressByCityAndKeyWord(city, keyWord, pageSize, pageIndex, orderby);
                 cityMap.put("oilStationNum", oilStationList.size() + "");
                 for (int i = 0; i < oilStationList.size(); i++) {
-                    Map<String, Object> oilStationMap = oilStationList.get(i);
+                    Map<String, Object> newMall = oilStationList.get(i);
                     //准备参数插入
                     Map<String, Object> paramMap = Maps.newHashMap();
                     paramMap.put("uid", "1");
-                    paramMap.put("oilStationName", oilStationMap.get("title"));
-                    paramMap.put("oilStationAreaSpell", PingYingUtil.getPingYin(oilStationMap.get("city")!=null?oilStationMap.get("city").toString():""));
+                    paramMap.put("oilStationName", newMall.get("title"));
+                    paramMap.put("oilStationAreaSpell", PingYingUtil.getPingYin(newMall.get("city")!=null?newMall.get("city").toString():""));
                     paramMap.put("oilStationAreaName",
-                            (oilStationMap.get("province")!=null?oilStationMap.get("province").toString():"") +
-                                    (oilStationMap.get("city")!=null?oilStationMap.get("city").toString():"") +
-                                    (oilStationMap.get("district")!=null?oilStationMap.get("district").toString():"")
+                            (newMall.get("province")!=null?newMall.get("province").toString():"") +
+                                    (newMall.get("city")!=null?newMall.get("city").toString():"") +
+                                    (newMall.get("district")!=null?newMall.get("district").toString():"")
                     );
-                    paramMap.put("oilStationAdress", oilStationMap.get("address"));
+                    paramMap.put("oilStationAdress", newMall.get("address"));
                     paramMap.put("oilStationBrandName", "民营");
                     paramMap.put("oilStationType", "民营");
-                    paramMap.put("oilStationDiscount", oilStationMap.get("category"));
+                    paramMap.put("oilStationDiscount", newMall.get("category"));
                     paramMap.put("oilStationExhaust", "国Ⅳ");
                     paramMap.put("oilStationPosition",
-                            (oilStationMap.get("lng")!=null?oilStationMap.get("lng").toString():"") +
-                                    (oilStationMap.get("lat")!=null?oilStationMap.get("lat").toString():"")
+                            (newMall.get("lng")!=null?newMall.get("lng").toString():"") +
+                                    (newMall.get("lat")!=null?newMall.get("lat").toString():"")
                     );
-                    paramMap.put("oilStationLon", oilStationMap.get("lng")!=null?oilStationMap.get("lng").toString():"");
-                    paramMap.put("oilStationLat", oilStationMap.get("lat")!=null?oilStationMap.get("lat").toString():"");
+                    paramMap.put("oilStationLon", newMall.get("lng")!=null?newMall.get("lng").toString():"");
+                    paramMap.put("oilStationLat", newMall.get("lat")!=null?newMall.get("lat").toString():"");
                     paramMap.put("oilStationPayType", "微信，支付宝，银联，现金，赊账等");
                     paramMap.put("oilStationPrice", "[{\"oilModelLabel\":\"0\",\"oilNameLabel\":\"柴油\",\"oilPriceLabel\":\"7.43\"},{\"oilModelLabel\":\"92\",\"oilNameLabel\":\"汽油\",\"oilPriceLabel\":\"7.65\"},{\"oilModelLabel\":\"95\",\"oilNameLabel\":\"汽油\",\"oilPriceLabel\":\"8.28\"}]");
                     paramMap.put("oilStationDistance", "");
                     paramMap.put("isManualModify", "1");
-                    if("大路田坝加油站".equals(oilStationMap.get("title").toString())){
+                    if("大路田坝加油站".equals(newMall.get("title").toString())){
                         oilStationService.addOrUpdateOilStation(paramMap);
                     } else {
                         oilStationService.addOrUpdateOilStation(paramMap);
@@ -127,9 +127,9 @@ public class LonLatUtilTest {
     public static List<Map<String, Object>> getDetailAddressByCityAndKeyWord(String city, String keyWord,
                                                                              Integer pageSize, Integer pageIndex, String orderby) {
         List<Map<String, Object>> resultMapList = Lists.newArrayList();
-        String host = OilStationMapCode.TENCENT_HOST;
-        String path = OilStationMapCode.TENCENT_PATH_GET_SEARCH;
-        String method = OilStationMapCode.TENCENT_METHOD;
+        String host = NewMallCode.TENCENT_HOST;
+        String path = NewMallCode.TENCENT_PATH_GET_SEARCH;
+        String method = NewMallCode.TENCENT_METHOD;
         Map<String, String> headers = Maps.newHashMap();
         Map<String, String> querys = Maps.newHashMap();
         if(city.contains("(")){
@@ -141,7 +141,7 @@ public class LonLatUtilTest {
         querys.put("page_index", pageIndex.toString());
         querys.put("keyword", keyWord);
         querys.put("orderby", orderby);
-        querys.put("key", OilStationMapCode.TENCENT_KEY);
+        querys.put("key", NewMallCode.TENCENT_KEY);
         try {
             HttpResponse response = ALiYunHttpUtils.doGet(host, path, method, headers, querys);
             StatusLine responseState = response.getStatusLine();
@@ -258,15 +258,15 @@ public class LonLatUtilTest {
         List<Map<String, String>> oilStationStrList = Lists.newArrayList();
         try {
             String city = getAddressByLonLat(lon, lat, "city");
-            String host = OilStationMapCode.A_LI_YUN_HOST;
-            String path = OilStationMapCode.A_LI_YUN_PATH_BY_CITY;
-            String method = OilStationMapCode.A_LI_YUN_METHOD;
-            String appcode = OilStationMapCode.A_LI_YUN_APP_CODE;
+            String host = NewMallCode.A_LI_YUN_HOST;
+            String path = NewMallCode.A_LI_YUN_PATH_BY_CITY;
+            String method = NewMallCode.A_LI_YUN_METHOD;
+            String appcode = NewMallCode.A_LI_YUN_APP_CODE;
             Map<String, String> headers = Maps.newHashMap();
             //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
-            headers.put("Authorization", "APPCODE " + OilStationMapCode.A_LI_YUN_APP_CODE);
+            headers.put("Authorization", "APPCODE " + NewMallCode.A_LI_YUN_APP_CODE);
             //根据API的要求，定义相对应的Content-Type
-            headers.put("Content-Type", OilStationMapCode.A_LI_YUN_CONTENT_TYPE);
+            headers.put("Content-Type", NewMallCode.A_LI_YUN_CONTENT_TYPE);
             Map<String, String> bodys = Maps.newHashMap();
             Map<String, String> querys = Maps.newHashMap();
             if (!"".equals(page.toString())) {
@@ -302,37 +302,37 @@ public class LonLatUtilTest {
                 List<Map<String, Object>> dataList = JSONObject.parseObject(dataValueArray.toJSONString(), List.class);
                 if (dataList != null && dataList.size() > 0) {
                     for (Map<String, Object> dataMap : dataList) {
-                        Map<String, Object> oilStationMap = Maps.newHashMap();
+                        Map<String, Object> newMall = Maps.newHashMap();
                         String oilStationCode = dataMap.get("id") != null ? dataMap.get("id").toString() : "";
-                        oilStationMap.put("oilStationCode", oilStationCode);
+                        newMall.put("oilStationCode", oilStationCode);
                         String oilStationName = dataMap.get("name") != null ? dataMap.get("name").toString() : "";
-                        oilStationMap.put("oilStationName", oilStationName);
+                        newMall.put("oilStationName", oilStationName);
                         String oilStationAreaSpell = dataMap.get("area") != null ? dataMap.get("area").toString() : "";
-                        oilStationMap.put("oilStationAreaSpell", oilStationAreaSpell);
+                        newMall.put("oilStationAreaSpell", oilStationAreaSpell);
                         String oilStationAreaName = dataMap.get("areaname") != null ? dataMap.get("areaname").toString() : "";
-                        oilStationMap.put("oilStationAreaName", oilStationAreaName);
+                        newMall.put("oilStationAreaName", oilStationAreaName);
                         String oilStationAdress = dataMap.get("address") != null ? dataMap.get("address").toString() : "";
-                        oilStationMap.put("oilStationAdress", oilStationAdress);
+                        newMall.put("oilStationAdress", oilStationAdress);
                         String oilStationBrandName = dataMap.get("brandname") != null ? dataMap.get("brandname").toString() : "";
-                        oilStationMap.put("oilStationBrandName", oilStationBrandName);
+                        newMall.put("oilStationBrandName", oilStationBrandName);
                         String oilStationType = dataMap.get("type") != null ? dataMap.get("type").toString() : "";
-                        oilStationMap.put("oilStationType", oilStationType);
+                        newMall.put("oilStationType", oilStationType);
                         String oilStationDiscount = dataMap.get("discount") != null ? dataMap.get("discount").toString() : "";
-                        oilStationMap.put("oilStationDiscount", oilStationDiscount);
+                        newMall.put("oilStationDiscount", oilStationDiscount);
                         String oilStationExhaust = dataMap.get("exhaust") != null ? dataMap.get("exhaust").toString() : "";
-                        oilStationMap.put("oilStationExhaust", oilStationExhaust);
+                        newMall.put("oilStationExhaust", oilStationExhaust);
                         String oilStationPosition = dataMap.get("position") != null ? dataMap.get("position").toString() : "";
-                        oilStationMap.put("oilStationPosition", oilStationPosition);
+                        newMall.put("oilStationPosition", oilStationPosition);
                         //获取到坐标默认是百度地图坐标需要转换为腾讯地图坐标
                         Double oilStationLon = Double.parseDouble(dataMap.get("lon") != null ? dataMap.get("lon").toString() : "0");
                         Double oilStationLat = Double.parseDouble(dataMap.get("lat") != null ? dataMap.get("lat").toString() : "0");
                         LonLatUtil.map_bd2tx(oilStationLon, oilStationLat);
-                        oilStationMap.put("oilStationLon", oilStationLon);
-                        oilStationMap.put("oilStationLat", oilStationLat);
+                        newMall.put("oilStationLon", oilStationLon);
+                        newMall.put("oilStationLat", oilStationLat);
                         String oilStationPayType = dataMap.get("fwlsmc") != null ? dataMap.get("fwlsmc").toString() : "";
-                        oilStationMap.put("oilStationPayType", oilStationPayType);
+                        newMall.put("oilStationPayType", oilStationPayType);
                         String oilStationDistance = dataMap.get("distance") != null ? dataMap.get("distance").toString() : "0";
-                        oilStationMap.put("oilStationDistance", oilStationDistance);
+                        newMall.put("oilStationDistance", oilStationDistance);
                         List<Map<String, Object>> allPriceList = new ArrayList<>();
                         Map<String, Object> priceMap = dataMap.get("price") != null ? (Map<String, Object>) dataMap.get("price") : new HashMap<String, Object>();
                         Map<String, Object> gastPriceMap = dataMap.get("gastprice") != null ? (Map<String, Object>) dataMap.get("gastprice") : new HashMap<String, Object>();
@@ -344,14 +344,14 @@ public class LonLatUtilTest {
                         if (priceList != null && priceList.size() > 0) {
                             allPriceList.addAll(priceList);
                         }
-                        oilStationMap.put("oilStationPrice", JSONObject.toJSONString(allPriceList));
+                        newMall.put("oilStationPrice", JSONObject.toJSONString(allPriceList));
 
                         Object createTime = TimestampUtil.getTimestamp();
-                        oilStationMap.put("createTime", createTime);
+                        newMall.put("createTime", createTime);
                         Object updateTime = TimestampUtil.getTimestamp();
-                        oilStationMap.put("updateTime", updateTime);
-                        oilStationMap.put("isManualModify", 0);
-                        oilStationList.add(oilStationMap);
+                        newMall.put("updateTime", updateTime);
+                        newMall.put("isManualModify", 0);
+                        oilStationList.add(newMall);
 
                         //检测是否已经存在,并且允许自动更新
                         Map<String, Object> paramMapTemp = Maps.newHashMap();
@@ -361,14 +361,14 @@ public class LonLatUtilTest {
                             Object isManualModifyObj = exist_oilStationList.get(0).get("isManualModify");
                             if(isManualModifyObj != null && "0".equals(isManualModifyObj.toString())){
                                 //将从网络获取到的加油站数据进行更新
-                                oilStationService.updateOilStation(oilStationMap);
+                                oilStationService.updateOilStation(newMall);
                                 logger.info("在LonLatUtil中在线根据城市名称获取加油站列表-getOilStationListByCity,加油站名称：【" + oilStationName + "】,更新成功，当前加油站数据默认【自动更新】数据模式.");
                             } else {
                                 logger.info("在LonLatUtil中在线根据城市名称获取加油站列表-getOilStationListByCity,加油站名称：【" + oilStationName + "】,已存在，但是已被某个用户手动更改过，当前加油站数据已变为【手动更新】数据模式.");
                             }
                         } else {
                             //将从网络获取到的加油站数据进行入库
-                            oilStationService.addOilStation(oilStationMap);
+                            oilStationService.addOilStation(newMall);
                             logger.info("在LonLatUtil中在线根据城市名称获取加油站列表-getOilStationListByCity,加油站名称：【" + oilStationName + "】,新增成功，当前加油站数据默认【自动更新】数据模式.");
                         }
                     }
@@ -394,15 +394,15 @@ public class LonLatUtilTest {
     public static List<Map<String, String>> getOilStationListByLonLat(Double lon, Double lat, Double page, Double r) {
         List<Map<String, Object>> oilStationList = Lists.newArrayList();
         List<Map<String, String>> oilStationStrList = Lists.newArrayList();
-        String host = OilStationMapCode.A_LI_YUN_HOST;
-        String path = OilStationMapCode.A_LI_YUN_PATH_BY_LONLAT;
-        String method = OilStationMapCode.A_LI_YUN_METHOD;
-        String appcode = OilStationMapCode.A_LI_YUN_APP_CODE;
+        String host = NewMallCode.A_LI_YUN_HOST;
+        String path = NewMallCode.A_LI_YUN_PATH_BY_LONLAT;
+        String method = NewMallCode.A_LI_YUN_METHOD;
+        String appcode = NewMallCode.A_LI_YUN_APP_CODE;
         Map<String, String> headers = Maps.newHashMap();
         //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
-        headers.put("Authorization", "APPCODE " + OilStationMapCode.A_LI_YUN_APP_CODE);
+        headers.put("Authorization", "APPCODE " + NewMallCode.A_LI_YUN_APP_CODE);
         //根据API的要求，定义相对应的Content-Type
-        headers.put("Content-Type", OilStationMapCode.A_LI_YUN_CONTENT_TYPE);
+        headers.put("Content-Type", NewMallCode.A_LI_YUN_CONTENT_TYPE);
         Map<String, String> bodys = Maps.newHashMap();
         Map<String, String> querys = Maps.newHashMap();
         querys.put("lon", lon.toString());
@@ -429,37 +429,37 @@ public class LonLatUtilTest {
                 List<Map<String, Object>> dataList = JSONObject.parseObject(dataValueArray.toJSONString(), List.class);
                 if (dataList != null && dataList.size() > 0) {
                     for (Map<String, Object> dataMap : dataList) {
-                        Map<String, Object> oilStationMap = Maps.newHashMap();
+                        Map<String, Object> newMall = Maps.newHashMap();
                         String oilStationCode = dataMap.get("id") != null ? dataMap.get("id").toString() : "";
-                        oilStationMap.put("oilStationCode", oilStationCode);
+                        newMall.put("oilStationCode", oilStationCode);
                         String oilStationName = dataMap.get("name") != null ? dataMap.get("name").toString() : "";
-                        oilStationMap.put("oilStationName", oilStationName);
+                        newMall.put("oilStationName", oilStationName);
                         String oilStationAreaSpell = dataMap.get("area") != null ? dataMap.get("area").toString() : "";
-                        oilStationMap.put("oilStationAreaSpell", oilStationAreaSpell);
+                        newMall.put("oilStationAreaSpell", oilStationAreaSpell);
                         String oilStationAreaName = dataMap.get("areaname") != null ? dataMap.get("areaname").toString() : "";
-                        oilStationMap.put("oilStationAreaName", oilStationAreaName);
+                        newMall.put("oilStationAreaName", oilStationAreaName);
                         String oilStationAdress = dataMap.get("address") != null ? dataMap.get("address").toString() : "";
-                        oilStationMap.put("oilStationAdress", oilStationAdress);
+                        newMall.put("oilStationAdress", oilStationAdress);
                         String oilStationBrandName = dataMap.get("brandname") != null ? dataMap.get("brandname").toString() : "";
-                        oilStationMap.put("oilStationBrandName", oilStationBrandName);
+                        newMall.put("oilStationBrandName", oilStationBrandName);
                         String oilStationType = dataMap.get("type") != null ? dataMap.get("type").toString() : "";
-                        oilStationMap.put("oilStationType", oilStationType);
+                        newMall.put("oilStationType", oilStationType);
                         String oilStationDiscount = dataMap.get("discount") != null ? dataMap.get("discount").toString() : "";
-                        oilStationMap.put("oilStationDiscount", oilStationDiscount);
+                        newMall.put("oilStationDiscount", oilStationDiscount);
                         String oilStationExhaust = dataMap.get("exhaust") != null ? dataMap.get("exhaust").toString() : "";
-                        oilStationMap.put("oilStationExhaust", oilStationExhaust);
+                        newMall.put("oilStationExhaust", oilStationExhaust);
                         String oilStationPosition = dataMap.get("position") != null ? dataMap.get("position").toString() : "";
-                        oilStationMap.put("oilStationPosition", oilStationPosition);
+                        newMall.put("oilStationPosition", oilStationPosition);
                         //获取到坐标默认是百度地图坐标需要转换为腾讯地图坐标
                         Double oilStationLon = Double.parseDouble(dataMap.get("lon") != null ? dataMap.get("lon").toString() : "0");
                         Double oilStationLat = Double.parseDouble(dataMap.get("lat") != null ? dataMap.get("lat").toString() : "0");
                         LonLatUtil.map_bd2tx(oilStationLon, oilStationLat);
-                        oilStationMap.put("oilStationLon", oilStationLon);
-                        oilStationMap.put("oilStationLat", oilStationLat);
+                        newMall.put("oilStationLon", oilStationLon);
+                        newMall.put("oilStationLat", oilStationLat);
                         String oilStationPayType = dataMap.get("fwlsmc") != null ? dataMap.get("fwlsmc").toString() : "";
-                        oilStationMap.put("oilStationPayType", oilStationPayType);
+                        newMall.put("oilStationPayType", oilStationPayType);
                         String oilStationDistance = dataMap.get("distance") != null ? dataMap.get("distance").toString() : "0";
-                        oilStationMap.put("oilStationDistance", oilStationDistance);
+                        newMall.put("oilStationDistance", oilStationDistance);
                         List<Map<String, Object>> allPriceList = new ArrayList<>();
                         Map<String, Object> priceMap = dataMap.get("price") != null ? (Map<String, Object>) dataMap.get("price") : new HashMap<String, Object>();
                         Map<String, Object> gastPriceMap = dataMap.get("gastprice") != null ? (Map<String, Object>) dataMap.get("gastprice") : new HashMap<String, Object>();
@@ -471,14 +471,14 @@ public class LonLatUtilTest {
                         if (priceList != null && priceList.size() > 0) {
                             allPriceList.addAll(priceList);
                         }
-                        oilStationMap.put("oilStationPrice", JSONObject.toJSONString(allPriceList));
+                        newMall.put("oilStationPrice", JSONObject.toJSONString(allPriceList));
 
                         Object createTime = TimestampUtil.getTimestamp();
-                        oilStationMap.put("createTime", createTime);
+                        newMall.put("createTime", createTime);
                         Object updateTime = TimestampUtil.getTimestamp();
-                        oilStationMap.put("updateTime", updateTime);
-                        oilStationMap.put("isManualModify", 0);
-                        oilStationList.add(oilStationMap);
+                        newMall.put("updateTime", updateTime);
+                        newMall.put("isManualModify", 0);
+                        oilStationList.add(newMall);
 
                         //检测是否已经存在,并且允许自动更新
                         Map<String, Object> paramMapTemp = Maps.newHashMap();
@@ -488,7 +488,7 @@ public class LonLatUtilTest {
                             Object isManualModifyObj = exist_oilStationList.get(0).get("isManualModify");
                             if(isManualModifyObj != null && "0".equals(isManualModifyObj.toString())){
                                 //将从网络获取到的加油站数据进行更新
-                                oilStationService.updateOilStation(oilStationMap);
+                                oilStationService.updateOilStation(newMall);
                             } else {
                                 logger.info("加油站名称：【" + oilStationName + "】,已存在，但是已被某个用户手动更改过，当前加油站数据已变为【手动更新】数据模式.");
                             }
@@ -496,7 +496,7 @@ public class LonLatUtilTest {
                             paramMapTemp.clear();
 
                             //将从网络获取到的加油站数据进行入库
-                            oilStationService.addOilStation(oilStationMap);
+                            oilStationService.addOilStation(newMall);
                         }
                     }
                     oilStationStrList.addAll(MapUtil.getStringMapList(oilStationList));
@@ -526,14 +526,14 @@ public class LonLatUtilTest {
      */
     public static String getAddressByLonLat(Double lon, Double lat, String addressStr) {
         String resultStr = "";
-        String host = OilStationMapCode.TENCENT_HOST;
-        String path = OilStationMapCode.TENCENT_PATH_GET_ADDR;
-        String method = OilStationMapCode.TENCENT_METHOD;
+        String host = NewMallCode.TENCENT_HOST;
+        String path = NewMallCode.TENCENT_PATH_GET_ADDR;
+        String method = NewMallCode.TENCENT_METHOD;
         Map<String, String> headers = Maps.newHashMap();
         Map<String, String> querys = Maps.newHashMap();
         querys.put("location", lat.toString() + "," + lon.toString());
         querys.put("get_poi", "1");
-        querys.put("key", OilStationMapCode.TENCENT_KEY);
+        querys.put("key", NewMallCode.TENCENT_KEY);
         try {
             HttpResponse response = ALiYunHttpUtils.doGet(host, path, method, headers, querys);
             System.out.println(response.toString());

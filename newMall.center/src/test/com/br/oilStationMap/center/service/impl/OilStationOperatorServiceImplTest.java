@@ -1,6 +1,6 @@
 package com.br.newMall.center.service.impl;
 
-import com.br.newMall.api.code.OilStationMapCode;
+import com.br.newMall.api.code.NewMallCode;
 import com.br.newMall.api.dto.BoolDTO;
 import com.br.newMall.api.dto.ResultDTO;
 import com.br.newMall.center.service.DicService;
@@ -72,17 +72,17 @@ public class OilStationOperatorServiceImplTest {
             addNum = oilStationOperatorDao.addOilStationOperator(paramMap);
             if (addNum != null && addNum > 0) {
                 boolDTO.setSuccess(true);
-                boolDTO.setCode(OilStationMapCode.SUCCESS.getNo());
-                boolDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+                boolDTO.setCode(NewMallCode.SUCCESS.getNo());
+                boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
                 boolDTO.setSuccess(false);
-                boolDTO.setCode(OilStationMapCode.NO_DATA_CHANGE.getNo());
-                boolDTO.setMessage(OilStationMapCode.NO_DATA_CHANGE.getMessage());
+                boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
+                boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
             }
         } else {
             boolDTO.setSuccess(false);
-            boolDTO.setCode(OilStationMapCode.OIL_STATION_OPERATOR_UID_OILSTATIONCODE_OPERATOR_IS_NOT_NULL.getNo());
-            boolDTO.setMessage(OilStationMapCode.OIL_STATION_OPERATOR_UID_OILSTATIONCODE_OPERATOR_IS_NOT_NULL.getMessage());
+            boolDTO.setCode(NewMallCode.OIL_STATION_OPERATOR_UID_OILSTATIONCODE_OPERATOR_IS_NOT_NULL.getNo());
+            boolDTO.setMessage(NewMallCode.OIL_STATION_OPERATOR_UID_OILSTATIONCODE_OPERATOR_IS_NOT_NULL.getMessage());
         }
         logger.info("在service中添加对加油站的操作-addOilStationOperator,结果-result:" + boolDTO);
         return boolDTO;

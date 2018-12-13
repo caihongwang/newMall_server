@@ -1,7 +1,7 @@
 package com.br.newMall.center.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.br.newMall.api.code.OilStationMapCode;
+import com.br.newMall.api.code.NewMallCode;
 import com.br.newMall.api.dto.ResultMapDTO;
 import com.br.newMall.center.utils.MapUtil;
 import com.br.newMall.center.utils.MediaArticlesUtil;
@@ -68,17 +68,17 @@ public class WX_SourceMaterialServiceImplTest {
 //        返回{"media_id":"nmOaXf9mW-kNJNTS6gdUShR_4VUnq312h-mT8ZuRgCc","url":"http://mmbiz.qpic.cn/mmbiz_jpg/EtQBibotz0RYS0wfXJEnd0ibJfsAaLIVawT2qPej9GKMbicG0x5IaQ3m73GgZmrbQSto9bMuL33ns8GWtR1hVl1iag/0?wx_fmt=jpeg"}
 
 //        新增永久素材
-        Map<String, Object> paramMap = Maps.newHashMap();
-        List<MediaArticlesUtil> mediaArticlesUtilList = Lists.newArrayList();
-        MediaArticlesUtil mediaArticlesUtil = new MediaArticlesUtil();
-        mediaArticlesUtil.setTitle("B_B截屏-标题");
-        mediaArticlesUtil.setThumb_media_id("nmOaXf9mW-kNJNTS6gdUSt9g7G1IbwT8bAN8JVYyg-o");
-        mediaArticlesUtil.setShow_cover_pic(true);
-        mediaArticlesUtil.setContent("B_B截屏-内容");
-        mediaArticlesUtil.setContent_source_url("www.baidu.com");
-        mediaArticlesUtilList.add(mediaArticlesUtil);
-        paramMap.put("mediaArticlesUtilList", mediaArticlesUtilList);
-        addNews(paramMap);
+//        Map<String, Object> paramMap = Maps.newHashMap();
+//        List<MediaArticlesUtil> mediaArticlesUtilList = Lists.newArrayList();
+//        MediaArticlesUtil mediaArticlesUtil = new MediaArticlesUtil();
+//        mediaArticlesUtil.setTitle("B_B截屏-标题");
+//        mediaArticlesUtil.setThumb_media_id("nmOaXf9mW-kNJNTS6gdUSt9g7G1IbwT8bAN8JVYyg-o");
+//        mediaArticlesUtil.setShow_cover_pic(true);
+//        mediaArticlesUtil.setContent("B_B截屏-内容");
+//        mediaArticlesUtil.setContent_source_url("www.baidu.com");
+//        mediaArticlesUtilList.add(mediaArticlesUtil);
+//        paramMap.put("mediaArticlesUtilList", mediaArticlesUtilList);
+//        addNews(paramMap);
 //        返回{"media_id":"nmOaXf9mW-kNJNTS6gdUSoPZt_F6KZEY2pcTK-uaf60"}
         
 //        获取永久素材
@@ -111,7 +111,7 @@ public class WX_SourceMaterialServiceImplTest {
 //        返回{"voice_count":"0","video_count":"0","image_count":"139","news_count":"8"}
 
 //        获取素材列表
-//        Map<String, Object> paramMap = Maps.newHashMap();
+        Map<String, Object> paramMap = Maps.newHashMap();
         paramMap.put("offset", "0");
         paramMap.put("count", "20");
 //        paramMap.put("mediaType", MediaTypeUtil.IMAGE);
@@ -140,15 +140,15 @@ public class WX_SourceMaterialServiceImplTest {
             resultMap = WX_PublicNumberUtil.uploadMedia(mediaType, file);
             if (resultMap != null && resultMap.size() > 0) {
                 resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
-                resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
-                resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+                resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
+                resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
-                resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
-                resultMapDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+                resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             }
         } else {
-            resultMapDTO.setCode(OilStationMapCode.PARAM_IS_NULL.getNo());
-            resultMapDTO.setMessage(OilStationMapCode.PARAM_IS_NULL.getMessage());
+            resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
+            resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
         logger.info("在service中新增临时素材-uploadMedia,响应-response:" + JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
@@ -169,15 +169,15 @@ public class WX_SourceMaterialServiceImplTest {
             resultMap = WX_PublicNumberUtil.getMedia(mediaId);
             if (resultMap != null && resultMap.size() > 0) {
                 resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
-                resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
-                resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+                resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
+                resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
-                resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
-                resultMapDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+                resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             }
         } else {
-            resultMapDTO.setCode(OilStationMapCode.PARAM_IS_NULL.getNo());
-            resultMapDTO.setMessage(OilStationMapCode.PARAM_IS_NULL.getMessage());
+            resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
+            resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
         logger.info("在service中获取临时素材-getMedia,响应-response:" + JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
@@ -200,15 +200,15 @@ public class WX_SourceMaterialServiceImplTest {
             resultMap = WX_PublicNumberUtil.addMaterial(file, mediaType);
             if (resultMap != null && resultMap.size() > 0) {
                 resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
-                resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
-                resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+                resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
+                resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
-                resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
-                resultMapDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+                resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             }
         } else {
-            resultMapDTO.setCode(OilStationMapCode.PARAM_IS_NULL.getNo());
-            resultMapDTO.setMessage(OilStationMapCode.PARAM_IS_NULL.getMessage());
+            resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
+            resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
         logger.info("在service中新增其他类型永久素材-addMaterial,响应-response:" + JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
@@ -233,15 +233,15 @@ public class WX_SourceMaterialServiceImplTest {
             resultMap = WX_PublicNumberUtil.addNews(mediaArticlesUtilList);
             if (resultMap != null && resultMap.size() > 0) {
                 resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
-                resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
-                resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+                resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
+                resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
-                resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
-                resultMapDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+                resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             }
         } else {
-            resultMapDTO.setCode(OilStationMapCode.PARAM_IS_NULL.getNo());
-            resultMapDTO.setMessage(OilStationMapCode.PARAM_IS_NULL.getMessage());
+            resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
+            resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
         logger.info("在service中新增永久素材-addNews,响应-response:" + JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
@@ -263,15 +263,15 @@ public class WX_SourceMaterialServiceImplTest {
             resultMap = WX_PublicNumberUtil.getMaterial(mediaId, filePath);
             if (resultMap != null && resultMap.size() > 0) {
                 resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
-                resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
-                resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+                resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
+                resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
-                resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
-                resultMapDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+                resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             }
         } else {
-            resultMapDTO.setCode(OilStationMapCode.PARAM_IS_NULL.getNo());
-            resultMapDTO.setMessage(OilStationMapCode.PARAM_IS_NULL.getMessage());
+            resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
+            resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
         logger.info("在service中获取永久素材-getMaterial,响应-response:" + JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
@@ -291,15 +291,15 @@ public class WX_SourceMaterialServiceImplTest {
             resultMap = WX_PublicNumberUtil.delMaterial(mediaId);
             if (resultMap != null && resultMap.size() > 0) {
                 resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
-                resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
-                resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+                resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
+                resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
-                resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
-                resultMapDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+                resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             }
         } else {
-            resultMapDTO.setCode(OilStationMapCode.PARAM_IS_NULL.getNo());
-            resultMapDTO.setMessage(OilStationMapCode.PARAM_IS_NULL.getMessage());
+            resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
+            resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
         logger.info("在service中删除永久素材-delMaterial,响应-response:" + JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
@@ -323,15 +323,15 @@ public class WX_SourceMaterialServiceImplTest {
             resultMap = WX_PublicNumberUtil.updateNews(mediaId, Integer.parseInt(index), mediaArticlesUtil);
             if (resultMap != null && resultMap.size() > 0) {
                 resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
-                resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
-                resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+                resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
+                resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
-                resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
-                resultMapDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+                resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             }
         } else {
-            resultMapDTO.setCode(OilStationMapCode.PARAM_IS_NULL.getNo());
-            resultMapDTO.setMessage(OilStationMapCode.PARAM_IS_NULL.getMessage());
+            resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
+            resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
         logger.info("在service中修改永久图文素材-updateNews,响应-response:" + JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
@@ -349,11 +349,11 @@ public class WX_SourceMaterialServiceImplTest {
         resultMap = WX_PublicNumberUtil.getMaterialCount();
         if (resultMap != null && resultMap.size() > 0) {
             resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
-            resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
-            resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+            resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
+            resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
         } else {
-            resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
-            resultMapDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+            resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+            resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
         logger.info("在service中获取素材总数-getMaterialCount,响应-response:" + JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
@@ -377,15 +377,15 @@ public class WX_SourceMaterialServiceImplTest {
             resultMap.put("materialList", materialList);
             if (resultMap != null && resultMap.size() > 0) {
                 resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
-                resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
-                resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+                resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
+                resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
-                resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
-                resultMapDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+                resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             }
         } else {
-            resultMapDTO.setCode(OilStationMapCode.PARAM_IS_NULL.getNo());
-            resultMapDTO.setMessage(OilStationMapCode.PARAM_IS_NULL.getMessage());
+            resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
+            resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
         logger.info("在service中获取素材列表-batchGetMaterial,响应-response:" + JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;

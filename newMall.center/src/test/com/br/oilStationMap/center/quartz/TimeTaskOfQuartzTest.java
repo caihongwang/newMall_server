@@ -1,7 +1,7 @@
 package com.br.newMall.center.quartz;
 
 import com.alibaba.fastjson.JSONObject;
-import com.br.newMall.api.code.OilStationMapCode;
+import com.br.newMall.api.code.NewMallCode;
 import com.br.newMall.api.dto.ResultDTO;
 import com.br.newMall.api.dto.ResultMapDTO;
 import com.br.newMall.center.service.*;
@@ -218,16 +218,16 @@ public class TimeTaskOfQuartzTest {
                     String redPacketTotal = ((int) (redPacketTotalFloat * 100)) + "";
                     redPacketParamMap.put("amount", redPacketTotal);
                     redPacketParamMap.put("openId", openIdObj.toString());
-                    redPacketParamMap.put("reUserName", OilStationMapCode.WX_MINI_PROGRAM_NAME);
+                    redPacketParamMap.put("reUserName", NewMallCode.WX_MINI_PROGRAM_NAME);
                     redPacketParamMap.put("wxPublicNumGhId", "gh_417c90af3488");
-                    redPacketParamMap.put("desc", OilStationMapCode.WX_MINI_PROGRAM_NAME + "发红包了，快来看看吧.");
+                    redPacketParamMap.put("desc", NewMallCode.WX_MINI_PROGRAM_NAME + "发红包了，快来看看吧.");
                     ResultMapDTO resultMapDTO = wxRedPacketService.enterprisePayment(redPacketParamMap);
                     //3.将加油站操作记录表的状态变更为已处理
                     Map<String, Object> oilStationOperatorMap_updateParam = Maps.newHashMap();
                     oilStationOperatorMap_updateParam.put("id", oilStationOperatorMap.get("id"));
                     oilStationOperatorMap_updateParam.put("status", "1");
                     //4.发送成功，将已发送的红包进行记录，并保存.
-                    if(OilStationMapCode.SUCCESS.getNo() == resultMapDTO.getCode()){
+                    if(NewMallCode.SUCCESS.getNo() == resultMapDTO.getCode()){
                         //更新加油站操作的红包状态
                         Map<String, Object> paramMap_temp = Maps.newHashMap();
                         paramMap_temp.clear();      //清空参数，重新传参

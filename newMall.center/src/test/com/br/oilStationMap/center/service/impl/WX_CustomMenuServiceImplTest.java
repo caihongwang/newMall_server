@@ -1,6 +1,6 @@
 package com.br.newMall.center.service.impl;
 
-import com.br.newMall.api.code.OilStationMapCode;
+import com.br.newMall.api.code.NewMallCode;
 import com.br.newMall.api.dto.ResultMapDTO;
 import com.br.newMall.center.utils.MapUtil;
 import com.br.newMall.center.utils.WX_PublicNumberUtil;
@@ -103,12 +103,12 @@ public class WX_CustomMenuServiceImplTest {
         if (resultMap != null && resultMap.size() > 0) {
             resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
             resultMapDTO.setSuccess(true);
-            resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
-            resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+            resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
+            resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
         } else {
             resultMapDTO.setSuccess(false);
-            resultMapDTO.setCode(OilStationMapCode.SERVER_INNER_ERROR.getNo());
-            resultMapDTO.setMessage(OilStationMapCode.SERVER_INNER_ERROR.getMessage());
+            resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+            resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
         logger.info("在service中创建公众号自定义菜单-createCustomMenu,响应-response:" + resultMapDTO);
         return resultMapDTO;

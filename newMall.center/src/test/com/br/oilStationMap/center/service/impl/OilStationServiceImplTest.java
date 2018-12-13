@@ -2,7 +2,7 @@ package com.br.newMall.center.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.br.newMall.api.code.OilStationMapCode;
+import com.br.newMall.api.code.NewMallCode;
 import com.br.newMall.api.dto.BoolDTO;
 import com.br.newMall.api.dto.ResultDTO;
 import com.br.newMall.api.dto.ResultMapDTO;
@@ -141,13 +141,13 @@ public class OilStationServiceImplTest {
                 });
                 resultDTO.setResultList(oilStationStrList);
                 resultDTO.setSuccess(true);
-                resultDTO.setCode(OilStationMapCode.SUCCESS.getNo());
-                resultDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+                resultDTO.setCode(NewMallCode.SUCCESS.getNo());
+                resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
                 resultDTO.setResultList(oilStationStrList);
                 resultDTO.setSuccess(false);
-                resultDTO.setCode(OilStationMapCode.OIL_QUERY_IS_NULL.getNo());
-                resultDTO.setMessage(OilStationMapCode.OIL_QUERY_IS_NULL.getMessage());
+                resultDTO.setCode(NewMallCode.OIL_QUERY_IS_NULL.getNo());
+                resultDTO.setMessage(NewMallCode.OIL_QUERY_IS_NULL.getMessage());
             }
 
             //2.根据城市名称获取整座城市的加油站
@@ -165,19 +165,19 @@ public class OilStationServiceImplTest {
 //                oilStationStrList_city = MapUtil.getStringMapList(oilStationList_city);
 //                resultDTO.setResultList(oilStationStrList_city);
 //                resultDTO.setSuccess(true);
-//                resultDTO.setCode(OilStationMapCode.SUCCESS.getNo());
-//                resultDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+//                resultDTO.setCode(NewMallCode.SUCCESS.getNo());
+//                resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
 //            } else {
 //                resultDTO.setResultList(oilStationStrList);
 //                resultDTO.setSuccess(false);
-//                resultDTO.setCode(OilStationMapCode.OIL_QUERY_IS_NULL.getNo());
-//                resultDTO.setMessage(OilStationMapCode.OIL_QUERY_IS_NULL.getMessage());
+//                resultDTO.setCode(NewMallCode.OIL_QUERY_IS_NULL.getNo());
+//                resultDTO.setMessage(NewMallCode.OIL_QUERY_IS_NULL.getMessage());
 //            }
         } else {
             resultDTO.setResultList(oilStationStrList);
             resultDTO.setSuccess(false);
-            resultDTO.setCode(OilStationMapCode.OIL_STATION_PARAM_IS_NOT_NULL.getNo());
-            resultDTO.setMessage(OilStationMapCode.OIL_STATION_PARAM_IS_NOT_NULL.getMessage());
+            resultDTO.setCode(NewMallCode.OIL_STATION_PARAM_IS_NOT_NULL.getNo());
+            resultDTO.setMessage(NewMallCode.OIL_STATION_PARAM_IS_NOT_NULL.getMessage());
         }
         logger.info("在service中获取加油站列表-getOilStationList,响应-response:" + JSONObject.toJSONString(resultDTO));
         return resultDTO;
@@ -221,8 +221,8 @@ public class OilStationServiceImplTest {
                     addNum = oilStationDao.addOilStation(paramMap);
                     if (addNum != null && addNum > 0) {
                         boolDTO.setSuccess(true);
-                        boolDTO.setCode(OilStationMapCode.SUCCESS.getNo());
-                        boolDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+                        boolDTO.setCode(NewMallCode.SUCCESS.getNo());
+                        boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
                         //新增【添加油站】的操作，便于后期发送红包的参考
                         Map<String, Object> oilStationOperator_paramMap = Maps.newHashMap();
                         oilStationOperator_paramMap.put("status", "0");
@@ -232,15 +232,15 @@ public class OilStationServiceImplTest {
                         oilStationOperatorService.addOilStationOperator(oilStationOperator_paramMap);
                     } else {
                         boolDTO.setSuccess(false);
-                        boolDTO.setCode(OilStationMapCode.NO_DATA_CHANGE.getNo());
-                        boolDTO.setMessage(OilStationMapCode.NO_DATA_CHANGE.getMessage());
+                        boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
+                        boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
                     }
                 } else {
                     logger.info("开始更新 加油站 数据， paramMap = " + JSONObject.toJSONString(paramMap));
                     updateNum = oilStationDao.updateOilStation(paramMap);
                     if (updateNum != null && updateNum > 0) {
-                        boolDTO.setCode(OilStationMapCode.OIL_STATION_EXIST_AND_UPDATE.getNo());
-                        boolDTO.setMessage(OilStationMapCode.OIL_STATION_EXIST_AND_UPDATE.getMessage());
+                        boolDTO.setCode(NewMallCode.OIL_STATION_EXIST_AND_UPDATE.getNo());
+                        boolDTO.setMessage(NewMallCode.OIL_STATION_EXIST_AND_UPDATE.getMessage());
                         //新增【添加油站】的操作，便于后期发送红包的参考
                         Map<String, Object> oilStationOperator_paramMap = Maps.newHashMap();
                         oilStationOperator_paramMap.put("status", "0");
@@ -249,8 +249,8 @@ public class OilStationServiceImplTest {
                         oilStationOperator_paramMap.put("oilStationCode", oilStationCode);
                         oilStationOperatorService.addOilStationOperator(oilStationOperator_paramMap);
                     } else {
-                        boolDTO.setCode(OilStationMapCode.NO_DATA_CHANGE.getNo());
-                        boolDTO.setMessage(OilStationMapCode.NO_DATA_CHANGE.getMessage());
+                        boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
+                        boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
                     }
                 }
             } else {
@@ -267,8 +267,8 @@ public class OilStationServiceImplTest {
                         logger.info("开始更新 加油站 数据， paramMap = " + JSONObject.toJSONString(paramMap));
                         updateNum = oilStationDao.updateOilStation(paramMap);
                         if (updateNum != null && updateNum > 0) {
-                            boolDTO.setCode(OilStationMapCode.OIL_STATION_EXIST_AND_UPDATE.getNo());
-                            boolDTO.setMessage(OilStationMapCode.OIL_STATION_EXIST_AND_UPDATE.getMessage());
+                            boolDTO.setCode(NewMallCode.OIL_STATION_EXIST_AND_UPDATE.getNo());
+                            boolDTO.setMessage(NewMallCode.OIL_STATION_EXIST_AND_UPDATE.getMessage());
                             //新增【添加油站】的操作，便于后期发送红包的参考
                             Map<String, Object> oilStationOperator_paramMap = Maps.newHashMap();
                             oilStationOperator_paramMap.put("status", "0");
@@ -277,8 +277,8 @@ public class OilStationServiceImplTest {
                             oilStationOperator_paramMap.put("oilStationCode", existOilStation.get("oilStationCode"));
                             oilStationOperatorService.addOilStationOperator(oilStationOperator_paramMap);
                         } else {
-                            boolDTO.setCode(OilStationMapCode.NO_DATA_CHANGE.getNo());
-                            boolDTO.setMessage(OilStationMapCode.NO_DATA_CHANGE.getMessage());
+                            boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
+                            boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
                         }
                     }
                 } else {
@@ -294,8 +294,8 @@ public class OilStationServiceImplTest {
                     addNum = oilStationDao.addOilStation(paramMap);
                     if (addNum != null && addNum > 0) {
                         boolDTO.setSuccess(true);
-                        boolDTO.setCode(OilStationMapCode.SUCCESS.getNo());
-                        boolDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+                        boolDTO.setCode(NewMallCode.SUCCESS.getNo());
+                        boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
                         //新增【添加油站】的操作，便于后期发送红包的参考
                         Map<String, Object> oilStationOperator_paramMap = Maps.newHashMap();
                         oilStationOperator_paramMap.put("status", "0");
@@ -305,15 +305,15 @@ public class OilStationServiceImplTest {
                         oilStationOperatorService.addOilStationOperator(oilStationOperator_paramMap);
                     } else {
                         boolDTO.setSuccess(false);
-                        boolDTO.setCode(OilStationMapCode.NO_DATA_CHANGE.getNo());
-                        boolDTO.setMessage(OilStationMapCode.NO_DATA_CHANGE.getMessage());
+                        boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
+                        boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
                     }
                 }
             }
         } else {
             boolDTO.setSuccess(false);
-            boolDTO.setCode(OilStationMapCode.OIL_STATION_PARAM_IS_NOT_NULL.getNo());
-            boolDTO.setMessage(OilStationMapCode.OIL_STATION_PARAM_IS_NOT_NULL.getMessage());
+            boolDTO.setCode(NewMallCode.OIL_STATION_PARAM_IS_NOT_NULL.getNo());
+            boolDTO.setMessage(NewMallCode.OIL_STATION_PARAM_IS_NOT_NULL.getMessage());
         }
         logger.info("在service中添加加油站-addOilStation,结果-result:" + boolDTO);
         return boolDTO;
@@ -351,16 +351,16 @@ public class OilStationServiceImplTest {
                 oilStationStrList.addAll(MapUtil.getStringMapList(oilStationList));
                 resultDTO.setResultList(oilStationStrList);
                 resultDTO.setSuccess(false);
-                resultDTO.setCode(OilStationMapCode.SUCCESS.getNo());
-                resultDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+                resultDTO.setCode(NewMallCode.SUCCESS.getNo());
+                resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
                 //使用递归，务必查找到最近的加油站进行展示
                 System.out.println("第 " + dis + " 次递归查询【数据库中加油站】...");
                 if (dis == 10) {
                     resultDTO.setResultList(oilStationStrList);
                     resultDTO.setSuccess(false);
-                    resultDTO.setCode(OilStationMapCode.OIL_QUERY_IS_NULL.getNo());
-                    resultDTO.setMessage(OilStationMapCode.OIL_QUERY_IS_NULL.getMessage());
+                    resultDTO.setCode(NewMallCode.OIL_QUERY_IS_NULL.getNo());
+                    resultDTO.setMessage(NewMallCode.OIL_QUERY_IS_NULL.getMessage());
                     return resultDTO;
                 }
                 dis++;
@@ -372,8 +372,8 @@ public class OilStationServiceImplTest {
         } else {
             resultDTO.setSuccess(false);
             resultDTO.setResultList(oilStationStrList);
-            resultDTO.setCode(OilStationMapCode.OIL_STATION_PARAM_IS_NOT_NULL.getNo());
-            resultDTO.setMessage(OilStationMapCode.OIL_STATION_PARAM_IS_NOT_NULL.getMessage());
+            resultDTO.setCode(NewMallCode.OIL_STATION_PARAM_IS_NOT_NULL.getNo());
+            resultDTO.setMessage(NewMallCode.OIL_STATION_PARAM_IS_NOT_NULL.getMessage());
         }
         logger.info("在service中获取单一的加油站信息-getSimpleOilStationByCondition,结果-result:" + resultDTO);
         return resultDTO;
@@ -413,16 +413,16 @@ public class OilStationServiceImplTest {
                 oilStationStrList.addAll(MapUtil.getStringMapList(oilStationList));
                 resultDTO.setResultList(oilStationStrList);
                 resultDTO.setSuccess(false);
-                resultDTO.setCode(OilStationMapCode.SUCCESS.getNo());
-                resultDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+                resultDTO.setCode(NewMallCode.SUCCESS.getNo());
+                resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
                 //使用递归，务必查找到最近的加油站进行展示
                 System.out.println("第 " + dis + " 次递归查询【民营加油站】...");
                 if (dis == 10) {
                     resultDTO.setResultList(oilStationStrList);
                     resultDTO.setSuccess(false);
-                    resultDTO.setCode(OilStationMapCode.OIL_QUERY_IS_NULL.getNo());
-                    resultDTO.setMessage(OilStationMapCode.OIL_QUERY_IS_NULL.getMessage());
+                    resultDTO.setCode(NewMallCode.OIL_QUERY_IS_NULL.getNo());
+                    resultDTO.setMessage(NewMallCode.OIL_QUERY_IS_NULL.getMessage());
                     return resultDTO;
                 }
                 dis++;
@@ -434,8 +434,8 @@ public class OilStationServiceImplTest {
         } else {
             resultDTO.setSuccess(false);
             resultDTO.setResultList(oilStationStrList);
-            resultDTO.setCode(OilStationMapCode.OIL_STATION_PARAM_IS_NOT_NULL.getNo());
-            resultDTO.setMessage(OilStationMapCode.OIL_STATION_PARAM_IS_NOT_NULL.getMessage());
+            resultDTO.setCode(NewMallCode.OIL_STATION_PARAM_IS_NOT_NULL.getNo());
+            resultDTO.setMessage(NewMallCode.OIL_STATION_PARAM_IS_NOT_NULL.getMessage());
         }
         logger.info("在service中获取单一的加油站信息-getPrivateOilStationByCondition,结果-result:" + resultDTO);
         return resultDTO;
@@ -492,7 +492,7 @@ public class OilStationServiceImplTest {
 //        paramMap.put("bbb","222");
 //        paramMap.put("ccc","333");
 //        paramMap.put("ddd","444");
-//        String calbackUrl = OilStationMapCode.WX_PAY_DOMAIN + "/wx_Pay/getOauth.do";
+//        String calbackUrl = NewMallCode.WX_PAY_DOMAIN + "/wx_Pay/getOauth.do";
 //        if (paramMap != null && !paramMap.isEmpty()) {
 //            calbackUrl = calbackUrl + "?";
 //            Map.Entry entry;
@@ -533,8 +533,8 @@ public class OilStationServiceImplTest {
                     String oilStationCode = 10000000 + i + 1 + "";
                     String oilStationName = oilStationPO.getOilStationName();
                     if (!oilStationName.contains("中")) {
-                        String queryAddressUrl = OilStationMapCode.TENCENT_KEY_WORD_SEARCH +
-                                "?key=" + OilStationMapCode.TENCENT_KEY + "&region=" + "贵州" + "&keyword=" + oilStationName;
+                        String queryAddressUrl = NewMallCode.TENCENT_KEY_WORD_SEARCH +
+                                "?key=" + NewMallCode.TENCENT_KEY + "&region=" + "贵州" + "&keyword=" + oilStationName;
                         String addressDataJson = httpsUtil.get(queryAddressUrl, MapUtil.getStringMap(paramMap));
 //                    logger.info("在service中获取加油站列表-getAddressByLonLat, 从腾讯地图获取地址的结果 : " + resJsonStr);
                         JSONObject addressData_JSONObject = JSONObject.parseObject(addressDataJson);
@@ -610,14 +610,14 @@ public class OilStationServiceImplTest {
             resultMap.put("updateNum", updateNum != null ? updateNum.toString() : "0");
             resultMapDTO.setResultMap(resultMap);
             resultMapDTO.setSuccess(true);
-            resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
-            resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+            resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
+            resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             System.out.println("======================================================");
             System.out.println(resultMapDTO);
         } else {
             resultMapDTO.setSuccess(false);
-            resultMapDTO.setCode(OilStationMapCode.PARAM_IS_NULL.getNo());
-            resultMapDTO.setMessage(OilStationMapCode.PARAM_IS_NULL.getMessage());
+            resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
+            resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
     }
 

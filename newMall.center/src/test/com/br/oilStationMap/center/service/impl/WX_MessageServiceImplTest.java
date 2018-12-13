@@ -2,7 +2,7 @@ package com.br.newMall.center.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.br.newMall.api.code.OilStationMapCode;
+import com.br.newMall.api.code.NewMallCode;
 import com.br.newMall.api.dto.ResultMapDTO;
 import com.br.newMall.center.service.CommonService;
 import com.br.newMall.center.service.WX_SourceMaterialService;
@@ -121,17 +121,17 @@ public class WX_MessageServiceImplTest {
                     }
                 } else {
                     //获取微信公众所有openId
-                    resultMapDTO.setCode(OilStationMapCode.CURRENT_PUBLIC_NUMBER_OPENID_IS_NOT_NULL.getNo());
-                    resultMapDTO.setMessage(OilStationMapCode.CURRENT_PUBLIC_NUMBER_OPENID_IS_NOT_NULL.getMessage());
+                    resultMapDTO.setCode(NewMallCode.CURRENT_PUBLIC_NUMBER_OPENID_IS_NOT_NULL.getNo());
+                    resultMapDTO.setMessage(NewMallCode.CURRENT_PUBLIC_NUMBER_OPENID_IS_NOT_NULL.getMessage());
                 }
             } else {
                 //获取微信公众所有openId
-                resultMapDTO.setCode(OilStationMapCode.CURRENT_PUBLIC_NUMBER_OPENID_IS_NOT_NULL.getNo());
-                resultMapDTO.setMessage(OilStationMapCode.CURRENT_PUBLIC_NUMBER_OPENID_IS_NOT_NULL.getMessage());
+                resultMapDTO.setCode(NewMallCode.CURRENT_PUBLIC_NUMBER_OPENID_IS_NOT_NULL.getNo());
+                resultMapDTO.setMessage(NewMallCode.CURRENT_PUBLIC_NUMBER_OPENID_IS_NOT_NULL.getMessage());
             }
         } else {
-            resultMapDTO.setCode(OilStationMapCode.PARAM_IS_NULL.getNo());
-            resultMapDTO.setMessage(OilStationMapCode.PARAM_IS_NULL.getMessage());        }
+            resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
+            resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());        }
         logger.info("在service中根据OpenID列表群发-messageSend,响应-response:" + resultMapDTO);
         return resultMapDTO;
     }

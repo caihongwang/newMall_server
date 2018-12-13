@@ -1,6 +1,6 @@
 package com.br.newMall.center.service.impl;
 
-import com.br.newMall.api.code.OilStationMapCode;
+import com.br.newMall.api.code.NewMallCode;
 import com.br.newMall.api.dto.ResultMapDTO;
 import com.br.newMall.center.utils.MapUtil;
 import com.br.newMall.center.utils.WX_PublicNumberUtil;
@@ -40,7 +40,7 @@ public class WX_PayServiceImplTest {
 
         Map<String, Object> resultMap = Maps.newHashMap();
         ResultMapDTO resultMapDTO = new ResultMapDTO();
-        String calbackUrl = OilStationMapCode.WX_PAY_DOMAIN + "/wx_Pay/getOauth.do?";
+        String calbackUrl = NewMallCode.WX_PAY_DOMAIN + "/wx_Pay/getOauth.do?";
         //准备参数
         try{
             Map<String, String> paramMap_temp = Maps.newHashMap();
@@ -79,12 +79,12 @@ public class WX_PayServiceImplTest {
             e.printStackTrace();
         }
         calbackUrl = URLEncoder.encode(calbackUrl, "UTF-8");
-        String toOauthUrl = WX_PublicNumberUtil.getAuthorizeURL(OilStationMapCode.WX_PUBLIC_NUMBER_APPID, calbackUrl, "123", false);
+        String toOauthUrl = WX_PublicNumberUtil.getAuthorizeURL(NewMallCode.WX_PUBLIC_NUMBER_APPID, calbackUrl, "123", false);
         resultMap.put("toOauthUrl", toOauthUrl);
         resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
         resultMapDTO.setSuccess(true);
-        resultMapDTO.setCode(OilStationMapCode.SUCCESS.getNo());
-        resultMapDTO.setMessage(OilStationMapCode.SUCCESS.getMessage());
+        resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
+        resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
     }
 
 }
