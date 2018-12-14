@@ -7,7 +7,7 @@ import com.br.newMall.api.dto.ResultDTO;
 import com.br.newMall.api.dto.ResultMapDTO;
 import com.br.newMall.center.service.WX_DicService;
 import com.br.newMall.center.utils.MapUtil;
-import com.br.newMall.dao.DicDao;
+import com.br.newMall.dao.WX_DicDao;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.slf4j.Logger;
@@ -28,7 +28,7 @@ public class WX_DicServiceImpl implements WX_DicService {
     private static final Logger logger = LoggerFactory.getLogger(WX_DicServiceImpl.class);
 
     @Autowired
-    private DicDao dicDao;
+    private WX_DicDao wxDicDao;
 
     /**
      * 添加字典
@@ -46,9 +46,9 @@ public class WX_DicServiceImpl implements WX_DicService {
         if (!"".equals(dicType) && !"".equals(dicCode) && !"".equals(dicName)) {
             Map<String, Object> paramMap_temp = Maps.newHashMap();
             paramMap_temp.put("dicCode", dicCode);
-            Integer total = dicDao.getSimpleDicTotalByCondition(paramMap_temp);
+            Integer total = wxDicDao.getSimpleDicTotalByCondition(paramMap_temp);
             if (total != null && total <= 0) {
-                addNum = dicDao.addDic(paramMap);
+                addNum = wxDicDao.addDic(paramMap);
                 if (addNum != null && addNum > 0) {
                     boolDTO.setSuccess(true);
                     boolDTO.setCode(NewMallCode.SUCCESS.getNo());
@@ -85,7 +85,7 @@ public class WX_DicServiceImpl implements WX_DicService {
         String id = paramMap.get("id") != null ? paramMap.get("id").toString() : "";
         String dicCode = paramMap.get("dicCode") != null ? paramMap.get("dicCode").toString() : "";
         if (!"".equals(id) || !"".equals(dicCode)) {
-            deleteNum = dicDao.deleteDic(paramMap);
+            deleteNum = wxDicDao.deleteDic(paramMap);
             if (deleteNum != null && deleteNum > 0) {
                 boolDTO.setSuccess(true);
                 boolDTO.setCode(NewMallCode.SUCCESS.getNo());
@@ -117,7 +117,7 @@ public class WX_DicServiceImpl implements WX_DicService {
         String id = paramMap.get("id") != null ? paramMap.get("id").toString() : "";
         String dicCode = paramMap.get("dicCode") != null ? paramMap.get("dicCode").toString() : "";
         if (!"".equals(id) || !"".equals(dicCode)) {
-            updateNum = dicDao.updateDic(paramMap);
+            updateNum = wxDicDao.updateDic(paramMap);
             if (updateNum != null && updateNum > 0) {
                 boolDTO.setSuccess(true);
                 boolDTO.setCode(NewMallCode.SUCCESS.getNo());
@@ -151,7 +151,7 @@ public class WX_DicServiceImpl implements WX_DicService {
         String dicType = paramMap.get("dicType") != null ? paramMap.get("dicType").toString() : "";
         String dicCode = paramMap.get("dicCode") != null ? paramMap.get("dicCode").toString() : "";
         if (!"".equals(dicType) || !"".equals(dicCode)) {
-            List<Map<String, Object>> dicList = dicDao.getSimpleDicByCondition(paramMap);
+            List<Map<String, Object>> dicList = wxDicDao.getSimpleDicByCondition(paramMap);
             if (dicList != null && dicList.size() > 0) {
                 for (Map<String, Object> dicMap : dicList) {
                     String dicRemark = dicMap.get("dicRemark") != null ? dicMap.get("dicRemark").toString() : "";
@@ -162,7 +162,7 @@ public class WX_DicServiceImpl implements WX_DicService {
                     }
                 }
                 dicStrList = MapUtil.getStringMapList(dicList);
-                Integer total = dicDao.getSimpleDicTotalByCondition(paramMap);
+                Integer total = wxDicDao.getSimpleDicTotalByCondition(paramMap);
                 resultDTO.setResultListTotal(total);
                 resultDTO.setResultList(dicStrList);
                 resultDTO.setSuccess(false);
@@ -205,7 +205,7 @@ public class WX_DicServiceImpl implements WX_DicService {
                 String[] dicTypeArr = dicTypeStr.split(",");
                 for (String dicType : dicTypeArr) {
                     paramMap.put("dicType", dicType);
-                    List<Map<String, Object>> dicList = dicDao.getSimpleDicByCondition(paramMap);
+                    List<Map<String, Object>> dicList = wxDicDao.getSimpleDicByCondition(paramMap);
                     if (dicList != null && dicList.size() > 0) {
                         for (Map<String, Object> dicMap : dicList) {
                             String dicRemark = dicMap.get("dicRemark") != null ? dicMap.get("dicRemark").toString() : "";
@@ -216,7 +216,7 @@ public class WX_DicServiceImpl implements WX_DicService {
                             }
                         }
                         resultMap.put(dicType, JSONObject.toJSONString(dicList));
-                        total += dicDao.getSimpleDicTotalByCondition(paramMap);
+                        total += wxDicDao.getSimpleDicTotalByCondition(paramMap);
                     } else {
                         dicList = Lists.newArrayList();
                         resultMap.put("dicType", JSONObject.toJSONString(dicList));

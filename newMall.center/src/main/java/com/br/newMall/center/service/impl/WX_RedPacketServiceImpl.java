@@ -6,7 +6,7 @@ import com.br.newMall.api.dto.ResultMapDTO;
 import com.br.newMall.center.service.WX_DicService;
 import com.br.newMall.center.service.WX_RedPacketService;
 import com.br.newMall.center.utils.*;
-import com.br.newMall.dao.UserDao;
+import com.br.newMall.dao.WX_UserDao;
 import com.br.newMall.dao.UserFormMappingDao;
 import com.google.common.collect.Maps;
 import org.apache.thrift.TException;
@@ -35,7 +35,7 @@ public class WX_RedPacketServiceImpl implements WX_RedPacketService {
     private HttpsUtil httpsUtil;
 
     @Autowired
-    private UserDao userDao;
+    private WX_UserDao wxUserDao;
 
     @Autowired
     private UserFormMappingDao userFormMappingDao;
@@ -124,7 +124,7 @@ public class WX_RedPacketServiceImpl implements WX_RedPacketService {
                         userMap.put("language", language);
                         userMap.put("avatarUrl", avatarUrl);
                         userMap.put("wxpAttention", wxpAttention);
-                        userDao.updateUser(userMap);
+                        wxUserDao.updateUser(userMap);
                     }
                 }
                 resultMap.put("openId", openId);

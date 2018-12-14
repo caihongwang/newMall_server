@@ -6,7 +6,7 @@ import com.br.newMall.api.dto.ResultDTO;
 import com.br.newMall.center.service.CommentsService;
 import com.br.newMall.center.utils.MapUtil;
 import com.br.newMall.dao.CommentsDao;
-import com.br.newMall.dao.UserDao;
+import com.br.newMall.dao.WX_UserDao;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.slf4j.Logger;
@@ -29,7 +29,7 @@ public class CommentsServiceImpl implements CommentsService {
     private CommentsDao commentsDao;
 
     @Autowired
-    private UserDao userDao;
+    private WX_UserDao wxUserDao;
 
     /**
      * 添加意见
@@ -47,7 +47,7 @@ public class CommentsServiceImpl implements CommentsService {
             if (comments.length() <= 200) {
                 Map<String, Object> paramMap_temp = Maps.newHashMap();
                 paramMap_temp.put("id", uid);
-                List<Map<String, Object>> userList = userDao.getSimpleUserByCondition(paramMap_temp);
+                List<Map<String, Object>> userList = wxUserDao.getSimpleUserByCondition(paramMap_temp);
                 if (userList != null && userList.size() > 0) {
                     paramMap.put("status", 0);
                     addNum = commentsDao.addComments(paramMap);

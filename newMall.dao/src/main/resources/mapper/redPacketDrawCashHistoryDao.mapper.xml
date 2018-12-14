@@ -119,7 +119,7 @@
         wu.avatar_url as "avatarUrl"
         FROM o_red_packet_draw_cash_history orpdch
         INNER JOIN wx_user wu on orpdch.uid = wu.uid
-        <include refid="com.br.newMall.dao.UserDao.queryConditions"/>
+        <include refid="com.br.newMall.dao.WX_UserDao.queryConditions"/>
         <if test="start != null and start != '' and size != null and size != ''">
             LIMIT ${start},${size}
         </if>
@@ -131,7 +131,7 @@
         COUNT(*) total
         FROM o_red_packet_draw_cash_history orpdch
         INNER JOIN wx_user wu on orpdch.uid = wu.uid
-        <include refid="com.br.newMall.dao.UserDao.queryConditions"/>
+        <include refid="com.br.newMall.dao.WX_UserDao.queryConditions"/>
     </select>
 
 </mapper>

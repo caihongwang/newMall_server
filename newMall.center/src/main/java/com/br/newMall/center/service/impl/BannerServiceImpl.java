@@ -5,7 +5,7 @@ import com.br.newMall.api.code.NewMallCode;
 import com.br.newMall.api.dto.ResultDTO;
 import com.br.newMall.center.service.BannerService;
 import com.br.newMall.center.utils.MapUtil;
-import com.br.newMall.dao.DicDao;
+import com.br.newMall.dao.WX_DicDao;
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +24,7 @@ public class BannerServiceImpl implements BannerService {
     private static final Logger logger = LoggerFactory.getLogger(BannerServiceImpl.class);
 
     @Autowired
-    private DicDao dicDao;
+    private WX_DicDao wxDicDao;
 
     /**
      * 获取正在活跃的Banner信息
@@ -41,7 +41,7 @@ public class BannerServiceImpl implements BannerService {
         if (!"".equals(dicType) || !"".equals(dicCode)) {
             paramMap.put("dicType", dicType);
             paramMap.put("dicCode", dicCode);
-            List<Map<String, Object>> dicList = dicDao.getSimpleDicByCondition(paramMap);
+            List<Map<String, Object>> dicList = wxDicDao.getSimpleDicByCondition(paramMap);
             if (dicList != null && dicList.size() > 0) {
                 for (Map<String, Object> dicMap : dicList) {
                     String dicRemark = dicMap.get("dicRemark") != null ? dicMap.get("dicRemark").toString() : "";
@@ -52,7 +52,7 @@ public class BannerServiceImpl implements BannerService {
                     }
                 }
                 dicStrList = MapUtil.getStringMapList(dicList);
-                Integer total = dicDao.getSimpleDicTotalByCondition(paramMap);
+                Integer total = wxDicDao.getSimpleDicTotalByCondition(paramMap);
                 resultDTO.setResultListTotal(total);
                 resultDTO.setResultList(dicStrList);
                 resultDTO.setSuccess(false);

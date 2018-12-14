@@ -3,7 +3,7 @@ package com.br.newMall.dao;
 import java.util.List;
 import java.util.Map;
 
-public interface DicDao {
+public interface WX_DicDao {
 
     /**
      * 根据条件查询字典信息

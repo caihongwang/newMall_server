@@ -4,7 +4,7 @@ package com.br.newMall.dao;
 import java.util.List;
 import java.util.Map;
 
-public interface UserDao {
+public interface WX_UserDao {
 
     /**
      * 根据条件查询用户信息

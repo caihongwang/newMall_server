@@ -10,7 +10,7 @@ import com.br.newMall.api.code.NewMallCode;
 import com.br.newMall.api.dto.ResultMapDTO;
 import com.br.newMall.api.dto.ResultDTO;
 import com.br.newMall.center.utils.MapUtil;
-import com.br.newMall.dao.UserDao;
+import com.br.newMall.dao.WX_UserDao;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.slf4j.Logger;
@@ -35,7 +35,7 @@ public class OilStationOperatorServiceImpl implements OilStationOperatorService 
     private OilStationOperatorDao oilStationOperatorDao;
 
     @Autowired
-    private UserDao userDao;
+    private WX_UserDao wxUserDao;
 
     @Autowired
     private WX_DicService wxDicService;

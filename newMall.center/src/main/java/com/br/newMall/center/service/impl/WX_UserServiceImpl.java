@@ -10,7 +10,7 @@ import com.br.newMall.center.service.WX_UserService;
 import com.br.newMall.center.utils.HttpsUtil;
 import com.br.newMall.center.utils.MapUtil;
 import com.br.newMall.center.utils.WX_PublicNumberUtil;
-import com.br.newMall.dao.UserDao;
+import com.br.newMall.dao.WX_UserDao;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.slf4j.Logger;
@@ -37,7 +37,7 @@ public class WX_UserServiceImpl implements WX_UserService {
     private JedisPool jedisPool;
 
     @Autowired
-    private UserDao userDao;
+    private WX_UserDao wxUserDao;
 
     @Autowired
     private HttpsUtil httpsUtil;
@@ -74,7 +74,7 @@ public class WX_UserServiceImpl implements WX_UserService {
                     //1.判断用户这个用户是否已经存在,但是也要判断这个用户是否还在会话范围之内
                     Map<String, Object> paramMap_temp = Maps.newHashMap();
                     paramMap_temp.put("openId", openid);
-                    List<Map<String, Object>> userList = userDao.getSimpleUserByCondition(paramMap_temp);
+                    List<Map<String, Object>> userList = wxUserDao.getSimpleUserByCondition(paramMap_temp);
                     if (userList != null && userList.size() > 0) {        //存在，则更新
                         String uid = userList.get(0).get("id").toString();
                         String key = paramMap.get("sessionKey") != null ? paramMap.get("sessionKey").toString() : "";
@@ -124,11 +124,11 @@ public class WX_UserServiceImpl implements WX_UserService {
                         paramMap.put("openId", openid);
                         paramMap.put("grayStatus", "0");        //灰度用户状态，0是正常登陆用户，1是不需要登陆的用户
                         paramMap.put("userType", "miniProgram");//微信用户类型，miniProgram是小程序用户，publicNumber是公众号用户
-                        addNum = userDao.addUser(paramMap);
+                        addNum = wxUserDao.addUser(paramMap);
                         //创建session
                         if (addNum != null && addNum > 0) {
                             //获取session,如果没有则创一个有效的session
-                            List<Map<String, Object>> userList_temp = userDao.getSimpleUserByCondition(paramMap);
+                            List<Map<String, Object>> userList_temp = wxUserDao.getSimpleUserByCondition(paramMap);
                             if (userList_temp != null && userList_temp.size() > 0) {
                                 //设置session参数
                                 String uid = userList_temp.get(0).get("id").toString();
@@ -195,7 +195,7 @@ public class WX_UserServiceImpl implements WX_UserService {
             paramMap.putAll(userInfoMap);
         }
         paramMap.put("id", paramMap.get("uid"));
-        updateNum = userDao.updateUser(paramMap);
+        updateNum = wxUserDao.updateUser(paramMap);
         if (updateNum != null && updateNum > 0) {
             boolDTO.setSuccess(true);
             boolDTO.setCode(NewMallCode.SUCCESS.getNo());
@@ -304,11 +304,11 @@ public class WX_UserServiceImpl implements WX_UserService {
         logger.info("在【service】中获取单一的用户信息-getSimpleUserByCondition,请求-paramMap = ", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         String uid = paramMap.get("uid") != null ? paramMap.get("uid").toString() : "";
-        List<Map<String, Object>> userList = userDao.getSimpleUserByCondition(paramMap);
+        List<Map<String, Object>> userList = wxUserDao.getSimpleUserByCondition(paramMap);
         if (!"".equals(uid)) {
             if (userList != null && userList.size() > 0) {
                 List<Map<String, String>> userStrList = MapUtil.getStringMapList(userList);
-                Integer total = userDao.getSimpleUserTotalByCondition(paramMap);
+                Integer total = wxUserDao.getSimpleUserTotalByCondition(paramMap);
                 resultDTO.setResultListTotal(total);
                 resultDTO.setResultList(userStrList);
                 resultDTO.setSuccess(false);
@@ -342,7 +342,7 @@ public class WX_UserServiceImpl implements WX_UserService {
         logger.info("在【service】中删除用户-deleteUser,请求-paramMap = ", JSONObject.toJSONString(paramMap));
         Integer deleteNum = 0;
         BoolDTO boolDTO = new BoolDTO();
-        deleteNum = userDao.deleteUser(paramMap);
+        deleteNum = wxUserDao.deleteUser(paramMap);
         if (deleteNum != null && deleteNum > 0) {
             boolDTO.setSuccess(true);
             boolDTO.setCode(NewMallCode.SUCCESS.getNo());

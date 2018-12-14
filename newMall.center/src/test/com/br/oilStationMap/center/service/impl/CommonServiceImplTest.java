@@ -9,8 +9,8 @@ import com.br.newMall.center.utils.HttpsUtil;
 import com.br.newMall.center.utils.TimestampUtil;
 import com.br.newMall.center.utils.WX_PublicNumberUtil;
 import com.br.newMall.dao.CustomMessageHistoryDao;
-import com.br.newMall.dao.DicDao;
-import com.br.newMall.dao.UserDao;
+import com.br.newMall.dao.WX_DicDao;
+import com.br.newMall.dao.WX_UserDao;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.http.*;
@@ -52,13 +52,13 @@ public class CommonServiceImplTest {
     private static final Logger logger = LoggerFactory.getLogger(CommonServiceImpl.class);
 
     @Autowired
-    private DicDao dicDao;
+    private WX_DicDao wxDicDao;
 
     @Autowired
     private WX_DicService wxDicService;
 
     @Autowired
-    private UserDao userDao;
+    private WX_UserDao wxUserDao;
 
     @Autowired
     private HttpsUtil httpsUtil;

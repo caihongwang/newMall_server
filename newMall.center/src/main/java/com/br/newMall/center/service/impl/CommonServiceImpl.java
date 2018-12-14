@@ -11,8 +11,8 @@ import com.br.newMall.center.service.WX_RedPacketService;
 import com.br.newMall.center.utils.*;
 import com.br.newMall.center.utils.jsapi.SignUtil;
 import com.br.newMall.dao.CustomMessageHistoryDao;
-import com.br.newMall.dao.DicDao;
-import com.br.newMall.dao.UserDao;
+import com.br.newMall.dao.WX_DicDao;
+import com.br.newMall.dao.WX_UserDao;
 import com.google.common.collect.Maps;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -44,13 +44,13 @@ public class CommonServiceImpl implements CommonService {
     private static final Logger logger = LoggerFactory.getLogger(CommonServiceImpl.class);
 
     @Autowired
-    private DicDao dicDao;
+    private WX_DicDao wxDicDao;
 
     @Autowired
     private WX_DicService wxDicService;
 
     @Autowired
-    private UserDao userDao;
+    private WX_UserDao wxUserDao;
 
     @Autowired
     private HttpsUtil httpsUtil;
@@ -122,7 +122,7 @@ public class CommonServiceImpl implements CommonService {
                     String accessToken = resultMap.get("access_token").toString();
                     Map<String, Object> paramMap_temp = Maps.newHashMap();
                     paramMap_temp.put("id", receiveUid);
-                    List<Map<String, Object>> userList = userDao.getSimpleUserByCondition(paramMap_temp);
+                    List<Map<String, Object>> userList = wxUserDao.getSimpleUserByCondition(paramMap_temp);
                     if (userList != null && userList.size() > 0) {
                         String openId = userList.get(0).get("openId").toString();
                         paramMap.put("touser", openId);

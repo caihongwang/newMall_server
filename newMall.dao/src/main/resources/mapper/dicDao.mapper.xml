@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.br.newMall.dao.DicDao">
+<mapper namespace="com.br.newMall.dao.WX_DicDao">
 
     <sql id="columnList">    <!-- 字段 -->
         id,
@@ -14,39 +14,39 @@
     </sql>
 
     <sql id="TColumnList">    <!-- 带表别名的字段 -->
-        od.id as "id",
-        od.dic_type as "dicType",
-        od.dic_code as "dicCode",
-        od.dic_name as "dicName",
-        od.dic_remark as "dicRemark",
-        date_format(od.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
-        date_format(od.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
+        nd.id as "id",
+        nd.dic_type as "dicType",
+        nd.dic_code as "dicCode",
+        nd.dic_name as "dicName",
+        nd.dic_remark as "dicRemark",
+        date_format(nd.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
+        date_format(nd.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
     </sql>
 
     <sql id="queryConditions"><!-- 查询条件 -->
-        <where>od.dic_status='0'
+        <where>nd.dic_status='0'
             <if test="id != null and id != ''">
-                AND od.id = #{id}
+                AND nd.id = #{id}
             </if>
             <if test="dicType != null and dicType != ''">
-                AND od.dic_type = #{dicType}
+                AND nd.dic_type = #{dicType}
             </if>
             <if test="dicCode != null and dicCode != ''">
-                AND od.dic_code = #{dicCode}
+                AND nd.dic_code = #{dicCode}
             </if>
             <if test="dicName != null and dicName != ''">
-                AND od.dic_name like concat('%',#{dicName},'%')
+                AND nd.dic_name like concat('%',#{dicName},'%')
             </if>
             <if test="dicRemark != null and dicRemark != ''">
-                AND od.dic_remark like concat('%',#{dicRemark},'%')
+                AND nd.dic_remark like concat('%',#{dicRemark},'%')
             </if>
         </where>
-        ORDER BY od.create_time desc
+        ORDER BY nd.create_time desc
     </sql>
 
     <insert id="addDic" parameterType="java.util.Map" useGeneratedKeys="true"
             keyProperty="id">
-        insert into o_dic (
+        insert into n_dic (
         <include refid="columnList"/>
         ) values (
         #{id},
@@ -60,7 +60,7 @@
     </insert>
 
     <delete id="deleteDic">
-        DELETE FROM o_dic WHERE 1=1
+        DELETE FROM n_dic WHERE 1=1
         <if test="id != null and id != ''">
             AND id = #{id}
         </if>
@@ -73,32 +73,32 @@
     </delete>
 
     <update id="updateDic">
-        update o_dic od
+        update n_dic nd
         <set>
             <if test="dicStatus != null and dicStatus != ''">
-                od.dic_status = #{dicStatus},
+                nd.dic_status = #{dicStatus},
             </if>
             <if test="dicName != null and dicName != ''">
-                od.dic_name = #{dicName},
+                nd.dic_name = #{dicName},
             </if>
             <if test="dicRemark != null and dicRemark != ''">
-                od.dic_remark = #{dicRemark},
+                nd.dic_remark = #{dicRemark},
             </if>
-            od.update_time = CURRENT_TIMESTAMP
+            nd.update_time = CURRENT_TIMESTAMP
         </set>
         where 1=1
         <if test="id != null and id != ''">
-            and od.id = #{id}
+            and nd.id = #{id}
         </if>
         <if test="dicCode != null and dicCode != ''">
-            and od.dic_code = #{dicCode}
+            and nd.dic_code = #{dicCode}
         </if>
     </update>
 
     <select id="getSimpleDicByCondition" resultType="java.util.Map">
         SELECT
         <include refid="TColumnList"/>
-        FROM o_dic od
+        FROM n_dic nd
         <include refid="queryConditions"/>
         <if test="start != null and start != '' and size != null and size != ''">
             LIMIT ${start},${size}
@@ -108,7 +108,7 @@
     <select id="getSimpleDicTotalByCondition" resultType="java.lang.Integer">
         SELECT
         COUNT(*) total
-        from o_dic od
+        from n_dic nd
         <include refid="queryConditions"/>
     </select>
 
