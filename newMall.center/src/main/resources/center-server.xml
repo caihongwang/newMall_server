@@ -43,10 +43,10 @@
         <property name="version" value="${newMall.server.version}"/>
     </bean>
 
-    <!-- dicHandler -->
-    <bean id="dicHandler" class="com.br.rpc.provider.processor.Processor">
+    <!-- wxDicHandler -->
+    <bean id="wxDicHandler" class="com.br.rpc.provider.processor.Processor">
         <property name="project" value="newMall_project"/>
-        <property name="handler" value="com.br.newMall.center.handler.DicHandler"/>
+        <property name="handler" value="com.br.newMall.center.handler.WX_DicHandler"/>
         <property name="model" value="${newMall.server.model}"/>
         <property name="version" value="${newMall.server.version}"/>
     </bean>

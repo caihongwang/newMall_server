@@ -3,9 +3,8 @@ package com.br.newMall.center.service.impl;
 import com.br.newMall.api.code.NewMallCode;
 import com.br.newMall.api.dto.BoolDTO;
 import com.br.newMall.api.dto.ResultDTO;
-import com.br.newMall.center.service.DicService;
+import com.br.newMall.center.service.WX_DicService;
 import com.br.newMall.dao.OilStationOperatorDao;
-import com.br.newMall.dao.UserDao;
 import com.google.common.collect.Maps;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,8 +16,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import java.util.Map;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by caihongwang on 2018/10/15.
@@ -34,7 +31,7 @@ public class OilStationOperatorServiceImplTest {
     private OilStationOperatorDao oilStationOperatorDao;
 
     @Autowired
-    private DicService dicService;
+    private WX_DicService wxDicService;
 
     @Test
     public void Test() throws Exception {
@@ -58,7 +55,7 @@ public class OilStationOperatorServiceImplTest {
             Map<String, Object> dicParamMap = Maps.newHashMap();
             dicParamMap.put("dicCode", operator);
             dicParamMap.put("dicType", "oilStationOperator");
-            ResultDTO dicResultDto = dicService.getSimpleDicByCondition(dicParamMap);
+            ResultDTO dicResultDto = wxDicService.getSimpleDicByCondition(dicParamMap);
             if (dicResultDto.getResultList() != null
                     && dicResultDto.getResultList().size() > 0) {
                 Object redPacketTotalObj = dicResultDto.getResultList().get(0).get("redPacketTotal");

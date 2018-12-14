@@ -3,8 +3,7 @@ package com.br.newMall.center.service.impl;
 import com.br.newMall.api.code.NewMallCode;
 import com.br.newMall.api.dto.ResultDTO;
 import com.br.newMall.api.dto.ResultMapDTO;
-import com.br.newMall.center.service.DicService;
-import com.br.newMall.center.service.RedPacketHistoryService;
+import com.br.newMall.center.service.WX_DicService;
 import com.br.newMall.center.service.WX_RedPacketService;
 import com.br.newMall.center.utils.*;
 import com.br.newMall.dao.UserDao;
@@ -17,10 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sun.misc.BASE64Encoder;
 
-import java.io.File;
-import java.io.InputStream;
 import java.util.Map;
-import java.util.Properties;
 
 /**
  * 公共service
@@ -33,7 +29,7 @@ public class WX_RedPacketServiceImpl implements WX_RedPacketService {
     private static final Logger logger = LoggerFactory.getLogger(CommonServiceImpl.class);
 
     @Autowired
-    private DicService dicService;
+    private WX_DicService wxDicService;
 
     @Autowired
     private HttpsUtil httpsUtil;
@@ -180,7 +176,7 @@ public class WX_RedPacketServiceImpl implements WX_RedPacketService {
             Map<String, Object> dicParamMap = Maps.newHashMap();
             dicParamMap.put("dicType", "redPacketActivity");
             dicParamMap.put("dicCode", wxPublicNumGhId);
-            ResultDTO dicResultDto = dicService.getSimpleDicByCondition(dicParamMap);
+            ResultDTO dicResultDto = wxDicService.getSimpleDicByCondition(dicParamMap);
             if (dicResultDto.getResultList() != null
                     && dicResultDto.getResultList().size() > 0) {
                 paramMap.putAll(dicResultDto.getResultList().get(0));
@@ -249,7 +245,7 @@ public class WX_RedPacketServiceImpl implements WX_RedPacketService {
             Map<String, Object> dicParamMap = Maps.newHashMap();
             dicParamMap.put("dicType", "redPacketActivity");
             dicParamMap.put("dicCode", wxPublicNumGhId);
-            ResultDTO dicResultDto = dicService.getSimpleDicByCondition(dicParamMap);
+            ResultDTO dicResultDto = wxDicService.getSimpleDicByCondition(dicParamMap);
             if (dicResultDto.getResultList() != null
                     && dicResultDto.getResultList().size() > 0) {
                 paramMap.putAll(dicResultDto.getResultList().get(0));
@@ -332,7 +328,7 @@ public class WX_RedPacketServiceImpl implements WX_RedPacketService {
             Map<String, Object> dicParamMap = Maps.newHashMap();
             dicParamMap.put("dicType", "redPacketActivity");
             dicParamMap.put("dicCode", wxPublicNumGhId);
-            ResultDTO dicResultDto = dicService.getSimpleDicByCondition(dicParamMap);
+            ResultDTO dicResultDto = wxDicService.getSimpleDicByCondition(dicParamMap);
             if (dicResultDto.getResultList() != null
                     && dicResultDto.getResultList().size() > 0) {
                 paramMap.putAll(dicResultDto.getResultList().get(0));

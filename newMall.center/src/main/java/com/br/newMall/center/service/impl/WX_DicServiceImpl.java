@@ -5,7 +5,7 @@ import com.br.newMall.api.code.NewMallCode;
 import com.br.newMall.api.dto.BoolDTO;
 import com.br.newMall.api.dto.ResultDTO;
 import com.br.newMall.api.dto.ResultMapDTO;
-import com.br.newMall.center.service.DicService;
+import com.br.newMall.center.service.WX_DicService;
 import com.br.newMall.center.utils.MapUtil;
 import com.br.newMall.dao.DicDao;
 import com.google.common.collect.Lists;
@@ -19,24 +19,25 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 字典service
+ * @Description 字典Service
+ * @author caihongwang
  */
 @Service
-public class DicServiceImpl implements DicService {
+public class WX_DicServiceImpl implements WX_DicService {
 
-    private static final Logger logger = LoggerFactory.getLogger(DicServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(WX_DicServiceImpl.class);
 
     @Autowired
     private DicDao dicDao;
 
     /**
      * 添加字典
-     *
      * @param paramMap
      * @return
      */
     @Override
     public BoolDTO addDic(Map<String, Object> paramMap) {
+        logger.info("在【service】中添加字典-addDic,请求-paramMap = ", JSONObject.toJSONString(paramMap));
         Integer addNum = 0;
         BoolDTO boolDTO = new BoolDTO();
         String dicType = paramMap.get("dicType") != null ? paramMap.get("dicType").toString() : "";
@@ -67,18 +68,18 @@ public class DicServiceImpl implements DicService {
             boolDTO.setCode(NewMallCode.DIC_TYPE_OR_CODE_OR_NAME_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.DIC_TYPE_OR_CODE_OR_NAME_IS_NOT_NULL.getMessage());
         }
-        logger.info("在service中添加字典-addDic,结果-result:" + boolDTO);
+        logger.info("在【service】中添加字典-addDic,响应-boolDTO = ", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
     /**
      * 删除字典
-     *
      * @param paramMap
      * @return
      */
     @Override
     public BoolDTO deleteDic(Map<String, Object> paramMap) {
+        logger.info("在【service】中删除字典-deleteDic,请求-paramMap = ", JSONObject.toJSONString(paramMap));
         Integer deleteNum = 0;
         BoolDTO boolDTO = new BoolDTO();
         String id = paramMap.get("id") != null ? paramMap.get("id").toString() : "";
@@ -99,18 +100,18 @@ public class DicServiceImpl implements DicService {
             boolDTO.setCode(NewMallCode.DIC_ID_OR_CODE_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.DIC_ID_OR_CODE_IS_NOT_NULL.getMessage());
         }
-        logger.info("在service中删除字典-deleteDic,结果-result:" + boolDTO);
+        logger.info("在【service】中删除字典-deleteDic,响应-boolDTO = ", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
     /**
-     * 更新字典
-     *
+     * 修改字典
      * @param paramMap
      * @return
      */
     @Override
     public BoolDTO updateDic(Map<String, Object> paramMap) {
+        logger.info("在【service】中修改字典-updateDic,请求-paramMap = ", JSONObject.toJSONString(paramMap));
         Integer updateNum = 0;
         BoolDTO boolDTO = new BoolDTO();
         String id = paramMap.get("id") != null ? paramMap.get("id").toString() : "";
@@ -131,7 +132,7 @@ public class DicServiceImpl implements DicService {
             boolDTO.setCode(NewMallCode.DIC_ID_OR_CODE_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.DIC_ID_OR_CODE_IS_NOT_NULL.getMessage());
         }
-        logger.info("在service中更新字典-updateDic,结果-result:" + boolDTO);
+        logger.info("在【service】中修改字典-updateDic,响应-boolDTO = ", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
@@ -144,6 +145,7 @@ public class DicServiceImpl implements DicService {
      */
     @Override
     public ResultDTO getSimpleDicByCondition(Map<String, Object> paramMap) {
+        logger.info("在【service】中获取单一的字典-getSimpleDicByCondition,请求-paramMap = ", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         List<Map<String, String>> dicStrList = Lists.newArrayList();
         String dicType = paramMap.get("dicType") != null ? paramMap.get("dicType").toString() : "";
@@ -179,7 +181,7 @@ public class DicServiceImpl implements DicService {
             resultDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
-        logger.info("在service中获取单一的字典信息-getSimpleDicByCondition,结果-result:" + resultDTO);
+        logger.info("在【service】中获取单一的字典-getSimpleDicByCondition,响应-resultDTO = ", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
 
@@ -192,6 +194,7 @@ public class DicServiceImpl implements DicService {
      */
     @Override
     public ResultMapDTO getMoreDicByCondition(Map<String, Object> paramMap) {
+        logger.info("在【service】中获取多个的字典-getMoreDicByCondition,请求-paramMap = ", JSONObject.toJSONString(paramMap));
         Integer total = 0;
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, String> resultMap = Maps.newHashMap();
@@ -231,7 +234,7 @@ public class DicServiceImpl implements DicService {
             resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
-        logger.info("在service中获取多个的字典-getMoreDicByCondition,结果-result:" + resultMapDTO);
+        logger.info("在【service】中获取多个的字典-getMoreDicByCondition,响应-resultMapDTO = ", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
     }
 

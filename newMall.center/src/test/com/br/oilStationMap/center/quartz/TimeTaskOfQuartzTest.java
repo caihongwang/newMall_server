@@ -24,8 +24,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by caihongwang on 2018/10/16.
  */
@@ -41,7 +39,7 @@ public class TimeTaskOfQuartzTest {
     private String useEnvironmental;
 
     @Autowired
-    private DicService dicService;
+    private WX_DicService wxDicService;
 
     @Autowired
     private CommentsService commentsService;
@@ -80,14 +78,14 @@ public class TimeTaskOfQuartzTest {
             dicMap.put("dicCode", j+100001);
             dicMap.put("createTime", TimestampUtil.getTimestamp());
             dicMap.put("updateTime", TimestampUtil.getTimestamp());
-            dicService.addDic(dicMap);
+            wxDicService.addDic(dicMap);
         }
     }
 
     public void do_getOilStationByTencetMap_For_OilStationMap() {
         Map<String, Object> dicMap = Maps.newHashMap();
         dicMap.put("dicType", "city");
-        ResultDTO cityResultDTO= dicService.getSimpleDicByCondition(dicMap);
+        ResultDTO cityResultDTO= wxDicService.getSimpleDicByCondition(dicMap);
         if(cityResultDTO.getResultList() != null
                 && cityResultDTO.getResultList().size() > 0){
             List<Map<String, String>> cityList = cityResultDTO.getResultList();
@@ -135,7 +133,7 @@ public class TimeTaskOfQuartzTest {
                         dicMap.put("dicRemark", JSONObject.toJSONString(dicRemarkMap));
                         dicMap.put("dicStatus", "1");
                         dicMap.put("id", cityMap.get("id"));
-                        dicService.updateDic(dicMap);
+                        wxDicService.updateDic(dicMap);
                         //对加油站进行入库
                         for (int i = 0; i < oilStationList.size(); i++) {
                             Map<String, Object> newMall = oilStationList.get(i);

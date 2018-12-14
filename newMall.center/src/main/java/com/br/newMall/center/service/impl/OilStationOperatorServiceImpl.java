@@ -1,7 +1,7 @@
 package com.br.newMall.center.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.br.newMall.center.service.DicService;
+import com.br.newMall.center.service.WX_DicService;
 import com.br.newMall.center.service.OilStationOperatorService;
 import com.br.newMall.center.service.RedPacketHistoryService;
 import com.br.newMall.center.service.WX_RedPacketService;
@@ -38,7 +38,7 @@ public class OilStationOperatorServiceImpl implements OilStationOperatorService 
     private UserDao userDao;
 
     @Autowired
-    private DicService dicService;
+    private WX_DicService wxDicService;
 
     @Autowired
     private WX_RedPacketService wxRedPacketService;
@@ -64,7 +64,7 @@ public class OilStationOperatorServiceImpl implements OilStationOperatorService 
             Map<String, Object> dicParamMap = Maps.newHashMap();
             dicParamMap.put("dicCode", operator);
             dicParamMap.put("dicType", "oilStationOperator");
-            ResultDTO dicResultDto = dicService.getSimpleDicByCondition(dicParamMap);
+            ResultDTO dicResultDto = wxDicService.getSimpleDicByCondition(dicParamMap);
             if (dicResultDto.getResultList() != null
                     && dicResultDto.getResultList().size() > 0) {
                 Object redPacketTotalObj = dicResultDto.getResultList().get(0).get("redPacketTotal");
@@ -252,7 +252,7 @@ public class OilStationOperatorServiceImpl implements OilStationOperatorService 
             dicParamMap.put("dicType", "redPacketActivity");
             dicParamMap.put("dicCode", "gh_417c90af3488");
             List<Map<String, String>> dicResultMapList = Lists.newArrayList();
-            ResultDTO dicResultDTO = dicService.getSimpleDicByCondition(dicParamMap);
+            ResultDTO dicResultDTO = wxDicService.getSimpleDicByCondition(dicParamMap);
             if(dicResultDTO != null && dicResultDTO.getResultList() != null && dicResultDTO.getResultList().size() > 0){
                 dicResultMapList = dicResultDTO.getResultList();
                 String startTimeStr = dicResultMapList.get(0).get("startTime");

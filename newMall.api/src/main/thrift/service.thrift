@@ -47,7 +47,7 @@ service CommentsHandler {
     dto.ResultDTO getSimpleCommentsByCondition(1:int tid, 2:map<string, string> paramMap)
 }
 
-service DicHandler {
+service WX_DicHandler {
 
     dto.BoolDTO addDic(1:int tid, 2:map<string, string> paramMap),
 

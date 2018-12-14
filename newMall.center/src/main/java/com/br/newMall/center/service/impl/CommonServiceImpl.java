@@ -6,7 +6,7 @@ import com.br.newMall.api.code.NewMallCode;
 import com.br.newMall.api.dto.ResultDTO;
 import com.br.newMall.api.dto.ResultMapDTO;
 import com.br.newMall.center.service.CommonService;
-import com.br.newMall.center.service.DicService;
+import com.br.newMall.center.service.WX_DicService;
 import com.br.newMall.center.service.WX_RedPacketService;
 import com.br.newMall.center.utils.*;
 import com.br.newMall.center.utils.jsapi.SignUtil;
@@ -47,7 +47,7 @@ public class CommonServiceImpl implements CommonService {
     private DicDao dicDao;
 
     @Autowired
-    private DicService dicService;
+    private WX_DicService wxDicService;
 
     @Autowired
     private UserDao userDao;
@@ -394,7 +394,7 @@ public class CommonServiceImpl implements CommonService {
         Map<String, Object> customMessageAccountParamMap = Maps.newHashMap();
         customMessageAccountParamMap.put("dicType", "customMessageAccount");
         customMessageAccountParamMap.put("dicCode", ToUserName);
-        ResultDTO customMessageAccountResultDTO = dicService.getSimpleDicByCondition(customMessageAccountParamMap);
+        ResultDTO customMessageAccountResultDTO = wxDicService.getSimpleDicByCondition(customMessageAccountParamMap);
         if(customMessageAccountResultDTO != null && customMessageAccountResultDTO.getResultList() != null
                 && customMessageAccountResultDTO.getResultList().size() > 0){
             Map<String, String> customMessageAccountMap = customMessageAccountResultDTO.getResultList().get(0);
@@ -459,7 +459,7 @@ public class CommonServiceImpl implements CommonService {
                     Map<String, Object> customMessageParamMap = Maps.newHashMap();
                     customMessageParamMap.put("dicType", "newMall_customMessage");
                     customMessageParamMap.put("dicCode", "25");
-                    ResultDTO customMessageResultDTO = dicService.getSimpleDicByCondition(customMessageParamMap);
+                    ResultDTO customMessageResultDTO = wxDicService.getSimpleDicByCondition(customMessageParamMap);
                     if(customMessageResultDTO != null && customMessageResultDTO.getResultList() != null
                             && customMessageResultDTO.getResultList().size() > 0) {
                         Map<String, String> customMessageMap = customMessageResultDTO.getResultList().get(0);
@@ -583,7 +583,7 @@ public class CommonServiceImpl implements CommonService {
                         Map<String, Object> dicParamMap = Maps.newHashMap();
                         dicParamMap.put("dicType", customMessageType);
                         dicParamMap.put("dicCode", Content);
-                        ResultDTO dicResultDTO = dicService.getSimpleDicByCondition(dicParamMap);
+                        ResultDTO dicResultDTO = wxDicService.getSimpleDicByCondition(dicParamMap);
                         if(dicResultDTO != null && dicResultDTO.getResultList() != null
                                 && dicResultDTO.getResultList().size() > 0){
                             Map<String, String> dicMap = dicResultDTO.getResultList().get(0);

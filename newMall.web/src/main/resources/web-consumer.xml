@@ -49,11 +49,11 @@
         <property name="retry" value="${newMall.server.retry}"/>
     </bean>
 
-    <!-- dicHandler -->
-    <bean id="dicHandler" class="com.br.rpc.consumer.service.Service">
+    <!-- wxDicHandler -->
+    <bean id="wxDicHandler" class="com.br.rpc.consumer.service.Service">
         <property name="project" value="newMall_project"/>
         <property name="serviceClass"
-                  value="com.br.newMall.api.service.DicHandler"/>
+                  value="com.br.newMall.api.service.WX_DicHandler"/>
         <property name="model" value="${newMall.server.model}"/>
         <property name="version" value="${newMall.server.version}"/>
         <property name="timeOut" value="30000"/>

@@ -2,7 +2,7 @@ package com.br.newMall.center.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.br.newMall.center.service.CommentsService;
-import com.br.newMall.center.service.DicService;
+import com.br.newMall.center.service.WX_DicService;
 import com.br.newMall.center.service.WX_RedPacketService;
 import com.br.newMall.center.utils.ALiYunHttpUtils;
 import com.br.newMall.center.utils.HttpsUtil;
@@ -23,7 +23,6 @@ import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -56,7 +55,7 @@ public class CommonServiceImplTest {
     private DicDao dicDao;
 
     @Autowired
-    private DicService dicService;
+    private WX_DicService wxDicService;
 
     @Autowired
     private UserDao userDao;

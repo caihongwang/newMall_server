@@ -6,7 +6,7 @@ import com.br.newMall.api.dto.ResultMapDTO;
 
 import java.util.Map;
 
-public interface DicService {
+public interface WX_DicService {
 
     /**
      * 根据条件查询字典信息
