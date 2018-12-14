@@ -27,10 +27,10 @@
         <constructor-arg name="configuration" ref="providerConfiguration"/>
     </bean>
 
-    <!-- userHandler -->
-    <bean id="userHandler" class="com.br.rpc.provider.processor.Processor">
+    <!-- wxUserHandler -->
+    <bean id="wxUserHandler" class="com.br.rpc.provider.processor.Processor">
         <property name="project" value="newMall_project"/>
-        <property name="handler" value="com.br.newMall.center.handler.UserHandler"/>
+        <property name="handler" value="com.br.newMall.center.handler.WX_UserHandler"/>
         <property name="model" value="${newMall.server.model}"/>
         <property name="version" value="${newMall.server.version}"/>
     </bean>

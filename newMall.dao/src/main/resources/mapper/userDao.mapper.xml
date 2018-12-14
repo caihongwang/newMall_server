@@ -14,69 +14,74 @@
         country,
         language,
         user_remark,
+        user_type,
         gray_status,
         create_time,
         update_time
     </sql>
 
     <sql id="TColumnList">    <!-- 带表别名的字段 -->
-        ou.id as "id",
-        ou.open_id as "openId",
-        ou.nick_name as "nickName",
-        ou.avatar_url as "avatarUrl",
-        ou.gender as "gender",
-        ou.city as "city",
-        ou.province as "province",
-        ou.country as "country",
-        ou.language as "language",
-        ou.user_remark as "userRemark",
-        ou.gray_status as "grayStatus",
-        ou.create_time as "createTime",
-        ou.update_time as "updateTime"
+        nu.id as "id",
+        nu.open_id as "openId",
+        nu.nick_name as "nickName",
+        nu.avatar_url as "avatarUrl",
+        nu.gender as "gender",
+        nu.city as "city",
+        nu.province as "province",
+        nu.country as "country",
+        nu.language as "language",
+        nu.user_remark as "userRemark",
+        nu.user_type as "userType",
+        nu.gray_status as "grayStatus",
+        nu.create_time as "createTime",
+        nu.update_time as "updateTime"
     </sql>
 
     <sql id="queryConditions"><!-- 查询条件 -->
         <where>1=1
             <if test="id != null and id != ''">
-                AND ou.id = #{id}
+                AND nu.id = #{id}
             </if>
             <if test="openId != null and openId != ''">
-                AND ou.open_id = #{openId}
+                AND nu.open_id = #{openId}
             </if>
             <if test="nickName != null and nickName != ''">
-                AND ou.nick_name = #{nickName}
+                AND nu.nick_name = #{nickName}
             </if>
             <if test="avatarUrl != null and avatarUrl != ''">
-                AND ou.avatar_url = #{avatarUrl}
+                AND nu.avatar_url = #{avatarUrl}
             </if>
             <if test="gender != null and gender != ''">
-                AND ou.gender = #{gender}
+                AND nu.gender = #{gender}
             </if>
             <if test="city != null and city != ''">
-                AND ou.city = #{city}
+                AND nu.city = #{city}
             </if>
             <if test="province != null and province != ''">
-                AND ou.province = #{province}
+                AND nu.province = #{province}
             </if>
             <if test="country != null and country != ''">
-                AND ou.country = #{country}
+                AND nu.country = #{country}
             </if>
             <if test="language != null and language != ''">
-                AND ou.language = #{language}
+                AND nu.language = #{language}
+            </if>
+            <if test="userType != null and userType != ''">
+                AND nu.user_type = #{userType}
             </if>
             <if test="grayStatus != null and grayStatus != ''">
-                AND ou.gray_status = #{grayStatus}
+                AND nu.gray_status = #{grayStatus}
             </if>
             <if test="userRemark != null and userRemark != ''">
-                AND ou.user_remark = #{userRemark}
+                AND nu.user_remark = #{userRemark}
             </if>
         </where>
-        ORDER BY ou.create_time desc
+        ORDER BY nu.create_time desc
     </sql>
 
     <insert id="addUser" parameterType="java.util.Map" useGeneratedKeys="true"
             keyProperty="id">
-        insert into o_user (
+        insert into n_user (
         <include refid="columnList"/>
         ) values (
         #{id},
@@ -89,6 +94,7 @@
         #{country},
         #{language},
         #{userRemark},
+        #{userType},
         #{grayStatus},
         #{createTime},
         #{updateTime}
@@ -96,47 +102,50 @@
     </insert>
 
     <delete id="deleteUser">
-        DELETE FROM o_user ou WHERE 1=1
+        DELETE FROM n_user nu WHERE 1=1
         <if test="id != null and id != ''">
-            AND ou.id = #{id}
+            AND nu.id = #{id}
         </if>
         <if test="openId != null and openId != ''">
-            AND ou.open_id = #{openId}
+            AND nu.open_id = #{openId}
         </if>
     </delete>
 
     <update id="updateUser">
-        update o_user ou
+        update n_user nu
         <set>
             <if test="openId != null and openId != ''">
-                ou.open_id = #{openId},
+                nu.open_id = #{openId},
             </if>
             <if test="nickName != null and nickName != ''">
-                ou.nick_name = #{nickName},
+                nu.nick_name = #{nickName},
             </if>
             <if test="avatarUrl != null and avatarUrl != ''">
-                ou.avatar_url = #{avatarUrl},
+                nu.avatar_url = #{avatarUrl},
             </if>
             <if test="gender != null and gender != ''">
-                ou.gender = #{gender},
+                nu.gender = #{gender},
             </if>
             <if test="city != null and city != ''">
-                ou.city = #{city},
+                nu.city = #{city},
             </if>
             <if test="province != null and province != ''">
-                ou.province = #{province},
+                nu.province = #{province},
             </if>
             <if test="country != null and country != ''">
-                ou.country = #{country},
+                nu.country = #{country},
             </if>
             <if test="language != null and language != ''">
-                ou.language = #{language},
+                nu.language = #{language},
             </if>
             <if test="grayStatus != null and grayStatus != ''">
-                ou.gray_status = #{grayStatus},
+                nu.gray_status = #{grayStatus},
             </if>
             <if test="userRemark != null and userRemark != ''">
-                ou.user_remark = #{userRemark},
+                nu.user_remark = #{userRemark},
+            </if>
+            <if test="userType != null and userType != ''">
+                nu.user_type = #{userType},
             </if>
             update_time = #{updateTime}
         </set>
@@ -146,7 +155,7 @@
     <select id="getSimpleUserByCondition" resultType="java.util.Map">
         SELECT
         <include refid="TColumnList"/>
-        FROM o_user ou
+        FROM n_user nu
         <include refid="queryConditions"/>
         <if test="start != null and start != '' and size != null and size != ''">
             LIMIT ${start},${size}
@@ -156,7 +165,7 @@
     <select id="getSimpleUserTotalByCondition" resultType="java.lang.Integer">
         SELECT
         COUNT(*) total
-        from o_user ou
+        from n_user nu
         <include refid="queryConditions"/>
     </select>
 

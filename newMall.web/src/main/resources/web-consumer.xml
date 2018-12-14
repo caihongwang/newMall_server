@@ -25,11 +25,11 @@
         <constructor-arg name="configuration" ref="configuration"/>
     </bean>
 
-    <!-- userHandler -->
-    <bean id="userHandler" class="com.br.rpc.consumer.service.Service">
+    <!-- wxUserHandler -->
+    <bean id="wxUserHandler" class="com.br.rpc.consumer.service.Service">
         <property name="project" value="newMall_project"/>
         <property name="serviceClass"
-                  value="com.br.newMall.api.service.UserHandler"/>
+                  value="com.br.newMall.api.service.WX_UserHandler"/>
         <property name="model" value="${newMall.server.model}"/>
         <property name="version" value="${newMall.server.version}"/>
         <property name="timeOut" value="30000"/>

@@ -3,7 +3,7 @@ package com.br.newMall.web.filter;
 
 import com.br.newMall.api.code.NewMallCode;
 import com.br.newMall.api.dto.ResultDTO;
-import com.br.newMall.api.service.UserHandler;
+import com.br.newMall.api.service.WX_UserHandler;
 import com.br.newMall.web.utils.HttpUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.thrift.TException;
@@ -33,7 +33,7 @@ import java.util.concurrent.ConcurrentSkipListSet;
 public class SessionFilter implements Filter {
 
     @Autowired
-    private UserHandler.Client userHandler;
+    private WX_UserHandler.Client wxUserHandler;
 
     private static final Logger logger = LoggerFactory.getLogger(SessionFilter.class);
 
@@ -83,7 +83,7 @@ public class SessionFilter implements Filter {
             String uid = paramMap.get("uid") != null ? paramMap.get("uid").toString() : "";
             if (!"".equals(uid)) {
                 paramMap.put("id", uid);
-                ResultDTO userResultDTO = userHandler.getSimpleUserByCondition(0, paramMap);
+                ResultDTO userResultDTO = wxUserHandler.getSimpleUserByCondition(0, paramMap);
                 List<Map<String, String>> userList = userResultDTO.getResultList();
                 if (userList != null && userList.size() > 0) {
                     for (Map<String, String> userMap : userList) {
@@ -178,7 +178,7 @@ public class SessionFilter implements Filter {
     private com.br.newMall.api.dto.BoolDTO validateSessionKey(Map<String, String> paramMap) {
         com.br.newMall.api.dto.BoolDTO boolDTO = new com.br.newMall.api.dto.BoolDTO();
         try {
-            boolDTO = userHandler.checkSession(0, paramMap);
+            boolDTO = wxUserHandler.checkSession(0, paramMap);
             logger.info("Validate validateSessionKey, paramMap is " + paramMap);
         } catch (TException e) {
             boolDTO.setSuccess(false);

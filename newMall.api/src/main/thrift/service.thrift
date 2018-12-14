@@ -22,7 +22,7 @@ service CommonHandler {
 
 }
 
-service UserHandler {
+service WX_UserHandler {
 
     dto.ResultMapDTO login(1:int tid, 2:map<string, string> paramMap),
 

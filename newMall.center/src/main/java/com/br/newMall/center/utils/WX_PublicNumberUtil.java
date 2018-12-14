@@ -1,5 +1,6 @@
 package com.br.newMall.center.utils;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.br.common.utils.DateUtil;
 import com.br.newMall.api.code.NewMallCode;
@@ -73,6 +74,34 @@ public class WX_PublicNumberUtil {
     private static String getFollowers_uri = "https://api.weixin.qq.com/cgi-bin/user/get";
     //图文，文本的消息发送
     private static String messageSend_uri = "https://api.weixin.qq.com/cgi-bin/message/mass/send?access_token=";
+
+    /**
+     * 向微信服务器发送请求，获取小程序的用户openId和seesion_key
+     * @param paramMap
+     * @return
+     */
+    public static Map<String, Object> getMiniOpenIdAndSessionKeyForWX(Map<String, Object> paramMap) {
+        HttpsUtil httpsUtil = new HttpsUtil();
+        Map<String, String> map = Maps.newHashMap();
+        Map<String, Object> resultMap = Maps.newHashMap();
+        String appid = paramMap.get("appId").toString();
+        String secret = paramMap.get("secret").toString();
+        String js_code = paramMap.get("code") != null ? paramMap.get("code").toString() : "";
+        String grant_type = NewMallCode.WX_MINI_PROGRAM_GRANT_TYPE_FOR_OPENID;
+        if (!"".equals(appid) && !"".equals(secret)
+                && !"".equals(js_code) && !"".equals(grant_type)) {
+            map.put("appid", appid);
+            map.put("secret", secret);
+            map.put("js_code", js_code);
+            map.put("grant_type", grant_type);
+            String res = httpsUtil.post(
+                    "https://api.weixin.qq.com/sns/jscode2session",
+                    map);
+            logger.info("向微信服务器发送请求，获取小程序的用户openId和seesion_key，res = ", res);
+            resultMap = JSON.parseObject(res, Map.class);
+        }
+        return resultMap;
+    }
 
     /**
      * 获取自定义菜单配置接口

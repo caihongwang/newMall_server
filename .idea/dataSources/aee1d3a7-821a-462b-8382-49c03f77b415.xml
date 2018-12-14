@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="new_mall@112.74.177.170">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.2">
+    <root id="1"/>
+    <schema id="2" parent="1" name="new_mall">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="3" parent="1" name="examxx"/>
+    <schema id="4" parent="1" name="information_schema"/>
+    <schema id="5" parent="1" name="mysql"/>
+    <schema id="6" parent="1" name="oil_station_map"/>
+    <schema id="7" parent="1" name="owncloud"/>
+    <schema id="8" parent="1" name="performance_schema"/>
+    <schema id="9" parent="1" name="phpmyadmin"/>
+    <schema id="10" parent="1" name="register"/>
+    <schema id="11" parent="1" name="sys"/>
+    <table id="12" parent="2" name="n_user">
+      <Comment>用户表</Comment>
+    </table>
+    <column id="13" parent="12" name="id">
+      <Position>1</Position>
+      <Comment>用户_id</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="14" parent="12" name="open_id">
+      <Position>2</Position>
+      <Comment>微信的open_id</Comment>
+      <DataType>varchar(50)|0</DataType>
+    </column>
+    <column id="15" parent="12" name="nick_name">
+      <Position>3</Position>
+      <Comment>用户昵称</Comment>
+      <DataType>varchar(100)|0</DataType>
+    </column>
+    <column id="16" parent="12" name="gender">
+      <Position>4</Position>
+      <Comment>性别</Comment>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="17" parent="12" name="city">
+      <Position>5</Position>
+      <Comment>城市</Comment>
+      <DataType>varchar(100)|0</DataType>
+    </column>
+    <column id="18" parent="12" name="province">
+      <Position>6</Position>
+      <Comment>省份</Comment>
+      <DataType>varchar(100)|0</DataType>
+    </column>
+    <column id="19" parent="12" name="country">
+      <Position>7</Position>
+      <Comment>国家</Comment>
+      <DataType>varchar(100)|0</DataType>
+    </column>
+    <column id="20" parent="12" name="LANGUAGE">
+      <Position>8</Position>
+      <Comment>用户的语言</Comment>
+      <DataType>varchar(100)|0</DataType>
+    </column>
+    <column id="21" parent="12" name="avatar_url">
+      <Position>9</Position>
+      <Comment>用户头像</Comment>
+      <DataType>varchar(500)|0</DataType>
+    </column>
+    <column id="22" parent="12" name="user_remark">
+      <Position>10</Position>
+      <Comment>用户_备注</Comment>
+      <DataType>varchar(100)|0</DataType>
+    </column>
+    <column id="23" parent="12" name="user_type">
+      <Position>11</Position>
+      <Comment>微信用户类型，miniProgram是小程序用户，publicNumber是公众号用户</Comment>
+      <DataType>varchar(100)|0</DataType>
+      <DefaultExpression>&apos;miniProgram&apos;</DefaultExpression>
+    </column>
+    <column id="24" parent="12" name="gray_status">
+      <Position>12</Position>
+      <Comment>灰度用户状态，0是正常登陆用户，1是不需要登陆的用户</Comment>
+      <DataType>int(11)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="25" parent="12" name="create_time">
+      <Position>13</Position>
+      <Comment>用户_创建时间</Comment>
+      <DataType>timestamp|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="26" parent="12" name="update_time">
+      <Position>14</Position>
+      <Comment>用户_更新时间</Comment>
+      <DataType>timestamp|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <index id="27" parent="12" name="index_n_user_of_id">
+      <ColNames>id</ColNames>
+    </index>
+    <index id="28" parent="12" name="index_n_user_of_nick_name">
+      <ColNames>nick_name</ColNames>
+    </index>
+    <index id="29" parent="12" name="index_n_user_of_open_id">
+      <ColNames>open_id</ColNames>
+    </index>
+    <key id="30" parent="12" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+  </database-model>
+</dataSource>
