@@ -6,6 +6,10 @@ import com.br.newMall.api.dto.ResultMapDTO;
 
 import java.util.Map;
 
+/**
+ * @Description 字典Service
+ * @author caihongwang
+ */
 public interface WX_DicService {
 
     /**

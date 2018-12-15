@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.br.newMall.dao.WX_UserDao">
+
+    <sql id="columnList">    <!-- 字段 -->
+        id,
+        open_id,
+        nick_name,
+        avatar_url,
+        gender,
+        city,
+        province,
+        country,
+        language,
+        user_remark,
+        user_type,
+        gray_status,
+        create_time,
+        update_time
+    </sql>
+
+    <sql id="TColumnList">    <!-- 带表别名的字段 -->
+        nu.id as "id",
+        nu.open_id as "openId",
+        nu.nick_name as "nickName",
+        nu.avatar_url as "avatarUrl",
+        nu.gender as "gender",
+        nu.city as "city",
+        nu.province as "province",
+        nu.country as "country",
+        nu.language as "language",
+        nu.user_remark as "userRemark",
+        nu.user_type as "userType",
+        nu.gray_status as "grayStatus",
+        nu.create_time as "createTime",
+        nu.update_time as "updateTime"
+    </sql>
+
+    <sql id="queryConditions"><!-- 查询条件 -->
+        <where>1=1
+            <if test="id != null and id != ''">
+                AND nu.id = #{id}
+            </if>
+            <if test="openId != null and openId != ''">
+                AND nu.open_id = #{openId}
+            </if>
+            <if test="nickName != null and nickName != ''">
+                AND nu.nick_name = #{nickName}
+            </if>
+            <if test="avatarUrl != null and avatarUrl != ''">
+                AND nu.avatar_url = #{avatarUrl}
+            </if>
+            <if test="gender != null and gender != ''">
+                AND nu.gender = #{gender}
+            </if>
+            <if test="city != null and city != ''">
+                AND nu.city = #{city}
+            </if>
+            <if test="province != null and province != ''">
+                AND nu.province = #{province}
+            </if>
+            <if test="country != null and country != ''">
+                AND nu.country = #{country}
+            </if>
+            <if test="language != null and language != ''">
+                AND nu.language = #{language}
+            </if>
+            <if test="userType != null and userType != ''">
+                AND nu.user_type = #{userType}
+            </if>
+            <if test="grayStatus != null and grayStatus != ''">
+                AND nu.gray_status = #{grayStatus}
+            </if>
+            <if test="userRemark != null and userRemark != ''">
+                AND nu.user_remark = #{userRemark}
+            </if>
+        </where>
+        ORDER BY nu.create_time desc
+    </sql>
+
+    <insert id="addUser" parameterType="java.util.Map" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into n_user (
+        <include refid="columnList"/>
+        ) values (
+        #{id},
+        #{openId},
+        #{nickName},
+        #{avatarUrl},
+        #{gender},
+        #{city},
+        #{province},
+        #{country},
+        #{language},
+        #{userRemark},
+        #{userType},
+        #{grayStatus},
+        #{createTime},
+        #{updateTime}
+        )
+    </insert>
+
+    <delete id="deleteUser">
+        DELETE FROM n_user nu WHERE 1=1
+        <if test="id != null and id != ''">
+            AND nu.id = #{id}
+        </if>
+        <if test="openId != null and openId != ''">
+            AND nu.open_id = #{openId}
+        </if>
+    </delete>
+
+    <update id="updateUser">
+        update n_user nu
+        <set>
+            <if test="openId != null and openId != ''">
+                nu.open_id = #{openId},
+            </if>
+            <if test="nickName != null and nickName != ''">
+                nu.nick_name = #{nickName},
+            </if>
+            <if test="avatarUrl != null and avatarUrl != ''">
+                nu.avatar_url = #{avatarUrl},
+            </if>
+            <if test="gender != null and gender != ''">
+                nu.gender = #{gender},
+            </if>
+            <if test="city != null and city != ''">
+                nu.city = #{city},
+            </if>
+            <if test="province != null and province != ''">
+                nu.province = #{province},
+            </if>
+            <if test="country != null and country != ''">
+                nu.country = #{country},
+            </if>
+            <if test="language != null and language != ''">
+                nu.language = #{language},
+            </if>
+            <if test="grayStatus != null and grayStatus != ''">
+                nu.gray_status = #{grayStatus},
+            </if>
+            <if test="userRemark != null and userRemark != ''">
+                nu.user_remark = #{userRemark},
+            </if>
+            <if test="userType != null and userType != ''">
+                nu.user_type = #{userType},
+            </if>
+            update_time = #{updateTime}
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="getSimpleUserByCondition" resultType="java.util.Map">
+        SELECT
+        <include refid="TColumnList"/>
+        FROM n_user nu
+        <include refid="queryConditions"/>
+        <if test="start != null and start != '' and size != null and size != ''">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getSimpleUserTotalByCondition" resultType="java.lang.Integer">
+        SELECT
+        COUNT(*) total
+        from n_user nu
+        <include refid="queryConditions"/>
+    </select>
+
+</mapper>

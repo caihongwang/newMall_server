@@ -136,10 +136,8 @@ public class WX_DicServiceImpl implements WX_DicService {
         return boolDTO;
     }
 
-
     /**
      * 获取单一的字典信息
-     *
      * @param paramMap
      * @return
      */
@@ -188,7 +186,6 @@ public class WX_DicServiceImpl implements WX_DicService {
     /**
      * 获取单一的字典信息(支持同时查询多个字典)
      * dicTypes可以传送多个参数，使用英文逗号(,)分隔
-     *
      * @param paramMap
      * @return
      */

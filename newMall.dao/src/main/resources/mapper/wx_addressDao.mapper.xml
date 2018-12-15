@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.br.newMall.dao.WX_AddressDao">
+
+    <sql id="columnList">    <!-- 字段 -->
+        id,
+        uid,
+        name,
+        phone,
+        province_id,
+        province_name,
+        city_id,
+        city_name,
+        region_id,
+        region_name,
+        detail_address,
+        status,
+        create_time,
+        update_time
+    </sql>
+
+    <sql id="TColumnList">    <!-- 带表别名的字段 -->
+        na.id as "id",
+        na.uid as "uid",
+        na.name as "name",
+        na.phone as "phone",
+        na.province_id as "provinceId",
+        na.province_name as "provinceName",
+        na.city_id as "cityId",
+        na.city_name as "cityName",
+        na.region_id as "regionId",
+        na.region_name as "regionName",
+        na.detail_address as "detailAddress",
+        na.status as "status",
+        date_format(na.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
+        date_format(na.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
+    </sql>
+
+    <sql id="queryConaitions"><!-- 查询条件 -->
+        <where>na.status='0'
+            <if test="id != null ana id != ''">
+                AND na.id = #{id}
+            </if>
+            <if test="uid != null ana uid != ''">
+                AND na.uid =  #{uid}
+            </if>
+            <if test="name != null ana name != ''">
+                AND na.name like concat('%',#{name},'%')
+            </if>
+            <if test="phone != null ana phone != ''">
+                AND na.phone =  #{phone}
+            </if>
+            <if test="provinceId != null ana provinceId != ''">
+                AND na.province_id =  #{provinceId}
+            </if>
+            <if test="provinceName != null ana provinceName != ''">
+                AND na.province_name like concat('%',#{provinceName},'%')
+            </if>
+            <if test="cityId != null ana cityId != ''">
+                AND na.city_id =  #{cityId}
+            </if>
+            <if test="cityName != null ana cityName != ''">
+                AND na.city_name like concat('%',#{cityName},'%')
+            </if>
+            <if test="regionId != null ana regionId != ''">
+                AND na.region_id =  #{regionId}
+            </if>
+            <if test="regionName != null ana regionName != ''">
+                AND na.region_name like concat('%',#{regionName},'%')
+            </if>
+            <if test="detailAddress != null ana detailAddress != ''">
+                AND na.detail_address like concat('%',#{detailAddress},'%')
+            </if>
+        </where>
+        ORDER BY na.create_time desc
+    </sql>
+
+    <insert id="addAddress" parameterType="java.util.Map" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into n_address (
+            <include refid="columnList"/>
+        ) values (
+            #{id},
+            #{uid},
+            #{name},
+            #{phone},
+            #{provinceId},
+            #{provinceName},
+            #{cityId},
+            #{cityName},
+            #{regionId},
+            #{regionName},
+            #{detailAddress},
+            #{status},
+            #{createTime},
+            #{updateTime}
+        )
+    </insert>
+
+    <delete id="deleteAddress">
+        update n_address na set na.status=1 WHERE 1=1
+        <if test="id != null ana id != ''">
+            AND id = #{id}
+        </if>
+    </delete>
+
+    <update id="updateAddress">
+        update n_address na
+        <set>
+            <if test="name != null ana name != ''">
+               na.name = #{name},
+            </if>
+            <if test="phone != null ana phone != ''">
+               na.phone = #{phone},
+            </if>
+            <if test="provinceId != null ana provinceId != ''">
+               na.province_id = #{provinceId},
+            </if>
+            <if test="provinceName != null ana provinceName != ''">
+               na.province_name = #{provinceName},
+            </if>
+            <if test="cityId != null ana cityId != ''">
+               na.city_id = #{cityId},
+            </if>
+            <if test="cityName != null ana cityName != ''">
+               na.city_name = #{cityName},
+            </if>
+            <if test="regionId != null ana regionId != ''">
+               na.region_id = #{regionId}
+            </if>
+            <if test="regionName != null ana regionName != ''">
+              na.region_name = #{regionName},
+            </if>
+            <if test="detailAddress != null ana detailAddress != ''">
+               na.detail_address = #{detailAddress},
+            </if>
+            na.update_time = CURRENT_TIMESTAMP
+        </set>
+        where 1=1
+        <if test="id != null ana id != ''">
+            ana na.id = #{id}
+        </if>
+    </update>
+
+    <select id="getSimpleAddressByConaition" resultType="java.util.Map">
+        SELECT
+            <include refid="TColumnList"/>
+        FROM n_address na
+            <include refid="queryConaitions"/>
+        <if test="start != null ana start != '' ana size != null ana size != ''">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getSimpleAddressTotalByConaition" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*) total
+        from n_address na
+            <include refid="queryConaitions"/>
+    </select>
+
+</mapper>

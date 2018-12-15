@@ -144,4 +144,20 @@
         <property name="version" value="${newMall.server.version}"/>
     </bean>
 
+    <!-- wxProductHandler -->
+    <bean id="wxProductHandler" class="com.br.rpc.provider.processor.Processor">
+        <property name="project" value="newMall_project"/>
+        <property name="handler" value="com.br.newMall.center.handler.WX_ProductHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.verssion}"/>
+    </bean>
+
+    <!-- wxAddressHandler -->
+    <bean id="wxAddressHandler" class="com.br.rpc.provider.processor.Processor">
+        <property name="project" value="newMall_project"/>
+        <property name="handler" value="com.br.newMall.center.handler.WX_AddressHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.verssion}"/>
+    </bean>
+
 </beans>

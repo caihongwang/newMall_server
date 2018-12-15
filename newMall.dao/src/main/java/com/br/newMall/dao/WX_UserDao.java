@@ -1,9 +1,12 @@
 package com.br.newMall.dao;
 
-
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @Description 用户Dao
+ * @author caihongwang
+ */
 public interface WX_UserDao {
 
     /**

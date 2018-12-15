@@ -5,7 +5,8 @@ import com.br.newMall.api.dto.*;
 import java.util.Map;
 
 /**
- * 用户service
+ * @Description 用户Service
+ * @author caihongwang
  */
 public interface WX_UserService {
 

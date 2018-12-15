@@ -115,6 +115,25 @@ public class NewMallCode {
     public static NewMallCode OIL_STATION_OPERATOR_ID_OR_UID_IS_NOT_NULL_AND_REDPACKETTOTAL_SHOULD_LARGER_0 = new NewMallCode(170007, "uid或者openId不允许为空，同事红包金额必须大于0.");
     public static NewMallCode CURRENT_PUBLIC_NUMBER_OPENID_IS_NOT_NULL = new NewMallCode(170008, "当前公众号没有粉丝，发送消息无效.");
 
+    //商品
+    public static NewMallCode PRODUCT_TITLE_OR_DEGIST_OR_STOCK_OR_HEADIMGURL_OR_DESCRIBEIMGURL_OR_PRICE_IS_NOT_NULL = new NewMallCode(180001, "商品标题或者简介或者库存或者预览图或者详图或者价格不允许为空.");
+    public static NewMallCode PRODUCT_EXIST = new NewMallCode(180002, "商品已经存在.");
+    public static NewMallCode PRODUCT_ID_IS_NOT_NULL = new NewMallCode(180003, "商品ID不允许为空.");
+    public static NewMallCode PRODUCT_LIST_IS_NULL = new NewMallCode(180004, "没有更多商品.");
+
+    //地址
+    public static NewMallCode ADDRESS_UID_OR_NAME_OR_PHONE_OR_PROVINCEID_OR_PROVINCENAME_OR_CITYID_OR_CITYNAME_OR_REGIONID_OR_REGIONNAME_OR_DETAILADDRESS_IS_NOT_NULL = new NewMallCode(190001, "地址的uid或者收货姓名或者收货电话或者省份ID或者城市ID或者城市名称或者地区ID或者地区名称或者详细地址不允许为空.");
+    public static NewMallCode ADDRESS_EXIST = new NewMallCode(190002, "地址已经存在.");
+    public static NewMallCode ADDRESS_ID_IS_NOT_NULL = new NewMallCode(190003, "地址ID不允许为空.");
+    public static NewMallCode ADDRESS_LIST_IS_NULL = new NewMallCode(190004, "没有更多地址.");
+    public static NewMallCode ADDRESS_PROVINCETYPE_IS_NULL = new NewMallCode(190005, "地址的省份类型不允许为空.");
+    public static NewMallCode ADDRESS_CITYTYPE_OR_PROVINCEID_IS_NULL = new NewMallCode(190006, "地址的城市类型或者省份ID不允许为空.");
+    public static NewMallCode ADDRESS_REGIONTYPE_OR_PROVINCEID_OR_CITYID_IS_NULL = new NewMallCode(190007, "地址的区域类型或者省份ID或者城市ID不允许为空.");
+
+
+
+
+
     //微信小程序
     public static final String WX_MINI_PROGRAM_NAME = "油价地图";     //小程序名称
     public static final String WX_MINI_PROGRAM_GH_ID = "gh_417c90af3488";     //小程序原始ID
@@ -141,7 +160,6 @@ public class NewMallCode {
     public static final String WX_RED_PACK_NUMBER = "1";     //微信红包总数：1个
     public static final String WX_PAY_NOTIFY_URL = "/newMall/order/wxNotify.do";  //支付成功后的服务器回调url
     public static final String WX_PAY_TRADE_TYPE = "JSAPI";  //交易类型
-
 
     //阿里常量值
     public static final String A_LI_YUN_HOST = "http://oil.market.alicloudapi.com";     //host

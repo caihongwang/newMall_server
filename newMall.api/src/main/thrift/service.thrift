@@ -144,10 +144,39 @@ service WX_CustomMenuHandler {
     dto.ResultMapDTO getCurrentSelfMenuInfo(1:int tid, 2:map<string, string> paramMap)
 }
 
-
 service WX_SourceMaterialHandler {
 
     dto.ResultMapDTO batchGetMaterial(1:int tid, 2:map<string, string> paramMap)
+}
+
+service WX_ProductHandler {
+
+    dto.BoolDTO addProduct(1:int tid, 2:map<string, string> paramMap),
+
+    dto.BoolDTO deleteProduct(1:int tid, 2:map<string, string> paramMap),
+
+    dto.BoolDTO updateProduct(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultDTO getSimpleProductByCondition(1:int tid, 2:map<string, string> paramMap)
+
+}
+
+service WX_AddressHandler {
+
+    dto.ResultDTO getProvinceList(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultDTO getCityList(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultDTO getRegionList(1:int tid, 2:map<string, string> paramMap),
+
+    dto.BoolDTO addAddress(1:int tid, 2:map<string, string> paramMap),
+
+    dto.BoolDTO deleteAddress(1:int tid, 2:map<string, string> paramMap),
+
+    dto.BoolDTO updateAddress(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultDTO getSimpleAddressByCondition(1:int tid, 2:map<string, string> paramMap)
+
 }
 
 
