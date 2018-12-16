@@ -14,6 +14,8 @@
         city_name,
         region_id,
         region_name,
+        street_id,
+        street_name,
         detail_address,
         status,
         create_time,
@@ -31,6 +33,8 @@
         na.city_name as "cityName",
         na.region_id as "regionId",
         na.region_name as "regionName",
+        na.street_id as "streetId",
+        na.street_name as "streetName",
         na.detail_address as "detailAddress",
         na.status as "status",
         date_format(na.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
@@ -69,6 +73,12 @@
             <if test="regionName != null ana regionName != ''">
                 AND na.region_name like concat('%',#{regionName},'%')
             </if>
+            <if test="streetId != null ana streetId != ''">
+                AND na.street_id =  #{streetId}
+            </if>
+            <if test="streetName != null ana streetName != ''">
+                AND na.street_name like concat('%',#{streetName},'%')
+            </if>
             <if test="detailAddress != null ana detailAddress != ''">
                 AND na.detail_address like concat('%',#{detailAddress},'%')
             </if>
@@ -91,6 +101,8 @@
             #{cityName},
             #{regionId},
             #{regionName},
+            #{streetId},
+            #{streetName},
             #{detailAddress},
             #{status},
             #{createTime},
@@ -131,6 +143,12 @@
             </if>
             <if test="regionName != null ana regionName != ''">
               na.region_name = #{regionName},
+            </if>
+            <if test="streetId != null ana streetId != ''">
+               na.street_id = #{streetId}
+            </if>
+            <if test="streetName != null ana streetName != ''">
+              na.street_name = #{streetName},
             </if>
             <if test="detailAddress != null ana detailAddress != ''">
                na.detail_address = #{detailAddress},

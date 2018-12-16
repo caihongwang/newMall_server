@@ -122,13 +122,14 @@ public class NewMallCode {
     public static NewMallCode PRODUCT_LIST_IS_NULL = new NewMallCode(180004, "没有更多商品.");
 
     //地址
-    public static NewMallCode ADDRESS_UID_OR_NAME_OR_PHONE_OR_PROVINCEID_OR_PROVINCENAME_OR_CITYID_OR_CITYNAME_OR_REGIONID_OR_REGIONNAME_OR_DETAILADDRESS_IS_NOT_NULL = new NewMallCode(190001, "地址的uid或者收货姓名或者收货电话或者省份ID或者城市ID或者城市名称或者地区ID或者地区名称或者详细地址不允许为空.");
+    public static NewMallCode ADDRESS_UID_OR_NAME_OR_PHONE_OR_PROVINCEID_OR_PROVINCENAME_OR_CITYID_OR_CITYNAME_OR_REGIONID_OR_REGIONNAME_OR_STREETID_OR_STREETNAME_OR_DETAILADDRESS_IS_NOT_NULL = new NewMallCode(190001, "地址的uid或者收货姓名或者收货电话或者省份ID或者城市ID或者城市名称或者地区ID或者地区名称或者街道ID或者街道名称或者详细地址不允许为空.");
     public static NewMallCode ADDRESS_EXIST = new NewMallCode(190002, "地址已经存在.");
     public static NewMallCode ADDRESS_ID_IS_NOT_NULL = new NewMallCode(190003, "地址ID不允许为空.");
     public static NewMallCode ADDRESS_LIST_IS_NULL = new NewMallCode(190004, "没有更多地址.");
     public static NewMallCode ADDRESS_PROVINCETYPE_IS_NULL = new NewMallCode(190005, "地址的省份类型不允许为空.");
     public static NewMallCode ADDRESS_CITYTYPE_OR_PROVINCEID_IS_NULL = new NewMallCode(190006, "地址的城市类型或者省份ID不允许为空.");
-    public static NewMallCode ADDRESS_REGIONTYPE_OR_PROVINCEID_OR_CITYID_IS_NULL = new NewMallCode(190007, "地址的区域类型或者省份ID或者城市ID不允许为空.");
+    public static NewMallCode ADDRESS_REGIONTYPE_OR_CITYID_IS_NULL = new NewMallCode(190007, "地址的区域类型或者城市ID不允许为空.");
+    public static NewMallCode ADDRESS_REGIONTYPE_OR_REGIONID_IS_NULL = new NewMallCode(190008, "地址的区域类型或者区域ID不允许为空.");
 
     //订单
     public static NewMallCode ORDER_UID_OR_PAYMONEY_IS_NOT_NULL = new NewMallCode(190001, "订单的uid或者支付金额不允许为空.");

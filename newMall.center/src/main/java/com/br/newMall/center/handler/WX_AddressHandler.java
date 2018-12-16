@@ -93,7 +93,7 @@ public class WX_AddressHandler implements com.br.newMall.api.service.WX_AddressH
     }
 
     /**
-     * 根据省份ID和城市ID获取地区列表
+     * 根据城市ID获取地区列表
      * @param tid
      * @param paramMap
      * @return
@@ -101,14 +101,14 @@ public class WX_AddressHandler implements com.br.newMall.api.service.WX_AddressH
      */
     @Override
     public ResultDTO getRegionList(int tid, Map<String, String> paramMap) throws TException {
-        logger.info("在【hanlder】中根据省份ID和城市ID获取地区列表-getRegionList,请求-paramMap = ", JSONObject.toJSONString(paramMap));
+        logger.info("在【hanlder】中根据城市ID获取地区列表-getRegionList,请求-paramMap = ", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         if (paramMap.size() > 0) {
             try {
                 resultDTO = wxAddressService.getRegionList(objectParamMap);
             } catch (Exception e) {
-                logger.error("在【hanlder】中根据省份ID和城市ID获取地区列表-getRegionList is error, paramMap : ", JSONObject.toJSONString(paramMap), " , e : ", e);
+                logger.error("在【hanlder】中根据城市ID获取地区列表-getRegionList is error, paramMap : ", JSONObject.toJSONString(paramMap), " , e : ", e);
                 List<Map<String, String>> resultList = Lists.newArrayList();
                 resultDTO.setResultListTotal(0);
                 resultDTO.setResultList(resultList);
@@ -121,7 +121,40 @@ public class WX_AddressHandler implements com.br.newMall.api.service.WX_AddressH
             resultDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
-        logger.info("在【hanlder】中根据省份ID和城市ID获取地区列表-getRegionList,响应-resultDTO = ", JSONObject.toJSONString(resultDTO));
+        logger.info("在【hanlder】中根据城市ID获取地区列表-getRegionList,响应-resultDTO = ", JSONObject.toJSONString(resultDTO));
+        return resultDTO;
+    }
+
+    /**
+     * 根据地区ID获取街道列表
+     * @param tid
+     * @param paramMap
+     * @return
+     * @throws TException
+     */
+    @Override
+    public ResultDTO getStreetList(int tid, Map<String, String> paramMap) throws TException {
+        logger.info("在【hanlder】中根据地区ID获取街道列表-getStreetList,请求-paramMap = ", JSONObject.toJSONString(paramMap));
+        ResultDTO resultDTO = new ResultDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        if (paramMap.size() > 0) {
+            try {
+                resultDTO = wxAddressService.getStreetList(objectParamMap);
+            } catch (Exception e) {
+                logger.error("在【hanlder】中根据地区ID获取街道列表-getStreetList is error, paramMap : ", JSONObject.toJSONString(paramMap), " , e : ", e);
+                List<Map<String, String>> resultList = Lists.newArrayList();
+                resultDTO.setResultListTotal(0);
+                resultDTO.setResultList(resultList);
+                resultDTO.setSuccess(false);
+                resultDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                resultDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
+            }
+        } else {
+            resultDTO.setSuccess(false);
+            resultDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
+            resultDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
+        }
+        logger.info("在【hanlder】中根据地区ID获取街道列表-getStreetList,响应-resultDTO = ", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
 

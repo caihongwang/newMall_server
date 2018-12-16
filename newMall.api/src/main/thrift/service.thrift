@@ -169,6 +169,8 @@ service WX_AddressHandler {
 
     dto.ResultDTO getRegionList(1:int tid, 2:map<string, string> paramMap),
 
+    dto.ResultDTO getStreetList(1:int tid, 2:map<string, string> paramMap),
+
     dto.BoolDTO addAddress(1:int tid, 2:map<string, string> paramMap),
 
     dto.BoolDTO deleteAddress(1:int tid, 2:map<string, string> paramMap),

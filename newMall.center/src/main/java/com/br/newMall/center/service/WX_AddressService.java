@@ -22,9 +22,14 @@ public interface WX_AddressService {
     ResultDTO getCityList(Map<String, Object> paramMap);
 
     /**
-     * 根据省份ID和城市ID获取地区列表
+     * 根据城市ID获取地区列表
      */
     ResultDTO getRegionList(Map<String, Object> paramMap);
+
+    /**
+     * 根据地区ID获取街道列表
+     */
+    ResultDTO getStreetList(Map<String, Object> paramMap);
 
     /**
      * 根据条件查询地址信息
