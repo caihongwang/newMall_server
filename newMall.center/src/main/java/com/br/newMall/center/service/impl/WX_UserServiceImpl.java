@@ -122,6 +122,8 @@ public class WX_UserServiceImpl implements WX_UserService {
                     } else {                                            //不存在，则添加
                         //3.添加用户
                         paramMap.put("openId", openid);
+                        paramMap.put("balance", "0");           //余额为0
+                        paramMap.put("integral", "0");          //积分为0
                         paramMap.put("grayStatus", "0");        //灰度用户状态，0是正常登陆用户，1是不需要登陆的用户
                         paramMap.put("userType", "miniProgram");//微信用户类型，miniProgram是小程序用户，publicNumber是公众号用户
                         addNum = wxUserDao.addUser(paramMap);

@@ -15,6 +15,8 @@
         language,
         user_remark,
         user_type,
+        balance,
+        integral,
         gray_status,
         create_time,
         update_time
@@ -32,6 +34,8 @@
         nu.language as "language",
         nu.user_remark as "userRemark",
         nu.user_type as "userType",
+        nu.balance as "balance",
+        nu.integral as "integral",
         nu.gray_status as "grayStatus",
         nu.create_time as "createTime",
         nu.update_time as "updateTime"
@@ -95,6 +99,8 @@
         #{language},
         #{userRemark},
         #{userType},
+        #{balance},
+        #{integral},
         #{grayStatus},
         #{createTime},
         #{updateTime}
@@ -146,6 +152,12 @@
             </if>
             <if test="userType != null and userType != ''">
                 nu.user_type = #{userType},
+            </if>
+            <if test="balance != null and balance != ''">
+                nu.balance = #{balance},
+            </if>
+            <if test="integral != null and integral != ''">
+                nu.integral = #{integral},
             </if>
             update_time = #{updateTime}
         </set>

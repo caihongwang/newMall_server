@@ -180,6 +180,18 @@ service WX_AddressHandler {
 }
 
 
+service WX_OrderHandler {
+
+    dto.BoolDTO addOrder(1:int tid, 2:map<string, string> paramMap),
+
+    dto.BoolDTO deleteOrder(1:int tid, 2:map<string, string> paramMap),
+
+    dto.BoolDTO updateOrder(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultDTO getSimpleOrderByCondition(1:int tid, 2:map<string, string> paramMap)
+
+}
+
 
 
 

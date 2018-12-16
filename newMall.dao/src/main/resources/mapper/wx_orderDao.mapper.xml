@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.br.newMall.dao.WX_OrderDao">
+
+    <sql id="columnList">    <!-- 字段 -->
+        id,
+        uid,
+        product_id,
+        product_num,
+        address_id,
+        pay_money,
+        pay_integral,
+        status,
+        create_time,
+        update_time
+    </sql>
+
+    <sql id="TColumnList">    <!-- 带表别名的字段 -->
+        no.id as "id",
+        no.uid as "uid",
+        no.product_id as "productId",
+        no.product_num as "productNum",
+        no.address_id as "addressId",
+        no.pay_money as "payMoney",
+        no.pay_integral as "payIntegral",
+        no.status as "status",
+        date_format(no.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
+        date_format(no.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
+    </sql>
+
+    <sql id="queryConditions"><!-- 查询条件 -->
+        <where>no.status='0'
+            <if test="id != null and id != ''">
+                AND no.id = #{id}
+            </if>
+            <if test="uid != null and uid != ''">
+                AND no.uid = #{uid}
+            </if>
+            <if test="productId != null and productId != ''">
+                AND no.product_id = #{productId}
+            </if>
+            <if test="productNum != null and productNum != ''">
+                AND no.product_num = #{productNum}
+            </if>
+            <if test="addressId != null and addressId != ''">
+                AND no.address_id = #{addressId}
+            </if>
+            <if test="payMoney != null and payMoney != ''">
+                AND no.pay_money = #{payMoney}
+            </if>
+            <if test="payIntegral != null and payIntegral != ''">
+                AND no.pay_integral = #{payIntegral}
+            </if>
+        </where>
+        ORDER BY no.create_time desc
+    </sql>
+
+    <insert id="addOrder" parameterType="java.util.Map" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into n_order (
+            <include refid="columnList"/>
+        ) values (
+            #{id},
+            #{uid},
+            #{productId},
+            #{productNum},
+            #{addressId},
+            #{payMoney},
+            #{payIntegral},
+            #{status},
+            #{createTime},
+            #{updateTime}
+        )
+    </insert>
+
+    <delete id="deleteOrder">
+        update n_order no set np.status=1  WHERE 1=1
+        <if test="id != null and id != ''">
+            AND no.id = #{id}
+        </if>
+    </delete>
+
+    <update id="updateOrder">
+        update n_order no
+        <set>
+            <if test="productId != null and productId != ''">
+               no.product_id = #{productId},
+            </if>
+            <if test="productNum != null and productNum != ''">
+               no.product_num = #{productNum},
+            </if>
+            <if test="addressId != null and addressId != ''">
+               no.address_id = #{addressId},
+            </if>
+            <if test="payMoney != null and payMoney != ''">
+               no.pay_money = #{payMoney},
+            </if>
+            <if test="payIntegral != null and payIntegral != ''">
+               no.pay_integral = #{payIntegral},
+            </if>
+            no.update_time = CURRENT_TIMESTAMP
+        </set>
+        where 1=1
+        <if test="id != null and id != ''">
+            and no.id = #{id}
+        </if>
+    </update>
+
+    <select id="getSimpleOrderByCondition" resultType="java.util.Map">
+        SELECT
+        <include refid="TColumnList"/>
+        FROM n_order no
+        <include refid="queryConditions"/>
+        <if test="start != null and start != '' and size != null and size != ''">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getSimpleOrderTotalByCondition" resultType="java.lang.Integer">
+        SELECT
+        COUNT(*) total
+        from n_order no
+        <include refid="queryConditions"/>
+    </select>
+
+</mapper>
