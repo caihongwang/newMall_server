@@ -131,7 +131,7 @@ public class WX_AddressController {
         paramMap = HttpUtil.getRequestParams(request);
         logger.info("在【controller】中根据地区ID获取街道列表-getStreetList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
-            ResultDTO resultDTO = wxAddressHandler.getRegionList(0, paramMap);
+            ResultDTO resultDTO = wxAddressHandler.getStreetList(0, paramMap);
             resultMap.put("recordsFiltered", resultDTO.getResultListTotal());
             resultMap.put("data", resultDTO.getResultList());
             resultMap.put("code", resultDTO.getCode());
