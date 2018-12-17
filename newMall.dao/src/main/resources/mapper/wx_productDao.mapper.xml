@@ -35,7 +35,7 @@
         date_format(np.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
     </sql>
 
-    <sql id="queryConpitions"><!-- 查询条件 -->
+    <sql id="queryConditions"><!-- 查询条件 -->
         <where>np.status='0'
             <if test="id != null anp id != ''">
                 AND np.id = #{id}
@@ -137,21 +137,21 @@
         </if>
     </update>
 
-    <select id="getSimpleProductByConpition" resultType="java.util.Map">
+    <select id="getSimpleProductByCondition" resultType="java.util.Map">
         SELECT
             <include refid="TColumnList"/>
         FROM n_product np
-            <include refid="queryConpitions"/>
+            <include refid="queryConditions"/>
         <if test="start != null anp start != '' anp size != null anp size != ''">
             LIMIT ${start},${size}
         </if>
     </select>
 
-    <select id="getSimpleProductTotalByConpition" resultType="java.lang.Integer">
+    <select id="getSimpleProductTotalByCondition" resultType="java.lang.Integer">
         SELECT
             COUNT(*) total
         from n_product np
-            <include refid="queryConpitions"/>
+            <include refid="queryConditions"/>
     </select>
 
 </mapper>
