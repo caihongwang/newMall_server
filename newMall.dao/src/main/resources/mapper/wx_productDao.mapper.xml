@@ -37,34 +37,34 @@
 
     <sql id="queryConditions"><!-- 查询条件 -->
         <where>np.status='0'
-            <if test="id != null anp id != ''">
+            <if test="id != null and id != ''">
                 AND np.id = #{id}
             </if>
-            <if test="title != null anp title != ''">
+            <if test="title != null and title != ''">
                 AND np.title like concat('%',#{title},'%')
             </if>
-            <if test="degist != null anp degist != ''">
+            <if test="degist != null and degist != ''">
                 AND np.degist like concat('%',#{degist},'%')
             </if>
-            <if test="descript != null anp descript != ''">
+            <if test="descript != null and descript != ''">
                 AND np.descript like concat('%',#{descript},'%')
             </if>
-            <if test="stock != null anp stock != ''">
+            <if test="stock != null and stock != ''">
                 AND np.stock = #{stock}
             </if>
-            <if test="headImgUrl != null anp headImgUrl != ''">
+            <if test="headImgUrl != null and headImgUrl != ''">
                 AND np.head_img_url like concat('%',#{headImgUrl},'%')
             </if>
-            <if test="describeImgUrl != null anp describeImgUrl != ''">
+            <if test="describeImgUrl != null and describeImgUrl != ''">
                 AND np.describe_img_url like concat('%',#{describeImgUrl},'%')
             </if>
-            <if test="price != null anp price != ''">
+            <if test="price != null and price != ''">
                 AND np.price = #{price}
             </if>
-            <if test="integral != null anp integral != ''">
+            <if test="integral != null and integral != ''">
                 AND np.integral = #{integral}
             </if>
-            <if test="category != null anp stock != ''">
+            <if test="category != null and stock != ''">
                 AND np.category = #{category}
             </if>
         </where>
@@ -94,7 +94,7 @@
 
     <delete id="deleteProduct">
         update n_product np set np.status=1  WHERE 1=1
-        <if test="id != null anp id != ''">
+        <if test="id != null and id != ''">
             AND np.id = #{id}
         </if>
     </delete>
@@ -102,38 +102,38 @@
     <update id="updateProduct">
         update n_product np
         <set>
-            <if test="title != null anp title != ''">
+            <if test="title != null and title != ''">
                np.title = #{title},
             </if>
-            <if test="degist != null anp degist != ''">
+            <if test="degist != null and degist != ''">
                np.degist = #{degist},
             </if>
-            <if test="descript != null anp descript != ''">
+            <if test="descript != null and descript != ''">
                np.descript = #{descript},
             </if>
-            <if test="stock != null anp stock != ''">
+            <if test="stock != null and stock != ''">
                np.stock = #{stock},
             </if>
-            <if test="headImgUrl != null anp headImgUrl != ''">
+            <if test="headImgUrl != null and headImgUrl != ''">
                np.head_img_url = #{headImgUrl},
             </if>
-            <if test="describeImgUrl != null anp describeImgUrl != ''">
+            <if test="describeImgUrl != null and describeImgUrl != ''">
                np.describe_img_url = #{describeImgUrl},
             </if>
-            <if test="price != null anp price != ''">
+            <if test="price != null and price != ''">
                np.price = #{price},
             </if>
-            <if test="integral != null anp integral != ''">
+            <if test="integral != null and integral != ''">
                np.integral = #{integral},
             </if>
-            <if test="category != null anp stock != ''">
+            <if test="category != null and stock != ''">
                np.category = #{category},
             </if>
             np.update_time = CURRENT_TIMESTAMP
         </set>
         where 1=1
-        <if test="id != null anp id != ''">
-            anp np.id = #{id}
+        <if test="id != null and id != ''">
+            and np.id = #{id}
         </if>
     </update>
 
@@ -142,7 +142,7 @@
             <include refid="TColumnList"/>
         FROM n_product np
             <include refid="queryConditions"/>
-        <if test="start != null anp start != '' anp size != null anp size != ''">
+        <if test="start != null and start != '' and size != null and size != ''">
             LIMIT ${start},${size}
         </if>
     </select>
