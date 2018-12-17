@@ -13,7 +13,7 @@ public interface WX_ProductDao {
      * 根据条件查询商品信息
      */
     List<Map<String, Object>> getSimpleProductByCondition(Map<String, Object> paramMap);
-                              getSimpleProductByConpition
+
     /**
      * 根据条件查询商品信息总数
      */
