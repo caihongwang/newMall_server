@@ -157,7 +157,7 @@
     <column id="41" parent="13" name="street_name">
       <Position>12</Position>
       <Comment>街道_名称</Comment>
-      <DataType>int(11)|0</DataType>
+      <DataType>varchar(100)|0</DataType>
     </column>
     <key id="42" parent="13" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
