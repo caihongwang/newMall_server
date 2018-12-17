@@ -37,7 +37,7 @@ public class WX_ProductServiceImpl implements WX_ProductService {
      */
     @Override
     public BoolDTO addProduct(Map<String, Object> paramMap) {
-        logger.info("在【service】中添加商品-addProduct,请求-paramMap = ", JSONObject.toJSONString(paramMap));
+        logger.info("在【service】中添加商品-addProduct,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Integer addNum = 0;
         BoolDTO boolDTO = new BoolDTO();
         String title = paramMap.get("title") != null ? paramMap.get("title").toString() : "";
@@ -73,7 +73,7 @@ public class WX_ProductServiceImpl implements WX_ProductService {
             boolDTO.setCode(NewMallCode.PRODUCT_TITLE_OR_DEGIST_OR_STOCK_OR_HEADIMGURL_OR_DESCRIBEIMGURL_OR_PRICE_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.PRODUCT_TITLE_OR_DEGIST_OR_STOCK_OR_HEADIMGURL_OR_DESCRIBEIMGURL_OR_PRICE_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中添加商品-addProduct,响应-boolDTO = ", JSONObject.toJSONString(boolDTO));
+        logger.info("在【service】中添加商品-addProduct,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
@@ -84,7 +84,7 @@ public class WX_ProductServiceImpl implements WX_ProductService {
      */
     @Override
     public BoolDTO deleteProduct(Map<String, Object> paramMap) {
-        logger.info("在【service】中删除商品-deleteProduct,请求-paramMap = ", JSONObject.toJSONString(paramMap));
+        logger.info("在【service】中删除商品-deleteProduct,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Integer deleteNum = 0;
         BoolDTO boolDTO = new BoolDTO();
         String id = paramMap.get("id") != null ? paramMap.get("id").toString() : "";
@@ -104,7 +104,7 @@ public class WX_ProductServiceImpl implements WX_ProductService {
             boolDTO.setCode(NewMallCode.PRODUCT_ID_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.PRODUCT_ID_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中删除商品-deleteProduct,响应-boolDTO = ", JSONObject.toJSONString(boolDTO));
+        logger.info("在【service】中删除商品-deleteProduct,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
@@ -115,7 +115,7 @@ public class WX_ProductServiceImpl implements WX_ProductService {
      */
     @Override
     public BoolDTO updateProduct(Map<String, Object> paramMap) {
-        logger.info("在【service】中修改商品-updateProduct,请求-paramMap = ", JSONObject.toJSONString(paramMap));
+        logger.info("在【service】中修改商品-updateProduct,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Integer updateNum = 0;
         BoolDTO boolDTO = new BoolDTO();
         String id = paramMap.get("id") != null ? paramMap.get("id").toString() : "";
@@ -135,7 +135,7 @@ public class WX_ProductServiceImpl implements WX_ProductService {
             boolDTO.setCode(NewMallCode.PRODUCT_ID_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.PRODUCT_ID_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中修改商品-updateProduct,响应-boolDTO = ", JSONObject.toJSONString(boolDTO));
+        logger.info("在【service】中修改商品-updateProduct,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
@@ -146,7 +146,7 @@ public class WX_ProductServiceImpl implements WX_ProductService {
      */
     @Override
     public ResultDTO getSimpleProductByCondition(Map<String, Object> paramMap) {
-        logger.info("在【service】中获取单一的商品-getSimpleProductByCondition,请求-paramMap = ", JSONObject.toJSONString(paramMap));
+        logger.info("在【service】中获取单一的商品-getSimpleProductByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         List<Map<String, String>> productStrList = Lists.newArrayList();
         List<Map<String, Object>> productList = wxProductDao.getSimpleProductByCondition(paramMap);
@@ -166,7 +166,7 @@ public class WX_ProductServiceImpl implements WX_ProductService {
             resultDTO.setCode(NewMallCode.PRODUCT_LIST_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.PRODUCT_LIST_IS_NULL.getMessage());
         }
-        logger.info("在【service】中获取单一的商品-getSimpleProductByCondition,响应-resultDTO = ", JSONObject.toJSONString(resultDTO));
+        logger.info("在【service】中获取单一的商品-getSimpleProductByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
 

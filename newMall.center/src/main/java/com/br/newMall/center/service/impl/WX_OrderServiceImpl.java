@@ -36,7 +36,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
      */
     @Override
     public BoolDTO addOrder(Map<String, Object> paramMap) {
-        logger.info("在【service】中添加订单-addOrder,请求-paramMap = ", JSONObject.toJSONString(paramMap));
+        logger.info("在【service】中添加订单-addOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Integer addNum = 0;
         BoolDTO boolDTO = new BoolDTO();
         String uid = paramMap.get("uid") != null ? paramMap.get("uid").toString() : "";
@@ -57,7 +57,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
             boolDTO.setCode(NewMallCode.ORDER_UID_OR_PAYMONEY_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.ORDER_UID_OR_PAYMONEY_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中添加订单-addOrder,响应-boolDTO = ", JSONObject.toJSONString(boolDTO));
+        logger.info("在【service】中添加订单-addOrder,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
@@ -68,7 +68,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
      */
     @Override
     public BoolDTO deleteOrder(Map<String, Object> paramMap) {
-        logger.info("在【service】中删除订单-deleteOrder,请求-paramMap = ", JSONObject.toJSONString(paramMap));
+        logger.info("在【service】中删除订单-deleteOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Integer deleteNum = 0;
         BoolDTO boolDTO = new BoolDTO();
         String id = paramMap.get("id") != null ? paramMap.get("id").toString() : "";
@@ -88,7 +88,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
             boolDTO.setCode(NewMallCode.ORDER_ID_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.ORDER_ID_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中删除订单-deleteOrder,响应-boolDTO = ", JSONObject.toJSONString(boolDTO));
+        logger.info("在【service】中删除订单-deleteOrder,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
@@ -99,7 +99,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
      */
     @Override
     public BoolDTO updateOrder(Map<String, Object> paramMap) {
-        logger.info("在【service】中修改订单-updateOrder,请求-paramMap = ", JSONObject.toJSONString(paramMap));
+        logger.info("在【service】中修改订单-updateOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Integer updateNum = 0;
         BoolDTO boolDTO = new BoolDTO();
         String id = paramMap.get("id") != null ? paramMap.get("id").toString() : "";
@@ -119,7 +119,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
             boolDTO.setCode(NewMallCode.ORDER_ID_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.ORDER_ID_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中修改订单-updateOrder,响应-boolDTO = ", JSONObject.toJSONString(boolDTO));
+        logger.info("在【service】中修改订单-updateOrder,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
@@ -130,7 +130,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
      */
     @Override
     public ResultDTO getSimpleOrderByCondition(Map<String, Object> paramMap) {
-        logger.info("在【service】中获取单一的订单-getSimpleOrderByCondition,请求-paramMap = ", JSONObject.toJSONString(paramMap));
+        logger.info("在【service】中获取单一的订单-getSimpleOrderByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         List<Map<String, String>> productStrList = Lists.newArrayList();
         List<Map<String, Object>> productList = wxOrderDao.getSimpleOrderByCondition(paramMap);
@@ -150,7 +150,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
             resultDTO.setCode(NewMallCode.ORDER_LIST_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.ORDER_LIST_IS_NULL.getMessage());
         }
-        logger.info("在【service】中获取单一的订单-getSimpleOrderByCondition,响应-resultDTO = ", JSONObject.toJSONString(resultDTO));
+        logger.info("在【service】中获取单一的订单-getSimpleOrderByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
 

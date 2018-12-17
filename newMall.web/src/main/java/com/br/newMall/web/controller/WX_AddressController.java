@@ -42,7 +42,7 @@ public class WX_AddressController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中默认获取中国省份列表-getProvinceList,请求-paramMap = ", JSONObject.toJSONString(paramMap));
+        logger.info("在【controller】中默认获取中国省份列表-getProvinceList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             ResultDTO resultDTO = wxAddressHandler.getProvinceList(0, paramMap);
             resultMap.put("recordsFiltered", resultDTO.getResultListTotal());
@@ -50,12 +50,12 @@ public class WX_AddressController {
             resultMap.put("code", resultDTO.getCode());
             resultMap.put("message", resultDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中默认获取中国省份列表-getProvinceList is error, paramMap : ", JSONObject.toJSONString(paramMap), " , e : ", e);
+            logger.error("在【controller】中默认获取中国省份列表-getProvinceList is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中默认获取中国省份列表-getProvinceList,响应-resultMap = ", JSONObject.toJSONString(resultMap));
+        logger.info("在【controller】中默认获取中国省份列表-getProvinceList,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -71,7 +71,7 @@ public class WX_AddressController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中根据省份ID获取城市列表-getCityList,请求-paramMap = ", JSONObject.toJSONString(paramMap));
+        logger.info("在【controller】中根据省份ID获取城市列表-getCityList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             ResultDTO resultDTO = wxAddressHandler.getCityList(0, paramMap);
             resultMap.put("recordsFiltered", resultDTO.getResultListTotal());
@@ -79,12 +79,12 @@ public class WX_AddressController {
             resultMap.put("code", resultDTO.getCode());
             resultMap.put("message", resultDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中根据省份ID获取城市列表-getCityList is error, paramMap : ", JSONObject.toJSONString(paramMap), " , e : ", e);
+            logger.error("在【controller】中根据省份ID获取城市列表-getCityList is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中根据省份ID获取城市列表-getCityList,响应-resultMap = ", JSONObject.toJSONString(resultMap));
+        logger.info("在【controller】中根据省份ID获取城市列表-getCityList,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -100,7 +100,7 @@ public class WX_AddressController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中根据城市ID获取地区列表-getRegionList,请求-paramMap = ", JSONObject.toJSONString(paramMap));
+        logger.info("在【controller】中根据城市ID获取地区列表-getRegionList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             ResultDTO resultDTO = wxAddressHandler.getRegionList(0, paramMap);
             resultMap.put("recordsFiltered", resultDTO.getResultListTotal());
@@ -108,12 +108,12 @@ public class WX_AddressController {
             resultMap.put("code", resultDTO.getCode());
             resultMap.put("message", resultDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中根据城市ID获取地区列表-getRegionList is error, paramMap : ", JSONObject.toJSONString(paramMap), " , e : ", e);
+            logger.error("在【controller】中根据城市ID获取地区列表-getRegionList is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中根据城市ID获取地区列表-getRegionList,响应-resultMap = ", JSONObject.toJSONString(resultMap));
+        logger.info("在【controller】中根据城市ID获取地区列表-getRegionList,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -129,7 +129,7 @@ public class WX_AddressController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中根据地区ID获取街道列表-getStreetList,请求-paramMap = ", JSONObject.toJSONString(paramMap));
+        logger.info("在【controller】中根据地区ID获取街道列表-getStreetList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             ResultDTO resultDTO = wxAddressHandler.getRegionList(0, paramMap);
             resultMap.put("recordsFiltered", resultDTO.getResultListTotal());
@@ -137,12 +137,12 @@ public class WX_AddressController {
             resultMap.put("code", resultDTO.getCode());
             resultMap.put("message", resultDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中根据地区ID获取街道列表-getStreetList is error, paramMap : ", JSONObject.toJSONString(paramMap), " , e : ", e);
+            logger.error("在【controller】中根据地区ID获取街道列表-getStreetList is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中根据地区ID获取街道列表-getStreetList,响应-resultMap = ", JSONObject.toJSONString(resultMap));
+        logger.info("在【controller】中根据地区ID获取街道列表-getStreetList,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -158,19 +158,19 @@ public class WX_AddressController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中添加地址-addAddress,请求-paramMap = ", JSONObject.toJSONString(paramMap));
+        logger.info("在【controller】中添加地址-addAddress,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             BoolDTO boolDTO = wxAddressHandler.addAddress(0, paramMap);
             resultMap.put("success", true);
             resultMap.put("code", boolDTO.getCode());
             resultMap.put("message", boolDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中添加地址-addAddress is error, paramMap : ", JSONObject.toJSONString(paramMap), " , e : ", e);
+            logger.error("在【controller】中添加地址-addAddress is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中添加地址-addAddress,响应-resultMap = ", JSONObject.toJSONString(resultMap));
+        logger.info("在【controller】中添加地址-addAddress,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -186,19 +186,19 @@ public class WX_AddressController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中删除地址-deleteAddress,请求-paramMap = ", JSONObject.toJSONString(paramMap));
+        logger.info("在【controller】中删除地址-deleteAddress,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             BoolDTO boolDTO = wxAddressHandler.deleteAddress(0, paramMap);
             resultMap.put("success", true);
             resultMap.put("code", boolDTO.getCode());
             resultMap.put("message", boolDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中删除地址-deleteAddress is error, paramMap : ", JSONObject.toJSONString(paramMap), " , e : ", e);
+            logger.error("在【controller】中删除地址-deleteAddress is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中删除地址-deleteAddress,响应-resultMap = ", JSONObject.toJSONString(resultMap));
+        logger.info("在【controller】中删除地址-deleteAddress,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -214,19 +214,19 @@ public class WX_AddressController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中修改地址-updateAddress,请求-paramMap = ", JSONObject.toJSONString(paramMap));
+        logger.info("在【controller】中修改地址-updateAddress,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             BoolDTO boolDTO = wxAddressHandler.updateAddress(0, paramMap);
             resultMap.put("success", true);
             resultMap.put("code", boolDTO.getCode());
             resultMap.put("message", boolDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中修改地址-updateAddress is error, paramMap : ", JSONObject.toJSONString(paramMap), " , e : ", e);
+            logger.error("在【controller】中修改地址-updateAddress is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中修改地址-updateAddress,响应-resultMap = ", JSONObject.toJSONString(resultMap));
+        logger.info("在【controller】中修改地址-updateAddress,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -242,7 +242,7 @@ public class WX_AddressController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中获取单一的地址-getSimpleAddressByCondition,请求-paramMap = ", JSONObject.toJSONString(paramMap));
+        logger.info("在【controller】中获取单一的地址-getSimpleAddressByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             ResultDTO resultDTO = wxAddressHandler.getSimpleAddressByCondition(0, paramMap);
             resultMap.put("recordsFiltered", resultDTO.getResultListTotal());
@@ -250,12 +250,12 @@ public class WX_AddressController {
             resultMap.put("code", resultDTO.getCode());
             resultMap.put("message", resultDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中获取单一的地址-getSimpleAddressByCondition is error, paramMap : ", JSONObject.toJSONString(paramMap), " , e : ", e);
+            logger.error("在【controller】中获取单一的地址-getSimpleAddressByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中获取单一的地址-getSimpleAddressByCondition,响应-resultMap = ", JSONObject.toJSONString(resultMap));
+        logger.info("在【controller】中获取单一的地址-getSimpleAddressByCondition,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 

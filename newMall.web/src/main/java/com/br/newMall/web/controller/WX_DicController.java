@@ -43,19 +43,19 @@ public class WX_DicController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中添加字典-addDic,请求-paramMap = ", JSONObject.toJSONString(paramMap));
+        logger.info("在【controller】中添加字典-addDic,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             BoolDTO boolDTO = wxDicHandler.addDic(0, paramMap);
             resultMap.put("success", true);
             resultMap.put("code", boolDTO.getCode());
             resultMap.put("message", boolDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中添加字典-addDic is error, paramMap : ", JSONObject.toJSONString(paramMap), " , e : ", e);
+            logger.error("在【controller】中添加字典-addDic is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中添加字典-addDic,响应-resultMap = ", JSONObject.toJSONString(resultMap));
+        logger.info("在【controller】中添加字典-addDic,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -71,19 +71,19 @@ public class WX_DicController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中删除字典-deleteDic,请求-paramMap = ", JSONObject.toJSONString(paramMap));
+        logger.info("在【controller】中删除字典-deleteDic,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             BoolDTO boolDTO = wxDicHandler.deleteDic(0, paramMap);
             resultMap.put("success", true);
             resultMap.put("code", boolDTO.getCode());
             resultMap.put("message", boolDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中删除字典-deleteDic is error, paramMap : ", JSONObject.toJSONString(paramMap), " , e : ", e);
+            logger.error("在【controller】中删除字典-deleteDic is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中删除字典-deleteDic,响应-resultMap = ", JSONObject.toJSONString(resultMap));
+        logger.info("在【controller】中删除字典-deleteDic,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -99,19 +99,19 @@ public class WX_DicController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中修改字典-updateDic,请求-paramMap = ", JSONObject.toJSONString(paramMap));
+        logger.info("在【controller】中修改字典-updateDic,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             BoolDTO boolDTO = wxDicHandler.updateDic(0, paramMap);
             resultMap.put("success", true);
             resultMap.put("code", boolDTO.getCode());
             resultMap.put("message", boolDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中修改字典-updateDic is error, paramMap : ", JSONObject.toJSONString(paramMap), " , e : ", e);
+            logger.error("在【controller】中修改字典-updateDic is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中修改字典-updateDic,响应-resultMap = ", JSONObject.toJSONString(resultMap));
+        logger.info("在【controller】中修改字典-updateDic,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -127,7 +127,7 @@ public class WX_DicController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中获取单一的字典-getSimpleDicByCondition,请求-paramMap = ", JSONObject.toJSONString(paramMap));
+        logger.info("在【controller】中获取单一的字典-getSimpleDicByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             ResultDTO resultDTO = wxDicHandler.getSimpleDicByCondition(0, paramMap);
             resultMap.put("recordsFiltered", resultDTO.getResultListTotal());
@@ -135,12 +135,12 @@ public class WX_DicController {
             resultMap.put("code", resultDTO.getCode());
             resultMap.put("message", resultDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中获取单一的字典-getSimpleDicByCondition is error, paramMap : ", JSONObject.toJSONString(paramMap), " , e : ", e);
+            logger.error("在【controller】中获取单一的字典-getSimpleDicByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中获取单一的字典-getSimpleDicByCondition,响应-resultMap = ", JSONObject.toJSONString(resultMap));
+        logger.info("在【controller】中获取单一的字典-getSimpleDicByCondition,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -151,7 +151,7 @@ public class WX_DicController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中获取多个的字典-getMoreDicByCondition,请求-paramMap = ", JSONObject.toJSONString(paramMap));
+        logger.info("在【controller】中获取多个的字典-getMoreDicByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             ResultMapDTO resultMapDTO = wxDicHandler.getMoreDicByCondition(0, paramMap);
             resultMap.put("recordsFiltered", resultMapDTO.getResultListTotal());
@@ -159,12 +159,12 @@ public class WX_DicController {
             resultMap.put("code", resultMapDTO.getCode());
             resultMap.put("message", resultMapDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中获取多个的字典-getMoreDicByCondition is error, paramMap : ", JSONObject.toJSONString(paramMap), " , e : ", e);
+            logger.error("在【controller】中获取多个的字典-getMoreDicByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中获取多个的字典-getMoreDicByCondition,响应-resultMap = ", JSONObject.toJSONString(resultMap));
+        logger.info("在【controller】中获取多个的字典-getMoreDicByCondition,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
