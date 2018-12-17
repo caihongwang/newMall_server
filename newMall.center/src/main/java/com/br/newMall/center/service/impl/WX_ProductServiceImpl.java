@@ -5,6 +5,7 @@ import com.br.newMall.api.code.NewMallCode;
 import com.br.newMall.api.dto.BoolDTO;
 import com.br.newMall.api.dto.ResultDTO;
 import com.br.newMall.api.dto.ResultMapDTO;
+import com.br.newMall.center.service.WX_DicService;
 import com.br.newMall.center.service.WX_ProductService;
 import com.br.newMall.center.utils.MapUtil;
 import com.br.newMall.dao.WX_ProductDao;
@@ -29,6 +30,30 @@ public class WX_ProductServiceImpl implements WX_ProductService {
 
     @Autowired
     private WX_ProductDao wxProductDao;
+
+    @Autowired
+    private WX_DicService wxDicService;
+
+    /**
+     * 获取商品类型列表
+     * @param paramMap
+     * @return
+     */
+    @Override
+    public ResultDTO getProductTypeList(Map<String, Object> paramMap) {
+        logger.info("在【service】中获取商品类型列表-getProductTypeList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultDTO resultDTO = new ResultDTO();
+        String dicType = paramMap.get("dicType") != null ? paramMap.get("dicType").toString() : "category";
+        if(!"".equals(dicType)){
+            paramMap.put("dicType", dicType);
+            resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
+        } else {
+            resultDTO.setCode(NewMallCode.PRODUCT_TYPE_IS_NULL.getNo());
+            resultDTO.setMessage(NewMallCode.PRODUCT_TYPE_IS_NULL.getMessage());
+        }
+        logger.info("在【service】中获取商品类型列表-getProductTypeList,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        return resultDTO;
+    }
 
     /**
      * 添加商品

@@ -151,6 +151,8 @@ service WX_SourceMaterialHandler {
 
 service WX_ProductHandler {
 
+    dto.ResultDTO getProductTypeList(1:int tid, 2:map<string, string> paramMap),
+
     dto.BoolDTO addProduct(1:int tid, 2:map<string, string> paramMap),
 
     dto.BoolDTO deleteProduct(1:int tid, 2:map<string, string> paramMap),

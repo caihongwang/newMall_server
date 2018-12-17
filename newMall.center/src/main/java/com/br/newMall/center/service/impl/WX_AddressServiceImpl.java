@@ -44,6 +44,7 @@ public class WX_AddressServiceImpl implements WX_AddressService {
         ResultDTO resultDTO = new ResultDTO();
         String dicType = paramMap.get("dicType") != null ? paramMap.get("dicType").toString() : "province";
         if(!"".equals(dicType)){
+            paramMap.put("dicType", dicType);
             paramMap.put("dicRemark", "\"parentId\":\"0\"");
             resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
         } else {
@@ -63,9 +64,10 @@ public class WX_AddressServiceImpl implements WX_AddressService {
     public ResultDTO getCityList(Map<String, Object> paramMap) {
         logger.info("在【service】中根据省份ID获取城市列表-getCityList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
-        String dicType = paramMap.get("dicType") != null ? paramMap.get("dicType").toString() : "province";
-        String provinceId = paramMap.get("provinceId") != null ? paramMap.get("provinceId").toString() : "province";
+        String dicType = paramMap.get("dicType") != null ? paramMap.get("dicType").toString() : "city";
+        String provinceId = paramMap.get("provinceId") != null ? paramMap.get("provinceId").toString() : "110000";
         if(!"".equals(dicType) && !"".equals(provinceId)){
+            paramMap.put("dicType", dicType);
             paramMap.put("dicRemark", "\"parentId\":\""+provinceId+"\"");
             resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
         } else {
@@ -85,9 +87,10 @@ public class WX_AddressServiceImpl implements WX_AddressService {
     public ResultDTO getRegionList(Map<String, Object> paramMap) {
         logger.info("在【service】中根据城市ID获取地区列表-getRegionList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
-        String dicType = paramMap.get("dicType") != null ? paramMap.get("dicType").toString() : "province";
-        String cityId = paramMap.get("cityId") != null ? paramMap.get("cityId").toString() : "province";
+        String dicType = paramMap.get("dicType") != null ? paramMap.get("dicType").toString() : "region";
+        String cityId = paramMap.get("cityId") != null ? paramMap.get("cityId").toString() : "110100";
         if(!"".equals(dicType) && !"".equals(cityId)){
+            paramMap.put("dicType", dicType);
             paramMap.put("dicRemark", "\"parentId\":\""+cityId+"\"");
             resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
         } else {
@@ -107,9 +110,10 @@ public class WX_AddressServiceImpl implements WX_AddressService {
     public ResultDTO getStreetList(Map<String, Object> paramMap) {
         logger.info("在【service】中根据地区ID获取地区列表-getStreetList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
-        String dicType = paramMap.get("dicType") != null ? paramMap.get("dicType").toString() : "province";
-        String regionId = paramMap.get("regionId") != null ? paramMap.get("regionId").toString() : "province";
+        String dicType = paramMap.get("dicType") != null ? paramMap.get("dicType").toString() : "street";
+        String regionId = paramMap.get("regionId") != null ? paramMap.get("regionId").toString() : "110108";
         if(!"".equals(dicType) && !"".equals(regionId)){
+            paramMap.put("dicType", dicType);
             paramMap.put("dicRemark", "\"parentId\":\""+regionId+"\"");
             resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
         } else {

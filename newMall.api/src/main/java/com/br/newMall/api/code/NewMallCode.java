@@ -120,6 +120,7 @@ public class NewMallCode {
     public static NewMallCode PRODUCT_EXIST = new NewMallCode(180002, "商品已经存在.");
     public static NewMallCode PRODUCT_ID_IS_NOT_NULL = new NewMallCode(180003, "商品ID不允许为空.");
     public static NewMallCode PRODUCT_LIST_IS_NULL = new NewMallCode(180004, "没有更多商品.");
+    public static NewMallCode PRODUCT_TYPE_IS_NULL = new NewMallCode(180005, "商品的类型不允许为空.");
 
     //地址
     public static NewMallCode ADDRESS_UID_OR_NAME_OR_PHONE_OR_PROVINCEID_OR_PROVINCENAME_OR_CITYID_OR_CITYNAME_OR_REGIONID_OR_REGIONNAME_OR_STREETID_OR_STREETNAME_OR_DETAILADDRESS_IS_NOT_NULL = new NewMallCode(190001, "地址的uid或者收货姓名或者收货电话或者省份ID或者城市ID或者城市名称或者地区ID或者地区名称或者街道ID或者街道名称或者详细地址不允许为空.");

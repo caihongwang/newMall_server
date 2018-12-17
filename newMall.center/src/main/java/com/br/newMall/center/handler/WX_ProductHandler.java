@@ -29,6 +29,39 @@ public class WX_ProductHandler implements com.br.newMall.api.service.WX_ProductH
     private WX_ProductService wxProductService;
 
     /**
+     * 获取商品类型列表
+     * @param tid
+     * @param paramMap
+     * @return
+     * @throws TException
+     */
+    @Override
+    public ResultDTO getProductTypeList(int tid, Map<String, String> paramMap) throws TException {
+        logger.info("在【hanlder】中获取商品类型列表-getProductTypeList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultDTO resultDTO = new ResultDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        if (paramMap.size() > 0) {
+            try {
+                resultDTO = wxProductService.getProductTypeList(objectParamMap);
+            } catch (Exception e) {
+                logger.error("在【hanlder】中获取商品类型列表-getProductTypeList is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                List<Map<String, String>> resultList = Lists.newArrayList();
+                resultDTO.setResultListTotal(0);
+                resultDTO.setResultList(resultList);
+                resultDTO.setSuccess(false);
+                resultDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                resultDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
+            }
+        } else {
+            resultDTO.setSuccess(false);
+            resultDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
+            resultDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
+        }
+        logger.info("在【hanlder】中获取商品类型列表-getProductTypeList,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        return resultDTO;
+    }
+
+    /**
      * 添加商品
      * @param tid
      * @param paramMap

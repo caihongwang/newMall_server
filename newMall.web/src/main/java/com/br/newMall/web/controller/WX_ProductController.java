@@ -32,6 +32,35 @@ public class WX_ProductController {
     private WX_ProductHandler.Client wxProductHandler;
 
     /**
+     * 获取商品类型列表
+     * @param request
+     * @return
+     */
+    @RequestMapping("/getProductTypeList")
+    @ResponseBody
+    public Map<String, Object> getProductTypeList(HttpServletRequest request) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        //获取请求参数能够获取到并解析
+        paramMap = HttpUtil.getRequestParams(request);
+        logger.info("在【controller】中获取商品类型列表-getProductTypeList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        try {
+            ResultDTO resultDTO = wxProductHandler.getProductTypeList(0, paramMap);
+            resultMap.put("recordsFiltered", resultDTO.getResultListTotal());
+            resultMap.put("data", resultDTO.getResultList());
+            resultMap.put("code", resultDTO.getCode());
+            resultMap.put("message", resultDTO.getMessage());
+        } catch (Exception e) {
+            logger.error("在【controller】中获取商品类型列表-getProductTypeList is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            resultMap.put("success", false);
+            resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
+            resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
+        }
+        logger.info("在【controller】中获取商品类型列表-getProductTypeList,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        return resultMap;
+    }
+
+    /**
      * 添加商品
      * @param request
      * @return

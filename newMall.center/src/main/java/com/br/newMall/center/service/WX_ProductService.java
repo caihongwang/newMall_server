@@ -11,6 +11,10 @@ import java.util.Map;
  * @author caihongwang
  */
 public interface WX_ProductService {
+    /**
+     * 获取商品类型列表
+     */
+    ResultDTO getProductTypeList(Map<String, Object> paramMap);
 
     /**
      * 根据条件查询商品信息
