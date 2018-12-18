@@ -32,7 +32,6 @@ public class CommentsHandler implements com.br.newMall.api.service.CommentsHandl
         try {
             boolDTO = commentsService.addComments(objectParamMap);
         } catch (Exception e) {
-            boolDTO.setSuccess(false);
             boolDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
             boolDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             logger.error("在hanlder中添加意见-addComments is error, paramMap : " + paramMap + ", e : " + e);
@@ -49,7 +48,6 @@ public class CommentsHandler implements com.br.newMall.api.service.CommentsHandl
         try {
             boolDTO = commentsService.deleteComments(objectParamMap);
         } catch (Exception e) {
-            boolDTO.setSuccess(false);
             boolDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
             boolDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             logger.error("在hanlder中删除意见-deleteComments is error, paramMap : " + paramMap + ", e : " + e);
@@ -66,7 +64,6 @@ public class CommentsHandler implements com.br.newMall.api.service.CommentsHandl
         try {
             boolDTO = commentsService.updateComments(objectParamMap);
         } catch (Exception e) {
-            boolDTO.setSuccess(false);
             boolDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
             boolDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             logger.error("在hanlder中修改意见-updateComments is error, paramMap : " + paramMap + ", e : " + e);
@@ -86,7 +83,6 @@ public class CommentsHandler implements com.br.newMall.api.service.CommentsHandl
             List<Map<String, String>> resultList = Lists.newArrayList();
             resultDTO.setResultListTotal(0);
             resultDTO.setResultList(resultList);
-            resultDTO.setSuccess(false);
             resultDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
             resultDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             logger.error("在hanlder中获取单一的意见-getSimpleCommentsByCondition is error, paramMap : " + paramMap + ", e : " + e);

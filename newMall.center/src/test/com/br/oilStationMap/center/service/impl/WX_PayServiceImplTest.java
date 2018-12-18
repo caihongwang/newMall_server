@@ -82,7 +82,6 @@ public class WX_PayServiceImplTest {
         String toOauthUrl = WX_PublicNumberUtil.getAuthorizeURL(NewMallCode.WX_PUBLIC_NUMBER_APPID, calbackUrl, "123", false);
         resultMap.put("toOauthUrl", toOauthUrl);
         resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
-        resultMapDTO.setSuccess(true);
         resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
         resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
     }

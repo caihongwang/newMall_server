@@ -84,24 +84,20 @@ public class OilStationOperatorServiceImpl implements OilStationOperatorService 
             paramMapTemp.put("createTime", formatter.format(new Date()));
             List<Map<String, Object>> exist_oilStationOperatorList = oilStationOperatorDao.getSimpleOilStationOperatorByCondition(paramMapTemp);
             if(exist_oilStationOperatorList != null && exist_oilStationOperatorList.size() > 0){
-                resultMapDTO.setSuccess(false);
                 resultMapDTO.setCode(NewMallCode.OIL_STATION_OPERATOR_IS_EXIST.getNo());
                 resultMapDTO.setMessage(NewMallCode.OIL_STATION_OPERATOR_IS_EXIST.getMessage());
             } else {
             //2.2记录加油站操作
                 addNum = oilStationOperatorDao.addOilStationOperator(paramMap);
                 if (addNum != null && addNum > 0) {
-                    resultMapDTO.setSuccess(true);
                     resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
                     resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
                 } else {
-                    resultMapDTO.setSuccess(false);
                     resultMapDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
                     resultMapDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
                 }
             }
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.OIL_STATION_OPERATOR_UID_OILSTATIONCODE_OPERATOR_IS_NOT_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.OIL_STATION_OPERATOR_UID_OILSTATIONCODE_OPERATOR_IS_NOT_NULL.getMessage());
         }
@@ -123,16 +119,13 @@ public class OilStationOperatorServiceImpl implements OilStationOperatorService 
         if (!"".equals(id)) {
             deleteNum = oilStationOperatorDao.deleteOilStationOperator(paramMap);
             if (deleteNum != null && deleteNum > 0) {
-                resultMapDTO.setSuccess(true);
                 resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
                 resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
-                resultMapDTO.setSuccess(false);
                 resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             }
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.OIL_STATION_OPERATOR_ID_IS_NOT_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.OIL_STATION_OPERATOR_ID_IS_NOT_NULL.getMessage());
         }
@@ -154,16 +147,13 @@ public class OilStationOperatorServiceImpl implements OilStationOperatorService 
         if (!"".equals(id)) {
             updateNum = oilStationOperatorDao.updateOilStationOperator(paramMap);
             if (updateNum != null && updateNum > 0) {
-                resultMapDTO.setSuccess(true);
                 resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
                 resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
-                resultMapDTO.setSuccess(false);
                 resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             }
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.OIL_STATION_OPERATOR_ID_IS_NOT_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.OIL_STATION_OPERATOR_ID_IS_NOT_NULL.getMessage());
         }
@@ -188,14 +178,12 @@ public class OilStationOperatorServiceImpl implements OilStationOperatorService 
             Integer total = oilStationOperatorDao.getSimpleOilStationOperatorTotalByCondition(paramMap);
             resultDTO.setResultListTotal(total);
             resultDTO.setResultList(oilStationOperatorStrList);
-            resultDTO.setSuccess(false);
             resultDTO.setCode(NewMallCode.SUCCESS.getNo());
             resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
         } else {
             List<Map<String, String>> resultList = Lists.newArrayList();
             resultDTO.setResultListTotal(0);
             resultDTO.setResultList(resultList);
-            resultDTO.setSuccess(false);
             resultDTO.setCode(NewMallCode.OIL_STATION_OPERATOR_LIST_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.OIL_STATION_OPERATOR_LIST_IS_NULL.getMessage());
         }
@@ -218,14 +206,12 @@ public class OilStationOperatorServiceImpl implements OilStationOperatorService 
             Integer total = oilStationOperatorDao.getOilStationOperatorTotalByCondition(paramMap);
             resultDTO.setResultListTotal(total);
             resultDTO.setResultList(oilStationOperatorStrList);
-            resultDTO.setSuccess(true);
             resultDTO.setCode(NewMallCode.SUCCESS.getNo());
             resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
         } else {
             List<Map<String, String>> resultList = Lists.newArrayList();
             resultDTO.setResultListTotal(0);
             resultDTO.setResultList(resultList);
-            resultDTO.setSuccess(false);
             resultDTO.setCode(NewMallCode.OIL_STATION_OPERATOR_LIST_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.OIL_STATION_OPERATOR_LIST_IS_NULL.getMessage());
         }

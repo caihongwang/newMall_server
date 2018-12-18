@@ -68,16 +68,13 @@ public class OilStationOperatorServiceImplTest {
             //2.保存操作
             addNum = oilStationOperatorDao.addOilStationOperator(paramMap);
             if (addNum != null && addNum > 0) {
-                boolDTO.setSuccess(true);
                 boolDTO.setCode(NewMallCode.SUCCESS.getNo());
                 boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
-                boolDTO.setSuccess(false);
                 boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
                 boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
             }
         } else {
-            boolDTO.setSuccess(false);
             boolDTO.setCode(NewMallCode.OIL_STATION_OPERATOR_UID_OILSTATIONCODE_OPERATOR_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.OIL_STATION_OPERATOR_UID_OILSTATIONCODE_OPERATOR_IS_NOT_NULL.getMessage());
         }

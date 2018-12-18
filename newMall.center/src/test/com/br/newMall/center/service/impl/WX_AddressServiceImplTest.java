@@ -98,16 +98,13 @@ public class WX_AddressServiceImplTest {
                 && !"".equals(streetId) && !"".equals(streetName)) {
             addNum = wxAddressDao.addAddress(paramMap);
             if (addNum != null && addNum > 0) {
-                boolDTO.setSuccess(true);
                 boolDTO.setCode(NewMallCode.SUCCESS.getNo());
                 boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
-                boolDTO.setSuccess(false);
                 boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
                 boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
             }
         } else {
-            boolDTO.setSuccess(false);
             boolDTO.setCode(NewMallCode.ADDRESS_UID_OR_NAME_OR_PHONE_OR_PROVINCEID_OR_PROVINCENAME_OR_CITYID_OR_CITYNAME_OR_REGIONID_OR_REGIONNAME_OR_STREETID_OR_STREETNAME_OR_DETAILADDRESS_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.ADDRESS_UID_OR_NAME_OR_PHONE_OR_PROVINCEID_OR_PROVINCENAME_OR_CITYID_OR_CITYNAME_OR_REGIONID_OR_REGIONNAME_OR_STREETID_OR_STREETNAME_OR_DETAILADDRESS_IS_NOT_NULL.getMessage());
         }

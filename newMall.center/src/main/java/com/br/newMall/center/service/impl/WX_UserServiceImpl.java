@@ -92,7 +92,6 @@ public class WX_UserServiceImpl implements WX_UserService {
                                 resultMap.put("sessionKey", key);
                                 resultMap.put("uid", uid);
                                 resultMapDTO.setResultMap(resultMap);
-                                resultMapDTO.setSuccess(true);
                                 resultMapDTO.setCode(NewMallCode.USER_EXIST.getNo());
                                 resultMapDTO.setMessage(NewMallCode.USER_EXIST.getMessage());
                             } else {
@@ -100,7 +99,6 @@ public class WX_UserServiceImpl implements WX_UserService {
                                 resultMap.put("sessionKey", key);
                                 resultMap.put("uid", uid);
                                 resultMapDTO.setResultMap(resultMap);
-                                resultMapDTO.setSuccess(true);
                                 resultMapDTO.setCode(NewMallCode.USER_EXIST.getNo());
                                 resultMapDTO.setMessage(NewMallCode.USER_EXIST.getMessage());
                             }
@@ -115,7 +113,6 @@ public class WX_UserServiceImpl implements WX_UserService {
                             resultMap.put("sessionKey", key);
                             resultMap.put("uid", uid);
                             resultMapDTO.setResultMap(resultMap);
-                            resultMapDTO.setSuccess(true);
                             resultMapDTO.setCode(NewMallCode.USER_EXIST.getNo());
                             resultMapDTO.setMessage(NewMallCode.USER_EXIST.getMessage());
                         }
@@ -143,36 +140,30 @@ public class WX_UserServiceImpl implements WX_UserService {
                                 resultMap.put("sessionKey", key);
                                 resultMap.put("uid", uid);
                                 resultMapDTO.setResultMap(resultMap);
-                                resultMapDTO.setSuccess(true);
                                 resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
                                 resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
                             } else {
                                 resultMapDTO.setResultMap(resultMap);
-                                resultMapDTO.setSuccess(false);
                                 resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                                 resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
                             }
                         } else {
                             resultMapDTO.setResultMap(resultMap);
-                            resultMapDTO.setSuccess(false);
                             resultMapDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
                             resultMapDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
                         }
                     }
                 } else {
                     resultMapDTO.setResultMap(resultMap);
-                    resultMapDTO.setSuccess(false);
                     resultMapDTO.setCode(NewMallCode.WX_SERVER_INNER_ERROR.getNo());
                     resultMapDTO.setMessage(NewMallCode.WX_SERVER_INNER_ERROR.getMessage());
                 }
             } else {
                 resultMapDTO.setResultMap(resultMap);
-                resultMapDTO.setSuccess(false);
                 resultMapDTO.setCode(NewMallCode.WX_PARAM_IS_NOT_NULL.getNo());
                 resultMapDTO.setMessage(NewMallCode.WX_PARAM_IS_NOT_NULL.getMessage());
             }
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.CODE_IS_NOT_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.CODE_IS_NOT_NULL.getMessage());
         }
@@ -199,11 +190,9 @@ public class WX_UserServiceImpl implements WX_UserService {
         paramMap.put("id", paramMap.get("uid"));
         updateNum = wxUserDao.updateUser(paramMap);
         if (updateNum != null && updateNum > 0) {
-            boolDTO.setSuccess(true);
             boolDTO.setCode(NewMallCode.SUCCESS.getNo());
             boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
         } else {
-            boolDTO.setSuccess(false);
             boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
             boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
         }
@@ -228,24 +217,20 @@ public class WX_UserServiceImpl implements WX_UserService {
             try (Jedis jedis = jedisPool.getResource()) {
                 String value = jedis.get(userSessionKey);
                 if (value != null && !"".equals(value)) {
-                    boolDTO.setSuccess(true);
                     boolDTO.setValue(true);
                     boolDTO.setCode(NewMallCode.SUCCESS.getNo());
                     boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
                 } else {
-                    boolDTO.setSuccess(false);
                     boolDTO.setValue(false);
                     boolDTO.setCode(NewMallCode.IS_USER_SESSION_OVERDUE.getNo());
                     boolDTO.setMessage(NewMallCode.IS_USER_SESSION_OVERDUE.getMessage());
                 }
             } catch (Exception e) {
-                boolDTO.setSuccess(false);
                 boolDTO.setValue(false);
                 boolDTO.setCode(NewMallCode.IS_USER_SESSION_OVERDUE.getNo());
                 boolDTO.setMessage(NewMallCode.IS_USER_SESSION_OVERDUE.getMessage());
             }
         } else {
-            boolDTO.setSuccess(false);
             boolDTO.setValue(false);
             boolDTO.setCode(NewMallCode.SESSION_KEY_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.SESSION_KEY_IS_NOT_NULL.getMessage());
@@ -273,22 +258,18 @@ public class WX_UserServiceImpl implements WX_UserService {
                 boolean result = checkCaptcha != null && captcha.trim().equals(checkCaptcha.trim());
                 if (result) {
                     jedis.del(key);
-                    messageDTO.setSuccess(true);
                     messageDTO.setCode(NewMallCode.SUCCESS.getNo());
                     messageDTO.setMessage(NewMallCode.SUCCESS.getMessage());
                 } else {
-                    messageDTO.setSuccess(false);
                     messageDTO.setCode(NewMallCode.CARD_ERROR_PHONE_CAPTCHA.getNo());
                     messageDTO.setMessage(NewMallCode.CARD_ERROR_PHONE_CAPTCHA.getMessage());
                 }
             } catch (Exception e) {
-                messageDTO.setSuccess(false);
                 messageDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 messageDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
                 logger.error("在【service】中校验手机验证码-getCheckVerificationCode is error, paramMap = {}", JSONObject.toJSONString(paramMap), ", e : {}", e);
             }
         } else {
-            messageDTO.setSuccess(false);
             messageDTO.setCode(NewMallCode.PHONE_OR_CAPTCHA_IS_NOT_NULL.getNo());
             messageDTO.setMessage(NewMallCode.PHONE_OR_CAPTCHA_IS_NOT_NULL.getMessage());
         }
@@ -313,19 +294,16 @@ public class WX_UserServiceImpl implements WX_UserService {
                 Integer total = wxUserDao.getSimpleUserTotalByCondition(paramMap);
                 resultDTO.setResultListTotal(total);
                 resultDTO.setResultList(userStrList);
-                resultDTO.setSuccess(false);
                 resultDTO.setCode(NewMallCode.SUCCESS.getNo());
                 resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
                 List<Map<String, String>> resultList = Lists.newArrayList();
                 resultDTO.setResultListTotal(0);
                 resultDTO.setResultList(resultList);
-                resultDTO.setSuccess(false);
                 resultDTO.setCode(NewMallCode.USER_IS_NULL.getNo());
                 resultDTO.setMessage(NewMallCode.USER_IS_NULL.getMessage());
             }
         } else {
-            resultDTO.setSuccess(false);
             resultDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
@@ -346,11 +324,9 @@ public class WX_UserServiceImpl implements WX_UserService {
         BoolDTO boolDTO = new BoolDTO();
         deleteNum = wxUserDao.deleteUser(paramMap);
         if (deleteNum != null && deleteNum > 0) {
-            boolDTO.setSuccess(true);
             boolDTO.setCode(NewMallCode.SUCCESS.getNo());
             boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
         } else {
-            boolDTO.setSuccess(false);
             boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
             boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
         }
@@ -377,19 +353,15 @@ public class WX_UserServiceImpl implements WX_UserService {
             try (Jedis jedis = jedisPool.getResource()) {
                 jedis.set(key, session_key);        //将session_key作为redius中的value
                 jedis.expire(key, NewMallCode.USER_SESSION_EXPIRED_TIME);
-
-                boolDTO.setSuccess(true);
                 boolDTO.setValue(true);
                 boolDTO.setCode(NewMallCode.SUCCESS.getNo());
                 boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } catch (Exception e) {
-                boolDTO.setSuccess(false);
                 boolDTO.setValue(false);
                 boolDTO.setCode(NewMallCode.IS_USER_SESSION_OVERDUE.getNo());
                 boolDTO.setMessage(NewMallCode.IS_USER_SESSION_OVERDUE.getMessage());
             }
         } else {
-            boolDTO.setSuccess(false);
             boolDTO.setValue(false);
             boolDTO.setCode(NewMallCode.SESSION_KEY_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.SESSION_KEY_IS_NOT_NULL.getMessage());

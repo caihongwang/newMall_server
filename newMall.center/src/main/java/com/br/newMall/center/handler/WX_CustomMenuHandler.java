@@ -36,7 +36,6 @@ public class WX_CustomMenuHandler implements com.br.newMall.api.service.WX_Custo
         try {
             resultMapDTO = wx_CustomMenuService.createCustomMenu(objectParamMap);
         } catch (Exception e) {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             logger.error("在hanlder中获取公众号自定义菜单-getCustomMenu is error, paramMap : " + paramMap + ", e : " + e);
@@ -60,7 +59,6 @@ public class WX_CustomMenuHandler implements com.br.newMall.api.service.WX_Custo
         try {
             resultMapDTO = wx_CustomMenuService.createCustomMenu(objectParamMap);
         } catch (Exception e) {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             logger.error("在hanlder中创建公众号自定义菜单-createCustomMenu is error, paramMap : " + paramMap + ", e : " + e);
@@ -84,7 +82,6 @@ public class WX_CustomMenuHandler implements com.br.newMall.api.service.WX_Custo
         try {
             resultMapDTO = wx_CustomMenuService.deleteCustomMenu(objectParamMap);
         } catch (Exception e) {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             logger.error("在hanlder中删除公众号自定义菜单-deleteCustomMenu is error, paramMap : " + paramMap + ", e : " + e);
@@ -108,7 +105,6 @@ public class WX_CustomMenuHandler implements com.br.newMall.api.service.WX_Custo
         try {
             resultMapDTO = wx_CustomMenuService.createPersonalMenu(objectParamMap);
         } catch (Exception e) {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             logger.error("在hanlder中创建公众号个性化菜单-createPersonalMenu is error, paramMap : " + paramMap + ", e : " + e);
@@ -132,7 +128,6 @@ public class WX_CustomMenuHandler implements com.br.newMall.api.service.WX_Custo
         try {
             resultMapDTO = wx_CustomMenuService.deletePersonalMenu(objectParamMap);
         } catch (Exception e) {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             logger.error("在hanlder中删除公众号个性化菜单-deletePersonalMenu is error, paramMap : " + paramMap + ", e : " + e);
@@ -156,7 +151,6 @@ public class WX_CustomMenuHandler implements com.br.newMall.api.service.WX_Custo
         try {
             resultMapDTO = wx_CustomMenuService.getCurrentSelfMenuInfo(objectParamMap);
         } catch (Exception e) {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             logger.error("在hanlder中获取公众号自定义菜单配置接口-getCurrentSelfMenuInfo is error, paramMap : " + paramMap + ", e : " + e);

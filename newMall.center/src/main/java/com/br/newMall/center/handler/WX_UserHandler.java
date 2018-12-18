@@ -43,7 +43,6 @@ public class WX_UserHandler implements com.br.newMall.api.service.WX_UserHandler
         try {
             resultMapDTO = userService.login(objectParamMap);
         } catch (Exception e) {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             logger.error("在【hanlder】中登录(首次微信授权，则使用openId创建用户)-login is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
@@ -67,7 +66,6 @@ public class WX_UserHandler implements com.br.newMall.api.service.WX_UserHandler
         try {
             boolDTO = userService.updateUser(objectParamMap);
         } catch (Exception e) {
-            boolDTO.setSuccess(false);
             boolDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
             boolDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             logger.error("在【hanlder】中更新用户信息-updateUser is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
@@ -92,7 +90,6 @@ public class WX_UserHandler implements com.br.newMall.api.service.WX_UserHandler
             boolDTO = userService.checkSession(objectParamMap);
         } catch (Exception e) {
             logger.error("在【hanlder】中检测用户会话是否过期-checkSession is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
-            boolDTO.setSuccess(false);
             boolDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
             boolDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
@@ -113,12 +110,10 @@ public class WX_UserHandler implements com.br.newMall.api.service.WX_UserHandler
                 messageDTO = userService.getCheckVerificationCode(objectParamMap);
             } catch (Exception e) {
                 logger.error("在【hanlder】中校验手机验证码-getCheckVerificationCode is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
-                messageDTO.setSuccess(false);
                 messageDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 messageDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             }
         } else {
-            messageDTO.setSuccess(false);
             messageDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             messageDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
@@ -145,13 +140,11 @@ public class WX_UserHandler implements com.br.newMall.api.service.WX_UserHandler
                 List<Map<String, String>> resultList = Lists.newArrayList();
                 resultDTO.setResultListTotal(0);
                 resultDTO.setResultList(resultList);
-                resultDTO.setSuccess(false);
                 resultDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 resultDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
                 logger.error("在【hanlder】中获取单一的字典-getSimpleDicByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             }
         } else {
-            resultDTO.setSuccess(false);
             resultDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }

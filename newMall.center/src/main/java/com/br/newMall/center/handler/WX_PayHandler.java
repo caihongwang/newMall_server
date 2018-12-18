@@ -38,7 +38,6 @@ public class WX_PayHandler implements com.br.newMall.api.service.WX_PayHandler.I
         try {
             resultMapDTO = wx_PayService.getOauth(objectParamMap);
         } catch (Exception e) {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             logger.error("在hanlder中获取oauth-getOauth is error, paramMap : " + paramMap + ", e : " + e);
@@ -64,13 +63,11 @@ public class WX_PayHandler implements com.br.newMall.api.service.WX_PayHandler.I
             try {
                 resultMapDTO = wx_PayService.getToOauthUrl(objectParamMap);
             } catch (Exception e) {
-                resultMapDTO.setSuccess(false);
                 resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
                 logger.error("在hanlder中获取oauth的url-getToOauthUrl is error, paramMap : " + paramMap + ", e : " + e);
             }
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
@@ -95,13 +92,11 @@ public class WX_PayHandler implements com.br.newMall.api.service.WX_PayHandler.I
             try {
                 resultMapDTO = wx_PayService.unifiedOrderPay(objectParamMap);
             } catch (Exception e) {
-                resultMapDTO.setSuccess(false);
                 resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
                 logger.error("在hanlder中统一订单支付请求-unifiedOrderPay is error, paramMap : " + paramMap + ", e : " + e);
             }
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }

@@ -59,11 +59,9 @@ public class WX_RedPacketServiceImpl implements WX_RedPacketService {
             String qrCodeImg_url = WX_PublicNumberUtil.getRedPacketQrCode(paramStr);
             resultMap.put("qrCodeImg_url", qrCodeImg_url);
             resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
-            resultMapDTO.setSuccess(true);
             resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
             resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
@@ -129,12 +127,10 @@ public class WX_RedPacketServiceImpl implements WX_RedPacketService {
                 }
                 resultMap.put("openId", openId);
                 resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
-                resultMapDTO.setSuccess(true);
                 resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
                 resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             }
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
@@ -152,7 +148,6 @@ public class WX_RedPacketServiceImpl implements WX_RedPacketService {
         String toOauthUrl = WX_PublicNumberUtil.getAuthorizeURL(NewMallCode.WX_PUBLIC_NUMBER_APPID, calbackUrl, "111", false);
         resultMap.put("toOauthUrl", toOauthUrl);
         resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
-        resultMapDTO.setSuccess(true);
         resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
         resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
         return resultMapDTO;
@@ -211,12 +206,10 @@ public class WX_RedPacketServiceImpl implements WX_RedPacketService {
                         reUserName, amount, desc,
                         spbillCreateIp, paternerKey, certPath);
             } else {
-                resultMapDTO.setSuccess(false);
                 resultMapDTO.setCode(NewMallCode.WX_RED_PACKET__ACTIVITY_IS_NOT_EXIST.getNo());
                 resultMapDTO.setMessage(NewMallCode.WX_RED_PACKET__ACTIVITY_IS_NOT_EXIST.getMessage());
             }
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
@@ -285,21 +278,17 @@ public class WX_RedPacketServiceImpl implements WX_RedPacketService {
                         totalNum, wishing, clientIp, actName,
                         remark, paternerKey, certPath);
                 if (isSend) {
-                    resultMapDTO.setSuccess(true);
                     resultMapDTO.setCode(NewMallCode.WX_RED_PACKET__SEND_SUCCESS.getNo());
                     resultMapDTO.setMessage(NewMallCode.WX_RED_PACKET__SEND_SUCCESS.getMessage());
                 } else {
-                    resultMapDTO.setSuccess(false);
                     resultMapDTO.setCode(NewMallCode.WX_RED_PACKET__SEND_FAILTURE.getNo());
                     resultMapDTO.setMessage(NewMallCode.WX_RED_PACKET__SEND_FAILTURE.getMessage());
                 }
             } else {
-                resultMapDTO.setSuccess(false);
                 resultMapDTO.setCode(NewMallCode.WX_RED_PACKET__ACTIVITY_IS_NOT_EXIST.getNo());
                 resultMapDTO.setMessage(NewMallCode.WX_RED_PACKET__ACTIVITY_IS_NOT_EXIST.getMessage());
             }
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
@@ -368,21 +357,17 @@ public class WX_RedPacketServiceImpl implements WX_RedPacketService {
                          totalNum, amtType, wishing, actName,
                          remark, paternerKey, certPath);
                 if (isSend) {
-                    resultMapDTO.setSuccess(true);
                     resultMapDTO.setCode(NewMallCode.WX_RED_PACKET__SEND_SUCCESS.getNo());
                     resultMapDTO.setMessage(NewMallCode.WX_RED_PACKET__SEND_SUCCESS.getMessage());
                 } else {
-                    resultMapDTO.setSuccess(false);
                     resultMapDTO.setCode(NewMallCode.WX_RED_PACKET__SEND_FAILTURE.getNo());
                     resultMapDTO.setMessage(NewMallCode.WX_RED_PACKET__SEND_FAILTURE.getMessage());
                 }
             } else {
-                resultMapDTO.setSuccess(false);
                 resultMapDTO.setCode(NewMallCode.WX_RED_PACKET__ACTIVITY_IS_NOT_EXIST.getNo());
                 resultMapDTO.setMessage(NewMallCode.WX_RED_PACKET__ACTIVITY_IS_NOT_EXIST.getMessage());
             }
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }

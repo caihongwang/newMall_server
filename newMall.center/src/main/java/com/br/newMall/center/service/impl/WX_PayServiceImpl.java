@@ -40,7 +40,6 @@ public class WX_PayServiceImpl implements WX_PayService {
         String openId = paramMap.get("openId") != null ? paramMap.get("openId").toString() : "";
         if (!"".equals(openId) && !"".equals(spbillCreateIp)) {
             if ("".equals(payMoney)) {
-                resultMapDTO.setSuccess(false);
                 resultMapDTO.setCode(NewMallCode.ORDER_PAY_MONEY_IS_NOT_NULL.getNo());
                 resultMapDTO.setMessage(NewMallCode.ORDER_PAY_MONEY_IS_NOT_NULL.getMessage());
             } else {
@@ -68,12 +67,10 @@ public class WX_PayServiceImpl implements WX_PayService {
                         tradeType, openId, apiSecret);
                 Map<String, Object> unifiedOrderPayMap = JSONObject.parseObject(unifiedOrderPayJson, Map.class);
                 resultMapDTO.setResultMap(MapUtil.getStringMap(unifiedOrderPayMap));
-                resultMapDTO.setSuccess(true);
                 resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
                 resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             }
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
@@ -140,12 +137,10 @@ public class WX_PayServiceImpl implements WX_PayService {
                 String paymentUrl = NewMallCode.WX_PAY_DOMAIN + "/payment.html?openId=" + openId;
                 resultMap.put("paymentUrl", paymentUrl);
                 resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
-                resultMapDTO.setSuccess(true);
                 resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
                 resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             }
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
@@ -197,7 +192,6 @@ public class WX_PayServiceImpl implements WX_PayService {
             e.printStackTrace();
         }
         resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
-        resultMapDTO.setSuccess(true);
         resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
         resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
         return resultMapDTO;

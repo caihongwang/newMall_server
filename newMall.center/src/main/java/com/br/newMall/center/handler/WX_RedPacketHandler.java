@@ -41,7 +41,6 @@ public class WX_RedPacketHandler implements com.br.newMall.api.service.WX_RedPac
         try {
             resultMapDTO = wx_RedPacketService.getRedPacketQrCode(objectParamMap);
         } catch (Exception e) {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             logger.error("在hanlder中获取红包二维码-getRedPacketQrCode is error, paramMap : " + paramMap + ", e : " + e);
@@ -66,7 +65,6 @@ public class WX_RedPacketHandler implements com.br.newMall.api.service.WX_RedPac
         try {
             resultMapDTO = wx_RedPacketService.getOauth(objectParamMap);
         } catch (Exception e) {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             logger.error("在hanlder中获取oauth-getOauth is error, paramMap : " + paramMap + ", e : " + e);
@@ -92,13 +90,11 @@ public class WX_RedPacketHandler implements com.br.newMall.api.service.WX_RedPac
             try {
                 resultMapDTO = wx_RedPacketService.getToOauthUrl(objectParamMap);
             } catch (Exception e) {
-                resultMapDTO.setSuccess(false);
                 resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
                 logger.error("在hanlder中获取oauth的url-getToOauthUrl is error, paramMap : " + paramMap + ", e : " + e);
             }
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
@@ -123,13 +119,11 @@ public class WX_RedPacketHandler implements com.br.newMall.api.service.WX_RedPac
             try {
                 resultMapDTO = wx_RedPacketService.enterprisePayment(objectParamMap);
             } catch (Exception e) {
-                resultMapDTO.setSuccess(false);
                 resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
                 logger.error("在hanlder中企业付款，直达微信零钱-enterprisePayment is error, paramMap : " + paramMap + ", e : " + e);
             }
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
@@ -154,13 +148,11 @@ public class WX_RedPacketHandler implements com.br.newMall.api.service.WX_RedPac
             try {
                 resultMapDTO = wx_RedPacketService.sendRedPacket(objectParamMap);
             } catch (Exception e) {
-                resultMapDTO.setSuccess(false);
                 resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
                 logger.error("在hanlder中发送普通红包-sendRedPacket is error, paramMap : " + paramMap + ", e : " + e);
             }
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
@@ -185,13 +177,11 @@ public class WX_RedPacketHandler implements com.br.newMall.api.service.WX_RedPac
             try {
                 resultMapDTO = wx_RedPacketService.sendGroupRedPacket(objectParamMap);
             } catch (Exception e) {
-                resultMapDTO.setSuccess(false);
                 resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
                 logger.error("在hanlder中发送分裂红包-sendGroupRedPacket is error, paramMap : " + paramMap + ", e : " + e);
             }
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }

@@ -127,12 +127,10 @@ public class OilStationServiceImpl implements OilStationService {
                     }
                 });
                 resultDTO.setResultList(oilStationStrList);
-                resultDTO.setSuccess(true);
                 resultDTO.setCode(NewMallCode.SUCCESS.getNo());
                 resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
                 resultDTO.setResultList(oilStationStrList);
-                resultDTO.setSuccess(false);
                 resultDTO.setCode(NewMallCode.OIL_QUERY_IS_NULL.getNo());
                 resultDTO.setMessage(NewMallCode.OIL_QUERY_IS_NULL.getMessage());
             }
@@ -151,18 +149,15 @@ public class OilStationServiceImpl implements OilStationService {
 //                List<Map<String, String>> oilStationStrList_city = Lists.newArrayList();
 //                oilStationStrList_city = MapUtil.getStringMapList(oilStationList_city);
 //                resultDTO.setResultList(oilStationStrList_city);
-//                resultDTO.setSuccess(true);
 //                resultDTO.setCode(NewMallCode.SUCCESS.getNo());
 //                resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
 //            } else {
 //                resultDTO.setResultList(oilStationStrList);
-//                resultDTO.setSuccess(false);
 //                resultDTO.setCode(NewMallCode.OIL_QUERY_IS_NULL.getNo());
 //                resultDTO.setMessage(NewMallCode.OIL_QUERY_IS_NULL.getMessage());
 //            }
         } else {
             resultDTO.setResultList(oilStationStrList);
-            resultDTO.setSuccess(false);
             resultDTO.setCode(NewMallCode.OIL_STATION_PARAM_IS_NOT_NULL.getNo());
             resultDTO.setMessage(NewMallCode.OIL_STATION_PARAM_IS_NOT_NULL.getMessage());
         }
@@ -210,7 +205,6 @@ public class OilStationServiceImpl implements OilStationService {
                 resultDTO.setResultListTotal(total);
                 oilStationStrList.addAll(MapUtil.getStringMapList(oilStationList));
                 resultDTO.setResultList(oilStationStrList);
-                resultDTO.setSuccess(false);
                 resultDTO.setCode(NewMallCode.SUCCESS.getNo());
                 resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
@@ -218,7 +212,6 @@ public class OilStationServiceImpl implements OilStationService {
                 System.out.println("第 " + dis + " 次递归查询【民营加油站】...");
                 if (dis == 10) {
                     resultDTO.setResultList(oilStationStrList);
-                    resultDTO.setSuccess(false);
                     resultDTO.setCode(NewMallCode.OIL_QUERY_IS_NULL.getNo());
                     resultDTO.setMessage(NewMallCode.OIL_QUERY_IS_NULL.getMessage());
                     return resultDTO;
@@ -230,7 +223,6 @@ public class OilStationServiceImpl implements OilStationService {
                 resultDTO.getResultList().addAll(resultDTO_temp.getResultList());
             }
         } else {
-            resultDTO.setSuccess(false);
             resultDTO.setResultList(oilStationStrList);
             resultDTO.setCode(NewMallCode.OIL_STATION_PARAM_IS_NOT_NULL.getNo());
             resultDTO.setMessage(NewMallCode.OIL_STATION_PARAM_IS_NOT_NULL.getMessage());
@@ -307,11 +299,9 @@ public class OilStationServiceImpl implements OilStationService {
             resultMap.put("oilStationName", oilStationList.get(0).get("oilStationName").toString());
             resultMap.put("oilStationList", JSONObject.toJSONString(oilStationList));
             resultMapDTO.setResultMap(resultMap);
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
             resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.OIL_STATION_PARAM_IS_NOT_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.OIL_STATION_PARAM_IS_NOT_NULL.getMessage());
         }
@@ -370,18 +360,15 @@ public class OilStationServiceImpl implements OilStationService {
                     }
                 });
                 resultDTO.setResultList(oilStationStrList);
-                resultDTO.setSuccess(false);
                 resultDTO.setCode(NewMallCode.SUCCESS.getNo());
                 resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
                 resultDTO.setResultList(oilStationStrList);
-                resultDTO.setSuccess(false);
                 resultDTO.setCode(NewMallCode.OIL_QUERY_IS_NULL.getNo());
                 resultDTO.setMessage(NewMallCode.OIL_QUERY_IS_NULL.getMessage());
                 return resultDTO;
             }
         } else {
-            resultDTO.setSuccess(false);
             resultDTO.setResultList(oilStationStrList);
             resultDTO.setCode(NewMallCode.OIL_STATION_PARAM_IS_NOT_NULL.getNo());
             resultDTO.setMessage(NewMallCode.OIL_STATION_PARAM_IS_NOT_NULL.getMessage());
@@ -437,7 +424,6 @@ public class OilStationServiceImpl implements OilStationService {
                     logger.info("开始新增 加油站 数据， paramMap = " + JSONObject.toJSONString(paramMap));
                     addNum = oilStationDao.addOilStation(paramMap);
                     if (addNum != null && addNum > 0) {
-                        boolDTO.setSuccess(true);
                         boolDTO.setCode(NewMallCode.SUCCESS.getNo());
                         boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
                         //新增【添加油站】的操作，便于后期发送红包的参考
@@ -448,7 +434,6 @@ public class OilStationServiceImpl implements OilStationService {
                         oilStationOperator_paramMap.put("oilStationCode", oilStationCode_l);
                         oilStationOperatorService.addOilStationOperator(oilStationOperator_paramMap);
                     } else {
-                        boolDTO.setSuccess(false);
                         boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
                         boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
                     }
@@ -510,7 +495,6 @@ public class OilStationServiceImpl implements OilStationService {
                     logger.info("开始新增 加油站 数据， paramMap = " + JSONObject.toJSONString(paramMap));
                     addNum = oilStationDao.addOilStation(paramMap);
                     if (addNum != null && addNum > 0) {
-                        boolDTO.setSuccess(true);
                         boolDTO.setCode(NewMallCode.SUCCESS.getNo());
                         boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
                         //新增【添加油站】的操作，便于后期发送红包的参考
@@ -521,14 +505,12 @@ public class OilStationServiceImpl implements OilStationService {
                         oilStationOperator_paramMap.put("oilStationCode", oilStationCode_l);
                         oilStationOperatorService.addOilStationOperator(oilStationOperator_paramMap);
                     } else {
-                        boolDTO.setSuccess(false);
                         boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
                         boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
                     }
                 }
             }
         } else {
-            boolDTO.setSuccess(false);
             boolDTO.setCode(NewMallCode.OIL_STATION_PARAM_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.OIL_STATION_PARAM_IS_NOT_NULL.getMessage());
         }
@@ -576,30 +558,23 @@ public class OilStationServiceImpl implements OilStationService {
             if (total != null && total <= 0) {
                 addNum = oilStationDao.addOilStation(paramMap);
                 if (addNum != null && addNum > 0) {
-                    boolDTO.setSuccess(true);
                     boolDTO.setCode(NewMallCode.SUCCESS.getNo());
                     boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
                 } else {
-                    boolDTO.setSuccess(false);
                     boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
                     boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
                 }
             } else {
                 updateNum = oilStationDao.updateOilStation(paramMap);
                 if (updateNum != null && updateNum > 0) {
-                    boolDTO.setSuccess(true);
                     boolDTO.setCode(NewMallCode.OIL_STATION_EXIST_AND_UPDATE.getNo());
                     boolDTO.setMessage(NewMallCode.OIL_STATION_EXIST_AND_UPDATE.getMessage());
                 } else {
-                    boolDTO.setSuccess(false);
                     boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
                     boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
                 }
-                boolDTO.setSuccess(false);
-
             }
         } else {
-            boolDTO.setSuccess(false);
             boolDTO.setCode(NewMallCode.OIL_STATION_PARAM_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.OIL_STATION_PARAM_IS_NOT_NULL.getMessage());
         }
@@ -622,16 +597,13 @@ public class OilStationServiceImpl implements OilStationService {
         if (!"".equals(id) || !"".equals(oilStationCode)) {
             deleteNum = oilStationDao.deleteOilStation(paramMap);
             if (deleteNum != null && deleteNum > 0) {
-                boolDTO.setSuccess(true);
                 boolDTO.setCode(NewMallCode.SUCCESS.getNo());
                 boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
-                boolDTO.setSuccess(false);
                 boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
                 boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
             }
         } else {
-            boolDTO.setSuccess(false);
             boolDTO.setCode(NewMallCode.OIL_STATION_PARAM_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.OIL_STATION_PARAM_IS_NOT_NULL.getMessage());
         }
@@ -654,16 +626,13 @@ public class OilStationServiceImpl implements OilStationService {
         if (!"".equals(id) || !"".equals(oilStationCode)) {
             updateNum = oilStationDao.updateOilStation(paramMap);
             if (updateNum != null && updateNum > 0) {
-                boolDTO.setSuccess(true);
                 boolDTO.setCode(NewMallCode.SUCCESS.getNo());
                 boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
-                boolDTO.setSuccess(false);
                 boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
                 boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
             }
         } else {
-            boolDTO.setSuccess(false);
             boolDTO.setCode(NewMallCode.OIL_STATION_PARAM_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.OIL_STATION_PARAM_IS_NOT_NULL.getMessage());
         }
@@ -709,7 +678,6 @@ public class OilStationServiceImpl implements OilStationService {
                 resultDTO.setResultListTotal(total);
                 oilStationStrList.addAll(MapUtil.getStringMapList(oilStationList));
                 resultDTO.setResultList(oilStationStrList);
-                resultDTO.setSuccess(false);
                 resultDTO.setCode(NewMallCode.SUCCESS.getNo());
                 resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
@@ -717,7 +685,6 @@ public class OilStationServiceImpl implements OilStationService {
                 System.out.println("第 " + dis + " 次递归查询【数据库中加油站】...");
                 if (dis == 10) {
                     resultDTO.setResultList(oilStationStrList);
-                    resultDTO.setSuccess(false);
                     resultDTO.setCode(NewMallCode.OIL_QUERY_IS_NULL.getNo());
                     resultDTO.setMessage(NewMallCode.OIL_QUERY_IS_NULL.getMessage());
                     return resultDTO;
@@ -729,7 +696,6 @@ public class OilStationServiceImpl implements OilStationService {
                 resultDTO.getResultList().addAll(resultDTO_temp.getResultList());
             }
         } else {
-            resultDTO.setSuccess(false);
             resultDTO.setResultList(oilStationStrList);
             resultDTO.setCode(NewMallCode.OIL_STATION_PARAM_IS_NOT_NULL.getNo());
             resultDTO.setMessage(NewMallCode.OIL_STATION_PARAM_IS_NOT_NULL.getMessage());
@@ -842,13 +808,11 @@ public class OilStationServiceImpl implements OilStationService {
             resultMap.put("addNum", addNum != null ? addNum.toString() : "0");
             resultMap.put("updateNum", updateNum != null ? updateNum.toString() : "0");
             resultMapDTO.setResultMap(resultMap);
-            resultMapDTO.setSuccess(true);
             resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
             resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             System.out.println("======================================================");
             System.out.println(resultMapDTO);
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }

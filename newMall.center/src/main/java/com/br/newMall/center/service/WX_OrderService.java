@@ -2,6 +2,7 @@ package com.br.newMall.center.service;
 
 import com.br.newMall.api.dto.BoolDTO;
 import com.br.newMall.api.dto.ResultDTO;
+import com.br.newMall.api.dto.ResultMapDTO;
 
 import java.util.Map;
 
@@ -10,6 +11,12 @@ import java.util.Map;
  * @author caihongwang
  */
 public interface WX_OrderService {
+
+
+    /**
+     * 创建统一统一订单
+     */
+    public ResultMapDTO payTheBillInMiniProgram(Map<String, Object> paramMap) throws Exception;
 
     /**
      * 根据条件查询订单信息

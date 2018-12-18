@@ -45,12 +45,10 @@ public class WX_DicHandler implements com.br.newMall.api.service.WX_DicHandler.I
                 boolDTO = wxDicService.addDic(objectParamMap);
             } catch (Exception e) {
                 logger.error("在【handler】中添加字典-addDic is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
-                boolDTO.setSuccess(false);
                 boolDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 boolDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             }
         } else {
-            boolDTO.setSuccess(false);
             boolDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             boolDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
@@ -124,12 +122,10 @@ public class WX_DicHandler implements com.br.newMall.api.service.WX_DicHandler.I
                 List<Map<String, String>> resultList = Lists.newArrayList();
                 resultDTO.setResultListTotal(0);
                 resultDTO.setResultList(resultList);
-                resultDTO.setSuccess(false);
                 resultDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 resultDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             }
         } else {
-            resultDTO.setSuccess(false);
             resultDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
@@ -157,12 +153,10 @@ public class WX_DicHandler implements com.br.newMall.api.service.WX_DicHandler.I
                 Map<String, String> resultMap = Maps.newHashMap();
                 resultMapDTO.setResultListTotal(0);
                 resultMapDTO.setResultMap(resultMap);
-                resultMapDTO.setSuccess(false);
                 resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             }
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }

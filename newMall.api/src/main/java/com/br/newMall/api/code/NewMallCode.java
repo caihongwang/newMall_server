@@ -72,10 +72,6 @@ public class NewMallCode {
     public static NewMallCode USER_PHONE_IS_ERROR = new NewMallCode(70004, "用户用户手机号错误，请重新输入.");
     public static NewMallCode USER_CODE_IS_NOT_NULL = new NewMallCode(70006, "用户微信访问的code参数不能为空.");
 
-    //订单
-    public static NewMallCode ORDER_RESPONSE_UNIFIEDORDER_IS_ERROR = new NewMallCode(120002, "微信的统一订单方式支付请求失败。");
-    public static NewMallCode ORDER_PAY_MONEY_IS_NOT_NULL = new NewMallCode(120003, "支付金额不允许为空，请输入您的金额。");
-
     //加油站
     public static NewMallCode OIL_QUERY_IS_NULL = new NewMallCode(130002, "获取加油站信息为空。");
     public static NewMallCode OIL_ADDRESS_QUERY_IS_NULL = new NewMallCode(130005, "您所处的位置不是加油站，请打赏一点开发小哥哥吧。");
@@ -136,6 +132,8 @@ public class NewMallCode {
     public static NewMallCode ORDER_UID_OR_PAYMONEY_IS_NOT_NULL = new NewMallCode(190001, "订单的uid或者支付金额不允许为空.");
     public static NewMallCode ORDER_ID_IS_NOT_NULL = new NewMallCode(190002, "订单的ID不允许为空.");
     public static NewMallCode ORDER_LIST_IS_NULL = new NewMallCode(190003, "没有更多订单.");
+    public static NewMallCode ORDER_RESPONSE_UNIFIEDORDER_IS_ERROR = new NewMallCode(190004, "微信的统一订单方式支付请求失败。");
+    public static NewMallCode ORDER_PAY_MONEY_IS_NOT_NULL = new NewMallCode(190005, "支付金额不允许为空，请输入您的金额。");
 
 
 

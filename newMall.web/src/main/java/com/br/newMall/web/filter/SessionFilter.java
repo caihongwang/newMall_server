@@ -181,7 +181,6 @@ public class SessionFilter implements Filter {
             boolDTO = wxUserHandler.checkSession(0, paramMap);
             logger.info("Validate validateSessionKey, paramMap is " + paramMap);
         } catch (TException e) {
-            boolDTO.setSuccess(false);
             boolDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
             boolDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
         }

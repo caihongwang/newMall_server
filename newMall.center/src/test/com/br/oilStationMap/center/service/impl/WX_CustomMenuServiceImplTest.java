@@ -102,11 +102,9 @@ public class WX_CustomMenuServiceImplTest {
         resultMap = WX_PublicNumberUtil.createCustomMenu(menuStr);
         if (resultMap != null && resultMap.size() > 0) {
             resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
-            resultMapDTO.setSuccess(true);
             resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
             resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
         }

@@ -42,7 +42,6 @@ public class WX_SourceMaterialHandler implements com.br.newMall.api.service.WX_S
         try {
             resultMapDTO = wx_SourceMaterialService.batchGetMaterial(objectParamMap);
         } catch (Exception e) {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             logger.error("在hanlder中获取素材列表-batchGetMaterial is error, paramMap : " + paramMap + ", e : " + e);

@@ -156,16 +156,13 @@ public class WX_AddressServiceImpl implements WX_AddressService {
                                 && !"".equals(streetId) && !"".equals(streetName)) {
             addNum = wxAddressDao.addAddress(paramMap);
             if (addNum != null && addNum > 0) {
-                boolDTO.setSuccess(true);
                 boolDTO.setCode(NewMallCode.SUCCESS.getNo());
                 boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
-                boolDTO.setSuccess(false);
                 boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
                 boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
             }
         } else {
-            boolDTO.setSuccess(false);
             boolDTO.setCode(NewMallCode.ADDRESS_UID_OR_NAME_OR_PHONE_OR_PROVINCEID_OR_PROVINCENAME_OR_CITYID_OR_CITYNAME_OR_REGIONID_OR_REGIONNAME_OR_STREETID_OR_STREETNAME_OR_DETAILADDRESS_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.ADDRESS_UID_OR_NAME_OR_PHONE_OR_PROVINCEID_OR_PROVINCENAME_OR_CITYID_OR_CITYNAME_OR_REGIONID_OR_REGIONNAME_OR_STREETID_OR_STREETNAME_OR_DETAILADDRESS_IS_NOT_NULL.getMessage());
         }
@@ -187,16 +184,13 @@ public class WX_AddressServiceImpl implements WX_AddressService {
         if (!"".equals(id)) {
             deleteNum = wxAddressDao.deleteAddress(paramMap);
             if (deleteNum != null && deleteNum > 0) {
-                boolDTO.setSuccess(true);
                 boolDTO.setCode(NewMallCode.SUCCESS.getNo());
                 boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
-                boolDTO.setSuccess(false);
                 boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
                 boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
             }
         } else {
-            boolDTO.setSuccess(false);
             boolDTO.setCode(NewMallCode.ADDRESS_ID_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.ADDRESS_ID_IS_NOT_NULL.getMessage());
         }
@@ -218,16 +212,13 @@ public class WX_AddressServiceImpl implements WX_AddressService {
         if (!"".equals(id)) {
             updateNum = wxAddressDao.updateAddress(paramMap);
             if (updateNum != null && updateNum > 0) {
-                boolDTO.setSuccess(true);
                 boolDTO.setCode(NewMallCode.SUCCESS.getNo());
                 boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
-                boolDTO.setSuccess(false);
                 boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
                 boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
             }
         } else {
-            boolDTO.setSuccess(false);
             boolDTO.setCode(NewMallCode.ADDRESS_ID_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.ADDRESS_ID_IS_NOT_NULL.getMessage());
         }
@@ -251,14 +242,12 @@ public class WX_AddressServiceImpl implements WX_AddressService {
             Integer total = wxAddressDao.getSimpleAddressTotalByCondition(paramMap);
             resultDTO.setResultListTotal(total);
             resultDTO.setResultList(productStrList);
-            resultDTO.setSuccess(false);
             resultDTO.setCode(NewMallCode.SUCCESS.getNo());
             resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
         } else {
             List<Map<String, String>> resultList = Lists.newArrayList();
             resultDTO.setResultListTotal(0);
             resultDTO.setResultList(resultList);
-            resultDTO.setSuccess(false);
             resultDTO.setCode(NewMallCode.ADDRESS_LIST_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.ADDRESS_LIST_IS_NULL.getMessage());
         }

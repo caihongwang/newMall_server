@@ -50,21 +50,17 @@ public class WX_DicServiceImpl implements WX_DicService {
             if (total != null && total <= 0) {
                 addNum = wxDicDao.addDic(paramMap);
                 if (addNum != null && addNum > 0) {
-                    boolDTO.setSuccess(true);
                     boolDTO.setCode(NewMallCode.SUCCESS.getNo());
                     boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
                 } else {
-                    boolDTO.setSuccess(false);
                     boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
                     boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
                 }
             } else {
-                boolDTO.setSuccess(false);
                 boolDTO.setCode(NewMallCode.DIC_EXIST.getNo());
                 boolDTO.setMessage(NewMallCode.DIC_EXIST.getMessage());
             }
         } else {
-            boolDTO.setSuccess(false);
             boolDTO.setCode(NewMallCode.DIC_TYPE_OR_CODE_OR_NAME_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.DIC_TYPE_OR_CODE_OR_NAME_IS_NOT_NULL.getMessage());
         }
@@ -87,16 +83,13 @@ public class WX_DicServiceImpl implements WX_DicService {
         if (!"".equals(id) || !"".equals(dicCode)) {
             deleteNum = wxDicDao.deleteDic(paramMap);
             if (deleteNum != null && deleteNum > 0) {
-                boolDTO.setSuccess(true);
                 boolDTO.setCode(NewMallCode.SUCCESS.getNo());
                 boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
-                boolDTO.setSuccess(false);
                 boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
                 boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
             }
         } else {
-            boolDTO.setSuccess(false);
             boolDTO.setCode(NewMallCode.DIC_ID_OR_CODE_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.DIC_ID_OR_CODE_IS_NOT_NULL.getMessage());
         }
@@ -119,16 +112,13 @@ public class WX_DicServiceImpl implements WX_DicService {
         if (!"".equals(id) || !"".equals(dicCode)) {
             updateNum = wxDicDao.updateDic(paramMap);
             if (updateNum != null && updateNum > 0) {
-                boolDTO.setSuccess(true);
                 boolDTO.setCode(NewMallCode.SUCCESS.getNo());
                 boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
-                boolDTO.setSuccess(false);
                 boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
                 boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
             }
         } else {
-            boolDTO.setSuccess(false);
             boolDTO.setCode(NewMallCode.DIC_ID_OR_CODE_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.DIC_ID_OR_CODE_IS_NOT_NULL.getMessage());
         }
@@ -163,19 +153,16 @@ public class WX_DicServiceImpl implements WX_DicService {
                 Integer total = wxDicDao.getSimpleDicTotalByCondition(paramMap);
                 resultDTO.setResultListTotal(total);
                 resultDTO.setResultList(dicStrList);
-                resultDTO.setSuccess(false);
                 resultDTO.setCode(NewMallCode.SUCCESS.getNo());
                 resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
                 List<Map<String, String>> resultList = Lists.newArrayList();
                 resultDTO.setResultListTotal(0);
                 resultDTO.setResultList(resultList);
-                resultDTO.setSuccess(false);
                 resultDTO.setCode(NewMallCode.DIC_LIST_IS_NULL.getNo());
                 resultDTO.setMessage(NewMallCode.DIC_LIST_IS_NULL.getMessage());
             }
         } else {
-            resultDTO.setSuccess(false);
             resultDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
@@ -222,12 +209,10 @@ public class WX_DicServiceImpl implements WX_DicService {
                 }
                 resultMapDTO.setResultListTotal(total);
                 resultMapDTO.setResultMap(resultMap);
-                resultMapDTO.setSuccess(false);
                 resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
                 resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             }
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }

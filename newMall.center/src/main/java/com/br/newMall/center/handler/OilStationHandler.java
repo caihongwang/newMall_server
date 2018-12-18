@@ -35,13 +35,11 @@ public class OilStationHandler implements com.br.newMall.api.service.OilStationH
             try {
                 boolDTO = oilStationService.addOrUpdateOilStation(objectParamMap);
             } catch (Exception e) {
-                boolDTO.setSuccess(false);
                 boolDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 boolDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
                 logger.error("在hanlder中添加或者更新加油站-addOrUpdateOilStation is addOilStation, paramMap : " + paramMap + ", e : " + e);
             }
         } else {
-            boolDTO.setSuccess(false);
             boolDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             boolDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
@@ -61,13 +59,11 @@ public class OilStationHandler implements com.br.newMall.api.service.OilStationH
                 List<Map<String, String>> resultList = Lists.newArrayList();
                 resultDTO.setResultListTotal(0);
                 resultDTO.setResultList(resultList);
-                resultDTO.setSuccess(false);
                 resultDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 resultDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
                 logger.error("在hanlder中获取加油站列表-getOilStationList is error, paramMap : " + paramMap + ", e : " + e);
             }
         } else {
-            resultDTO.setSuccess(false);
             resultDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
@@ -87,14 +83,12 @@ public class OilStationHandler implements com.br.newMall.api.service.OilStationH
                 Map<String, String> resultMap = Maps.newHashMap();
                 resultMapDTO.setResultListTotal(0);
                 resultMapDTO.setResultMap(resultMap);
-                resultMapDTO.setSuccess(false);
                 resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
                 logger.error("在hanlder中获取单一加油站信息-getSimpleOilStationByCondition is error, paramMap : " + paramMap + ", e : " + e);
                 e.printStackTrace();
             }
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
@@ -114,13 +108,11 @@ public class OilStationHandler implements com.br.newMall.api.service.OilStationH
                 List<Map<String, String>> resultList = Lists.newArrayList();
                 resultDTO.setResultListTotal(0);
                 resultDTO.setResultList(resultList);
-                resultDTO.setSuccess(false);
                 resultDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 resultDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
                 logger.error("在hanlder中根据经纬度地址获取所处的加油站-getOilStationByLonLat is error, paramMap : " + paramMap + ", e : " + e);
             }
         } else {
-            resultDTO.setSuccess(false);
             resultDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }

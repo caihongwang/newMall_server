@@ -38,14 +38,12 @@ public class OilStationOperatorHandler implements com.br.newMall.api.service.Oil
                 Map<String, String> resultMap = Maps.newHashMap();
                 resultMapDTO.setResultListTotal(0);
                 resultMapDTO.setResultMap(resultMap);
-                resultMapDTO.setSuccess(false);
                 resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
                 logger.error("在hanlder中领取或者提现加油站操作红包-cashOilStationOperatorRedPacket is error, paramMap : " + paramMap + ", e : " + e);
                 e.printStackTrace();
             }
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }

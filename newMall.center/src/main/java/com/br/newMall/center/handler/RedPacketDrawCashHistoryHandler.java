@@ -34,13 +34,11 @@ public class RedPacketDrawCashHistoryHandler implements com.br.newMall.api.servi
             try {
                 resultMapDTO = redPacketDrawCashHistoryService.getDrawCashMoneyTotal(objectParamMap);
             } catch (Exception e) {
-                resultMapDTO.setSuccess(false);
                 resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
                 logger.error("在hanlder中获取已提现红包总额-getDrawCashMoneyTotal is error, paramMap : " + paramMap + ", e : " + e);
             }
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
@@ -60,13 +58,11 @@ public class RedPacketDrawCashHistoryHandler implements com.br.newMall.api.servi
                 List<Map<String, String>> resultList = Lists.newArrayList();
                 resultDTO.setResultListTotal(0);
                 resultDTO.setResultList(resultList);
-                resultDTO.setSuccess(false);
                 resultDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 resultDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
                 logger.error("在hanlder中获取红包提现记录-getRedPacketDrawCashHistory is error, paramMap : " + paramMap + ", e : " + e);
             }
         } else {
-            resultDTO.setSuccess(false);
             resultDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }

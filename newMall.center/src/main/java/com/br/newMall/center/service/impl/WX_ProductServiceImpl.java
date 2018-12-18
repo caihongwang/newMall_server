@@ -80,21 +80,17 @@ public class WX_ProductServiceImpl implements WX_ProductService {
             if (total != null && total <= 0) {
                 addNum = wxProductDao.addProduct(paramMap);
                 if (addNum != null && addNum > 0) {
-                    boolDTO.setSuccess(true);
                     boolDTO.setCode(NewMallCode.SUCCESS.getNo());
                     boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
                 } else {
-                    boolDTO.setSuccess(false);
                     boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
                     boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
                 }
             } else {
-                boolDTO.setSuccess(false);
                 boolDTO.setCode(NewMallCode.PRODUCT_EXIST.getNo());
                 boolDTO.setMessage(NewMallCode.PRODUCT_EXIST.getMessage());
             }
         } else {
-            boolDTO.setSuccess(false);
             boolDTO.setCode(NewMallCode.PRODUCT_TITLE_OR_DEGIST_OR_STOCK_OR_HEADIMGURL_OR_DESCRIBEIMGURL_OR_PRICE_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.PRODUCT_TITLE_OR_DEGIST_OR_STOCK_OR_HEADIMGURL_OR_DESCRIBEIMGURL_OR_PRICE_IS_NOT_NULL.getMessage());
         }
@@ -116,16 +112,13 @@ public class WX_ProductServiceImpl implements WX_ProductService {
         if (!"".equals(id)) {
             deleteNum = wxProductDao.deleteProduct(paramMap);
             if (deleteNum != null && deleteNum > 0) {
-                boolDTO.setSuccess(true);
                 boolDTO.setCode(NewMallCode.SUCCESS.getNo());
                 boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
-                boolDTO.setSuccess(false);
                 boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
                 boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
             }
         } else {
-            boolDTO.setSuccess(false);
             boolDTO.setCode(NewMallCode.PRODUCT_ID_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.PRODUCT_ID_IS_NOT_NULL.getMessage());
         }
@@ -147,16 +140,13 @@ public class WX_ProductServiceImpl implements WX_ProductService {
         if (!"".equals(id)) {
             updateNum = wxProductDao.updateProduct(paramMap);
             if (updateNum != null && updateNum > 0) {
-                boolDTO.setSuccess(true);
                 boolDTO.setCode(NewMallCode.SUCCESS.getNo());
                 boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
-                boolDTO.setSuccess(false);
                 boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
                 boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
             }
         } else {
-            boolDTO.setSuccess(false);
             boolDTO.setCode(NewMallCode.PRODUCT_ID_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.PRODUCT_ID_IS_NOT_NULL.getMessage());
         }
@@ -180,14 +170,12 @@ public class WX_ProductServiceImpl implements WX_ProductService {
             Integer total = wxProductDao.getSimpleProductTotalByCondition(paramMap);
             resultDTO.setResultListTotal(total);
             resultDTO.setResultList(productStrList);
-            resultDTO.setSuccess(false);
             resultDTO.setCode(NewMallCode.SUCCESS.getNo());
             resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
         } else {
             List<Map<String, String>> resultList = Lists.newArrayList();
             resultDTO.setResultListTotal(0);
             resultDTO.setResultList(resultList);
-            resultDTO.setSuccess(false);
             resultDTO.setCode(NewMallCode.PRODUCT_LIST_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.PRODUCT_LIST_IS_NULL.getMessage());
         }

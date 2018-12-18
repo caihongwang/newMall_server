@@ -81,11 +81,9 @@ public class CommonServiceImpl implements CommonService {
         resultMap.putAll(SignUtil.getSign(paramMap.get("requestPageUrl").toString()));
         if (resultMap.size() > 0) {
             resultMapDTO.setResultMap(resultMap);
-            resultMapDTO.setSuccess(true);
             resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
             resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.USER_CODE_IS_NOT_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.USER_CODE_IS_NOT_NULL.getMessage());
         }
@@ -147,28 +145,23 @@ public class CommonServiceImpl implements CommonService {
                         String res = EntityUtils.toString(entity, "utf-8");
                         logger.info("向微信服务器发送请求获取，获取响应的is {}", res);
                         Map<String, String> resultDataMap = JSONObject.parseObject(res, Map.class);
-                        resultMapDTO.setSuccess(true);
                         resultMapDTO.setResultMap(resultDataMap);
                         resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
                         resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
                     } else {
-                        resultMapDTO.setSuccess(false);
                         resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                         resultMapDTO.setMessage("用户不存在.");
                     }
                 } else {
-                    resultMapDTO.setSuccess(false);
                     resultMapDTO.setCode(NewMallCode.WX_SERVER_INNER_ERROR_FOR_ACCESS_TOKEN.getNo());
                     resultMapDTO.setMessage(NewMallCode.WX_SERVER_INNER_ERROR_FOR_ACCESS_TOKEN.getMessage());
                 }
             } catch (Exception e) {
-                resultMapDTO.setSuccess(false);
                 resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
                 logger.error("在service中发送小程序名片的模板消息-sendTemplateMessageForMiniProgram is error, paramMap : " + paramMap + ", e : " + e);
             }
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
@@ -220,23 +213,19 @@ public class CommonServiceImpl implements CommonService {
                     String res = EntityUtils.toString(entity, "utf-8");
                     logger.info("向微信服务器发送请求获取，获取响应的is {}", res);
                     Map<String, String> resultDataMap = JSONObject.parseObject(res, Map.class);
-                    resultMapDTO.setSuccess(true);
                     resultMapDTO.setResultMap(resultDataMap);
                     resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
                     resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
                 } else {
-                    resultMapDTO.setSuccess(false);
                     resultMapDTO.setCode(NewMallCode.WX_SERVER_INNER_ERROR_FOR_ACCESS_TOKEN.getNo());
                     resultMapDTO.setMessage(NewMallCode.WX_SERVER_INNER_ERROR_FOR_ACCESS_TOKEN.getMessage());
                 }
             } catch (Exception e) {
-                resultMapDTO.setSuccess(false);
                 resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
                 logger.error("在service中发送公众号的模板消息-sendTemplateMessageForWxPublicNumber is error, paramMap : " + paramMap + ", e : " + e);
             }
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
@@ -276,11 +265,9 @@ public class CommonServiceImpl implements CommonService {
                 resultMap = JSON.parseObject(res, Map.class);
             }
             resultMapDTO.setResultMap(resultMap);
-            resultMapDTO.setSuccess(true);
             resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
             resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.USER_CODE_IS_NOT_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.USER_CODE_IS_NOT_NULL.getMessage());
         }
@@ -513,7 +500,6 @@ public class CommonServiceImpl implements CommonService {
                             StatusLine responseState = response.getStatusLine();
                             logger.info("在service中接受小程序端接受并发送固定消息-receviceAndSendCustomMessage, 状态 : " + responseState);
                         } catch (Exception e) {
-                            resultMapDTO.setSuccess(false);
                             resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                             resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
                             logger.error("在service中接受小程序端接受并发送固定消息-receviceAndSendCustomMessage is error, paramMap : " + paramMap + ", e : " + e);
@@ -620,7 +606,6 @@ public class CommonServiceImpl implements CommonService {
                             StatusLine responseState = response.getStatusLine();
                             logger.info("在service中接受小程序端接受并发送固定消息-receviceAndSendCustomMessage, 状态 : " + responseState);
                         } catch (Exception e) {
-                            resultMapDTO.setSuccess(false);
                             resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                             resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
                             logger.error("在service中接受小程序端接受并发送固定消息-receviceAndSendCustomMessage is error, paramMap : " + paramMap + ", e : " + e);

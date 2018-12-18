@@ -60,12 +60,6 @@ service WX_DicHandler {
     dto.ResultMapDTO getMoreDicByCondition(1:int tid, 2:map<string, string> paramMap)
 }
 
-service OrderHandler {
-
-    dto.ResultMapDTO requestWxPayUnifiedOrder(1:int tid, 2:map<string, string> paramMap)
-
-}
-
 service OilStationHandler {
 
     dto.BoolDTO addOrUpdateOilStation(1:int tid, 2:map<string, string> paramMap),
@@ -183,8 +177,9 @@ service WX_AddressHandler {
 
 }
 
-
 service WX_OrderHandler {
+
+    dto.ResultMapDTO payTheBillInMiniProgram(1:int tid, 2:map<string, string> paramMap)
 
     dto.BoolDTO addOrder(1:int tid, 2:map<string, string> paramMap),
 

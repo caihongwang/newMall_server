@@ -58,12 +58,10 @@ public class CommonHandler implements com.br.newMall.api.service.CommonHandler.I
             String userPhone = jsonResultMap.get("phoneNumber");
             Map<String, String> resultMap = Maps.newHashMap();
             resultMap.put("userPhone", userPhone);
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setResultMap(resultMap);
             resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
             resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
         } catch (Exception e) {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.DECRYPT_IS_ERROR.getNo());
             resultMapDTO.setMessage(NewMallCode.DECRYPT_IS_ERROR.getMessage());
             logger.error("在hanlder中在获取微信手机号时获取解密后手机号-getDecryptPhone is error, paramMap : " + paramMap + ", e : " + e);
@@ -98,13 +96,11 @@ public class CommonHandler implements com.br.newMall.api.service.CommonHandler.I
             try {
                 resultMapDTO = commonService.sendTemplateMessageForWxPublicNumber(objectParamMap);
             } catch (Exception e) {
-                resultMapDTO.setSuccess(false);
                 resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
                 logger.error("在hanlder中发送公众号的模板消息-sendTemplateMessageForWxPublicNumber is error, paramMap : " + paramMap + ", e : " + e);
             }
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
@@ -129,13 +125,11 @@ public class CommonHandler implements com.br.newMall.api.service.CommonHandler.I
             try {
                 resultMapDTO = commonService.sendTemplateMessageForMiniProgram(objectParamMap);
             } catch (Exception e) {
-                resultMapDTO.setSuccess(false);
                 resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
                 logger.error("在hanlder中发送小程序名片的模板消息-sendTemplateMessageForMiniProgram is error, paramMap : " + paramMap + ", e : " + e);
             }
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
@@ -162,13 +156,11 @@ public class CommonHandler implements com.br.newMall.api.service.CommonHandler.I
                 Map<String, String> resultMap = Maps.newHashMap();
                 resultMapDTO.setResultListTotal(0);
                 resultMapDTO.setResultMap(resultMap);
-                resultMapDTO.setSuccess(false);
                 resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
                 logger.error("在hanlder中获取openId和sessionKey-getOpenIdAndSessionKeyForWX is error, paramMap : " + paramMap + ", e : " + e);
             }
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
@@ -188,13 +180,11 @@ public class CommonHandler implements com.br.newMall.api.service.CommonHandler.I
                 Map<String, String> resultMap = Maps.newHashMap();
                 resultMapDTO.setResultListTotal(0);
                 resultMapDTO.setResultMap(resultMap);
-                resultMapDTO.setSuccess(false);
                 resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
                 logger.error("在hanlder中获取SignatureAndJsapiTicketAndNonceStr-getSignatureAndJsapiTicketAndNonceStrForWxPublicNumber is error, paramMap : " + paramMap + ", e : " + e);
             }
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
@@ -219,13 +209,11 @@ public class CommonHandler implements com.br.newMall.api.service.CommonHandler.I
             try {
                 resultMapDTO = commonService.receviceAndSendCustomMessage(objectParamMap);
             } catch (Exception e) {
-                resultMapDTO.setSuccess(false);
                 resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
                 logger.error("在hanlder中接受小程序端发送过来的消息，同时对特定的消息进行回复小程序的固定客服消息-receviceAndSendCustomMessage is error, paramMap : " + paramMap + ", e : " + e);
             }
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }

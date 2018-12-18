@@ -55,19 +55,16 @@ public class BannerServiceImpl implements BannerService {
                 Integer total = wxDicDao.getSimpleDicTotalByCondition(paramMap);
                 resultDTO.setResultListTotal(total);
                 resultDTO.setResultList(dicStrList);
-                resultDTO.setSuccess(false);
                 resultDTO.setCode(NewMallCode.SUCCESS.getNo());
                 resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
                 List<Map<String, String>> resultList = Lists.newArrayList();
                 resultDTO.setResultListTotal(0);
                 resultDTO.setResultList(resultList);
-                resultDTO.setSuccess(false);
                 resultDTO.setCode(NewMallCode.DIC_LIST_IS_NULL.getNo());
                 resultDTO.setMessage(NewMallCode.DIC_LIST_IS_NULL.getMessage());
             }
         } else {
-            resultDTO.setSuccess(false);
             resultDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }

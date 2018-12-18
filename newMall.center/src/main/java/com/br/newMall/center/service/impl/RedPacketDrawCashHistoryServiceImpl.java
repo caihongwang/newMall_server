@@ -42,16 +42,13 @@ public class RedPacketDrawCashHistoryServiceImpl implements RedPacketDrawCashHis
             Map<String, Object> getDrawCashMoneyTotalMap = redPacketDrawCashHistoryDao.getDrawCashMoneyTotal(paramMap);
             if (getDrawCashMoneyTotalMap != null && getDrawCashMoneyTotalMap.size() > 0) {
                 resultMapDTO.setResultMap(MapUtil.getStringMap(getDrawCashMoneyTotalMap));
-                resultMapDTO.setSuccess(true);
                 resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
                 resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
-                resultMapDTO.setSuccess(false);
                 resultMapDTO.setCode(NewMallCode.WX_RED_PACKET_DRAW_CASH__HISTORY_IS_NULL.getNo());
                 resultMapDTO.setMessage(NewMallCode.WX_RED_PACKET_DRAW_CASH__HISTORY_IS_NULL.getMessage());
             }
         } else {
-            resultMapDTO.setSuccess(false);
             resultMapDTO.setCode(NewMallCode.WX_RED_PACKET_DRAW_CASH__UID_OR_PHONE_OR_MONEY_IS_NOT_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.WX_RED_PACKET_DRAW_CASH__UID_OR_PHONE_OR_MONEY_IS_NOT_NULL.getMessage());
         }
@@ -78,19 +75,16 @@ public class RedPacketDrawCashHistoryServiceImpl implements RedPacketDrawCashHis
                 Integer total = redPacketDrawCashHistoryDao.getRedPacketDrawCashHistoryTotal(paramMap);
                 resultDTO.setResultListTotal(total);
                 resultDTO.setResultList(redPacketDrawCashHistoryStrList);
-                resultDTO.setSuccess(false);
                 resultDTO.setCode(NewMallCode.SUCCESS.getNo());
                 resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
                 List<Map<String, String>> resultList = Lists.newArrayList();
                 resultDTO.setResultListTotal(0);
                 resultDTO.setResultList(resultList);
-                resultDTO.setSuccess(false);
                 resultDTO.setCode(NewMallCode.WX_RED_PACKET_DRAW_CASH__HISTORY_IS_NULL.getNo());
                 resultDTO.setMessage(NewMallCode.WX_RED_PACKET_DRAW_CASH__HISTORY_IS_NULL.getMessage());
             }
         } else {
-            resultDTO.setSuccess(false);
             resultDTO.setCode(NewMallCode.WX_RED_PACKET_DRAW_CASH__UID_OR_PHONE_OR_MONEY_IS_NOT_NULL.getNo());
             resultDTO.setMessage(NewMallCode.WX_RED_PACKET_DRAW_CASH__UID_OR_PHONE_OR_MONEY_IS_NOT_NULL.getMessage());
         }
@@ -113,16 +107,13 @@ public class RedPacketDrawCashHistoryServiceImpl implements RedPacketDrawCashHis
         if (!"".equals(uid) && !"".equals(redPacketMoney)) {
             addNum = redPacketDrawCashHistoryDao.addRedPacketDrawCashHistory(paramMap);
             if (addNum != null && addNum > 0) {
-                boolDTO.setSuccess(true);
                 boolDTO.setCode(NewMallCode.SUCCESS.getNo());
                 boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
-                boolDTO.setSuccess(false);
                 boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
                 boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
             }
         } else {
-            boolDTO.setSuccess(false);
             boolDTO.setCode(NewMallCode.WX_RED_PACKET_DRAW_CASH__UID_OR_PHONE_OR_MONEY_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.WX_RED_PACKET_DRAW_CASH__UID_OR_PHONE_OR_MONEY_IS_NOT_NULL.getMessage());
         }
@@ -145,16 +136,13 @@ public class RedPacketDrawCashHistoryServiceImpl implements RedPacketDrawCashHis
         if (!"".equals(id) || !"".equals(uid)) {
             deleteNum = redPacketDrawCashHistoryDao.deleteRedPacketDrawCashHistory(paramMap);
             if (deleteNum != null && deleteNum > 0) {
-                boolDTO.setSuccess(true);
                 boolDTO.setCode(NewMallCode.SUCCESS.getNo());
                 boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
-                boolDTO.setSuccess(false);
                 boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
                 boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
             }
         } else {
-            boolDTO.setSuccess(false);
             boolDTO.setCode(NewMallCode.WX_RED_PACKET_DRAW_CASH__UID_OR_PHONE_OR_MONEY_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.WX_RED_PACKET_DRAW_CASH__UID_OR_PHONE_OR_MONEY_IS_NOT_NULL.getMessage());
         }
@@ -177,16 +165,13 @@ public class RedPacketDrawCashHistoryServiceImpl implements RedPacketDrawCashHis
         if (!"".equals(id) || !"".equals(uid)) {
             updateNum = redPacketDrawCashHistoryDao.updateRedPacketDrawCashHistory(paramMap);
             if (updateNum != null && updateNum > 0) {
-                boolDTO.setSuccess(true);
                 boolDTO.setCode(NewMallCode.SUCCESS.getNo());
                 boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
-                boolDTO.setSuccess(false);
                 boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
                 boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
             }
         } else {
-            boolDTO.setSuccess(false);
             boolDTO.setCode(NewMallCode.WX_RED_PACKET_DRAW_CASH__UID_OR_PHONE_OR_MONEY_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.WX_RED_PACKET_DRAW_CASH__UID_OR_PHONE_OR_MONEY_IS_NOT_NULL.getMessage());
         }
@@ -213,19 +198,16 @@ public class RedPacketDrawCashHistoryServiceImpl implements RedPacketDrawCashHis
                 Integer total = redPacketDrawCashHistoryDao.getSimpleRedPacketDrawCashHistoryTotalByCondition(paramMap);
                 resultDTO.setResultListTotal(total);
                 resultDTO.setResultList(redPacketDrawCashHistoryStrList);
-                resultDTO.setSuccess(false);
                 resultDTO.setCode(NewMallCode.SUCCESS.getNo());
                 resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
                 List<Map<String, String>> resultList = Lists.newArrayList();
                 resultDTO.setResultListTotal(0);
                 resultDTO.setResultList(resultList);
-                resultDTO.setSuccess(false);
                 resultDTO.setCode(NewMallCode.WX_RED_PACKET_DRAW_CASH__HISTORY_IS_NULL.getNo());
                 resultDTO.setMessage(NewMallCode.WX_RED_PACKET_DRAW_CASH__HISTORY_IS_NULL.getMessage());
             }
         } else {
-            resultDTO.setSuccess(false);
             resultDTO.setCode(NewMallCode.WX_RED_PACKET_DRAW_CASH__UID_OR_PHONE_OR_MONEY_IS_NOT_NULL.getNo());
             resultDTO.setMessage(NewMallCode.WX_RED_PACKET_DRAW_CASH__UID_OR_PHONE_OR_MONEY_IS_NOT_NULL.getMessage());
         }

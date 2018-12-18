@@ -52,26 +52,21 @@ public class CommentsServiceImpl implements CommentsService {
                     paramMap.put("status", 0);
                     addNum = commentsDao.addComments(paramMap);
                     if (addNum != null && addNum > 0) {
-                        boolDTO.setSuccess(true);
                         boolDTO.setCode(NewMallCode.SUCCESS.getNo());
                         boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
                     } else {
-                        boolDTO.setSuccess(false);
                         boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
                         boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
                     }
                 } else {
-                    boolDTO.setSuccess(false);
                     boolDTO.setCode(NewMallCode.USER_IS_NULL.getNo());
                     boolDTO.setMessage(NewMallCode.USER_IS_NULL.getMessage());
                 }
             } else {
-                boolDTO.setSuccess(false);
                 boolDTO.setCode(NewMallCode.COMMENTS_NOT_MORE_200.getNo());
                 boolDTO.setMessage(NewMallCode.COMMENTS_NOT_MORE_200.getMessage());
             }
         } else {
-            boolDTO.setSuccess(false);
             boolDTO.setCode(NewMallCode.UID_COMMENT_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.UID_COMMENT_IS_NOT_NULL.getMessage());
         }
@@ -93,16 +88,13 @@ public class CommentsServiceImpl implements CommentsService {
         if (!"".equals(id)) {
             deleteNum = commentsDao.deleteComments(paramMap);
             if (deleteNum != null && deleteNum > 0) {
-                boolDTO.setSuccess(true);
                 boolDTO.setCode(NewMallCode.SUCCESS.getNo());
                 boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
-                boolDTO.setSuccess(false);
                 boolDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 boolDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             }
         } else {
-            boolDTO.setSuccess(false);
             boolDTO.setCode(NewMallCode.PHONE_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.PHONE_IS_NOT_NULL.getMessage());
         }
@@ -124,16 +116,13 @@ public class CommentsServiceImpl implements CommentsService {
         if (!"".equals(id)) {
             updateNum = commentsDao.updateComments(paramMap);
             if (updateNum != null && updateNum > 0) {
-                boolDTO.setSuccess(true);
                 boolDTO.setCode(NewMallCode.SUCCESS.getNo());
                 boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
             } else {
-                boolDTO.setSuccess(false);
                 boolDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 boolDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             }
         } else {
-            boolDTO.setSuccess(false);
             boolDTO.setCode(NewMallCode.UID_COMMENT_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.UID_COMMENT_IS_NOT_NULL.getMessage());
         }
@@ -158,14 +147,12 @@ public class CommentsServiceImpl implements CommentsService {
             Integer total = commentsDao.getSimpleCommentsTotalByCondition(paramMap);
             resultDTO.setResultListTotal(total);
             resultDTO.setResultList(commentsStrList);
-            resultDTO.setSuccess(false);
             resultDTO.setCode(NewMallCode.SUCCESS.getNo());
             resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
         } else {
             List<Map<String, String>> resultList = Lists.newArrayList();
             resultDTO.setResultListTotal(0);
             resultDTO.setResultList(resultList);
-            resultDTO.setSuccess(false);
             resultDTO.setCode(NewMallCode.COMMENTS_LIST_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.COMMENTS_LIST_IS_NULL.getMessage());
         }
