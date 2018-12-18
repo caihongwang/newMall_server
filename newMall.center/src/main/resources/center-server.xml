@@ -59,14 +59,6 @@
         <property name="version" value="${newMall.server.version}"/>
     </bean>
 
-    <!-- orderHandler -->
-    <bean id="orderHandler" class="com.br.rpc.provider.processor.Processor">
-        <property name="project" value="newMall_project"/>
-        <property name="handler" value="com.br.newMall.center.handler.OrderHandler"/>
-        <property name="model" value="${newMall.server.model}"/>
-        <property name="version" value="${newMall.server.version}"/>
-    </bean>
-
     <!-- oilStationHandler -->
     <bean id="oilStationHandler"
           class="com.br.rpc.provider.processor.Processor">

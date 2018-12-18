@@ -29,6 +29,68 @@ public class WX_OrderHandler implements com.br.newMall.api.service.WX_OrderHandl
     private WX_OrderService wxOrderService;
 
     /**
+     * 购买商品
+     * @param tid
+     * @param paramMap
+     * @return
+     * @throws TException
+     */
+    @Override
+    public ResultMapDTO purchaseProductInMiniProgram(int tid, Map<String, String> paramMap) throws TException {
+        logger.info("在【handler】中购买商品-purchaseProductInMiniProgram,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        if (paramMap.size() > 0) {
+            try {
+                resultMapDTO = wxOrderService.purchaseProductInMiniProgram(objectParamMap);
+            } catch (Exception e) {
+                logger.error("在【handler】中购买商品-purchaseProductInMiniProgram is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                Map<String, String> resultMap = Maps.newHashMap();
+                resultMapDTO.setResultListTotal(0);
+                resultMapDTO.setResultMap(resultMap);
+                resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
+            }
+        } else {
+            resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
+            resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
+        }
+        logger.info("在【handler】中购买商品-purchaseProductInMiniProgram,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        return resultMapDTO;
+    }
+
+    /**
+     * 购买商品成功后的回调通知
+     * @param tid
+     * @param paramMap
+     * @return
+     * @throws TException
+     */
+    @Override
+    public ResultMapDTO wxPayNotifyForPurchaseProductInMiniProgram(int tid, Map<String, String> paramMap) throws TException {
+        logger.info("在【handler】中购买商品成功后的回调通知-wxPayNotifyForPurchaseProductInMiniProgram,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        if (paramMap.size() > 0) {
+            try {
+                resultMapDTO = wxOrderService.wxPayNotifyForPurchaseProductInMiniProgram(objectParamMap);
+            } catch (Exception e) {
+                logger.error("在【handler】中购买商品成功后的回调通知-wxPayNotifyForPurchaseProductInMiniProgram is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                Map<String, String> resultMap = Maps.newHashMap();
+                resultMapDTO.setResultListTotal(0);
+                resultMapDTO.setResultMap(resultMap);
+                resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
+            }
+        } else {
+            resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
+            resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
+        }
+        logger.info("在【handler】中购买商品成功后的回调通知-wxPayNotifyForPurchaseProductInMiniProgram,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        return resultMapDTO;
+    }
+
+    /**
      * 买单
      * @param tid
      * @param paramMap
@@ -56,6 +118,37 @@ public class WX_OrderHandler implements com.br.newMall.api.service.WX_OrderHandl
             resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
         logger.info("在【handler】中买单-payTheBillInMiniProgram,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        return resultMapDTO;
+    }
+
+    /**
+     * 买单成功后的回调通知
+     * @param tid
+     * @param paramMap
+     * @return
+     * @throws TException
+     */
+    @Override
+    public ResultMapDTO wxPayNotifyForPayTheBillInMiniProgram(int tid, Map<String, String> paramMap) throws TException {
+        logger.info("在【handler】中买单成功后的回调通知-wxPayNotifyForPayTheBillInMiniProgram,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        if (paramMap.size() > 0) {
+            try {
+                resultMapDTO = wxOrderService.wxPayNotifyForPayTheBillInMiniProgram(objectParamMap);
+            } catch (Exception e) {
+                logger.error("在【handler】中买单成功后的回调通知-wxPayNotifyForPayTheBillInMiniProgram is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                Map<String, String> resultMap = Maps.newHashMap();
+                resultMapDTO.setResultListTotal(0);
+                resultMapDTO.setResultMap(resultMap);
+                resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
+            }
+        } else {
+            resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
+            resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
+        }
+        logger.info("在【handler】中买单成功后的回调通知-wxPayNotifyForPayTheBillInMiniProgram,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
     }
 

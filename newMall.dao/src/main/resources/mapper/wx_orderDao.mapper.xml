@@ -5,12 +5,15 @@
 
     <sql id="columnList">    <!-- 字段 -->
         id,
+        wx_order_id,
         uid,
         product_id,
         product_num,
         address_id,
+        use_balance_monney,
         pay_money,
         pay_integral,
+        order_type,
         status,
         create_time,
         update_time
@@ -18,12 +21,15 @@
 
     <sql id="TColumnList">    <!-- 带表别名的字段 -->
         no.id as "id",
+        no.wx_order_id as "wxOrderId",
         no.uid as "uid",
         no.product_id as "productId",
         no.product_num as "productNum",
         no.address_id as "addressId",
+        no.use_balance_monney as "useBalanceMonney",
         no.pay_money as "payMoney",
         no.pay_integral as "payIntegral",
+        no.order_type as "orderType",
         no.status as "status",
         date_format(no.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
         date_format(no.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
@@ -37,6 +43,9 @@
             <if test="uid != null and uid != ''">
                 AND no.uid = #{uid}
             </if>
+            <if test="wxOrderId != null and wxOrderId != ''">
+                AND no.wx_order_id = #{wxOrderId}
+            </if>
             <if test="productId != null and productId != ''">
                 AND no.product_id = #{productId}
             </if>
@@ -46,11 +55,17 @@
             <if test="addressId != null and addressId != ''">
                 AND no.address_id = #{addressId}
             </if>
+            <if test="useBalanceMonney != null and useBalanceMonney != ''">
+                AND no.use_balance_monney = #{useBalanceMonney}
+            </if>
             <if test="payMoney != null and payMoney != ''">
                 AND no.pay_money = #{payMoney}
             </if>
             <if test="payIntegral != null and payIntegral != ''">
                 AND no.pay_integral = #{payIntegral}
+            </if>
+            <if test="orderType != null and orderType != ''">
+                AND no.order_type = #{orderType}
             </if>
         </where>
         ORDER BY no.create_time desc
@@ -62,12 +77,15 @@
             <include refid="columnList"/>
         ) values (
             #{id},
+            #{wxOrderId},
             #{uid},
             #{productId},
             #{productNum},
             #{addressId},
+            #{useBalanceMonney},
             #{payMoney},
             #{payIntegral},
+            #{orderType},
             #{status},
             #{createTime},
             #{updateTime}
@@ -93,17 +111,29 @@
             <if test="addressId != null and addressId != ''">
                no.address_id = #{addressId},
             </if>
+            <if test="useBalanceMonney != null and useBalanceMonney != ''">
+               no.use_balance_monney = #{useBalanceMonney},
+            </if>
             <if test="payMoney != null and payMoney != ''">
                no.pay_money = #{payMoney},
             </if>
             <if test="payIntegral != null and payIntegral != ''">
                no.pay_integral = #{payIntegral},
             </if>
+            <if test="orderType != null and orderType != ''">
+               no.order_type = #{orderType},
+            </if>
+            <if test="status != null and status != ''">
+               no.status = #{status},
+            </if>
             no.update_time = CURRENT_TIMESTAMP
         </set>
         where 1=1
         <if test="id != null and id != ''">
             and no.id = #{id}
+        </if>
+        <if test="wxOrderId != null and wxOrderId != ''">
+            and no.wx_order_id = #{wxOrderId}
         </if>
     </update>
 

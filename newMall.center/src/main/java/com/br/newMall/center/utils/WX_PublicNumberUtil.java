@@ -5,6 +5,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.br.common.utils.DateUtil;
 import com.br.newMall.api.code.NewMallCode;
 import com.br.newMall.api.dto.ResultMapDTO;
+import com.br.newMall.center.utils.wxpay.WXPay;
+import com.br.newMall.center.utils.wxpay.WXPayConfigImpl;
+import com.br.newMall.center.utils.wxpay.WXPayConstants;
+import com.br.newMall.center.utils.wxpay.WXPayUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.io.Charsets;
@@ -75,11 +79,72 @@ public class WX_PublicNumberUtil {
     //图文，文本的消息发送
     private static String messageSend_uri = "https://api.weixin.qq.com/cgi-bin/message/mass/send?access_token=";
 
+
     /**
-     * 向微信服务器发送请求，获取小程序的用户openId和seesion_key
-     * @param paramMap
+     * 统一下单【小程序内】
+     * @param nonce_str
+     * @param body
+     * @param out_trade_no
+     * @param total_fee
+     * @param spbillCreateIp
+     * @param openId
      * @return
+     * @throws Exception
      */
+    public static Map<String, Object> unifiedOrderForMiniProgram(
+            String nonce_str, String body, String out_trade_no, String total_fee,
+            String spbillCreateIp, String notifyUrl, String openId, String attach
+    ) throws Exception {
+        Map<String, Object> resultMap = Maps.newHashMap();
+        WXPayConfigImpl config = WXPayConfigImpl.getInstance();
+        WXPay wxpay = new WXPay(config);
+        Map<String, String> packageParams = new HashMap<String, String>();
+        packageParams.put("appid", NewMallCode.WX_MINI_PROGRAM_APPID);
+        packageParams.put("mch_id", NewMallCode.WX_PAY_MCH_ID);
+        packageParams.put("nonce_str", nonce_str);
+        packageParams.put("body", body);
+        packageParams.put("attach", attach);
+        packageParams.put("out_trade_no", out_trade_no);//商户订单号
+        packageParams.put("total_fee", total_fee);//支付金额，这边需要转成字符串类型，否则后面的签名会失败
+        packageParams.put("spbill_create_ip", spbillCreateIp);
+        packageParams.put("notify_url", spbillCreateIp + notifyUrl);
+        packageParams.put("trade_type", NewMallCode.WX_PAY_TRADE_TYPE);
+        packageParams.put("openid", openId);
+        packageParams.put("sign_type", WXPayConstants.MD5);
+        Map<String, String> unifiedOrderResponseMap = wxpay.unifiedOrder(packageParams);            //向微信客户端发送统一订单请求
+        logger.info("通过统一下单的方式请求，响应为 unifiedOrderResponseMap = {}" + JSONObject.toJSONString(unifiedOrderResponseMap));
+        String return_code = (String) unifiedOrderResponseMap.get("return_code");           //返回状态码
+        if (return_code == "SUCCESS" || return_code.equals(return_code)) {
+            String prepay_id = (String) unifiedOrderResponseMap.get("prepay_id");//返回的预付单信息
+            resultMap.put("nonceStr", nonce_str);
+            resultMap.put("package", "prepay_id=" + prepay_id);
+            Long timeStamp = System.currentTimeMillis() / 1000;
+            resultMap.put("timeStamp", timeStamp + "");//这边要将返回的时间戳转化成字符串，不然小程序端调用wx.requestPayment方法会报签名错误
+            //获取unifiedOrderResponseMap需要的支付验证签名
+            Map<String, String> paramMap_temp = new HashMap<String, String>();
+            paramMap_temp.put("appId", NewMallCode.WX_MINI_PROGRAM_APPID);
+            paramMap_temp.put("timeStamp", timeStamp + "");
+            paramMap_temp.put("nonceStr", nonce_str);
+            paramMap_temp.put("package", "prepay_id=" + prepay_id);
+            paramMap_temp.put("signType", "MD5");
+            //再次签名，这个签名用于小程序端调用wx.requesetPayment方法
+            String paySign = WXPayUtil.generateSignature(paramMap_temp, config.getKey(), WXPayConstants.SignType.MD5);
+            resultMap.put("paySign", paySign);
+            resultMap.put("appid", NewMallCode.WX_MINI_PROGRAM_APPID);
+            resultMap.put("code", NewMallCode.SUCCESS.getNo());
+            resultMap.put("message", NewMallCode.SUCCESS.getMessage());
+        } else {
+            resultMap.put("code", NewMallCode.ORDER_RESPONSE_UNIFIEDORDER_IS_ERROR.getNo());
+            resultMap.put("message", NewMallCode.ORDER_RESPONSE_UNIFIEDORDER_IS_ERROR.getMessage());
+        }
+        return resultMap;
+    }
+
+        /**
+         * 向微信服务器发送请求，获取小程序的用户openId和seesion_key
+         * @param paramMap
+         * @return
+         */
     public static Map<String, Object> getMiniOpenIdAndSessionKeyForWX(Map<String, Object> paramMap) {
         HttpsUtil httpsUtil = new HttpsUtil();
         Map<String, String> map = Maps.newHashMap();

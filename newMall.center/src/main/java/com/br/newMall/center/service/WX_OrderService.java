@@ -14,9 +14,24 @@ public interface WX_OrderService {
 
 
     /**
-     * 创建统一统一订单
+     * 购买商品
+     */
+    public ResultMapDTO purchaseProductInMiniProgram(Map<String, Object> paramMap) throws Exception;
+
+    /**
+     * 购买商品成功后的回调通知
+     */
+    public ResultMapDTO wxPayNotifyForPurchaseProductInMiniProgram(Map<String, Object> paramMap) throws Exception;
+
+    /**
+     * 买单
      */
     public ResultMapDTO payTheBillInMiniProgram(Map<String, Object> paramMap) throws Exception;
+
+    /**
+     * 买单成功后的回调通知
+     */
+    public ResultMapDTO wxPayNotifyForPayTheBillInMiniProgram(Map<String, Object> paramMap) throws Exception;
 
     /**
      * 根据条件查询订单信息

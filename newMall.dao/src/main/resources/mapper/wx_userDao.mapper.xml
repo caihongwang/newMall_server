@@ -119,49 +119,52 @@
 
     <update id="updateUser">
         update n_user nu
-        <set>
+            <set>
+                <if test="nickName != null and nickName != ''">
+                    nu.nick_name = #{nickName},
+                </if>
+                <if test="avatarUrl != null and avatarUrl != ''">
+                    nu.avatar_url = #{avatarUrl},
+                </if>
+                <if test="gender != null and gender != ''">
+                    nu.gender = #{gender},
+                </if>
+                <if test="city != null and city != ''">
+                    nu.city = #{city},
+                </if>
+                <if test="province != null and province != ''">
+                    nu.province = #{province},
+                </if>
+                <if test="country != null and country != ''">
+                    nu.country = #{country},
+                </if>
+                <if test="language != null and language != ''">
+                    nu.language = #{language},
+                </if>
+                <if test="grayStatus != null and grayStatus != ''">
+                    nu.gray_status = #{grayStatus},
+                </if>
+                <if test="userRemark != null and userRemark != ''">
+                    nu.user_remark = #{userRemark},
+                </if>
+                <if test="userType != null and userType != ''">
+                    nu.user_type = #{userType},
+                </if>
+                <if test="balance != null and balance != ''">
+                    nu.balance = #{balance},
+                </if>
+                <if test="integral != null and integral != ''">
+                    nu.integral = #{integral},
+                </if>
+                update_time = #{updateTime}
+            </set>
+        where 1=1
+            <if test="id != null and id != ''">
+                and nu.id = #{id}
+            </if>
             <if test="openId != null and openId != ''">
-                nu.open_id = #{openId},
+                and nu.open_id = #{openId}
             </if>
-            <if test="nickName != null and nickName != ''">
-                nu.nick_name = #{nickName},
-            </if>
-            <if test="avatarUrl != null and avatarUrl != ''">
-                nu.avatar_url = #{avatarUrl},
-            </if>
-            <if test="gender != null and gender != ''">
-                nu.gender = #{gender},
-            </if>
-            <if test="city != null and city != ''">
-                nu.city = #{city},
-            </if>
-            <if test="province != null and province != ''">
-                nu.province = #{province},
-            </if>
-            <if test="country != null and country != ''">
-                nu.country = #{country},
-            </if>
-            <if test="language != null and language != ''">
-                nu.language = #{language},
-            </if>
-            <if test="grayStatus != null and grayStatus != ''">
-                nu.gray_status = #{grayStatus},
-            </if>
-            <if test="userRemark != null and userRemark != ''">
-                nu.user_remark = #{userRemark},
-            </if>
-            <if test="userType != null and userType != ''">
-                nu.user_type = #{userType},
-            </if>
-            <if test="balance != null and balance != ''">
-                nu.balance = #{balance},
-            </if>
-            <if test="integral != null and integral != ''">
-                nu.integral = #{integral},
-            </if>
-            update_time = #{updateTime}
-        </set>
-        where id = #{id}
     </update>
 
     <select id="getSimpleUserByCondition" resultType="java.util.Map">

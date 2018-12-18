@@ -179,7 +179,13 @@ service WX_AddressHandler {
 
 service WX_OrderHandler {
 
-    dto.ResultMapDTO payTheBillInMiniProgram(1:int tid, 2:map<string, string> paramMap)
+    dto.ResultMapDTO purchaseProductInMiniProgram(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultMapDTO wxPayNotifyForPurchaseProductInMiniProgram(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultMapDTO payTheBillInMiniProgram(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultMapDTO wxPayNotifyForPayTheBillInMiniProgram(1:int tid, 2:map<string, string> paramMap),
 
     dto.BoolDTO addOrder(1:int tid, 2:map<string, string> paramMap),
 

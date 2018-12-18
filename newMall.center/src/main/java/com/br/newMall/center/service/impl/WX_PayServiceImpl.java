@@ -56,7 +56,7 @@ public class WX_PayServiceImpl implements WX_PayService {
                 // 请求IP
                 spbillCreateIp = spbillCreateIp;
                 // 通知地址
-                String notifyUrl = spbillCreateIp + NewMallCode.WX_PAY_NOTIFY_URL;
+                String notifyUrl = spbillCreateIp + NewMallCode.WX_PAY_NOTIFY_URL_wxPayNotifyForPayTheBillInMiniProgram;
                 // 交易类型
                 String tradeType = NewMallCode.WX_PAY_TRADE_TYPE;
                 // 微信支付商户的api秘钥

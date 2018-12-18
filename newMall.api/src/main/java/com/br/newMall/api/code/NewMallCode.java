@@ -71,6 +71,8 @@ public class NewMallCode {
     public static NewMallCode USER_IS_NULL = new NewMallCode(70001, "用户不存在.");
     public static NewMallCode USER_PHONE_IS_ERROR = new NewMallCode(70004, "用户用户手机号错误，请重新输入.");
     public static NewMallCode USER_CODE_IS_NOT_NULL = new NewMallCode(70006, "用户微信访问的code参数不能为空.");
+    public static NewMallCode USER_ID_OR_PRODUCTID_NULL = new NewMallCode(70007, "用户或者商品不存在.");
+
 
     //加油站
     public static NewMallCode OIL_QUERY_IS_NULL = new NewMallCode(130002, "获取加油站信息为空。");
@@ -134,6 +136,10 @@ public class NewMallCode {
     public static NewMallCode ORDER_LIST_IS_NULL = new NewMallCode(190003, "没有更多订单.");
     public static NewMallCode ORDER_RESPONSE_UNIFIEDORDER_IS_ERROR = new NewMallCode(190004, "微信的统一订单方式支付请求失败。");
     public static NewMallCode ORDER_PAY_MONEY_IS_NOT_NULL = new NewMallCode(190005, "支付金额不允许为空，请输入您的金额。");
+    public static NewMallCode ORDER_PRODUCTNUM_OR_PRODUCTID_IS_NOT_NULL = new NewMallCode(190006, "购买的商品数量或者商品ID不允许为空。");
+    public static NewMallCode ORDER_USER_INTEGRAL_IS_NOT_ENOUGH = new NewMallCode(190007, "用户积分不足。");
+    public static NewMallCode ORDER_OPENID_OR_SPBILLCREATEIP_OR_PRODUCTID_OR_PRODUCTNUM_OR_ADDRESSID_IS_NOT_NULL = new NewMallCode(190008, "openId或者访问域名或者商品ID或者商品数量或者地址ID不允许为空。");
+    public static NewMallCode ORDER_OPENID_OR_WXORDERID_OR_ATTACH_IS_NOT_NULL = new NewMallCode(190009, "openId或者微信订单号或者附加参数不允许为空.");
 
 
 
@@ -162,7 +168,9 @@ public class NewMallCode {
 //    public static final String WX_PAY_DOMAIN = "http://172.30.5.91:8080/newMall";        //微信支付 域名  本机
     public static final String WX_PAY_DOMAIN = "https://www.91caihongwang.com/newMall";        //微信支付 域名  线上
     public static final String WX_RED_PACK_NUMBER = "1";     //微信红包总数：1个
-    public static final String WX_PAY_NOTIFY_URL = "/newMall/order/wxNotify.do";  //支付成功后的服务器回调url
+    public static final String WX_PAY_NOTIFY_URL_wxPayNotifyForPayTheBillInMiniProgram = "/newMall/wxOrder/wxPayNotifyForPayTheBillInMiniProgram.do";  //支付成功后的服务器回调url
+    public static final String WX_PAY_NOTIFY_URL_wxPayNotifyForPurchaseProductInMiniProgram = "/newMall/wxOrder/wxPayNotifyForPurchaseProductInMiniProgram.do";  //购买成功后的服务器回调url
+
     public static final String WX_PAY_TRADE_TYPE = "JSAPI";  //交易类型
 
     //阿里常量值
