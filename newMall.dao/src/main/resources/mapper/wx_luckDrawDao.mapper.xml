@@ -26,7 +26,7 @@
     </sql>
 
     <sql id="queryConditions"><!-- 查询条件 -->
-        <where>nld.status='0'
+        <where>
             <if test="id != null and id != ''">
                 AND nld.id = #{id}
             </if>
@@ -41,6 +41,9 @@
             </if>
             <if test="remark != null and remark != ''">
                 AND nld.remark like concat('%',#{dicRemark},'%')
+            </if>
+            <if test="status != null and status != ''">
+                AND nld.status = #{status}
             </if>
         </where>
         ORDER BY nld.create_time desc
@@ -110,6 +113,39 @@
             COUNT(*) total
         from n_luck_draw nld
             <include refid="queryConditions"/>
+    </select>
+
+    <select id="getLuckDrawByCondition" resultType="java.util.Map">
+        SELECT
+            nld.id as "id",
+            nld.uid as "uid",
+            nu.open_id as "openId",
+            no.pay_money as "payMoney",
+            nd.dic_remark as "cashBackModeJson"
+        from n_luck_draw nld
+            INNER JOIN n_order no on nld.wx_order_id = no.wx_order_id
+            INNER JOIN n_user nu on nld.uid = nu.id
+            INNER JOIN n_dic nd on nld.luck_draw_code = dic_code
+        where 1=1
+            <if test="uid != null and uid != ''">
+                nld.uid = #{uid}
+            </if>
+        <if test="start != null and start != '' and size != null and size != ''">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getLuckDrawTotalByCondition" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*) total
+        from n_luck_draw nld
+        INNER JOIN n_order no on nld.wx_order_id = no.wx_order_id
+        INNER JOIN n_user nu on nld.uid = nu.id
+        INNER JOIN n_dic nd on nld.luck_draw_code = dic_code
+        where 1=1
+        <if test="uid != null and uid != ''">
+            nld.uid = #{uid}
+        </if>
     </select>
 
 </mapper>

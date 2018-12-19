@@ -12,6 +12,16 @@ public interface WX_LuckDrawDao {
     /**
      * 根据条件查询抽奖信息
      */
+    List<Map<String, Object>> getLuckDrawByCondition(Map<String, Object> paramMap);
+
+    /**
+     * 根据条件查询抽奖信息总数
+     */
+    Integer getLuckDrawTotalByCondition(Map<String, Object> paramMap);
+
+    /**
+     * 根据条件查询抽奖信息
+     */
     List<Map<String, Object>> getSimpleLuckDrawByCondition(Map<String, Object> paramMap);
 
     /**

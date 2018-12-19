@@ -169,7 +169,7 @@ public class WX_RedPacketServiceImpl implements WX_RedPacketService {
         String wxPublicNumGhId = paramMap.get("wxPublicNumGhId") != null ? paramMap.get("wxPublicNumGhId").toString() : "";
         if (paramMap.size() > 0 && !"".equals(wxPublicNumGhId)) {
             Map<String, Object> dicParamMap = Maps.newHashMap();
-            dicParamMap.put("dicType", "redPacketActivity");
+            dicParamMap.put("dicType", "cashBackActivity");
             dicParamMap.put("dicCode", wxPublicNumGhId);
             ResultDTO dicResultDto = wxDicService.getSimpleDicByCondition(dicParamMap);
             if (dicResultDto.getResultList() != null
