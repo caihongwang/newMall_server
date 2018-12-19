@@ -141,7 +141,15 @@ public class NewMallCode {
     public static NewMallCode ORDER_OPENID_OR_SPBILLCREATEIP_OR_PRODUCTID_OR_PRODUCTNUM_OR_ADDRESSID_IS_NOT_NULL = new NewMallCode(190008, "openId或者访问域名或者商品ID或者商品数量或者地址ID不允许为空。");
     public static NewMallCode ORDER_OPENID_OR_WXORDERID_OR_ATTACH_IS_NOT_NULL = new NewMallCode(190009, "openId或者微信订单号或者附加参数不允许为空.");
 
-
+    //抽奖
+    public static NewMallCode LUCKDRAW_LUCKDRAWTYPE_IS_NULL = new NewMallCode(200001, "抽奖的产品类型不允许为空.");
+    public static NewMallCode LUCKDRAW_UID_OR_WXORDERID_IS_NULL = new NewMallCode(200001, "抽奖的用户uid或者微信订单编号不允许为空.");
+    public static NewMallCode LUCKDRAW_WXORDERID_IS_NOT_EXIST = new NewMallCode(200001, "抽奖的微信订单编号不存在.");
+    public static NewMallCode LUCKDRAW_ORDER_IS_NOT_PAYED = new NewMallCode(200001, "抽奖的微信订单还未付款.");
+    public static NewMallCode LUCKDRAW_ID_IS_NOT_NULL = new NewMallCode(200001, "抽奖ID不允许为空.");
+    public static NewMallCode LUCKDRAW_LIST_IS_NULL = new NewMallCode(180004, "没有更多抽奖信息.");
+    public static NewMallCode LUCKDRAW_PRODUCT_IS_NULL = new NewMallCode(180004, "没有更多抽奖产品.");
+    public static NewMallCode LUCKDRAW_GETPRIZE_IS_FAILED = new NewMallCode(180004, "抽奖失败，再抽一次吧.");
 
 
     //微信小程序

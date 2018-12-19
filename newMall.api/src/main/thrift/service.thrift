@@ -197,6 +197,20 @@ service WX_OrderHandler {
 
 }
 
+service WX_LuckDrawHandler {
+
+    dto.ResultDTO getLuckDrawProductList(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultMapDTO addLuckDraw(1:int tid, 2:map<string, string> paramMap),
+
+    dto.BoolDTO deleteLuckDraw(1:int tid, 2:map<string, string> paramMap),
+
+    dto.BoolDTO updateLuckDraw(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultDTO getSimpleLuckDrawByCondition(1:int tid, 2:map<string, string> paramMap)
+
+}
+
 
 
 
