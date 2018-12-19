@@ -13,7 +13,7 @@ import java.util.Map;
 public interface WX_LuckDrawService {
 
     /**
-     * 根据抽奖的产品列表
+     * 获取抽奖的产品列表
      */
     ResultDTO getLuckDrawProductList(Map<String, Object> paramMap);
 

@@ -36,7 +36,10 @@
     </sql>
 
     <sql id="queryConditions"><!-- 查询条件 -->
-        <where>no.status='0'
+        <where>
+            <if test="status != null and status != ''">
+                AND no.status = #{status}
+            </if>
             <if test="id != null and id != ''">
                 AND no.id = #{id}
             </if>

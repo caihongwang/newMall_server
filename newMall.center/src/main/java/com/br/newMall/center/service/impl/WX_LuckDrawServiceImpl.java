@@ -13,6 +13,7 @@ import com.br.newMall.dao.WX_LuckDrawDao;
 import com.br.newMall.dao.WX_OrderDao;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,13 +42,13 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
     private WX_OrderDao wxOrderDao;
 
     /**
-     * 根据抽奖的产品列表
+     * 获取抽奖的产品列表
      * @param paramMap
      * @return
      */
     @Override
     public ResultDTO getLuckDrawProductList(Map<String, Object> paramMap) {
-        logger.info("在【service】中根据抽奖的产品列表-getLuckDrawProductList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("在【service】中获取抽奖的产品列表-getLuckDrawProductList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         String dicType = paramMap.get("dicType") != null ? paramMap.get("dicType").toString() : "luckDraw";
         if(!"".equals(dicType)){
@@ -57,7 +58,7 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
             resultDTO.setCode(NewMallCode.LUCKDRAW_LUCKDRAWTYPE_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.LUCKDRAW_LUCKDRAWTYPE_IS_NULL.getMessage());
         }
-        logger.info("在【service】中根据抽奖的产品列表-getLuckDrawProductList,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        logger.info("在【service】中获取抽奖的产品列表-getLuckDrawProductList,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
 
@@ -75,7 +76,7 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
         String uid = paramMap.get("uid") != null ? paramMap.get("uid").toString() : "";
         String wxOrderId = paramMap.get("wxOrderId") != null ? paramMap.get("wxOrderId").toString() : "";
         String luckDrawCode = "";
-        if (!"".equals(uid) && !"".equals(wxOrderId) && !"".equals(luckDrawCode)) {
+        if (!"".equals(uid) && !"".equals(wxOrderId)) {
             Map<String, Object> orderMap = Maps.newHashMap();
             orderMap.put("wxOrderId", wxOrderId);
             List<Map<String, Object>> orderList = wxOrderDao.getSimpleOrderByCondition(orderMap);
@@ -113,14 +114,22 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                         if(!"".equals(luckDrawCode)){
                             paramMap.put("luckDrawCode", luckDrawCode);
                             paramMap.put("status", "0");        //抽奖状态，0是未发放，1是已发放，2是已删除
-                            addNum = wxLuckDrawDao.addLuckDraw(paramMap);
-                            if (addNum != null && addNum > 0) {
-                                resultMapDTO.setResultMap(resultMap);
-                                resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
-                                resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
-                            } else {
-                                resultMapDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
-                                resultMapDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
+                            try{
+                                addNum = wxLuckDrawDao.addLuckDraw(paramMap);
+                                if (addNum != null && addNum > 0) {
+                                    resultMapDTO.setResultMap(resultMap);
+                                    resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
+                                    resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+                                } else {
+                                    resultMapDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
+                                    resultMapDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
+                                }
+                            } catch (Exception e) {
+                                logger.info("当前用户 uid = " + uid +
+                                        " , 完成微信订单 wxOrderId = " + wxOrderId +
+                                        "后，已抽过奖。如想再次抽奖，请再交易一笔订单。此异常可忽略.");
+                                resultMapDTO.setCode(NewMallCode.LUCKDRAW_GETPRIZE_HAS_GETED.getNo());
+                                resultMapDTO.setMessage(NewMallCode.LUCKDRAW_GETPRIZE_HAS_GETED.getMessage());
                             }
                         } else {
                             resultMapDTO.setCode(NewMallCode.LUCKDRAW_GETPRIZE_IS_FAILED.getNo());

@@ -150,6 +150,7 @@ public class NewMallCode {
     public static NewMallCode LUCKDRAW_LIST_IS_NULL = new NewMallCode(180004, "没有更多抽奖信息.");
     public static NewMallCode LUCKDRAW_PRODUCT_IS_NULL = new NewMallCode(180004, "没有更多抽奖产品.");
     public static NewMallCode LUCKDRAW_GETPRIZE_IS_FAILED = new NewMallCode(180004, "抽奖失败，再抽一次吧.");
+    public static NewMallCode LUCKDRAW_GETPRIZE_HAS_GETED = new NewMallCode(180004, "您已抽过奖。如想再次抽奖，请再交易一笔订单.");
 
 
     //微信小程序

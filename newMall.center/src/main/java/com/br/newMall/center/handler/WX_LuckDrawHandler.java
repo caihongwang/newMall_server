@@ -29,7 +29,7 @@ public class WX_LuckDrawHandler implements com.br.newMall.api.service.WX_LuckDra
     private WX_LuckDrawService wxLuckDrawService;
 
     /**
-     * 根据抽奖的产品列表
+     * 获取抽奖的产品列表
      * @param tid
      * @param paramMap
      * @return
@@ -37,14 +37,14 @@ public class WX_LuckDrawHandler implements com.br.newMall.api.service.WX_LuckDra
      */
     @Override
     public ResultDTO getLuckDrawProductList(int tid, Map<String, String> paramMap) throws TException {
-        logger.info("在【hanlder】中根据抽奖的产品列表-getLuckDrawProductList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("在【hanlder】中获取抽奖的产品列表-getLuckDrawProductList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         if (paramMap.size() > 0) {
             try {
                 resultDTO = wxLuckDrawService.getLuckDrawProductList(objectParamMap);
             } catch (Exception e) {
-                logger.error("在【hanlder】中根据抽奖的产品列表-getLuckDrawProductList is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                logger.error("在【hanlder】中获取抽奖的产品列表-getLuckDrawProductList is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
                 List<Map<String, String>> resultList = Lists.newArrayList();
                 resultDTO.setResultListTotal(0);
                 resultDTO.setResultList(resultList);
@@ -55,7 +55,7 @@ public class WX_LuckDrawHandler implements com.br.newMall.api.service.WX_LuckDra
             resultDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
-        logger.info("在【hanlder】中根据抽奖的产品列表-getLuckDrawProductList,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        logger.info("在【hanlder】中获取抽奖的产品列表-getLuckDrawProductList,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
 

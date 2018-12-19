@@ -267,11 +267,13 @@
       <DataType>int(11)|0</DataType>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
     </column>
-    <column id="63" parent="15" name="createTime">
+    <column id="63" parent="15" name="create_time">
       <Position>7</Position>
       <DataType>timestamp|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
     </column>
-    <column id="64" parent="15" name="updateTime">
+    <column id="64" parent="15" name="update_time">
       <Position>8</Position>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
