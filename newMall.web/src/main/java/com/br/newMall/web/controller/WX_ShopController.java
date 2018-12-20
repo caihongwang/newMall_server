@@ -149,7 +149,7 @@ public class WX_ShopController {
      * @param request
      * @return
      */
-    @RequestMapping("/getSimpleShopByCondition")
+    @RequestMapping("/getShopByCondition")
     @ResponseBody
     public Map<String, Object> getShopByCondition(HttpServletRequest request) {
         Map<String, String> paramMap = new HashMap<String, String>();
