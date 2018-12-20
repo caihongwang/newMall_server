@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.util.*;
 
@@ -455,6 +456,9 @@ public class LonLatUtil {
         double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) +
                 Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
         s = s * EARTH_RADIUS;
+        //小数点后两位
+        BigDecimal bg = new BigDecimal(s);
+        s = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         return s;
     }
 

@@ -6,6 +6,7 @@ import com.br.newMall.api.dto.BoolDTO;
 import com.br.newMall.api.dto.ResultDTO;
 import com.br.newMall.api.dto.ResultMapDTO;
 import com.br.newMall.center.service.WX_ShopService;
+import com.br.newMall.center.utils.LonLatUtil;
 import com.br.newMall.center.utils.MapUtil;
 import com.br.newMall.dao.WX_ShopDao;
 import com.google.common.collect.Lists;
@@ -172,13 +173,47 @@ public class WX_ShopServiceImpl implements WX_ShopService {
     public ResultDTO getShopByCondition(Map<String, Object> paramMap) {
         logger.info("在【service】中根据条件查询店铺相关信息-getShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
-        List<Map<String, String>> dicStrList = Lists.newArrayList();
-        List<Map<String, Object>> dicList = wxShopDao.getShopByCondition(paramMap);
-        if (dicList != null && dicList.size() > 0) {
-            dicStrList = MapUtil.getStringMapList(dicList);
+        List<Map<String, String>> shopStrList = Lists.newArrayList();
+        Double currentLon = Double.parseDouble(paramMap.get("currentLon") != null ? paramMap.get("currentLon").toString() : "0");
+        Double currentLat = Double.parseDouble(paramMap.get("currentLat") != null ? paramMap.get("currentLat").toString() : "0");
+        Double dis = Double.parseDouble(paramMap.get("dis") != null ? paramMap.get("dis").toString() : "100");    //默认100公里范围
+        if(currentLon > 0 && currentLat > 0){
+            //先计算查询点的经纬度范围
+            double r = LonLatUtil.EARTH_RADIUS;//地球半径千米
+            double dlng = 2 * Math.asin(Math.sin(dis / (2 * r)) / Math.cos(currentLat * Math.PI / 180));
+            dlng = dlng * 180 / Math.PI;//角度转为弧度
+            double dlat = dis / r;
+            dlat = dlat * 180 / Math.PI;
+            double minLat = currentLat - dlat;
+            double maxLat = currentLat + dlat;
+            double maxLon = currentLon - dlng;
+            double minLon = currentLon + dlng;
+            paramMap.put("minLon", minLon);
+            paramMap.put("maxLon", maxLon);
+            paramMap.put("minLat", minLat);
+            paramMap.put("maxLat", maxLat);
+        }
+        List<Map<String, Object>> shopList = wxShopDao.getShopByCondition(paramMap);
+        if (shopList != null && shopList.size() > 0) {
+            for (Map<String, Object> shopMap : shopList) {
+                Double endLat = Double.parseDouble(shopMap.get("shopLat").toString());
+                Double endLon = Double.parseDouble(shopMap.get("shopLon").toString());
+                Double distance = 0.0;
+                if(currentLon > 0 && currentLat > 0){
+                    distance = LonLatUtil.getDistance(currentLat, currentLon, endLat, endLon);
+                } else {
+                    distance = 0.0;
+                }
+                if(distance > 0){
+                    shopMap.put("shopDistance", distance.toString());
+                } else {
+                    shopMap.put("shopDistance", "未知");
+                }
+            }
+            shopStrList = MapUtil.getStringMapList(shopList);
             Integer total = wxShopDao.getShopTotalByCondition(paramMap);
             resultDTO.setResultListTotal(total);
-            resultDTO.setResultList(dicStrList);
+            resultDTO.setResultList(shopStrList);
             resultDTO.setCode(NewMallCode.SUCCESS.getNo());
             resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
         } else {

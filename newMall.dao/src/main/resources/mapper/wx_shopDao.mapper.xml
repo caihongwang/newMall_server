@@ -70,6 +70,10 @@
             <if test="shopStatus != null and shopStatus != ''">
                 AND ns.shop_status = #{shopStatus}
             </if>
+            <if test="minLat != null and maxLat != null and minLon != null and maxLon != null">
+                AND ns.shop_lat &gt;= #{minLat} AND ns.shop_lat &lt;= #{maxLat}
+                AND ns.shop_lon &gt;= #{minLon} AND ns.shop_lon &lt;= #{maxLon}
+            </if>
         </where>
         ORDER BY ns.create_time desc
     </sql>
@@ -182,7 +186,6 @@
             date_format(ns.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
         from n_shop ns
         INNER JOIN n_user nu on nu.shop_id=ns.id
-        where 1=1
             <include refid="queryConditions"/>
         <if test="start != null and start != '' and size != null and size != ''">
             LIMIT ${start},${size}
@@ -194,10 +197,7 @@
           COUNT(*) total
         from n_shop ns
         INNER JOIN n_user nu on nu.shop_id=ns.id
-        where 1=1
-            <if test="uid != null and uid != ''">
-                and nu.id = #{uid}
-            </if>
+            <include refid="queryConditions"/>
     </select>
 
 </mapper>
