@@ -529,7 +529,7 @@ public class WX_PublicNumberUtil {
                     InputStream inStream = entity.getContent();
                     //1.将图片存储到cdn
                     int size;
-                    byte[] buffer = new byte[1024 * 1000000];
+                    byte[] buffer = new byte[1024 * 1000];
                     long startTime = System.currentTimeMillis();
                     //判断 文件夹 是否存存在，如果不存在则创建
                     shopMiniProgramCodePath = shopMiniProgramCodePath +  "miniProgramCode.jpg";
