@@ -45,7 +45,7 @@ public class WX_ShopServiceImplTest {
         Map<String, Object> paramMap = Maps.newHashMap();
 //        paramMap.put("uid", "1");
         paramMap.put("currentLon", "110");
-        paramMap.put("currentLat", "120");
+        paramMap.put("currentLat", "10");
         getShopByCondition(paramMap);
     }
 
@@ -106,6 +106,7 @@ public class WX_ShopServiceImplTest {
             paramMap.put("minLat", minLat);
             paramMap.put("maxLat", maxLat);
         }
+        logger.info("在【service】中添加店铺-addShop,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         List<Map<String, Object>> shopList = wxShopDao.getShopByCondition(paramMap);
         if (shopList != null && shopList.size() > 0) {
             for (Map<String, Object> shopMap : shopList) {

@@ -54,7 +54,7 @@ public class TimeTaskOfQuartz {
     /**
      * 每隔5秒定时发送红包
      */
-    @Scheduled(cron = "5 * * * * ?")
+//    @Scheduled(cron = "5 * * * * ?")
     public void do_SendRedPacket_For_NewMall() {
         //1.整合参数
         Map<String, Object> luckDrawParamMap = Maps.newHashMap();
