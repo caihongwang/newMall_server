@@ -78,6 +78,7 @@ public class TimeTaskOfQuartzTest {
                             Double redPacketTotalDouble = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                             //2.整合发送红包的参数
                             Map<String, Object> redPacketParamMap = Maps.newHashMap();
+                            redPacketTotalDouble = 500.0;
                             String redPacketTotal = ((int) (redPacketTotalDouble * 100)) + "";
                             redPacketParamMap.put("amount", redPacketTotal);
                             redPacketParamMap.put("openId", openId);

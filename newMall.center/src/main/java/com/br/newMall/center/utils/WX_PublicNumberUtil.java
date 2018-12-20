@@ -3,6 +3,7 @@ package com.br.newMall.center.utils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.br.common.utils.DateUtil;
+import com.br.common.utils.StringUtil;
 import com.br.newMall.api.code.NewMallCode;
 import com.br.newMall.api.dto.ResultMapDTO;
 import com.br.newMall.center.utils.wxpay.WXPay;
@@ -12,6 +13,8 @@ import com.br.newMall.center.utils.wxpay.WXPayUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.io.Charsets;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -492,6 +495,68 @@ public class WX_PublicNumberUtil {
             paramMap.put("lang", "zh_CN");
             String resultJson = httpsUtil.get(getCgiBinUserInfo_uri, paramMap);
             resultMap = JSONObject.parseObject(resultJson, Map.class);
+        } else {
+            //获取access_token失败
+        }
+        return resultMap;
+    }
+
+    public static Map<String, Object> getMiniProgramCode(String appId, String secret,
+                   String page, String scene, String shopMiniProgramCodePath) {
+        HttpsUtil httpsUtil = new HttpsUtil();
+        Map<String, String> paramMap = Maps.newHashMap();
+        Map<String, Object> resultMap = Maps.newHashMap();
+        Map<String, Object> accessTokenMap = getAccessToken(appId, secret);
+        if (accessTokenMap != null && accessTokenMap.size() > 0) {
+            String accessToken = accessTokenMap.get("access_token") != null ? accessTokenMap.get("access_token").toString() : "";
+            try {
+                paramMap.put("page", page);
+                paramMap.put("scene", scene);
+                Map<String, String> headers = Maps.newHashMap();
+                //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
+                String method = "POST";
+                //根据API的要求，定义相对应的Content-Type
+                headers.put("Content-Type", "application/json; charset=UTF-8");
+                Map<String, String> querys = Maps.newHashMap();
+                String bodys = JSONObject.toJSONString(paramMap);
+                String host = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=" + accessToken;
+                HttpResponse res = ALiYunHttpUtils.doPost(host, "", method, headers, querys, bodys);
+                logger.info("向微信服务器发送请求获取，获取响应的is {}", res);
+                //处理返回的图片
+                HttpEntity entity = res.getEntity();
+                String resJsonStr = "";
+                if (entity != null) {
+                    InputStream inStream = entity.getContent();
+                    //1.将图片存储到cdn
+                    int size;
+                    byte[] buffer = new byte[1024 * 1000000];
+                    long startTime = System.currentTimeMillis();
+                    //判断 文件夹 是否存存在，如果不存在则创建
+                    shopMiniProgramCodePath = shopMiniProgramCodePath +  "miniProgramCode.jpg";
+                    File dirFile = new File(shopMiniProgramCodePath);
+                    if (!dirFile.getParentFile().exists()) {
+                        dirFile.getParentFile().mkdirs();
+                    }
+                    dirFile.createNewFile();
+                    OutputStream out = new FileOutputStream(shopMiniProgramCodePath);
+                    do {
+                        size = inStream.read(buffer);
+                        if (size > 0) {
+                            out.write(buffer, 0, size);
+                        }
+                    } while (size > 0);
+                    out.flush();
+                    out.close();
+                    inStream.close();
+                    shopMiniProgramCodePath = shopMiniProgramCodePath.substring(28);
+                    String miniProgramCodeUrl = NewMallCode.THE_DOMAIN + shopMiniProgramCodePath;
+                    resultMap.put("miniProgramCodeUrl", miniProgramCodeUrl);
+                } else {
+                    logger.error("向微信服务器发送请求获取，获取二维码失败，accessToken=" + accessToken + ",page=" + page + ",scene=" + scene);
+                }
+            } catch (Exception e) {
+                logger.error("向微信服务器发送请求获取，获取二维码时报错 is {}", e);
+            }
         } else {
             //获取access_token失败
         }

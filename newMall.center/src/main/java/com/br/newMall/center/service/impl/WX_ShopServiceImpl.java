@@ -8,12 +8,14 @@ import com.br.newMall.api.dto.ResultMapDTO;
 import com.br.newMall.center.service.WX_ShopService;
 import com.br.newMall.center.utils.LonLatUtil;
 import com.br.newMall.center.utils.MapUtil;
+import com.br.newMall.center.utils.WX_PublicNumberUtil;
 import com.br.newMall.dao.WX_ShopDao;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +32,10 @@ public class WX_ShopServiceImpl implements WX_ShopService {
 
     @Autowired
     private WX_ShopDao wxShopDao;
+
+
+    @Value("${newMall.shop.miniProgramCode}")
+    private String shopMiniProgramCodePath;
 
     /**
      * 添加店铺
@@ -226,6 +232,65 @@ public class WX_ShopServiceImpl implements WX_ShopService {
         }
         logger.info("在【service】中根据条件查询店铺相关信息-getShopByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
+    }
+
+    /**
+     * 根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码
+     * @return
+     */
+    @Override
+    public ResultMapDTO getMiniProgramCode(Map<String, Object> paramMap) {
+        logger.info("在【service】中根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getMiniProgramCode,响应-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        Map<String, Object> resultMap = Maps.newHashMap();
+        String page = paramMap.get("page")!=null?paramMap.get("page").toString():"";
+        String uid = paramMap.get("uid")!=null?paramMap.get("uid").toString():"";
+        String nickName = paramMap.get("nickName")!=null?paramMap.get("nickName").toString():"";
+        String shopTitle = paramMap.get("shopTitle")!=null?paramMap.get("shopTitle").toString():"";
+        if ( (!"".equals(uid) || !"".equals(nickName) || !"".equals(shopTitle))
+                && !"".equals(page) && !"".equals(shopMiniProgramCodePath)) {
+            String shopId = "";
+            Map<String, Object> shopMap = Maps.newHashMap();
+            shopMap.put("shopTitle", shopTitle);
+            shopMap.put("nickName", nickName);
+            shopMap.put("uid", uid);
+            List<Map<String, Object>> shopList = wxShopDao.getShopByCondition(shopMap);
+            if(shopList != null && shopList.size() > 0){
+                shopId = shopList.get(0).get("shopId").toString();
+            }
+            if(!"".equals(shopTitle)){
+                shopMiniProgramCodePath = shopMiniProgramCodePath + "/" + shopTitle + "/";
+            } else if(!"".equals(nickName)){
+                shopMiniProgramCodePath = shopMiniProgramCodePath + "/" + nickName + "/";
+            } else if(!"".equals(uid)){
+                shopMiniProgramCodePath = shopMiniProgramCodePath + "/" + uid + "/";
+            }
+            if(!"".equals(shopId)){
+                String scene = "shopId=" + shopId;
+                resultMap = WX_PublicNumberUtil.getMiniProgramCode(
+                        NewMallCode.WX_MINI_PROGRAM_APPID,
+                        NewMallCode.WX_MINI_PROGRAM_SECRET,
+                        page,
+                        scene,
+                        shopMiniProgramCodePath);
+                if(resultMap != null && resultMap.size() > 0){
+                    resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
+                    resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
+                    resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+                } else {
+                    resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                    resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
+                }
+            } else {
+                resultMapDTO.setCode(NewMallCode.SHOP_UID_NICKNAME_SHOPTITLE_IS_NOT_EXIST_SHOP.getNo());
+                resultMapDTO.setMessage(NewMallCode.SHOP_UID_NICKNAME_SHOPTITLE_IS_NOT_EXIST_SHOP.getMessage());
+            }
+        } else {
+            resultMapDTO.setCode(NewMallCode.SHOP_UID_NICKNAME_SHOPTITLE_PAGE_SCENE_FILEPATH_IS_NOT_NULL.getNo());
+            resultMapDTO.setMessage(NewMallCode.SHOP_UID_NICKNAME_SHOPTITLE_PAGE_SCENE_FILEPATH_IS_NOT_NULL.getMessage());
+        }
+        logger.info("在【service】中根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getMiniProgramCode,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        return resultMapDTO;
     }
 
 }

@@ -158,6 +158,8 @@ public class NewMallCode {
     public static NewMallCode SHOP_ID_IS_NOT_NULL = new NewMallCode(30003, "店铺的ID不能为空");
     public static NewMallCode SHOP_LIST_IS_NULL = new NewMallCode(0, "当前店铺没有数据.");
     public static NewMallCode SHOP_UID_IS_NOT_NULL = new NewMallCode(0, "查询店铺的用户UID不能为空.");
+    public static NewMallCode SHOP_UID_NICKNAME_SHOPTITLE_PAGE_SCENE_FILEPATH_IS_NOT_NULL = new NewMallCode(0, "店铺小程序码的用户uid或者微信昵称或者店铺名称或者小程序页面或者小程序码存放路径不能为空.");
+    public static NewMallCode SHOP_UID_NICKNAME_SHOPTITLE_IS_NOT_EXIST_SHOP = new NewMallCode(0, "店铺小程序码的用户uid或者微信昵称或者店铺名称不存在店铺.");
 
 
     //微信小程序
@@ -176,6 +178,10 @@ public class NewMallCode {
     public static final String WX_CUSTOM_MESSAGE_HOST = "https://api.weixin.qq.com";     //host
     public static final String WX_CUSTOM_MESSAGE_PATH = "/cgi-bin/message/custom/send?access_token=";     //path
     public static final String WX_CUSTOM_MESSAGE_METHOD = "POST";                        //method
+
+    //本服务器域名
+    public static final String THE_DOMAIN = "https://www.91caihongwang.com/";        // 域名  线上
+
 
     //微信支付
     public static final String WX_PAY_API_SECRET = "Caihongwang52013Caihongwang52014";     //微信支付 api secret

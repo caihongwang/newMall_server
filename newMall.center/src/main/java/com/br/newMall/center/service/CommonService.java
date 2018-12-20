@@ -34,11 +34,6 @@ public interface CommonService {
     public ResultMapDTO getSignatureAndJsapiTicketAndNonceStrForWxPublicNumber(Map<String, Object> paramMap);
 
     /**
-     * 向微信服务器发送请求，获取响应的二维码,同事将获取过来的二维码网络流转换为base64数据
-     */
-    public Map<String, Object> getTwoDimensionForWX(String accessToken, String page, String scene);
-
-    /**
      * 接受小程序端发送过来的消息，同时对特定的消息进行回复小程序的固定客服消息
      *
      * @param paramMap
