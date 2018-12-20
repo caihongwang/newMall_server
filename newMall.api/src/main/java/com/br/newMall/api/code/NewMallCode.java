@@ -157,6 +157,7 @@ public class NewMallCode {
     public static NewMallCode SHOP_shopTitle_shopDegist_shopPhone_shopAddress_shopLon_shopLat_shopHeadImgUrl_shopDescribeImgUrl_IS_NOT_NULL = new NewMallCode(30002, "店铺的名称或者店铺地址或者店铺经纬度或者店铺头像地址或者店铺描述图片地址不能为空");
     public static NewMallCode SHOP_ID_IS_NOT_NULL = new NewMallCode(30003, "店铺的ID不能为空");
     public static NewMallCode SHOP_LIST_IS_NULL = new NewMallCode(0, "当前店铺没有数据.");
+    public static NewMallCode SHOP_UID_IS_NOT_NULL = new NewMallCode(0, "查询店铺的用户UID不能为空.");
 
 
     //微信小程序

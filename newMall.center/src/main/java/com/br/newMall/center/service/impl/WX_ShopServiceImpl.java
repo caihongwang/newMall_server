@@ -143,6 +143,7 @@ public class WX_ShopServiceImpl implements WX_ShopService {
         logger.info("在【service】中获取单一的店铺-getSimpleShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         List<Map<String, String>> dicStrList = Lists.newArrayList();
+        paramMap.remove("uid");
         List<Map<String, Object>> dicList = wxShopDao.getSimpleShopByCondition(paramMap);
         if (dicList != null && dicList.size() > 0) {
             dicStrList = MapUtil.getStringMapList(dicList);
@@ -159,6 +160,35 @@ public class WX_ShopServiceImpl implements WX_ShopService {
             resultDTO.setMessage(NewMallCode.SHOP_LIST_IS_NULL.getMessage());
         }
         logger.info("在【service】中获取单一的店铺-getSimpleShopByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        return resultDTO;
+    }
+
+    /**
+     * 根据条件查询店铺相关信息
+     * @param paramMap
+     * @return
+     */
+    @Override
+    public ResultDTO getShopByCondition(Map<String, Object> paramMap) {
+        logger.info("在【service】中根据条件查询店铺相关信息-getShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultDTO resultDTO = new ResultDTO();
+        List<Map<String, String>> dicStrList = Lists.newArrayList();
+        List<Map<String, Object>> dicList = wxShopDao.getShopByCondition(paramMap);
+        if (dicList != null && dicList.size() > 0) {
+            dicStrList = MapUtil.getStringMapList(dicList);
+            Integer total = wxShopDao.getShopTotalByCondition(paramMap);
+            resultDTO.setResultListTotal(total);
+            resultDTO.setResultList(dicStrList);
+            resultDTO.setCode(NewMallCode.SUCCESS.getNo());
+            resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+        } else {
+            List<Map<String, String>> resultList = Lists.newArrayList();
+            resultDTO.setResultListTotal(0);
+            resultDTO.setResultList(resultList);
+            resultDTO.setCode(NewMallCode.SHOP_LIST_IS_NULL.getNo());
+            resultDTO.setMessage(NewMallCode.SHOP_LIST_IS_NULL.getMessage());
+        }
+        logger.info("在【service】中根据条件查询店铺相关信息-getShopByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
 

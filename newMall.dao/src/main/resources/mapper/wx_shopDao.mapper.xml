@@ -105,6 +105,9 @@
     <update id="updateShop">
         update n_shop ns
         <set>
+            <if test="uid != null and uid != ''">
+                and nu.id = #{uid}
+            </if>
             <if test="shopTitle != null and shopTitle != ''">
                ns.shop_title = #{shopTitle},
             </if>
@@ -158,6 +161,43 @@
             COUNT(*) total
         from n_shop ns
             <include refid="queryConditions"/>
+    </select>
+
+    <select id="getShopByCondition" resultType="java.util.Map">
+        SELECT
+            nu.id as "shopUid",
+            nu.open_id as "shopOpenId",
+            nu.shop_id as "shopId",
+            ns.shop_title as "shopTitle",
+            ns.shop_degist as "shopDegist",
+            ns.shop_phone as "shopPhone",
+            ns.shop_address as "shopAddress",
+            ns.shop_lon as "shopLon",
+            ns.shop_lat as "shopLat",
+            ns.shop_head_img_url as "shopHeadImgUrl",
+            ns.shop_describe_img_url as "shopDescribeImgUrl",
+            ns.shop_remark as "shopRemark",
+            ns.shop_status as "shopStatus",
+            date_format(ns.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
+            date_format(ns.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
+        from n_shop ns
+        INNER JOIN n_user nu on nu.shop_id=ns.id
+        where 1=1
+            <include refid="queryConditions"/>
+        <if test="start != null and start != '' and size != null and size != ''">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getShopTotalByCondition" resultType="java.lang.Integer">
+        SELECT
+          COUNT(*) total
+        from n_shop ns
+        INNER JOIN n_user nu on nu.shop_id=ns.id
+        where 1=1
+            <if test="uid != null and uid != ''">
+                and nu.id = #{uid}
+            </if>
     </select>
 
 </mapper>

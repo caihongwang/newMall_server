@@ -13,6 +13,11 @@ import java.util.Map;
 public interface WX_ShopService {
 
     /**
+     * 根据条件查询店铺相关信息
+     */
+    ResultDTO getShopByCondition(Map<String, Object> paramMap);
+
+    /**
      * 根据条件查询店铺信息
      */
     ResultDTO getSimpleShopByCondition(Map<String, Object> paramMap);

@@ -10,6 +10,16 @@ import java.util.Map;
 public interface WX_ShopDao {
 
     /**
+     * 根据条件查询店铺相关信息
+     */
+    List<Map<String, Object>> getShopByCondition(Map<String, Object> paramMap);
+
+    /**
+     * 根据条件查询店铺相关信息总数
+     */
+    Integer getShopTotalByCondition(Map<String, Object> paramMap);
+
+    /**
      * 根据条件查询店铺信息
      */
     List<Map<String, Object>> getSimpleShopByCondition(Map<String, Object> paramMap);

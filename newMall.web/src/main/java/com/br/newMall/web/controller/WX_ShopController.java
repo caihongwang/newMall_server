@@ -144,4 +144,33 @@ public class WX_ShopController {
         return resultMap;
     }
 
+    /**
+     * 根据条件查询店铺相关信息
+     * @param request
+     * @return
+     */
+    @RequestMapping("/getSimpleShopByCondition")
+    @ResponseBody
+    public Map<String, Object> getShopByCondition(HttpServletRequest request) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        //获取请求参数能够获取到并解析
+        paramMap = HttpUtil.getRequestParams(request);
+        logger.info("在【controller】中根据条件查询店铺相关信息-getShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        try {
+            ResultDTO resultDTO = wxShopHandler.getShopByCondition(0, paramMap);
+            resultMap.put("recordsFiltered", resultDTO.getResultListTotal());
+            resultMap.put("data", resultDTO.getResultList());
+            resultMap.put("code", resultDTO.getCode());
+            resultMap.put("message", resultDTO.getMessage());
+        } catch (Exception e) {
+            logger.error("在【controller】中根据条件查询店铺相关信息-getShopByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            resultMap.put("success", false);
+            resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
+            resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
+        }
+        logger.info("在【controller】中中根据条件查询店铺相关信息获取单一的店铺-getShopByCondition,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        return resultMap;
+    }
+
 }

@@ -213,15 +213,15 @@ service WX_LuckDrawHandler {
 
 service WX_ShopHandler {
 
-    dto.ResultDTO getShopTypeList(1:int tid, 2:map<string, string> paramMap),
-
     dto.BoolDTO addShop(1:int tid, 2:map<string, string> paramMap),
 
     dto.BoolDTO deleteShop(1:int tid, 2:map<string, string> paramMap),
 
     dto.BoolDTO updateShop(1:int tid, 2:map<string, string> paramMap),
 
-    dto.ResultDTO getSimpleShopByCondition(1:int tid, 2:map<string, string> paramMap)
+    dto.ResultDTO getSimpleShopByCondition(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultDTO getShopByCondition(1:int tid, 2:map<string, string> paramMap)
 
 }
 
