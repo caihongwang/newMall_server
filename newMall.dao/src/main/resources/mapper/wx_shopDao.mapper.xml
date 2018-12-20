@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.br.newMall.dao.WX_ShopDao">
+
+    <sql id="columnList">    <!-- 字段 -->
+        id,
+        shop_title,
+        shop_degist,
+        shop_phone,
+        shop_address,
+        shop_lon,
+        shop_lat,
+        shop_head_img_url,
+        shop_describe_img_url,
+        shop_remark,
+        shop_status,
+        create_time,
+        update_time
+    </sql>
+
+    <sql id="TColumnList">    <!-- 带表别名的字段 -->
+        ns.id as "id",
+        ns.shop_title as "shopTitle",
+        ns.shop_degist as "shopDegist",
+        ns.shop_phone as "shopPhone",
+        ns.shop_address as "shopAddress",
+        ns.shop_lon as "shopLon",
+        ns.shop_lat as "shopLat",
+        ns.shop_head_img_url as "shopHeadImgUrl",
+        ns.shop_describe_img_url as "shopDescribeImgUrl",
+        ns.shop_remark as "shopRemark",
+        ns.shop_status as "shopStatus",
+        date_format(ns.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
+        date_format(ns.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
+    </sql>
+
+    <sql id="queryConditions"><!-- 查询条件 -->
+        <where>
+            <if test="id != null and id != ''">
+                AND ns.id = #{id}
+            </if>
+            <if test="shopTitle != null and shopTitle != ''">
+                AND ns.shop_title like concat('%',#{shopTitle},'%')
+            </if>
+            <if test="shopDegist != null and shopDegist != ''">
+                AND ns.shop_degist like concat('%',#{shopDegist},'%')
+            </if>
+            <if test="shopPhone != null and shopPhone != ''">
+                AND ns.shop_phone = #{shopPhone}
+            </if>
+            <if test="shopAddress != null and shopAddress != ''">
+                AND ns.shop_address like concat('%',#{shopAddress},'%')
+            </if>
+            <if test="shopLon != null and shopLon != ''">
+                AND ns.shop_lon = #{shopLon}
+            </if>
+            <if test="shopLat != null and shopLat != ''">
+                AND ns.shop_lat = #{shopLat}
+            </if>
+            <if test="shopHeadImgUrl != null and shopHeadImgUrl != ''">
+                AND ns.shop_head_img_url = #{shopHeadImgUrl}
+            </if>
+            <if test="shopDescribeImgUrl != null and shopDescribeImgUrl != ''">
+                AND ns.shop_describe_img_url = #{shopDescribeImgUrl}
+            </if>
+            <if test="shopRemark != null and shopRemark != ''">
+                AND ns.shop_remark like concat('%',#{shopRemark},'%')
+            </if>
+            <if test="shopStatus != null and shopStatus != ''">
+                AND ns.shop_status = #{shopStatus}
+            </if>
+        </where>
+        ORDER BY ns.create_time desc
+    </sql>
+
+    <insert id="addShop" parameterType="java.util.Map" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into n_shop (
+            <include refid="columnList"/>
+        ) values (
+            #{id},
+            #{shopTitle},
+            #{shopDegist},
+            #{shopPhone},
+            #{shopAddress},
+            #{shopLon},
+            #{shopLat},
+            #{shopHeadImgUrl},
+            #{shopDescribeImgUrl},
+            #{shopRemark},
+            #{shopStatus},
+            #{createTime},
+            #{updateTime}
+        )
+    </insert>
+
+    <delete id="deleteShop">
+        update n_shop ns set ns.shop_status = 2
+        <if test="id != null and id != ''">
+            AND id = #{id}
+        </if>
+    </delete>
+
+    <update id="updateShop">
+        update n_shop ns
+        <set>
+            <if test="shopTitle != null and shopTitle != ''">
+               ns.shop_title = #{shopTitle},
+            </if>
+            <if test="shopDegist != null and shopDegist != ''">
+               ns.shop_degist = #{shopDegist},
+            </if>
+            <if test="shopPhone != null and shopPhone != ''">
+               ns.shop_phone = #{shopPhone},
+            </if>
+            <if test="shopAddress != null and shopAddress != ''">
+                AND ns.shop_address = #{shopAddress},
+            </if>
+            <if test="shopLon != null and shopLon != ''">
+               ns.shop_lon = #{shopLon},
+            </if>
+            <if test="shopLat != null and shopLat != ''">
+               ns.shop_lat = #{shopLat},
+            </if>
+            <if test="shopHeadImgUrl != null and shopHeadImgUrl != ''">
+               ns.shop_head_img_url = #{shopHeadImgUrl},
+            </if>
+            <if test="shopDescribeImgUrl != null and shopDescribeImgUrl != ''">
+               ns.shop_describe_img_url = #{shopDescribeImgUrl},
+            </if>
+            <if test="shopRemark != null and shopRemark != ''">
+               ns.shop_remark = #{shopRemark},
+            </if>
+            <if test="shopStatus != null and shopStatus != ''">
+               ns.shop_status = #{shopStatus},
+            </if>
+            ns.update_time = CURRENT_TIMESTAMP
+        </set>
+        where 1=1
+        <if test="id != null and id != ''">
+            and ns.id = #{id}
+        </if>
+    </update>
+
+    <select id="getSimpleShopByCondition" resultType="java.util.Map">
+        SELECT
+            <include refid="TColumnList"/>
+        FROM n_shop ns
+            <include refid="queryConditions"/>
+        <if test="start != null and start != '' and size != null and size != ''">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getSimpleShopTotalByCondition" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*) total
+        from n_shop ns
+            <include refid="queryConditions"/>
+    </select>
+
+</mapper>

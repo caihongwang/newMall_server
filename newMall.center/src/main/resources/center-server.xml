@@ -168,4 +168,12 @@
         <property name="version" value="${newMall.server.version}"/>
     </bean>
 
+    <!-- wxShopHandler -->
+    <bean id="wxShopHandler" class="com.br.rpc.provider.processor.Processor">
+        <property name="project" value="newMall_project"/>
+        <property name="handler" value="com.br.newMall.center.handler.WX_ShopHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.version}"/>
+    </bean>
+
 </beans>

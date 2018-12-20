@@ -130,6 +130,7 @@
             <if test="uid != null and uid != ''">
                 nld.uid = #{uid}
             </if>
+            ORDER BY nld.create_time asc
         <if test="start != null and start != '' and size != null and size != ''">
             LIMIT ${start},${size}
         </if>
@@ -139,13 +140,13 @@
         SELECT
             COUNT(*) total
         from n_luck_draw nld
-        INNER JOIN n_order no on nld.wx_order_id = no.wx_order_id
-        INNER JOIN n_user nu on nld.uid = nu.id
-        INNER JOIN n_dic nd on nld.luck_draw_code = dic_code
+            INNER JOIN n_order no on nld.wx_order_id = no.wx_order_id
+            INNER JOIN n_user nu on nld.uid = nu.id
+            INNER JOIN n_dic nd on nld.luck_draw_code = dic_code
         where 1=1
-        <if test="uid != null and uid != ''">
-            nld.uid = #{uid}
-        </if>
+            <if test="uid != null and uid != ''">
+                nld.uid = #{uid}
+            </if>
     </select>
 
 </mapper>

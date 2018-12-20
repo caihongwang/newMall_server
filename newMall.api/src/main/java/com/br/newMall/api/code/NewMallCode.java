@@ -152,6 +152,12 @@ public class NewMallCode {
     public static NewMallCode LUCKDRAW_GETPRIZE_IS_FAILED = new NewMallCode(180004, "抽奖失败，再抽一次吧.");
     public static NewMallCode LUCKDRAW_GETPRIZE_HAS_GETED = new NewMallCode(180004, "您已抽过奖。如想再次抽奖，请再交易一笔订单.");
 
+    //店铺
+    public static NewMallCode SHOP_EXIST = new NewMallCode(30001, "店铺已经存在，请修改。");
+    public static NewMallCode SHOP_shopTitle_shopDegist_shopPhone_shopAddress_shopLon_shopLat_shopHeadImgUrl_shopDescribeImgUrl_IS_NOT_NULL = new NewMallCode(30002, "店铺的名称或者店铺地址或者店铺经纬度或者店铺头像地址或者店铺描述图片地址不能为空");
+    public static NewMallCode SHOP_ID_IS_NOT_NULL = new NewMallCode(30003, "店铺的ID不能为空");
+    public static NewMallCode SHOP_LIST_IS_NULL = new NewMallCode(0, "当前店铺没有数据.");
+
 
     //微信小程序
     public static final String WX_MINI_PROGRAM_NAME = "油价地图";     //小程序名称

@@ -15,6 +15,7 @@
         language,
         user_remark,
         user_type,
+        shop_id,
         balance,
         integral,
         gray_status,
@@ -34,6 +35,7 @@
         nu.language as "language",
         nu.user_remark as "userRemark",
         nu.user_type as "userType",
+        nu.shop_id as "shopId",
         nu.balance as "balance",
         nu.integral as "integral",
         nu.gray_status as "grayStatus",
@@ -79,6 +81,9 @@
             <if test="userRemark != null and userRemark != ''">
                 AND nu.user_remark = #{userRemark}
             </if>
+            <if test="shopId != null and shopId != ''">
+                AND nu.shop_id = #{shopId}
+            </if>
         </where>
         ORDER BY nu.create_time desc
     </sql>
@@ -99,6 +104,7 @@
         #{language},
         #{userRemark},
         #{userType},
+        #{shopId},
         #{balance},
         #{integral},
         #{grayStatus},
@@ -149,6 +155,9 @@
                 </if>
                 <if test="userType != null and userType != ''">
                     nu.user_type = #{userType},
+                </if>
+                <if test="shopId != null and shopId != ''">
+                    nu.shop_id = #{shopId},
                 </if>
                 <if test="balance != null and balance != ''">
                     nu.balance = #{balance},
