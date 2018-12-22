@@ -216,14 +216,17 @@ public class WX_UserServiceImpl implements WX_UserService {
         if (!"".equals(userSessionKey)) {
             try (Jedis jedis = jedisPool.getResource()) {
                 String value = jedis.get(userSessionKey);
+                logger.info("当前用户的 sessionKey = " + userSessionKey +
+                        " , 用户的 sessionValue = " + value
+                );
                 if (value != null && !"".equals(value)) {
                     boolDTO.setValue(true);
                     boolDTO.setCode(NewMallCode.SUCCESS.getNo());
                     boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
                 } else {
                     boolDTO.setValue(false);
-                    boolDTO.setCode(NewMallCode.IS_USER_SESSION_OVERDUE.getNo());
-                    boolDTO.setMessage(NewMallCode.IS_USER_SESSION_OVERDUE.getMessage());
+                    boolDTO.setCode(NewMallCode.SESSION_VALUE_IS_NULL.getNo());
+                    boolDTO.setMessage(NewMallCode.SESSION_VALUE_IS_NULL.getMessage());
                 }
             } catch (Exception e) {
                 boolDTO.setValue(false);

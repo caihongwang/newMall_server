@@ -31,8 +31,9 @@ public class NewMallCode {
     //system
     public static NewMallCode SUCCESS = new NewMallCode(0, "成功");
     public static NewMallCode SERVER_INNER_ERROR = new NewMallCode(10001, "服务异常,请稍后重试.");
-    public static NewMallCode IS_USER_SESSION_OVERDUE = new NewMallCode(10002, "网络开小差了，请重新操作！");
-    public static NewMallCode SESSION_KEY_IS_NOT_NULL = new NewMallCode(10003, "网络开小差了，请重新操作！");
+    public static NewMallCode IS_USER_SESSION_OVERDUE = new NewMallCode(10002, "使用sessionKey过度，请稍后再试.");
+    public static NewMallCode SESSION_VALUE_IS_NULL = new NewMallCode(10002, "sessionValue不存在，请稍后再试，请重新登录.");
+    public static NewMallCode SESSION_KEY_IS_NOT_NULL = new NewMallCode(10003, "seesionKey不允许为空");
     public static NewMallCode WX_SERVER_INNER_ERROR = new NewMallCode(10004, "微信服务异常，无法获取openid和session_key.");
     public static NewMallCode WX_SERVER_INNER_ERROR_FOR_ACCESS_TOKEN = new NewMallCode(10004, "微信服务异常，无法获取access_token和expires_in.");
     public static NewMallCode WX_PARAM_IS_NOT_NULL = new NewMallCode(10005, "向微信服务器访问的必要参数不允许为空.");
