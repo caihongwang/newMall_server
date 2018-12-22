@@ -157,6 +157,34 @@ public class WX_ProductController {
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
         logger.info("在【controller】中获取单一的商品-getSimpleProductByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        String start = paramMap.get("start")!=null?paramMap.get("start").toString():"";
+        String size = paramMap.get("size")!=null?paramMap.get("size").toString():"";
+        if("".equals(start)){
+            paramMap.put("start", "0");
+        } else {
+            try {
+                if(Integer.parseInt(start) < 0){
+                    paramMap.put("start", "0");
+                } else {
+                    paramMap.put("start", start);
+                }
+            } catch (Exception e){
+                paramMap.put("start", "0");
+            }
+        }
+        if("".equals(size)){
+            paramMap.put("size", "10");
+        } else {
+            try {
+                if(Integer.parseInt(size) < 0){
+                    paramMap.put("size", "10");
+                } else {
+                    paramMap.put("size", size);
+                }
+            } catch (Exception e){
+                paramMap.put("size", "0");
+            }
+        }
         try {
             ResultDTO resultDTO = wxProductHandler.getSimpleProductByCondition(0, paramMap);
             resultMap.put("recordsFiltered", resultDTO.getResultListTotal());

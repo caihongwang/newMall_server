@@ -170,7 +170,7 @@
             <include refid="TColumnList"/>
         FROM n_shop ns
             <include refid="queryConditions"/>
-        <if test="start != null and start != '' and size != null and size != ''">
+        <if test="start != null and size != null">
             LIMIT ${start},${size}
         </if>
     </select>
@@ -203,7 +203,7 @@
         from n_shop ns
         INNER JOIN n_user nu on nu.shop_id=ns.id
             <include refid="queryConditions"/>
-        <if test="start != null and start != '' and size != null and size != ''">
+        <if test="start != null and size != null">
             LIMIT ${start},${size}
         </if>
     </select>

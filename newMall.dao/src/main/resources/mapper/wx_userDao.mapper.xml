@@ -48,6 +48,9 @@
             <if test="id != null and id != ''">
                 AND nu.id = #{id}
             </if>
+            <if test="uid != null and uid != ''">
+                AND nu.id = #{uid}
+            </if>
             <if test="openId != null and openId != ''">
                 AND nu.open_id = #{openId}
             </if>

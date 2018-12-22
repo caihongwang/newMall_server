@@ -5,6 +5,7 @@ import com.br.newMall.api.code.NewMallCode;
 import com.br.newMall.api.dto.ResultDTO;
 import com.br.newMall.api.service.WX_UserHandler;
 import com.br.newMall.web.utils.HttpUtil;
+import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.thrift.TException;
 import org.slf4j.Logger;
@@ -82,8 +83,9 @@ public class SessionFilter implements Filter {
             //获取请求用户的基本信息
             String uid = paramMap.get("uid") != null ? paramMap.get("uid").toString() : "";
             if (!"".equals(uid)) {
-                paramMap.put("id", uid);
-                ResultDTO userResultDTO = wxUserHandler.getSimpleUserByCondition(0, paramMap);
+                Map<String, String> userParamMap = Maps.newHashMap();
+                userParamMap.put("uid", uid);
+                ResultDTO userResultDTO = wxUserHandler.getSimpleUserByCondition(0, userParamMap);
                 List<Map<String, String>> userList = userResultDTO.getResultList();
                 if (userList != null && userList.size() > 0) {
                     for (Map<String, String> userMap : userList) {

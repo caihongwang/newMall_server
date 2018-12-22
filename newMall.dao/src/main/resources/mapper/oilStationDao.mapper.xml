@@ -91,26 +91,26 @@
         insert into o_oil_station (
         <include refid="columnList"/>
         ) values (
-        #{id},
-        #{oilStationCode},
-        #{oilStationName},
-        #{oilStationAreaSpell},
-        #{oilStationAreaName},
-        #{oilStationAdress},
-        #{oilStationBrandName},
-        #{oilStationType},
-        #{oilStationDiscount},
-        #{oilStationExhaust},
-        #{oilStationPosition},
-        #{oilStationLon},
-        #{oilStationLat},
-        #{oilStationPayType},
-        #{oilStationPrice},
-        #{oilStationDistance},
-        #{isManualModify},
-        #{oilStationWxPaymentCodeImgUrl},
-        #{createTime},
-        #{updateTime}
+            #{id},
+            #{oilStationCode},
+            #{oilStationName},
+            #{oilStationAreaSpell},
+            #{oilStationAreaName},
+            #{oilStationAdress},
+            #{oilStationBrandName},
+            #{oilStationType},
+            #{oilStationDiscount},
+            #{oilStationExhaust},
+            #{oilStationPosition},
+            #{oilStationLon},
+            #{oilStationLat},
+            #{oilStationPayType},
+            #{oilStationPrice},
+            #{oilStationDistance},
+            #{isManualModify},
+            #{oilStationWxPaymentCodeImgUrl},
+            #{createTime},
+            #{updateTime}
         )
     </insert>
 
