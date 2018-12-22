@@ -62,6 +62,9 @@ public class WX_OrderServiceImplTest {
 
     @Test
     public void TEST() throws Exception {
+
+
+
         Map<String, Object> paramMap = Maps.newHashMap();
         paramMap.put("uid", "1");
         paramMap.put("shopId", "1");
