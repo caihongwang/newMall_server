@@ -140,6 +140,7 @@ public class NewMallCode {
     public static NewMallCode ORDER_USER_INTEGRAL_IS_NOT_ENOUGH = new NewMallCode(190007, "用户积分不足。");
     public static NewMallCode ORDER_OPENID_OR_SPBILLCREATEIP_OR_PRODUCTID_OR_PRODUCTNUM_OR_ADDRESSID_IS_NOT_NULL = new NewMallCode(190008, "openId或者访问域名或者商品ID或者商品数量或者地址ID不允许为空。");
     public static NewMallCode ORDER_OPENID_OR_WXORDERID_OR_ATTACH_IS_NOT_NULL = new NewMallCode(190009, "openId或者微信订单号或者附加参数不允许为空.");
+    public static NewMallCode ORDER_UID_SHOPID_SPBILLCREATEIP_IS_NOT_NULL = new NewMallCode(190010, "付款用户uid或者店铺id或者交易IP不允许为空.");
 
     //抽奖
     public static NewMallCode LUCKDRAW_LUCKDRAWTYPE_IS_NULL = new NewMallCode(200001, "抽奖的产品类型不允许为空.");
@@ -154,12 +155,15 @@ public class NewMallCode {
 
     //店铺
     public static NewMallCode SHOP_EXIST = new NewMallCode(30001, "店铺已经存在，请修改。");
-    public static NewMallCode SHOP_shopTitle_shopDegist_shopPhone_shopAddress_shopLon_shopLat_shopHeadImgUrl_shopDescribeImgUrl_IS_NOT_NULL = new NewMallCode(30002, "店铺的名称或者店铺地址或者店铺经纬度或者店铺头像地址或者店铺描述图片地址不能为空");
+    public static NewMallCode SHOP_SHOPDISCOUNTID_SHOPTITLE_SHOPDEGIST_SHOPPHONE_SHOPADDRESS_SHOPLON_SHOPLAT_SHOPHEADIMGURL_SHOPDESCRIBEIMGURL_IS_NOT_NULL = new NewMallCode(30002, "店铺的折扣ID或者名称或者店铺地址或者店铺经纬度或者店铺头像地址或者店铺描述图片地址不能为空");
     public static NewMallCode SHOP_ID_IS_NOT_NULL = new NewMallCode(30003, "店铺的ID不能为空");
     public static NewMallCode SHOP_LIST_IS_NULL = new NewMallCode(0, "当前店铺没有数据.");
     public static NewMallCode SHOP_UID_IS_NOT_NULL = new NewMallCode(0, "查询店铺的用户UID不能为空.");
     public static NewMallCode SHOP_UID_NICKNAME_SHOPTITLE_PAGE_SCENE_FILEPATH_IS_NOT_NULL = new NewMallCode(0, "店铺小程序码的用户uid或者微信昵称或者店铺名称或者小程序页面或者小程序码存放路径不能为空.");
     public static NewMallCode SHOP_UID_NICKNAME_SHOPTITLE_IS_NOT_EXIST_SHOP = new NewMallCode(0, "店铺小程序码的用户uid或者微信昵称或者店铺名称不存在店铺.");
+    public static NewMallCode SHOP_SHOPDISCOUNTID_IS_NOT_NULL = new NewMallCode(30003, "店铺与平台之间的折扣值为空，请联系平台客服人员.");
+    public static NewMallCode SHOP_SHOPDISCOUNTID_IS_NOT_EXIST = new NewMallCode(30003, "店铺与平台之间的折扣值不存在，请联系平台客服人员.");
+    public static NewMallCode SHOP_SHOPDISCOUNTID_IS_NOT_NUM = new NewMallCode(30003, "店铺与平台之间的折扣值不是数字，请联系平台客服人员.");
 
 
     //微信小程序

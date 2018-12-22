@@ -47,6 +47,7 @@ public class WX_ShopServiceImpl implements WX_ShopService {
         logger.info("在【service】中添加店铺-addShop,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Integer addNum = 0;
         BoolDTO boolDTO = new BoolDTO();
+        String shopDiscountId = paramMap.get("shopDiscountId") != null ? paramMap.get("shopDiscountId").toString() : "";
         String shopTitle = paramMap.get("shopTitle") != null ? paramMap.get("shopTitle").toString() : "";
         String shopDegist = paramMap.get("shopDegist") != null ? paramMap.get("shopDegist").toString() : "";
         String shopPhone = paramMap.get("shopPhone") != null ? paramMap.get("shopPhone").toString() : "";
@@ -57,8 +58,9 @@ public class WX_ShopServiceImpl implements WX_ShopService {
         String shopDescribeImgUrl = paramMap.get("shopDescribeImgUrl") != null ? paramMap.get("shopDescribeImgUrl").toString() : "";
         if (!"".equals(shopTitle) && !"".equals(shopDegist)
                 && !"".equals(shopPhone) && !"".equals(shopAddress)
-                && !"".equals(shopLon) && !"".equals(shopLat)
-                && !"".equals(shopHeadImgUrl) && !"".equals(shopDescribeImgUrl)) {
+                    && !"".equals(shopLon) && !"".equals(shopLat)
+                        && !"".equals(shopHeadImgUrl) && !"".equals(shopDescribeImgUrl)
+                            && !"".equals(shopDiscountId)) {
             Map<String, Object> paramMap_temp = Maps.newHashMap();
             paramMap_temp.put("shopTitle", shopTitle);
             Integer total = wxShopDao.getSimpleShopTotalByCondition(paramMap_temp);
@@ -77,8 +79,8 @@ public class WX_ShopServiceImpl implements WX_ShopService {
                 boolDTO.setMessage(NewMallCode.SHOP_EXIST.getMessage());
             }
         } else {
-            boolDTO.setCode(NewMallCode.DIC_TYPE_OR_CODE_OR_NAME_IS_NOT_NULL.getNo());
-            boolDTO.setMessage(NewMallCode.DIC_TYPE_OR_CODE_OR_NAME_IS_NOT_NULL.getMessage());
+            boolDTO.setCode(NewMallCode.SHOP_SHOPDISCOUNTID_SHOPTITLE_SHOPDEGIST_SHOPPHONE_SHOPADDRESS_SHOPLON_SHOPLAT_SHOPHEADIMGURL_SHOPDESCRIBEIMGURL_IS_NOT_NULL.getNo());
+            boolDTO.setMessage(NewMallCode.SHOP_SHOPDISCOUNTID_SHOPTITLE_SHOPDEGIST_SHOPPHONE_SHOPADDRESS_SHOPLON_SHOPLAT_SHOPHEADIMGURL_SHOPDESCRIBEIMGURL_IS_NOT_NULL.getMessage());
         }
         logger.info("在【service】中添加店铺-addShop,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;

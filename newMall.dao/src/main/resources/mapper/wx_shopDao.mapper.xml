@@ -5,6 +5,7 @@
 
     <sql id="columnList">    <!-- 字段 -->
         id,
+        shop_discount_id,
         shop_title,
         shop_degist,
         shop_phone,
@@ -21,6 +22,7 @@
 
     <sql id="TColumnList">    <!-- 带表别名的字段 -->
         ns.id as "id",
+        ns.shop_discount_id as "shopDiscountId",
         ns.shop_title as "shopTitle",
         ns.shop_degist as "shopDegist",
         ns.shop_phone as "shopPhone",
@@ -39,6 +41,12 @@
         <where>
             <if test="id != null and id != ''">
                 AND ns.id = #{id}
+            </if>
+            <if test="shopId != null and shopId != ''">
+                AND ns.id = #{shopId}
+            </if>
+            <if test="shopDiscountId != null and shopDiscountId != ''">
+                AND ns.shop_discount_id like concat('%',#{shopDiscountId},'%')
             </if>
             <if test="shopTitle != null and shopTitle != ''">
                 AND ns.shop_title like concat('%',#{shopTitle},'%')
@@ -84,6 +92,7 @@
             <include refid="columnList"/>
         ) values (
             #{id},
+            #{shopDiscountId},
             #{shopTitle},
             #{shopDegist},
             #{shopPhone},
@@ -114,6 +123,9 @@
             </if>
             <if test="nickName != null and nickName != ''">
                 and nu.nick_name = #{nickName}
+            </if>
+            <if test="shopDiscountId != null and shopDiscountId != ''">
+               ns.shop_discount_id = #{shopDiscountId},
             </if>
             <if test="shopTitle != null and shopTitle != ''">
                ns.shop_title = #{shopTitle},
@@ -175,6 +187,7 @@
             nu.id as "shopUid",
             nu.open_id as "shopOpenId",
             nu.shop_id as "shopId",
+            ns.shop_discount_id as "shopDiscountId",
             ns.shop_title as "shopTitle",
             ns.shop_degist as "shopDegist",
             ns.shop_phone as "shopPhone",

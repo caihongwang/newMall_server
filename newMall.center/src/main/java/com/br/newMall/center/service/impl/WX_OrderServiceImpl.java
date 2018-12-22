@@ -5,7 +5,9 @@ import com.br.newMall.api.code.NewMallCode;
 import com.br.newMall.api.dto.BoolDTO;
 import com.br.newMall.api.dto.ResultDTO;
 import com.br.newMall.api.dto.ResultMapDTO;
+import com.br.newMall.center.service.WX_DicService;
 import com.br.newMall.center.service.WX_OrderService;
+import com.br.newMall.center.service.WX_RedPacketService;
 import com.br.newMall.center.utils.MapUtil;
 import com.br.newMall.center.utils.TimestampUtil;
 import com.br.newMall.center.utils.WX_PublicNumberUtil;
@@ -15,6 +17,7 @@ import com.br.newMall.center.utils.wxpay.WXPayConstants;
 import com.br.newMall.center.utils.wxpay.WXPayUtil;
 import com.br.newMall.dao.WX_OrderDao;
 import com.br.newMall.dao.WX_ProductDao;
+import com.br.newMall.dao.WX_ShopDao;
 import com.br.newMall.dao.WX_UserDao;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -24,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +43,9 @@ public class WX_OrderServiceImpl implements WX_OrderService {
     private static final Logger logger = LoggerFactory.getLogger(WX_OrderServiceImpl.class);
 
     @Autowired
+    private WX_ShopDao wxShopDao;
+
+    @Autowired
     private WX_UserDao wxUserDao;
 
     @Autowired
@@ -46,6 +53,12 @@ public class WX_OrderServiceImpl implements WX_OrderService {
 
     @Autowired
     private WX_ProductDao wxProductDao;
+
+    @Autowired
+    private WX_DicService wxDicService;
+
+    @Autowired
+    private WX_RedPacketService wxRedPacketService;
 
     /**
      * 购买商品
@@ -274,53 +287,63 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         String body = "小程序内发起支付";                     //商品名称
         String out_trade_no = WXPayUtil.generateUUID();     //统一订单编号
         String spbillCreateIp = paramMap.get("spbillCreateIp") != null ? paramMap.get("spbillCreateIp").toString() : "";      //获取发起支付的IP地址
-        String openId = paramMap.get("openId") != null ? paramMap.get("openId").toString() : "";
+        String uid = paramMap.get("uid") != null ? paramMap.get("uid").toString() : "";         //付款用户的uid
+        String shopId = paramMap.get("shopId") != null ? paramMap.get("shopId").toString() : "";         //收钱商家的店铺id
+        Boolean useBalanceFlag = paramMap.get("useBalanceFlag") != null ? Boolean.parseBoolean(paramMap.get("useBalanceFlag").toString()) : false;
         String orderStatus = "0";
-        if (!"".equals(openId) && !"".equals(spbillCreateIp)) {
+        if (!"".equals(uid) && !"".equals(shopId)
+                && !"".equals(spbillCreateIp)) {
             if ("".equals(payMoneyStr)) {
                 resultMapDTO.setCode(NewMallCode.ORDER_PAY_MONEY_IS_NOT_NULL.getNo());
                 resultMapDTO.setMessage(NewMallCode.ORDER_PAY_MONEY_IS_NOT_NULL.getMessage());
             } else {
-                //通过openId获取用户的uid
+                //通过uid获取付款用户的openId
                 Map<String, Object> userMap = Maps.newHashMap();
-                userMap.put("openId", openId);
+                userMap.put("id", uid);
                 List<Map<String, Object>> userList = wxUserDao.getSimpleUserByCondition(userMap);
                 if(userList != null && userList.size() > 0){
-                    //获取用户uid，用户积分
-                    String uid = userList.get(0).get("id").toString();
+                    //获取付款用户uid，付款用户积分
+                    String openId = userList.get(0).get("openId").toString();
                     String userBalanceStr = userList.get(0).get("balance")!=null?userList.get(0).get("balance").toString():"0";
                     Double userBalance = Double.parseDouble(userBalanceStr);
                     Double payMoney = Double.parseDouble(payMoneyStr != "" ? payMoneyStr : "10");      //支付费用，默认一角钱
-                    Double newPayMoney = 0.0;
+                    Double finnalPayMoney = 0.0;
                     Double newUserBalance = 0.0;
-                    if(userBalance >= payMoney){
-                        newPayMoney = 0.0;
-                        newUserBalance = userBalance - payMoney;
-                    } else {
-                        newPayMoney = payMoney - userBalance;
-                        newUserBalance = 0.0;
+                    if(useBalanceFlag){     //使用余额进行支付
+                        if(userBalance >= payMoney){
+                            finnalPayMoney = 0.0;
+                            newUserBalance = userBalance - payMoney;
+                        } else {
+                            finnalPayMoney = payMoney - userBalance;
+                            newUserBalance = 0.0;
+                        }
+                    } else {               //不使用余额进行支付
+                        finnalPayMoney = payMoney;
+                        newUserBalance = userBalance;
                     }
-                    //用于购买商品更新用户的积分和余额
+                    //用于购买商品更新付款用户的积分和余额,同事将店铺ID传递过去，便于给店铺的商家打钱
                     Map<String, String> attachMap = Maps.newHashMap();
                     if(newUserBalance > 0){
                         attachMap.put("balance", df.format(newUserBalance));
                     } else {
                         attachMap.put("balance", "0");
                     }
+                    attachMap.put("shopId", shopId);
+                    attachMap.put("payMoney", payMoney.toString());
                     //判断是否需要付钱
                     boolean isNeedPay = true;
-                    if(newPayMoney > 0){
+                    if(finnalPayMoney > 0){
                         isNeedPay = true;
-                        orderStatus = "0";
+                        orderStatus = "0";      //订单状态: 0是待支付，1是已支付
                     } else {
                         isNeedPay = false;
-                        orderStatus = "1";
+                        orderStatus = "1";      //订单状态: 0是待支付，1是已支付
                     }
                     if(isNeedPay){
                         //准备获取支付相关的验签等数据
-                        newPayMoney = Double.parseDouble(df.format(newPayMoney) + "");
-                        String total_fee = ((int) (newPayMoney * 100)) + "";                           //支付金额，单位：分，这边需要转成字符串类型，否则后面的签名会失败，默认付款1元
-                        logger.info("支付费用(转化前) payMoney = {}" + newPayMoney + ", 支付费用(转化后) total_fee = {}" + total_fee);
+                        finnalPayMoney = Double.parseDouble(df.format(finnalPayMoney) + "");
+                        String total_fee = ((int) (finnalPayMoney * 100)) + "";                           //支付金额，单位：分，这边需要转成字符串类型，否则后面的签名会失败，默认付款1元
+                        logger.info("支付费用(转化前) payMoney = {}" + finnalPayMoney + ", 支付费用(转化后) total_fee = {}" + total_fee);
                         resultMap = WX_PublicNumberUtil.unifiedOrderForMiniProgram(
                                 nonce_str, body, out_trade_no,
                                 total_fee, spbillCreateIp, NewMallCode.WX_PAY_NOTIFY_URL_wxPayNotifyForPayTheBillInMiniProgram,
@@ -332,7 +355,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                             orderMap.put("wxOrderId", out_trade_no);
                             orderMap.put("uid", uid);
                             orderMap.put("useBalanceMonney", userBalance);
-                            orderMap.put("payMoney", newPayMoney);
+                            orderMap.put("payMoney", finnalPayMoney);
                             orderMap.put("order_type", "purchaseProduct");   //订单类型：买单，payTheBill；购买商品：purchaseProduct
                             orderMap.put("status", orderStatus);                //订单状态: 0是待支付，1是已支付
                             orderMap.put("createTime", TimestampUtil.getTimestamp());
@@ -346,12 +369,12 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                             resultMapDTO.setMessage(NewMallCode.ORDER_RESPONSE_UNIFIEDORDER_IS_ERROR.getMessage());
                         }
                     } else {
-                        //创建订单，状态设为待支付
+                        //创建订单，状态设为已支付
                         Map<String, Object> orderMap = Maps.newHashMap();
                         orderMap.put("wxOrderId", out_trade_no);
                         orderMap.put("uid", uid);
                         orderMap.put("useBalanceMonney", payMoney);
-                        orderMap.put("payMoney", newPayMoney);
+                        orderMap.put("payMoney", finnalPayMoney);
                         orderMap.put("order_type", "purchaseProduct");   //订单类型：买单，payTheBill；购买商品：purchaseProduct
                         orderMap.put("status", orderStatus);                //订单状态: 0是待支付，1是已支付
                         orderMap.put("createTime", TimestampUtil.getTimestamp());
@@ -374,8 +397,8 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                 }
             }
         } else {
-            resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
-            resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
+            resultMapDTO.setCode(NewMallCode.ORDER_UID_SHOPID_SPBILLCREATEIP_IS_NOT_NULL.getNo());
+            resultMapDTO.setMessage(NewMallCode.ORDER_UID_SHOPID_SPBILLCREATEIP_IS_NOT_NULL.getMessage());
         }
         logger.info("在【service】中买单-payTheBillInMiniProgram,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
@@ -402,21 +425,78 @@ public class WX_OrderServiceImpl implements WX_OrderService {
             orderMap.put("status", "1");            //订单状态: 0是待支付，1是已支付
             updateNum = wxOrderDao.updateOrder(orderMap);
             if (updateNum != null && updateNum > 0) {
-                //更新用户的积分和余额
+                Map<String, String> attachMap = JSONObject.parseObject(attach, Map.class);
+                String balance = attachMap.get("balance");
+                String shopId = attachMap.get("shopId");
+                String payMoneyStr = attachMap.get("payMoney");      //付款用户支付的金额
+                //更新用户和余额
                 Map<String, Object> userMap = Maps.newHashMap();
                 userMap.put("openId", openId);
-                userMap.putAll(JSONObject.parseObject(attach, Map.class));
+                userMap.put("balance", balance);
                 updateNum = wxUserDao.updateUser(userMap);
                 if (updateNum != null && updateNum > 0) {
-                    resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
-                    resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
-
-                    //TODO 在此处发起模板消息发送
-                    //TODO 在此处发起模板消息发送
-                    //TODO 在此处发起模板消息发送
-                    //TODO 在此处发起模板消息发送
-                    //TODO 在此处发起模板消息发送
-
+                    //想商家按照之前约定好的折扣值进行向商家发送费用
+                    Map<String, Object> shopMap = Maps.newHashMap();
+                    shopMap.put("shopId", shopId);
+                    List<Map<String, Object>> shopList = wxShopDao.getShopByCondition(shopMap);
+                    if(shopList != null && shopList.size() > 0){
+                        //获取店铺与平台的折扣值ID
+                        String shopOpenId = shopList.get(0).get("shopOpenId")!=null?shopList.get(0).get("shopOpenId").toString():"";
+                        String shopDiscountId = shopList.get(0).get("shopDiscountId")!=null?shopList.get(0).get("shopDiscountId").toString():"";
+                        if(!"".equals(shopDiscountId)){
+                            //根据折扣值ID或者需要向商家发送的金额
+                            Map<String, Object> dicMap = Maps.newHashMap();
+                            dicMap.put("dicCode", shopDiscountId);
+                            dicMap.put("dicType", "shopDiscount");
+                            ResultDTO dicResultDTO = wxDicService.getSimpleDicByCondition(dicMap);
+                            if(dicResultDTO != null &&
+                                    dicResultDTO.getResultList() != null &&
+                                    dicResultDTO.getResultList().size() > 0){
+                                String shopDiscountStr = dicResultDTO.getResultList().get(0).get("shopDiscount");
+                                try {
+                                    Double shopDiscount = Double.parseDouble(shopDiscountStr);
+                                    Double payMoney = Double.parseDouble(payMoneyStr);
+                                    if(payMoney > 0){
+                                        //获取向商家打款的后两位
+                                        Double shopAmount = shopDiscount * payMoney;
+                                        BigDecimal bg = new BigDecimal(shopAmount);
+                                        shopAmount = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                                        //准备向商家进行打款
+                                        Map<String, Object> enterprisePaymentMap = Maps.newHashMap();
+                                        enterprisePaymentMap.put("amount", ((int) (shopAmount * 100)) + "");
+                                        enterprisePaymentMap.put("openId", shopOpenId);
+                                        enterprisePaymentMap.put("reUserName", NewMallCode.WX_MINI_PROGRAM_NAME);
+                                        enterprisePaymentMap.put("wxPublicNumGhId", "gh_417c90af3488");
+                                        enterprisePaymentMap.put("desc", NewMallCode.WX_MINI_PROGRAM_NAME + "发红包了，快来看看吧.");
+                                        resultMapDTO = wxRedPacketService.enterprisePayment(enterprisePaymentMap);
+                                        //TODO 在此处发起模板消息发送
+                                        //TODO 在此处发起模板消息发送
+                                        //TODO 在此处发起模板消息发送
+                                        //TODO 在此处发起模板消息发送
+                                        //TODO 在此处发起模板消息发送
+                                        //TODO 在此处发起模板消息发送
+                                        //TODO 在此处发起模板消息发送
+                                        //TODO 在此处发起模板消息发送
+                                        //TODO 在此处发起模板消息发送
+                                    } else {
+                                        logger.info("付款用户使用余额进行付全款，不需要向商家进行打钱.");
+                                    }
+                                } catch (Exception e) {
+                                    resultMapDTO.setCode(NewMallCode.SHOP_SHOPDISCOUNTID_IS_NOT_NUM.getNo());
+                                    resultMapDTO.setMessage(NewMallCode.SHOP_SHOPDISCOUNTID_IS_NOT_NUM.getMessage());
+                                }
+                            } else {
+                                resultMapDTO.setCode(NewMallCode.SHOP_SHOPDISCOUNTID_IS_NOT_EXIST.getNo());
+                                resultMapDTO.setMessage(NewMallCode.SHOP_SHOPDISCOUNTID_IS_NOT_EXIST.getMessage());
+                            }
+                        } else {
+                            resultMapDTO.setCode(NewMallCode.SHOP_SHOPDISCOUNTID_IS_NOT_NULL.getNo());
+                            resultMapDTO.setMessage(NewMallCode.SHOP_SHOPDISCOUNTID_IS_NOT_NULL.getMessage());
+                        }
+                    } else {
+                        resultMapDTO.setCode(NewMallCode.SHOP_ID_IS_NOT_NULL.getNo());
+                        resultMapDTO.setMessage(NewMallCode.SHOP_ID_IS_NOT_NULL.getMessage());
+                    }
                 } else {
                     resultMapDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
                     resultMapDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
