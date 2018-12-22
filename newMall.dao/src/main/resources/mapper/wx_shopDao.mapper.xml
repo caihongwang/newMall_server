@@ -118,9 +118,6 @@
     <update id="updateShop">
         update n_shop ns
         <set>
-            <if test="uid != null and uid != ''">
-                and nu.id = #{uid}
-            </if>
             <if test="nickName != null and nickName != ''">
                 and nu.nick_name = #{nickName}
             </if>

@@ -43,43 +43,43 @@
 
     <sql id="queryConaitions"><!-- 查询条件 -->
         <where>na.status='0'
-            <if test="id != null ana id != ''">
+            <if test="id != null and id != ''">
                 AND na.id = #{id}
             </if>
-            <if test="uid != null ana uid != ''">
+            <if test="uid != null and uid != ''">
                 AND na.uid =  #{uid}
             </if>
-            <if test="name != null ana name != ''">
+            <if test="name != null and name != ''">
                 AND na.name like concat('%',#{name},'%')
             </if>
-            <if test="phone != null ana phone != ''">
+            <if test="phone != null and phone != ''">
                 AND na.phone =  #{phone}
             </if>
-            <if test="provinceId != null ana provinceId != ''">
+            <if test="provinceId != null and provinceId != ''">
                 AND na.province_id =  #{provinceId}
             </if>
-            <if test="provinceName != null ana provinceName != ''">
+            <if test="provinceName != null and provinceName != ''">
                 AND na.province_name like concat('%',#{provinceName},'%')
             </if>
-            <if test="cityId != null ana cityId != ''">
+            <if test="cityId != null and cityId != ''">
                 AND na.city_id =  #{cityId}
             </if>
-            <if test="cityName != null ana cityName != ''">
+            <if test="cityName != null and cityName != ''">
                 AND na.city_name like concat('%',#{cityName},'%')
             </if>
-            <if test="regionId != null ana regionId != ''">
+            <if test="regionId != null and regionId != ''">
                 AND na.region_id =  #{regionId}
             </if>
-            <if test="regionName != null ana regionName != ''">
+            <if test="regionName != null and regionName != ''">
                 AND na.region_name like concat('%',#{regionName},'%')
             </if>
-            <if test="streetId != null ana streetId != ''">
+            <if test="streetId != null and streetId != ''">
                 AND na.street_id =  #{streetId}
             </if>
-            <if test="streetName != null ana streetName != ''">
+            <if test="streetName != null and streetName != ''">
                 AND na.street_name like concat('%',#{streetName},'%')
             </if>
-            <if test="detailAddress != null ana detailAddress != ''">
+            <if test="detailAddress != null and detailAddress != ''">
                 AND na.detail_address like concat('%',#{detailAddress},'%')
             </if>
         </where>
@@ -112,7 +112,7 @@
 
     <delete id="deleteAddress">
         update n_address na set na.status=1 WHERE 1=1
-        <if test="id != null ana id != ''">
+        <if test="id != null and id != ''">
             AND id = #{id}
         </if>
     </delete>
@@ -120,44 +120,44 @@
     <update id="updateAddress">
         update n_address na
         <set>
-            <if test="name != null ana name != ''">
+            <if test="name != null and name != ''">
                na.name = #{name},
             </if>
-            <if test="phone != null ana phone != ''">
+            <if test="phone != null and phone != ''">
                na.phone = #{phone},
             </if>
-            <if test="provinceId != null ana provinceId != ''">
+            <if test="provinceId != null and provinceId != ''">
                na.province_id = #{provinceId},
             </if>
-            <if test="provinceName != null ana provinceName != ''">
+            <if test="provinceName != null and provinceName != ''">
                na.province_name = #{provinceName},
             </if>
-            <if test="cityId != null ana cityId != ''">
+            <if test="cityId != null and cityId != ''">
                na.city_id = #{cityId},
             </if>
-            <if test="cityName != null ana cityName != ''">
+            <if test="cityName != null and cityName != ''">
                na.city_name = #{cityName},
             </if>
-            <if test="regionId != null ana regionId != ''">
+            <if test="regionId != null and regionId != ''">
                na.region_id = #{regionId}
             </if>
-            <if test="regionName != null ana regionName != ''">
+            <if test="regionName != null and regionName != ''">
               na.region_name = #{regionName},
             </if>
-            <if test="streetId != null ana streetId != ''">
+            <if test="streetId != null and streetId != ''">
                na.street_id = #{streetId}
             </if>
-            <if test="streetName != null ana streetName != ''">
+            <if test="streetName != null and streetName != ''">
               na.street_name = #{streetName},
             </if>
-            <if test="detailAddress != null ana detailAddress != ''">
+            <if test="detailAddress != null and detailAddress != ''">
                na.detail_address = #{detailAddress},
             </if>
             na.update_time = CURRENT_TIMESTAMP
         </set>
         where 1=1
-        <if test="id != null ana id != ''">
-            ana na.id = #{id}
+        <if test="id != null and id != ''">
+            and na.id = #{id}
         </if>
     </update>
 
@@ -166,7 +166,7 @@
             <include refid="TColumnList"/>
         FROM n_address na
             <include refid="queryConaitions"/>
-        <if test="start != null ana start != '' ana size != null ana size != ''">
+        <if test="start != null and size != null">
             LIMIT ${start},${size}
         </if>
     </select>

@@ -225,8 +225,8 @@ public class WX_UserServiceImpl implements WX_UserService {
                     boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
                 } else {
                     boolDTO.setValue(false);
-                    boolDTO.setCode(NewMallCode.SESSION_VALUE_IS_NULL.getNo());
-                    boolDTO.setMessage(NewMallCode.SESSION_VALUE_IS_NULL.getMessage());
+                    boolDTO.setCode(NewMallCode.IS_USER_SESSION_OVERDUE.getNo());
+                    boolDTO.setMessage(NewMallCode.IS_USER_SESSION_OVERDUE.getMessage());
                 }
             } catch (Exception e) {
                 boolDTO.setValue(false);

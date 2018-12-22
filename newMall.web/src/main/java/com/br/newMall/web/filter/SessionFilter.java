@@ -122,7 +122,7 @@ public class SessionFilter implements Filter {
             } else {
                 if (sessionKey != null) {
                     boolDTO = validateSessionKey(paramMap);
-                    if (boolDTO.isSuccess() && boolDTO.isValue()) {
+                    if (boolDTO.getCode() == NewMallCode.SUCCESS.getNo()) {
                         // 验证token用过
                         chainDoFilter(req, res, out, chain);
                         return;

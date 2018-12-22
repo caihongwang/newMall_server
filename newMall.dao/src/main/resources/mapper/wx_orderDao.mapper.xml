@@ -145,7 +145,7 @@
         <include refid="TColumnList"/>
         FROM n_order no
         <include refid="queryConditions"/>
-        <if test="start != null and start != '' and size != null and size != ''">
+        <if test="start != null and size != null">
             LIMIT ${start},${size}
         </if>
     </select>

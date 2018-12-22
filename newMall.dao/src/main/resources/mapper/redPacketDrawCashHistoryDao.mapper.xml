@@ -91,7 +91,7 @@
         <include refid="TColumnList"/>
         FROM o_red_packet_draw_cash_history orpdch
         <include refid="queryConditions"/>
-        <if test="start != null and start != '' and size != null and size != ''">
+        <if test="start != null and size != null">
             LIMIT ${start},${size}
         </if>
     </select>
@@ -120,7 +120,7 @@
         FROM o_red_packet_draw_cash_history orpdch
         INNER JOIN wx_user wu on orpdch.uid = wu.uid
         <include refid="com.br.newMall.dao.WX_UserDao.queryConditions"/>
-        <if test="start != null and start != '' and size != null and size != ''">
+        <if test="start != null and size != null">
             LIMIT ${start},${size}
         </if>
     </select>

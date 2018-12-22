@@ -164,6 +164,10 @@ public class WX_ProductServiceImpl implements WX_ProductService {
         logger.info("在【service】中获取单一的商品-getSimpleProductByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         List<Map<String, String>> productStrList = Lists.newArrayList();
+        String category = paramMap.get("category") != null ? paramMap.get("category").toString() : "";
+        if(!"".equals(category)){
+            paramMap.put("paramMap", "recommend");
+        }
         List<Map<String, Object>> productList = wxProductDao.getSimpleProductByCondition(paramMap);
         if (productList != null && productList.size() > 0) {
             productStrList = MapUtil.getStringMapList(productList);

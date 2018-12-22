@@ -97,7 +97,7 @@
         <include refid="TColumnList"/>
         FROM o_red_packet_history orph
         <include refid="queryConditions"/>
-        <if test="start != null and start != '' and size != null and size != ''">
+        <if test="start != null and size != null">
             LIMIT ${start},${size}
         </if>
     </select>
@@ -154,7 +154,7 @@
         <include refid="TColumnList"/>
         FROM o_red_packet_history orph
         <include refid="queryConditions"/>
-        <if test="start != null and start != '' and size != null and size != ''">
+        <if test="start != null and size != null">
             LIMIT ${start},${size}
         </if>
     </select>

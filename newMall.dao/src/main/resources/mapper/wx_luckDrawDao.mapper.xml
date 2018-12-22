@@ -103,7 +103,7 @@
             <include refid="TColumnList"/>
         FROM n_luck_draw nld
             <include refid="queryConditions"/>
-        <if test="start != null and start != '' and size != null and size != ''">
+        <if test="start != null and size != null">
             LIMIT ${start},${size}
         </if>
     </select>
@@ -131,7 +131,7 @@
                 nld.uid = #{uid}
             </if>
             ORDER BY nld.create_time asc
-        <if test="start != null and start != '' and size != null and size != ''">
+        <if test="start != null and size != null">
             LIMIT ${start},${size}
         </if>
     </select>

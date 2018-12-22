@@ -100,9 +100,6 @@
         <include refid="TColumnList"/>
         FROM n_dic nd
         <include refid="queryConditions"/>
-        <if test="start != null and start != '' and size != null and size != ''">
-            LIMIT ${start},${size}
-        </if>
     </select>
 
     <select id="getSimpleDicTotalByCondition" resultType="java.lang.Integer">
