@@ -74,7 +74,7 @@ public class WX_UserController {
         paramMap = HttpUtil.getRequestParams(request);
         logger.info("在【controller】中更新用户信息-updateUser,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
-            BoolDTO boolDTO = wxUserHandler.checkSession(0, paramMap);
+            BoolDTO boolDTO = wxUserHandler.updateUser(0, paramMap);
             resultMap.put("success", true);
             resultMap.put("code", boolDTO.getCode());
             resultMap.put("message", boolDTO.getMessage());

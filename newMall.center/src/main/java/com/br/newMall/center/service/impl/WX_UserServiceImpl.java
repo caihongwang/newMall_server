@@ -63,8 +63,8 @@ public class WX_UserServiceImpl implements WX_UserService {
         if (!"".equals(code)) {
             //TODO 后续优化方向，将appId和secret的信息放到字典表中
             //向微信服务器发送请求，获取小程序的用户openId和seesion_key
-            paramMap.put("appid", "wx07cf52be1444e4b7");
-            paramMap.put("secret", "d6de12032cfe660253b96d5f2868a06c");
+            paramMap.put("appId", NewMallCode.WX_MINI_PROGRAM_APPID);
+            paramMap.put("secret", NewMallCode.WX_MINI_PROGRAM_SECRET);
             Map<String, Object> wx_resultMap = WX_PublicNumberUtil.getMiniOpenIdAndSessionKeyForWX(paramMap);
             if (wx_resultMap.size() > 0) {
                 //获取session,如果没有则创一个有效的session
