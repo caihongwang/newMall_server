@@ -57,20 +57,49 @@ public class WX_AddressServiceImplTest {
 //        paramMap.put("regionId", "131102");
 //        getStreetList(paramMap);
 
+//        Map<String, Object> paramMap = Maps.newHashMap();
+//        paramMap.put("uid", "1");
+//        paramMap.put("name", "御景西城贵公子");
+//        paramMap.put("phone", "17701359899");
+//        paramMap.put("provinceId", "130000");
+//        paramMap.put("provinceName", "河北省");
+//        paramMap.put("cityId", "131100");
+//        paramMap.put("cityName", "衡水市");
+//        paramMap.put("regionId", "131102");
+//        paramMap.put("regionName", "桃城区");
+//        paramMap.put("streetId", "130131102");
+//        paramMap.put("streetName", "温塘镇");
+//        paramMap.put("detailAddress", "兆丰家园 1403");
+//        addAddress(paramMap);
+
+
         Map<String, Object> paramMap = Maps.newHashMap();
+        paramMap.put("id", "5");
         paramMap.put("uid", "1");
-        paramMap.put("name", "御景西城贵公子");
-        paramMap.put("phone", "17701359899");
-        paramMap.put("provinceId", "130000");
-        paramMap.put("provinceName", "河北省");
-        paramMap.put("cityId", "131100");
-        paramMap.put("cityName", "衡水市");
-        paramMap.put("regionId", "131102");
-        paramMap.put("regionName", "桃城区");
-        paramMap.put("streetId", "130131102");
-        paramMap.put("streetName", "温塘镇");
-        paramMap.put("detailAddress", "兆丰家园 1403");
-        addAddress(paramMap);
+        setDefaultAddress(paramMap);
+    }
+
+    public BoolDTO setDefaultAddress(Map<String, Object> paramMap) {
+        logger.info("在【service】中设置默认地址-setDefaultAddress,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        Integer updateNum = 0;
+        BoolDTO boolDTO = new BoolDTO();
+        String id = paramMap.get("id") != null ? paramMap.get("id").toString() : "";
+        String uid = paramMap.get("uid") != null ? paramMap.get("uid").toString() : "";
+        if (!"".equals(id) && !"".equals(uid)) {
+            updateNum = wxAddressDao.setDefaultAddress(paramMap);
+            if (updateNum != null && updateNum > 0) {
+                boolDTO.setCode(NewMallCode.SUCCESS.getNo());
+                boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+            } else {
+                boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
+                boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
+            }
+        } else {
+            boolDTO.setCode(NewMallCode.ADDRESS_ID_OR_UID_IS_NOT_NULL.getNo());
+            boolDTO.setMessage(NewMallCode.ADDRESS_ID_OR_UID_IS_NOT_NULL.getMessage());
+        }
+        logger.info("在【service】中设置默认地址-setDefaultAddress,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        return boolDTO;
     }
 
     public BoolDTO addAddress(Map<String, Object> paramMap) {

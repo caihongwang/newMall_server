@@ -127,40 +127,40 @@
         update n_address na
         <set>
             <if test="name != null and name != ''">
-               na.name = #{name},
+                na.name = #{name},
             </if>
             <if test="phone != null and phone != ''">
-               na.phone = #{phone},
+                na.phone = #{phone},
             </if>
             <if test="provinceId != null and provinceId != ''">
-               na.province_id = #{provinceId},
+                na.province_id = #{provinceId},
             </if>
             <if test="provinceName != null and provinceName != ''">
-               na.province_name = #{provinceName},
+                na.province_name = #{provinceName},
             </if>
             <if test="cityId != null and cityId != ''">
-               na.city_id = #{cityId},
+                na.city_id = #{cityId},
             </if>
             <if test="cityName != null and cityName != ''">
-               na.city_name = #{cityName},
+                na.city_name = #{cityName},
             </if>
             <if test="regionId != null and regionId != ''">
-               na.region_id = #{regionId}
+                na.region_id = #{regionId}
             </if>
             <if test="regionName != null and regionName != ''">
-              na.region_name = #{regionName},
+                na.region_name = #{regionName},
             </if>
             <if test="streetId != null and streetId != ''">
-               na.street_id = #{streetId}
+                na.street_id = #{streetId}
             </if>
             <if test="streetName != null and streetName != ''">
-              na.street_name = #{streetName},
+                na.street_name = #{streetName},
             </if>
             <if test="detailAddress != null and detailAddress != ''">
-               na.detail_address = #{detailAddress},
+                na.detail_address = #{detailAddress},
             </if>
             <if test="isDefaultAddress != null and isDefaultAddress != ''">
-               na.is_default_address = #{isDefaultAddress},
+                na.is_default_address = #{isDefaultAddress},
             </if>
             na.update_time = CURRENT_TIMESTAMP
         </set>
@@ -169,6 +169,14 @@
             and na.id = #{id}
         </if>
     </update>
+
+    <update id="setDefaultAddress">
+        update n_address na set na.is_default_address='0'
+        where na.uid = #{uid};
+        update n_address na set na.is_default_address='1', na.update_time=CURRENT_TIMESTAMP
+        where na.id = #{id};
+    </update>
+
 
     <select id="getSimpleAddressByCondition" resultType="java.util.Map">
         SELECT

@@ -12,6 +12,11 @@ import java.util.Map;
 public interface WX_AddressService {
 
     /**
+     * 设置默认地址
+     */
+    BoolDTO setDefaultAddress(Map<String, Object> paramMap);
+
+    /**
      * 默认获取中国省份列表
      */
     ResultDTO getProvinceList(Map<String, Object> paramMap);

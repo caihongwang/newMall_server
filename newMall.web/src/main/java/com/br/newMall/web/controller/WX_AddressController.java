@@ -231,6 +231,34 @@ public class WX_AddressController {
     }
 
     /**
+     * 设置默认地址
+     * @param request
+     * @return
+     */
+    @RequestMapping("/setDefaultAddress")
+    @ResponseBody
+    public Map<String, Object> setDefaultAddress(HttpServletRequest request) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        //获取请求参数能够获取到并解析
+        paramMap = HttpUtil.getRequestParams(request);
+        logger.info("在【controller】中设置默认地址-setDefaultAddress,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        try {
+            BoolDTO boolDTO = wxAddressHandler.setDefaultAddress(0, paramMap);
+            resultMap.put("success", true);
+            resultMap.put("code", boolDTO.getCode());
+            resultMap.put("message", boolDTO.getMessage());
+        } catch (Exception e) {
+            logger.error("在【controller】中设置默认地址-setDefaultAddress is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            resultMap.put("success", false);
+            resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
+            resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
+        }
+        logger.info("在【controller】中设置默认地址-setDefaultAddress,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        return resultMap;
+    }
+
+    /**
      * 获取单一的地址
      * @param request
      * @return

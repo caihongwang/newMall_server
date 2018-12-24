@@ -10,6 +10,11 @@ import java.util.Map;
 public interface WX_AddressDao {
 
     /**
+     * 设置默认地址
+     */
+    Integer setDefaultAddress(Map<String, Object> paramMap);
+
+    /**
      * 根据条件查询地址信息
      */
     List<Map<String, Object>> getSimpleAddressByCondition(Map<String, Object> paramMap);

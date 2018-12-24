@@ -225,6 +225,29 @@ public class WX_AddressHandler implements com.br.newMall.api.service.WX_AddressH
     }
 
     /**
+     * 设置默认地址
+     * @param tid
+     * @param paramMap
+     * @return
+     * @throws TException
+     */
+    @Override
+    public BoolDTO setDefaultAddress(int tid, Map<String, String> paramMap) throws TException {
+        logger.info("在【handler】中设置默认地址-setDefaultAddress,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        BoolDTO boolDTO = new BoolDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        try {
+            boolDTO = wxAddressService.setDefaultAddress(objectParamMap);
+        } catch (Exception e) {
+            logger.error("在【handler】中设置默认地址-setDefaultAddress is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            boolDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+            boolDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
+        }
+        logger.info("在【handler】中设置默认地址-setDefaultAddress,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        return boolDTO;
+    }
+
+    /**
      * 获取单一的地址
      * @param tid
      * @param paramMap

@@ -131,6 +131,7 @@ public class NewMallCode {
     public static NewMallCode ADDRESS_REGIONTYPE_OR_CITYID_IS_NULL = new NewMallCode(190007, "地址的区域类型或者城市ID不允许为空.");
     public static NewMallCode ADDRESS_REGIONTYPE_OR_REGIONID_IS_NULL = new NewMallCode(190008, "地址的区域类型或者区域ID不允许为空.");
     public static NewMallCode ADDRESS_UID_IS_NOT_NULL = new NewMallCode(190009, "地址UID不允许为空.");
+    public static NewMallCode ADDRESS_ID_OR_UID_IS_NOT_NULL = new NewMallCode(190003, "地址ID或者UID不允许为空.");
 
 
     //订单

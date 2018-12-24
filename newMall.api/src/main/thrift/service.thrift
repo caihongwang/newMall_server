@@ -159,6 +159,8 @@ service WX_ProductHandler {
 
 service WX_AddressHandler {
 
+    dto.BoolDTO setDefaultAddress(1:int tid, 2:map<string, string> paramMap),
+
     dto.ResultDTO getProvinceList(1:int tid, 2:map<string, string> paramMap),
 
     dto.ResultDTO getCityList(1:int tid, 2:map<string, string> paramMap),

@@ -228,6 +228,35 @@ public class WX_AddressServiceImpl implements WX_AddressService {
     }
 
     /**
+     * 设置默认地址
+     * @param paramMap
+     * @return
+     */
+    @Override
+    public BoolDTO setDefaultAddress(Map<String, Object> paramMap) {
+        logger.info("在【service】中设置默认地址-setDefaultAddress,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        Integer updateNum = 0;
+        BoolDTO boolDTO = new BoolDTO();
+        String id = paramMap.get("id") != null ? paramMap.get("id").toString() : "";
+        String uid = paramMap.get("uid") != null ? paramMap.get("uid").toString() : "";
+        if (!"".equals(id) && !"".equals(id)) {
+            updateNum = wxAddressDao.setDefaultAddress(paramMap);
+            if (updateNum != null && updateNum > 0) {
+                boolDTO.setCode(NewMallCode.SUCCESS.getNo());
+                boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+            } else {
+                boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
+                boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
+            }
+        } else {
+            boolDTO.setCode(NewMallCode.ADDRESS_ID_OR_UID_IS_NOT_NULL.getNo());
+            boolDTO.setMessage(NewMallCode.ADDRESS_ID_OR_UID_IS_NOT_NULL.getMessage());
+        }
+        logger.info("在【service】中设置默认地址-setDefaultAddress,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        return boolDTO;
+    }
+
+    /**
      * 获取单一的地址信息
      * @param paramMap
      * @return
