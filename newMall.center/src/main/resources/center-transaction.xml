@@ -46,6 +46,7 @@
             <tx:method name="getOilStationList" propagation="REQUIRED"/>
             <tx:method name="cashOilStationOperatorRedPacket" propagation="REQUIRED"/>
             <tx:method name="receviceAndSendCustomMessage" propagation="REQUIRED"/>
+            <tx:method name="set*" propagation="REQUIRED"/>
 
 
             <tx:method name="*" read-only="true"/>
