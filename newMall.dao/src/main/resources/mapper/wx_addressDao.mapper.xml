@@ -43,7 +43,7 @@
         date_format(na.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
     </sql>
 
-    <sql id="queryConaitions"><!-- 查询条件 -->
+    <sql id="queryConditions"><!-- 查询条件 -->
         <where>na.status='0'
             <if test="id != null and id != ''">
                 AND na.id = #{id}
@@ -170,21 +170,21 @@
         </if>
     </update>
 
-    <select id="getSimpleAddressByConaition" resultType="java.util.Map">
+    <select id="getSimpleAddressByCondition" resultType="java.util.Map">
         SELECT
             <include refid="TColumnList"/>
         FROM n_address na
-            <include refid="queryConaitions"/>
+            <include refid="queryConditions"/>
         <if test="start != null and size != null">
             LIMIT ${start},${size}
         </if>
     </select>
 
-    <select id="getSimpleAddressTotalByConaition" resultType="java.lang.Integer">
+    <select id="getSimpleAddressTotalByCondition" resultType="java.lang.Integer">
         SELECT
             COUNT(*) total
         from n_address na
-            <include refid="queryConaitions"/>
+            <include refid="queryConditions"/>
     </select>
 
 </mapper>
