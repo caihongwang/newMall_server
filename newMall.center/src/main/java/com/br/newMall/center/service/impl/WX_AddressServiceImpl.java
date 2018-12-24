@@ -148,6 +148,7 @@ public class WX_AddressServiceImpl implements WX_AddressService {
         String streetName = paramMap.get("streetName") != null ? paramMap.get("streetName").toString() : "";
         String detailAddress = paramMap.get("detailAddress") != null ? paramMap.get("detailAddress").toString() : "";
         paramMap.put("status", "0");
+        paramMap.put("isDefaultAddress", "0");
         if (!"".equals(uid) && !"".equals(name)
                 && !"".equals(phone) && !"".equals(detailAddress)
                     && !"".equals(provinceId) && !"".equals(provinceName)
@@ -236,20 +237,26 @@ public class WX_AddressServiceImpl implements WX_AddressService {
         logger.info("在【service】中获取单一的地址-getSimpleAddressByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         List<Map<String, String>> productStrList = Lists.newArrayList();
-        List<Map<String, Object>> productList = wxAddressDao.getSimpleAddressByCondition(paramMap);
-        if (productList != null && productList.size() > 0) {
-            productStrList = MapUtil.getStringMapList(productList);
-            Integer total = wxAddressDao.getSimpleAddressTotalByCondition(paramMap);
-            resultDTO.setResultListTotal(total);
-            resultDTO.setResultList(productStrList);
-            resultDTO.setCode(NewMallCode.SUCCESS.getNo());
-            resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+        String uid = paramMap.get("uid") != null ? paramMap.get("uid").toString() : "";
+        if(!"".equals(uid)){
+            List<Map<String, Object>> productList = wxAddressDao.getSimpleAddressByCondition(paramMap);
+            if (productList != null && productList.size() > 0) {
+                productStrList = MapUtil.getStringMapList(productList);
+                Integer total = wxAddressDao.getSimpleAddressTotalByCondition(paramMap);
+                resultDTO.setResultListTotal(total);
+                resultDTO.setResultList(productStrList);
+                resultDTO.setCode(NewMallCode.SUCCESS.getNo());
+                resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+            } else {
+                List<Map<String, String>> resultList = Lists.newArrayList();
+                resultDTO.setResultListTotal(0);
+                resultDTO.setResultList(resultList);
+                resultDTO.setCode(NewMallCode.ADDRESS_LIST_IS_NULL.getNo());
+                resultDTO.setMessage(NewMallCode.ADDRESS_LIST_IS_NULL.getMessage());
+            }
         } else {
-            List<Map<String, String>> resultList = Lists.newArrayList();
-            resultDTO.setResultListTotal(0);
-            resultDTO.setResultList(resultList);
-            resultDTO.setCode(NewMallCode.ADDRESS_LIST_IS_NULL.getNo());
-            resultDTO.setMessage(NewMallCode.ADDRESS_LIST_IS_NULL.getMessage());
+            resultDTO.setCode(NewMallCode.ADDRESS_UID_IS_NOT_NULL.getNo());
+            resultDTO.setMessage(NewMallCode.ADDRESS_UID_IS_NOT_NULL.getMessage());
         }
         logger.info("在【service】中获取单一的地址-getSimpleAddressByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;

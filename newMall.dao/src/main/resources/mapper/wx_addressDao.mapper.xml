@@ -17,6 +17,7 @@
         street_id,
         street_name,
         detail_address,
+        is_default_address,
         status,
         create_time,
         update_time
@@ -36,6 +37,7 @@
         na.street_id as "streetId",
         na.street_name as "streetName",
         na.detail_address as "detailAddress",
+        na.is_default_address as "isDefaultAddress",
         na.status as "status",
         date_format(na.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
         date_format(na.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
@@ -82,6 +84,9 @@
             <if test="detailAddress != null and detailAddress != ''">
                 AND na.detail_address like concat('%',#{detailAddress},'%')
             </if>
+            <if test="isDefaultAddress != null and isDefaultAddress != ''">
+                AND na.is_default_address =  #{isDefaultAddress}
+            </if>
         </where>
         ORDER BY na.create_time desc
     </sql>
@@ -104,6 +109,7 @@
             #{streetId},
             #{streetName},
             #{detailAddress},
+            #{isDefaultAddress},
             #{status},
             #{createTime},
             #{updateTime}
@@ -152,6 +158,9 @@
             </if>
             <if test="detailAddress != null and detailAddress != ''">
                na.detail_address = #{detailAddress},
+            </if>
+            <if test="isDefaultAddress != null and isDefaultAddress != ''">
+               na.is_default_address = #{isDefaultAddress},
             </if>
             na.update_time = CURRENT_TIMESTAMP
         </set>
