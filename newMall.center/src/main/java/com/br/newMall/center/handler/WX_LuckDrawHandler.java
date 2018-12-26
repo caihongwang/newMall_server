@@ -74,7 +74,7 @@ public class WX_LuckDrawHandler implements com.br.newMall.api.service.WX_LuckDra
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         if (paramMap.size() > 0) {
             try {
-                resultMapDTO = wxLuckDrawService.getWaitLuckDrawRankByCondition(objectParamMap);
+                resultMapDTO = wxLuckDrawService.getRecevicedLuckDrawRankByCondition(objectParamMap);
             } catch (Exception e) {
                 logger.error("在【hanlder】中获取某商家下已领取奖励的队列-getRecevicedLuckDrawRankByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
                 Map<String, String> resultMap = Maps.newHashMap();
@@ -105,7 +105,7 @@ public class WX_LuckDrawHandler implements com.br.newMall.api.service.WX_LuckDra
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         if (paramMap.size() > 0) {
             try {
-                resultMapDTO = wxLuckDrawService.getWaitLuckDrawRankByCondition(objectParamMap);
+                resultMapDTO = wxLuckDrawService.getAllLuckDrawRankByCondition(objectParamMap);
             } catch (Exception e) {
                 logger.error("在【hanlder】中获取某商家下所有参与过领取奖励的队列-getAllLuckDrawRankByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
                 Map<String, String> resultMap = Maps.newHashMap();
