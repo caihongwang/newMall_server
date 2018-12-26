@@ -743,11 +743,12 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
         logger.info("在【service】中兑换积分-convertIntegral,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Integer updateNum = 0;
         ResultMapDTO resultMapDTO = new ResultMapDTO();
+        Map<String, String> resultMap = Maps.newHashMap();
         String uid = paramMap.get("uid") != null ? paramMap.get("uid").toString() : "";
         String wxOrderId = paramMap.get("wxOrderId") != null ? paramMap.get("wxOrderId").toString() : "";
         if (!"".equals(uid) && !"".equals(wxOrderId)) {
             Map<String, Object> userMap = Maps.newHashMap();
-            userMap.put("uid", uid);
+            userMap.put("id", uid);
             List<Map<String, Object>> currentUserList = wxUserDao.getSimpleUserByCondition(userMap);
             Map<String, Object> orderMap = Maps.newHashMap();
             orderMap.put("wxOrderId", wxOrderId);
@@ -761,7 +762,7 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                 Double orderPayMoney = payMoney + useBalanceMonney;     //交易的总金额转化为积分
                 //获取用户的总积分
                 Map<String, Object> currentUserMap = currentUserList.get(0);
-                Double integral = currentOrderMap.get("integral")!=null?Double.parseDouble(currentOrderMap.get("integral").toString()):0.0;
+                Double integral = currentUserMap.get("integral")!=null?Double.parseDouble(currentUserMap.get("integral").toString()):0.0;
                 Double newIntegral = integral + orderPayMoney;
                 BigDecimal bg = new BigDecimal(newIntegral);
                 newIntegral = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
@@ -770,11 +771,11 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                 luckDrawMap.put("status", "1");    //抽奖状态，0是未发放，1是已发放，2是已删除
                 luckDrawMap.put("wxOrderId", wxOrderId);
                 luckDrawMap.put("remark", "奖励积分：" + newIntegral + "个.");
-                updateNum = wxLuckDrawDao.updateLuckDraw(orderMap);
+                updateNum = wxLuckDrawDao.updateLuckDraw(luckDrawMap);
                 if (updateNum != null && updateNum > 0) {
                     //更新 用户积分 为 原积分数量+订单交易总金额
                     userMap.clear();
-                    userMap.put("uid", uid);
+                    userMap.put("id", uid);
                     userMap.put("integral", newIntegral);
                     updateNum = wxUserDao.updateUser(userMap);
                     if (updateNum != null && updateNum > 0) {
