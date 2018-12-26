@@ -237,4 +237,15 @@
         <property name="retry" value="${newMall.server.retry}"/>
     </bean>
 
+    <!-- wxLeagueHandler -->
+    <bean id="wxLeagueHandler" class="com.br.rpc.consumer.service.Service">
+        <property name="project" value="newMall_project"/>
+        <property name="serviceClass" value="com.br.newMall.api.service.WX_LeagueHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.version}"/>
+        <property name="timeOut" value="30000"/>
+        <property name="poolSize" value="64"/>
+        <property name="retry" value="${newMall.server.retry}"/>
+    </bean>
+
 </beans>

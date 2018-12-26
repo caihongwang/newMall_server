@@ -243,6 +243,20 @@ service WX_ShopHandler {
 
 }
 
+service WX_LeagueHandler {
+
+    dto.ResultDTO getLeagueTypeList(1:int tid, 2:map<string, string> paramMap),
+
+    dto.BoolDTO addLeague(1:int tid, 2:map<string, string> paramMap),
+
+    dto.BoolDTO deleteLeague(1:int tid, 2:map<string, string> paramMap),
+
+    dto.BoolDTO updateLeague(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultDTO getSimpleLeagueByCondition(1:int tid, 2:map<string, string> paramMap)
+
+}
+
 
 
 

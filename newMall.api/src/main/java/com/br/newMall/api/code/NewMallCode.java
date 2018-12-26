@@ -174,6 +174,14 @@ public class NewMallCode {
     public static NewMallCode SHOP_SHOPDISCOUNTID_IS_NOT_EXIST = new NewMallCode(30003, "店铺与平台之间的折扣值不存在，请联系平台客服人员.");
     public static NewMallCode SHOP_SHOPDISCOUNTID_IS_NOT_NUM = new NewMallCode(30003, "店铺与平台之间的折扣值不是数字，请联系平台客服人员.");
 
+    //加盟
+    public static NewMallCode LEAGUE_UID_OR_PHONE_OR_NAME_OR_LEAGUETYPECODE_IS_NOT_NULL = new NewMallCode(30002, "加盟的uid或者手机号或者姓名或者加盟类型不能为空");
+    public static NewMallCode LEAGUE_ID_IS_NOT_NULL = new NewMallCode(30003, "加盟的ID不能为空");
+    public static NewMallCode LEAGUE_TYPE_IS_NULL = new NewMallCode(180005, "加盟类型不允许为空.");
+
+
+
+
 
     //微信小程序
     public static final String WX_MINI_PROGRAM_NAME = "油价地图";     //小程序名称

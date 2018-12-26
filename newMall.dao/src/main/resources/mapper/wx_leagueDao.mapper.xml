@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.br.newMall.dao.WX_LeagueDao">
+
+    <sql id="columnList">    <!-- 字段 -->
+        id,
+        uid,
+        phone,
+        name,
+        league_type_code,
+        remark,
+        create_time,
+        update_time
+    </sql>
+
+    <sql id="TColumnList">    <!-- 带表别名的字段 -->
+        nl.id as "id",
+        nl.uid as "uid",
+        nl.phone as "phone",
+        nl.name as "name",
+        nl.league_type_code as "leagueTypeCode",
+        nl.remark as "remark",
+        date_format(nl.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
+        date_format(nl.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
+    </sql>
+
+    <sql id="queryConditions"><!-- 查询条件 -->
+        <where>1=1
+            <if test="id != null and id != ''">
+                AND nl.id = #{id}
+            </if>
+            <if test="uid != null and uid != ''">
+                AND nl.uid = #{uid}
+            </if>
+            <if test="phone != null and phone != ''">
+                AND nl.phone = #{phone}
+            </if>
+            <if test="name != null and name != ''">
+                AND nl.name like concat('%',#{dinamecName},'%')
+            </if>
+            <if test="leagueTypeCode != null and leagueTypeCode != ''">
+                AND nl.league_type_code = #{leagueTypeCode}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND nl.remark like concat('%',#{remark},'%')
+            </if>
+        </where>
+        ORDER BY nl.create_time desc
+    </sql>
+
+    <insert id="addLeague" parameterType="java.util.Map" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into n_league (
+            <include refid="columnList"/>
+        ) values (
+            #{id},
+            #{uid},
+            #{phone},
+            #{name},
+            #{leagueTypeCode},
+            #{remark},
+            #{createTime},
+            #{updateTime}
+        )
+    </insert>
+
+    <delete id="deleteLeague">
+        DELETE FROM n_league WHERE 1=1
+        <if test="id != null and id != ''">
+            AND id = #{id}
+        </if>
+    </delete>
+
+    <update id="updateLeague">
+        update n_league nl
+        <set>
+            <if test="uid != null and uid != ''">
+                nl.uid = #{uid},
+            </if>
+            <if test="phone != null and phone != ''">
+                nl.phone = #{phone},
+            </if>
+            <if test="name != null and name != ''">
+                nl.name = #{name},
+            </if>
+            <if test="leagueTypeCode != null and leagueTypeCode != ''">
+                nl.league_type_code = #{leagueTypeCode},
+            </if>
+            <if test="remark != null and remark != ''">
+                nl.remark = #{remark},
+            </if>
+            nl.update_time = CURRENT_TIMESTAMP
+        </set>
+        where 1=1
+        <if test="id != null and id != ''">
+            and nl.id = #{id}
+        </if>
+    </update>
+
+    <select id="getSimpleLeagueByCondition" resultType="java.util.Map">
+        SELECT
+        <include refid="TColumnList"/>
+        FROM n_league nl
+        <include refid="queryConditions"/>
+    </select>
+
+    <select id="getSimpleLeagueTotalByCondition" resultType="java.lang.Integer">
+        SELECT
+        COUNT(*) total
+        from n_league nl
+        <include refid="queryConditions"/>
+    </select>
+
+</mapper>
