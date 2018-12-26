@@ -149,4 +149,77 @@
             </if>
     </select>
 
+    <select id="getWaitGetLuckDrawRankByCondition" resultType="java.util.Map">
+        select
+            nu.id as "uid",
+            nu.avatar_url as "avatarUrl",
+            nu.nick_name as "nickName",
+            nld.create_time as "createTime",
+            no.pay_money as "payMoney",
+            nd.dic_remark as "luckDrawRemark",
+            ns.shop_title as "shopTitle",
+            ns.shop_head_img_url as "shopHeadImgUrl"
+        from n_luck_draw nld
+            INNER JOIN n_dic nd ON nld.luck_draw_code=nd.dic_code and dic_type="luckDraw"
+            INNER JOIN n_user nu ON nld.uid=nu.id
+            INNER JOIN n_order no ON no.wx_order_id=nld.wx_order_id
+            INNER JOIN n_shop ns ON ns.id=no.shop_id
+        where nld.status=0
+            <if test="shopId != null and shopId != ''">
+                and ns.id=#{shopId}
+            </if>
+        ORDER BY nld.create_time ASC
+    </select>
+
+    <select id="getWaitGetLuckDrawRankTotalByCondition" resultType="java.lang.Integer">
+        select
+            COUNT(*) total
+        from n_luck_draw nld
+            INNER JOIN n_dic nd ON nld.luck_draw_code=nd.dic_code and dic_type="luckDraw"
+            INNER JOIN n_user nu ON nld.uid=nu.id
+            INNER JOIN n_order no ON no.wx_order_id=nld.wx_order_id
+            INNER JOIN n_shop ns ON ns.id=no.shop_id
+        where nld.status=0
+            <if test="shopId != null and shopId != ''">
+                and ns.id=#{shopId}
+            </if>
+    </select>
+
+    <select id="getWaitGetLuckDrawShopByCondition" resultType="java.util.Map">
+        select
+            nu.id as "uid",
+            nu.avatar_url as "avatarUrl",
+            nu.nick_name as "nickName",
+            nld.create_time as "createTime",
+            no.pay_money as "payMoney",
+            nd.dic_remark as "luckDrawRemark",
+            ns.id as "shopId",
+            ns.shop_title as "shopTitle",
+            ns.shop_head_img_url as "shopHeadImgUrl"
+        from n_luck_draw nld
+            INNER JOIN n_dic nd ON nld.luck_draw_code=nd.dic_code and dic_type="luckDraw"
+            INNER JOIN n_user nu ON nld.uid=nu.id
+            INNER JOIN n_order no ON no.wx_order_id=nld.wx_order_id
+            INNER JOIN n_shop ns ON ns.id=no.shop_id
+        where nld.status=0
+            <if test="uid != null and uid != ''">
+                and nld.uid=#{uid}
+            </if>
+        ORDER BY nld.create_time ASC
+    </select>
+
+    <select id="getWaitGetLuckDrawShopTotalByCondition" resultType="java.lang.Integer">
+        select
+            COUNT(*) total
+        from n_luck_draw nld
+            INNER JOIN n_dic nd ON nld.luck_draw_code=nd.dic_code and dic_type="luckDraw"
+            INNER JOIN n_user nu ON nld.uid=nu.id
+            INNER JOIN n_order no ON no.wx_order_id=nld.wx_order_id
+            INNER JOIN n_shop ns ON ns.id=no.shop_id
+        where nld.status=0
+            <if test="uid != null and uid != ''">
+                and nld.uid=#{uid}
+            </if>
+    </select>
+
 </mapper>

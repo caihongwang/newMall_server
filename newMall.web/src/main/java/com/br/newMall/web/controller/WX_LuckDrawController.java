@@ -203,5 +203,119 @@ public class WX_LuckDrawController {
         return resultMap;
     }
 
+    /**
+     * 获取某商家下待领取奖励的队列
+     * @param request
+     * @return
+     */
+    @RequestMapping("/getWaitGetLuckDrawRankByCondition")
+    @ResponseBody
+    public Map<String, Object> getWaitGetLuckDrawRankByCondition(HttpServletRequest request) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        //获取请求参数能够获取到并解析
+        paramMap = HttpUtil.getRequestParams(request);
+        logger.info("在【controller】中获取某商家下待领取奖励的队列-getWaitGetLuckDrawRankByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        String start = paramMap.get("start")!=null?paramMap.get("start").toString():"";
+        String size = paramMap.get("size")!=null?paramMap.get("size").toString():"";
+        if("".equals(start)){
+            paramMap.put("start", "0");
+        } else {
+            try {
+                if(Integer.parseInt(start) < 0){
+                    paramMap.put("start", "0");
+                } else {
+                    paramMap.put("start", start);
+                }
+            } catch (Exception e){
+                paramMap.put("start", "0");
+            }
+        }
+        if("".equals(size)){
+            paramMap.put("size", "10");
+        } else {
+            try {
+                if(Integer.parseInt(size) < 0){
+                    paramMap.put("size", "10");
+                } else {
+                    paramMap.put("size", size);
+                }
+            } catch (Exception e){
+                paramMap.put("size", "0");
+            }
+        }
+        try {
+            ResultMapDTO resultMapDTO = wxLuckDrawHandler.getWaitGetLuckDrawRankByCondition(0, paramMap);
+            resultMap.put("recordsFiltered", resultMapDTO.getResultListTotal());
+            resultMap.put("data", resultMapDTO.getResultMap());
+            resultMap.put("code", resultMapDTO.getCode());
+            resultMap.put("message", resultMapDTO.getMessage());
+        } catch (Exception e) {
+            logger.error("在【controller】中获取某商家下待领取奖励的队列-getWaitGetLuckDrawRankByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            resultMap.put("success", false);
+            resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
+            resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
+        }
+        logger.info("在【controller】中获取某商家下待领取奖励的队列-getWaitGetLuckDrawRankByCondition,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        return resultMap;
+    }
+
+    /**
+     * 获取待领取奖励的商家列表
+     * @param request
+     * @return
+     */
+    @RequestMapping("/getWaitGetLuckDrawShopByCondition")
+    @ResponseBody
+    public Map<String, Object> getWaitGetLuckDrawShopByCondition(HttpServletRequest request) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        //获取请求参数能够获取到并解析
+        paramMap = HttpUtil.getRequestParams(request);
+        logger.info("在【controller】中获取待领取奖励的商家列表-getWaitGetLuckDrawShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        String start = paramMap.get("start")!=null?paramMap.get("start").toString():"";
+        String size = paramMap.get("size")!=null?paramMap.get("size").toString():"";
+        if("".equals(start)){
+            paramMap.put("start", "0");
+        } else {
+            try {
+                if(Integer.parseInt(start) < 0){
+                    paramMap.put("start", "0");
+                } else {
+                    paramMap.put("start", start);
+                }
+            } catch (Exception e){
+                paramMap.put("start", "0");
+            }
+        }
+        if("".equals(size)){
+            paramMap.put("size", "10");
+        } else {
+            try {
+                if(Integer.parseInt(size) < 0){
+                    paramMap.put("size", "10");
+                } else {
+                    paramMap.put("size", size);
+                }
+            } catch (Exception e){
+                paramMap.put("size", "0");
+            }
+        }
+        try {
+            ResultDTO resultDTO = wxLuckDrawHandler.getWaitGetLuckDrawShopByCondition(0, paramMap);
+            resultMap.put("recordsFiltered", resultDTO.getResultListTotal());
+            resultMap.put("data", resultDTO.getResultList());
+            resultMap.put("code", resultDTO.getCode());
+            resultMap.put("message", resultDTO.getMessage());
+        } catch (Exception e) {
+            logger.error("在【controller】中获取待领取奖励的商家列表-getWaitGetLuckDrawShopByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            resultMap.put("success", false);
+            resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
+            resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
+        }
+        logger.info("在【controller】中获取待领取奖励的商家列表-getWaitGetLuckDrawShopByCondition,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        return resultMap;
+    }
+
 
 }

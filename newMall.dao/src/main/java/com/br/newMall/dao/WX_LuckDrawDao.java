@@ -10,6 +10,26 @@ import java.util.Map;
 public interface WX_LuckDrawDao {
 
     /**
+     * 获取待领取奖励的商家列表
+     */
+    List<Map<String, Object>> getWaitGetLuckDrawShopByCondition(Map<String, Object> paramMap);
+
+    /**
+     * 获取待领取奖励的商家列表总数
+     */
+    Integer getWaitGetLuckDrawShopTotalByCondition(Map<String, Object> paramMap);
+
+    /**
+     * 获取某商家下待领取奖励的队列
+     */
+    List<Map<String, Object>> getWaitGetLuckDrawRankByCondition(Map<String, Object> paramMap);
+
+    /**
+     * 获取某商家下待领取奖励的队列
+     */
+    Integer getWaitGetLuckDrawRankTotalByCondition(Map<String, Object> paramMap);
+
+    /**
      * 根据条件查询抽奖信息
      */
     List<Map<String, Object>> getLuckDrawByCondition(Map<String, Object> paramMap);

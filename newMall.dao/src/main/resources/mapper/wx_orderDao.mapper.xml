@@ -6,6 +6,7 @@
     <sql id="columnList">    <!-- 字段 -->
         id,
         wx_order_id,
+        shop_id,
         uid,
         product_id,
         product_num,
@@ -22,6 +23,7 @@
     <sql id="TColumnList">    <!-- 带表别名的字段 -->
         no.id as "id",
         no.wx_order_id as "wxOrderId",
+        no.shop_id as "shopId",
         no.uid as "uid",
         no.product_id as "productId",
         no.product_num as "productNum",
@@ -48,6 +50,9 @@
             </if>
             <if test="wxOrderId != null and wxOrderId != ''">
                 AND no.wx_order_id = #{wxOrderId}
+            </if>
+            <if test="shopId != null and shopId != ''">
+                AND no.shop_id = #{shopId}
             </if>
             <if test="productId != null and productId != ''">
                 AND no.product_id = #{productId}
@@ -81,6 +86,7 @@
         ) values (
             #{id},
             #{wxOrderId},
+            #{shopId},
             #{uid},
             #{productId},
             #{productNum},
@@ -105,6 +111,9 @@
     <update id="updateOrder">
         update n_order no
         <set>
+            <if test="shopId != null and shopId != ''">
+               no.shop_id = #{shopId},
+            </if>
             <if test="productId != null and productId != ''">
                no.product_id = #{productId},
             </if>

@@ -209,7 +209,11 @@ service WX_LuckDrawHandler {
 
     dto.BoolDTO updateLuckDraw(1:int tid, 2:map<string, string> paramMap),
 
-    dto.ResultDTO getSimpleLuckDrawByCondition(1:int tid, 2:map<string, string> paramMap)
+    dto.ResultDTO getSimpleLuckDrawByCondition(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultMapDTO getWaitGetLuckDrawRankByCondition(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultDTO getWaitGetLuckDrawShopByCondition(1:int tid, 2:map<string, string> paramMap)
 
 }
 

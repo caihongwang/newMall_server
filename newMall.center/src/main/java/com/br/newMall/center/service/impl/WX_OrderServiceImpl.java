@@ -79,15 +79,15 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         String body = "小程序内发起支付";                     //商品名称
         String out_trade_no = WXPayUtil.generateUUID();     //统一订单编号
         String spbillCreateIp = paramMap.get("spbillCreateIp") != null ? paramMap.get("spbillCreateIp").toString() : "";      //获取发起支付的IP地址
-        String openId = paramMap.get("openId") != null ? paramMap.get("openId").toString() : "";
+        String uid = paramMap.get("uid") != null ? paramMap.get("uid").toString() : "";         //付款用户的uid
         Boolean useBalanceFlag = paramMap.get("useBalanceFlag") != null ? Boolean.parseBoolean(paramMap.get("useBalanceFlag").toString()) : false;
         String orderStatus = "0";
-        if (!"".equals(openId) && !"".equals(spbillCreateIp) &&
+        if (!"".equals(uid) && !"".equals(spbillCreateIp) &&
                 !"".equals(productId) && !"".equals(productNumStr) &&
                 !"".equals(addressId)) {
             //通过openId获取用户信息
             Map<String, Object> userMap = Maps.newHashMap();
-            userMap.put("openId", openId);
+            userMap.put("id", uid);
             List<Map<String, Object>> userList = wxUserDao.getSimpleUserByCondition(userMap);
             //通过productId获取商品信息
             Map<String, Object> productMap = Maps.newHashMap();
@@ -96,7 +96,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
             if(userList != null && userList.size() > 0
                     && productList != null && productList.size() > 0){
                 //获取用户uid，用户积分，用户余额
-                String uid = userList.get(0).get("id").toString();
+                String openId = userList.get(0).get("openId").toString();
                 String userIntegralStr = userList.get(0).get("integral")!=null?userList.get(0).get("integral").toString():"0";
                 String userBalanceStr = userList.get(0).get("balance")!=null?userList.get(0).get("balance").toString():"0";
                 Double userIntegral = Double.parseDouble(userIntegralStr);
@@ -392,6 +392,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                             //创建订单，状态设为待支付
                             Map<String, Object> orderMap = Maps.newHashMap();
                             orderMap.put("wxOrderId", out_trade_no);
+                            orderMap.put("shopId", shopId);
                             orderMap.put("uid", uid);
                             orderMap.put("useBalanceMonney", userBalance);
                             orderMap.put("payMoney", finnalPayMoney);
@@ -411,6 +412,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                         //创建订单，状态设为已支付
                         Map<String, Object> orderMap = Maps.newHashMap();
                         orderMap.put("wxOrderId", out_trade_no);
+                        orderMap.put("shopId", shopId);
                         orderMap.put("uid", uid);
                         orderMap.put("useBalanceMonney", payMoney);
                         orderMap.put("payMoney", finnalPayMoney);
@@ -491,7 +493,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                             if(dicResultDTO != null &&
                                     dicResultDTO.getResultList() != null &&
                                     dicResultDTO.getResultList().size() > 0){
-                                String shopDiscountStr = dicResultDTO.getResultList().get(0).get("shopDiscount");
+                                String shopDiscountStr = dicResultDTO.getResultList().get(0).get("platformDiscount");
                                 try {
                                     Double shopDiscount = Double.parseDouble(shopDiscountStr);
                                     Double payMoney = Double.parseDouble(payMoneyStr);
