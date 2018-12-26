@@ -287,10 +287,14 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                         my_waitGetLuckDrawRankList.add(waitGetLuckDrawMap);
                     }
                 }
-                //当前所有的排队
-                all_waitGetLuckDrawRankList = all_waitGetLuckDrawRankList.subList(start, (start+size));
                 //总数
                 Integer total = wxLuckDrawDao.getWaitGetLuckDrawRankTotalByCondition(paramMap);
+                //当前所有的排队
+                if((start+size) > total){
+                    all_waitGetLuckDrawRankList = all_waitGetLuckDrawRankList.subList(start, total);
+                } else {
+                    all_waitGetLuckDrawRankList = all_waitGetLuckDrawRankList.subList(start, (start+size));
+                }
                 //整理回传参数
                 resultMap.put("shopMap",
                         JSONObject.toJSONString(shopMap) );
@@ -359,8 +363,8 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                         payMoney = payMoneyTemp + payMoney;
                         bg = new BigDecimal(payMoney);
                         payMoney = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                        waitGetLuckDrawMap.put("payMoney", payMoney.toString());
-                        waitGetLuckDrawMap.put("luckDrawMoney", luckDrawMoney.toString());
+                        temp.put("payMoney", payMoney.toString());
+                        temp.put("luckDrawMoney", luckDrawMoney.toString());
                     } else {
                         shopMap.put(shopId, waitGetLuckDrawMap);
                     }
@@ -375,7 +379,11 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                 }
                 //总数
                 Integer total = shopList.size();
-                shopList = shopList.subList(start, (start+size));
+                if((start+size) > shopList.size()){
+                    shopList = shopList.subList(start, shopList.size());
+                } else {
+                    shopList = shopList.subList(start, (start+size));
+                }
                 //整理回传参数
                 resultDTO.setResultList(MapUtil.getStringMapList(shopList));
                 resultDTO.setResultListTotal(total);
