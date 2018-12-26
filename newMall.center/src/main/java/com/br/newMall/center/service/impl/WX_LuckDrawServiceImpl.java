@@ -268,15 +268,15 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                 for (int i = 0; i < all_waitGetLuckDrawRankList.size(); i++) {
                     Map<String, Object> waitGetLuckDrawMap = all_waitGetLuckDrawRankList.get(i);
                     Double payMoney = waitGetLuckDrawMap.get("payMoney")!=null?Double.parseDouble(waitGetLuckDrawMap.get("payMoney").toString()):0.0;
-                    String luckDrawRemark = waitGetLuckDrawMap.get("luckDrawRemark").toString();
-                    Map<String, String> luckDrawRemarkMap = JSONObject.parseObject(luckDrawRemark, Map.class);
-                    Double proportion = luckDrawRemarkMap.get("proportion")!=null?Double.parseDouble(luckDrawRemarkMap.get("proportion").toString()):1.0;
+                    String luckDrawRule = waitGetLuckDrawMap.get("luckDrawRule").toString();
+                    Map<String, String> luckDrawRuleMap = JSONObject.parseObject(luckDrawRule, Map.class);
+                    Double proportion = luckDrawRuleMap.get("proportion")!=null?Double.parseDouble(luckDrawRuleMap.get("proportion").toString()):1.0;
                     Double luckDrawMoney = payMoney * proportion;
                     BigDecimal bg = new BigDecimal(luckDrawMoney);
                     luckDrawMoney = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                     waitGetLuckDrawMap.put("luckDrawMoney", luckDrawMoney.toString());
                     waitGetLuckDrawMap.put("rankIndex", i+"");
-                    waitGetLuckDrawMap.remove("luckDrawRemark");
+                    waitGetLuckDrawMap.remove("luckDrawRule");
                 }
                 //准备数据
                 //商家信息
@@ -347,15 +347,15 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                 for (int i = 0; i < all_waitGetLuckDrawRankList.size(); i++) {
                     Map<String, Object> waitGetLuckDrawMap = all_waitGetLuckDrawRankList.get(i);
                     Double payMoney = waitGetLuckDrawMap.get("payMoney")!=null?Double.parseDouble(waitGetLuckDrawMap.get("payMoney").toString()):0.0;
-                    String luckDrawRemark = waitGetLuckDrawMap.get("luckDrawRemark").toString();
-                    Map<String, String> luckDrawRemarkMap = JSONObject.parseObject(luckDrawRemark, Map.class);
-                    Double proportion = luckDrawRemarkMap.get("proportion")!=null?Double.parseDouble(luckDrawRemarkMap.get("proportion").toString()):1.0;
+                    String luckDrawRule = waitGetLuckDrawMap.get("luckDrawRule").toString();
+                    Map<String, String> luckDrawRuleMap = JSONObject.parseObject(luckDrawRule, Map.class);
+                    Double proportion = luckDrawRuleMap.get("proportion")!=null?Double.parseDouble(luckDrawRuleMap.get("proportion").toString()):1.0;
                     Double luckDrawMoney = payMoney * proportion;
                     BigDecimal bg = new BigDecimal(luckDrawMoney);
                     luckDrawMoney = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                     waitGetLuckDrawMap.put("luckDrawMoney", luckDrawMoney.toString());
                     waitGetLuckDrawMap.put("rankIndex", i+"");
-                    waitGetLuckDrawMap.remove("luckDrawRemark");
+                    waitGetLuckDrawMap.remove("luckDrawRule");
                 }
                 //准备数据
                 //商家信息
@@ -425,15 +425,15 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                 for (int i = 0; i < all_waitGetLuckDrawRankList.size(); i++) {
                     Map<String, Object> waitGetLuckDrawMap = all_waitGetLuckDrawRankList.get(i);
                     Double payMoney = waitGetLuckDrawMap.get("payMoney")!=null?Double.parseDouble(waitGetLuckDrawMap.get("payMoney").toString()):0.0;
-                    String luckDrawRemark = waitGetLuckDrawMap.get("luckDrawRemark").toString();
-                    Map<String, String> luckDrawRemarkMap = JSONObject.parseObject(luckDrawRemark, Map.class);
-                    Double proportion = luckDrawRemarkMap.get("proportion")!=null?Double.parseDouble(luckDrawRemarkMap.get("proportion").toString()):1.0;
+                    String luckDrawRule = waitGetLuckDrawMap.get("luckDrawRule").toString();
+                    Map<String, String> luckDrawRuleMap = JSONObject.parseObject(luckDrawRule, Map.class);
+                    Double proportion = luckDrawRuleMap.get("proportion")!=null?Double.parseDouble(luckDrawRuleMap.get("proportion").toString()):1.0;
                     Double luckDrawMoney = payMoney * proportion;
                     BigDecimal bg = new BigDecimal(luckDrawMoney);
                     luckDrawMoney = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                     waitGetLuckDrawMap.put("luckDrawMoney", luckDrawMoney.toString());
                     waitGetLuckDrawMap.put("rankIndex", (i+1)+"");
-                    waitGetLuckDrawMap.remove("luckDrawRemark");
+                    waitGetLuckDrawMap.remove("luckDrawRule");
                 }
                 //准备数据
                 //商家信息
@@ -505,15 +505,15 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                     Map<String, Object> waitGetLuckDrawMap = all_waitGetLuckDrawShopList.get(i);
                     String shopId = waitGetLuckDrawMap.get("shopId").toString();
                     Double payMoney = waitGetLuckDrawMap.get("payMoney")!=null?Double.parseDouble(waitGetLuckDrawMap.get("payMoney").toString()):0.0;
-                    String luckDrawRemark = waitGetLuckDrawMap.get("luckDrawRemark").toString();
-                    Map<String, String> luckDrawRemarkMap = JSONObject.parseObject(luckDrawRemark, Map.class);
-                    Double proportion = luckDrawRemarkMap.get("proportion")!=null?Double.parseDouble(luckDrawRemarkMap.get("proportion").toString()):1.0;
+                    String luckDrawRule = waitGetLuckDrawMap.get("luckDrawRule").toString();
+                    Map<String, String> luckDrawRuleMap = JSONObject.parseObject(luckDrawRule, Map.class);
+                    Double proportion = luckDrawRuleMap.get("proportion")!=null?Double.parseDouble(luckDrawRuleMap.get("proportion").toString()):1.0;
                     Double luckDrawMoney = payMoney * proportion;
                     BigDecimal bg = new BigDecimal(luckDrawMoney);
                     luckDrawMoney = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                     waitGetLuckDrawMap.put("luckDrawMoney", luckDrawMoney.toString());
                     waitGetLuckDrawMap.put("rankIndex", (i+1)+"");
-                    waitGetLuckDrawMap.remove("luckDrawRemark");
+                    waitGetLuckDrawMap.remove("luckDrawRule");
                     if(shopMap.containsKey(shopId)){
                         //返现金额
                         Map<String, Object> temp = (Map<String, Object>)shopMap.get(shopId);
@@ -589,15 +589,15 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                     Map<String, Object> waitGetLuckDrawMap = all_waitGetLuckDrawShopList.get(i);
                     String shopId = waitGetLuckDrawMap.get("shopId").toString();
                     Double payMoney = waitGetLuckDrawMap.get("payMoney")!=null?Double.parseDouble(waitGetLuckDrawMap.get("payMoney").toString()):0.0;
-                    String luckDrawRemark = waitGetLuckDrawMap.get("luckDrawRemark").toString();
-                    Map<String, String> luckDrawRemarkMap = JSONObject.parseObject(luckDrawRemark, Map.class);
-                    Double proportion = luckDrawRemarkMap.get("proportion")!=null?Double.parseDouble(luckDrawRemarkMap.get("proportion").toString()):1.0;
+                    String luckDrawRule = waitGetLuckDrawMap.get("luckDrawRule").toString();
+                    Map<String, String> luckDrawRuleMap = JSONObject.parseObject(luckDrawRule, Map.class);
+                    Double proportion = luckDrawRuleMap.get("proportion")!=null?Double.parseDouble(luckDrawRuleMap.get("proportion").toString()):1.0;
                     Double luckDrawMoney = payMoney * proportion;
                     BigDecimal bg = new BigDecimal(luckDrawMoney);
                     luckDrawMoney = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                     waitGetLuckDrawMap.put("luckDrawMoney", luckDrawMoney.toString());
                     waitGetLuckDrawMap.put("rankIndex", i+"");
-                    waitGetLuckDrawMap.remove("luckDrawRemark");
+                    waitGetLuckDrawMap.remove("luckDrawRule");
                     if(shopMap.containsKey(shopId)){
                         //返现金额
                         Map<String, Object> temp = (Map<String, Object>)shopMap.get(shopId);
@@ -672,15 +672,15 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                     Map<String, Object> waitGetLuckDrawMap = all_waitGetLuckDrawShopList.get(i);
                     String shopId = waitGetLuckDrawMap.get("shopId").toString();
                     Double payMoney = waitGetLuckDrawMap.get("payMoney")!=null?Double.parseDouble(waitGetLuckDrawMap.get("payMoney").toString()):0.0;
-                    String luckDrawRemark = waitGetLuckDrawMap.get("luckDrawRemark").toString();
-                    Map<String, String> luckDrawRemarkMap = JSONObject.parseObject(luckDrawRemark, Map.class);
-                    Double proportion = luckDrawRemarkMap.get("proportion")!=null?Double.parseDouble(luckDrawRemarkMap.get("proportion").toString()):1.0;
+                    String luckDrawRule = waitGetLuckDrawMap.get("luckDrawRule").toString();
+                    Map<String, String> luckDrawRuleMap = JSONObject.parseObject(luckDrawRule, Map.class);
+                    Double proportion = luckDrawRuleMap.get("proportion")!=null?Double.parseDouble(luckDrawRuleMap.get("proportion").toString()):1.0;
                     Double luckDrawMoney = payMoney * proportion;
                     BigDecimal bg = new BigDecimal(luckDrawMoney);
                     luckDrawMoney = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                     waitGetLuckDrawMap.put("luckDrawMoney", luckDrawMoney.toString());
                     waitGetLuckDrawMap.put("rankIndex", i+"");
-                    waitGetLuckDrawMap.remove("luckDrawRemark");
+                    waitGetLuckDrawMap.remove("luckDrawRule");
                     if(shopMap.containsKey(shopId)){
                         //返现金额
                         Map<String, Object> temp = (Map<String, Object>)shopMap.get(shopId);
