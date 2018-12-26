@@ -13,6 +13,13 @@ import java.util.Map;
 public interface WX_LuckDrawService {
 
     /**
+     * 兑换积分
+     * @param paramMap
+     * @return
+     */
+    ResultMapDTO convertIntegral(Map<String, Object> paramMap);
+
+    /**
      * 获取参加过抽奖的商家列表
      * @param paramMap
      * @return

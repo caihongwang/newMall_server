@@ -8,6 +8,7 @@ import com.br.newMall.center.service.WX_DicService;
 import com.br.newMall.center.utils.MapUtil;
 import com.br.newMall.dao.WX_LuckDrawDao;
 import com.br.newMall.dao.WX_OrderDao;
+import com.br.newMall.dao.WX_UserDao;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.junit.Test;
@@ -43,6 +44,9 @@ public class WX_LuckDrawServiceImplTest {
     @Autowired
     private WX_OrderDao wxOrderDao;
 
+    @Autowired
+    private WX_UserDao wxUserDao;
+
     @Test
     public void Test() throws Exception{
 //        Map<String, Object> paramMap = Maps.newHashMap();
@@ -57,11 +61,78 @@ public class WX_LuckDrawServiceImplTest {
 //        paramMap.put("size", "2");
 //        getWaitLuckDrawRankByCondition(paramMap);
 
+//        Map<String, Object> paramMap = Maps.newHashMap();
+//        paramMap.put("uid", "1");
+//        paramMap.put("start", "0");
+//        paramMap.put("size", "1");
+//        getWaitLuckDrawShopByCondition(paramMap);
+
         Map<String, Object> paramMap = Maps.newHashMap();
         paramMap.put("uid", "1");
-        paramMap.put("start", "0");
-        paramMap.put("size", "1");
-        getWaitLuckDrawShopByCondition(paramMap);
+        paramMap.put("wxOrderId", "24aa84a13c974dc6bfcbd38af00f3b78");
+        convertIntegral(paramMap);
+    }
+
+    public ResultMapDTO convertIntegral(Map<String, Object> paramMap) {
+        logger.info("在【service】中兑换积分-convertIntegral,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        Integer updateNum = 0;
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        Map<String, String> resultMap = Maps.newHashMap();
+        String uid = paramMap.get("uid") != null ? paramMap.get("uid").toString() : "";
+        String wxOrderId = paramMap.get("wxOrderId") != null ? paramMap.get("wxOrderId").toString() : "";
+        if (!"".equals(uid) && !"".equals(wxOrderId)) {
+            Map<String, Object> userMap = Maps.newHashMap();
+            userMap.put("id", uid);
+            List<Map<String, Object>> currentUserList = wxUserDao.getSimpleUserByCondition(userMap);
+            Map<String, Object> orderMap = Maps.newHashMap();
+            orderMap.put("wxOrderId", wxOrderId);
+            List<Map<String, Object>> currentOrderList = wxOrderDao.getSimpleOrderByCondition(orderMap);
+            if(currentOrderList != null && currentOrderList.size() > 0
+                    && currentUserList != null && currentUserList.size() > 0){
+                //获取订单的交易总金额
+                Map<String, Object> currentOrderMap = currentOrderList.get(0);
+                Double payMoney = currentOrderMap.get("payMoney")!=null?Double.parseDouble(currentOrderMap.get("payMoney").toString()):0.0;
+                Double useBalanceMonney = currentOrderMap.get("useBalanceMonney")!=null?Double.parseDouble(currentOrderMap.get("useBalanceMonney").toString()):0.0;
+                Double orderPayMoney = payMoney + useBalanceMonney;     //交易的总金额转化为积分
+                //获取用户的总积分
+                Map<String, Object> currentUserMap = currentUserList.get(0);
+                Double integral = currentUserMap.get("integral")!=null?Double.parseDouble(currentUserMap.get("integral").toString()):0.0;
+                Double newIntegral = integral + orderPayMoney;
+                BigDecimal bg = new BigDecimal(newIntegral);
+                newIntegral = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                //更新 抽奖状态 为 已发送
+                Map<String, Object> luckDrawMap = Maps.newHashMap();
+                luckDrawMap.put("status", "1");    //抽奖状态，0是未发放，1是已发放，2是已删除
+                luckDrawMap.put("wxOrderId", wxOrderId);
+                luckDrawMap.put("remark", "奖励积分：" + newIntegral + "个.");
+                updateNum = wxLuckDrawDao.updateLuckDraw(luckDrawMap);
+                if (updateNum != null && updateNum > 0) {
+                    //更新 用户积分 为 原积分数量+订单交易总金额
+                    userMap.clear();
+                    userMap.put("id", uid);
+                    userMap.put("integral", newIntegral);
+                    updateNum = wxUserDao.updateUser(userMap);
+                    if (updateNum != null && updateNum > 0) {
+                        resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
+                        resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+                    } else {
+                        resultMapDTO.setCode(NewMallCode.LUCKDRAW_UPDATE_USER_INEGRAL_IS_FAILED.getNo());
+                        resultMapDTO.setMessage(NewMallCode.LUCKDRAW_UPDATE_USER_INEGRAL_IS_FAILED.getMessage());
+                    }
+                } else {
+                    resultMapDTO.setCode(NewMallCode.LUCKDRAW_UPDATE_STATUS_IS_FAILED.getNo());
+                    resultMapDTO.setMessage(NewMallCode.LUCKDRAW_UPDATE_STATUS_IS_FAILED.getMessage());
+                }
+            } else {
+                resultMapDTO.setCode(NewMallCode.LUCKDRAW_WXORDERID_IS_NOT_EXIST.getNo());
+                resultMapDTO.setMessage(NewMallCode.LUCKDRAW_WXORDERID_IS_NOT_EXIST.getMessage());
+            }
+        } else {
+            resultMapDTO.setCode(NewMallCode.LUCKDRAW_UID_OR_WXORDERID_IS_NULL.getNo());
+            resultMapDTO.setMessage(NewMallCode.LUCKDRAW_UID_OR_WXORDERID_IS_NULL.getMessage());
+        }
+        logger.info("在【service】中兑换积分-convertIntegral,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        return resultMapDTO;
     }
 
     public ResultDTO getWaitLuckDrawShopByCondition(Map<String, Object> paramMap) throws Exception{
@@ -73,7 +144,7 @@ public class WX_LuckDrawServiceImplTest {
         Integer size = paramMap.get("size") != null ? Integer.parseInt(paramMap.get("size").toString()) : 10;
         if(!"".equals(uid)){
             List<Map<String, Object>> my_waitGetLuckDrawShopList = Lists.newArrayList();
-            List<Map<String, Object>> all_waitGetLuckDrawShopList = wxLuckDrawDao.getWaitLuckDrawShopByCondition(paramMap);
+            List<Map<String, Object>> all_waitGetLuckDrawShopList = wxLuckDrawDao.getLuckDrawShopByCondition(paramMap);
             if(all_waitGetLuckDrawShopList != null &&
                     all_waitGetLuckDrawShopList.size() > 0){
                 //处理数据
@@ -140,7 +211,7 @@ public class WX_LuckDrawServiceImplTest {
         Integer size = paramMap.get("size") != null ? Integer.parseInt(paramMap.get("size").toString()) : 10;
         if(!"".equals(shopId) && !"".equals(uid)){
             List<Map<String, Object>> my_waitGetLuckDrawRankList = Lists.newArrayList();
-            List<Map<String, Object>> all_waitGetLuckDrawRankList = wxLuckDrawDao.getWaitLuckDrawRankByCondition(paramMap);
+            List<Map<String, Object>> all_waitGetLuckDrawRankList = wxLuckDrawDao.getLuckDrawRankByCondition(paramMap);
             if(all_waitGetLuckDrawRankList != null &&
                     all_waitGetLuckDrawRankList.size() > 0){
                 //处理数据
@@ -174,7 +245,7 @@ public class WX_LuckDrawServiceImplTest {
                 //当前所有的排队
                 all_waitGetLuckDrawRankList = all_waitGetLuckDrawRankList.subList(start, (start+size));
                 //总数
-                Integer total = wxLuckDrawDao.getWaitGetLuckDrawRankTotalByCondition(paramMap);
+                Integer total = wxLuckDrawDao.getLuckDrawRankTotalByCondition(paramMap);
                 //整理回传参数
                 resultMap.put("shopMap",
                         JSONObject.toJSONString(shopMap) );

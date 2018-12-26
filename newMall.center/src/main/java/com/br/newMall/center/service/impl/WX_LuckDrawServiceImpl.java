@@ -11,6 +11,7 @@ import com.br.newMall.center.utils.MapUtil;
 import com.br.newMall.dao.WX_AddressDao;
 import com.br.newMall.dao.WX_LuckDrawDao;
 import com.br.newMall.dao.WX_OrderDao;
+import com.br.newMall.dao.WX_UserDao;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
@@ -40,6 +41,9 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
 
     @Autowired
     private WX_OrderDao wxOrderDao;
+
+    @Autowired
+    private WX_UserDao wxUserDao;
 
     /**
      * 获取抽奖的产品列表
@@ -428,7 +432,7 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                     BigDecimal bg = new BigDecimal(luckDrawMoney);
                     luckDrawMoney = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                     waitGetLuckDrawMap.put("luckDrawMoney", luckDrawMoney.toString());
-                    waitGetLuckDrawMap.put("rankIndex", i+"");
+                    waitGetLuckDrawMap.put("rankIndex", (i+1)+"");
                     waitGetLuckDrawMap.remove("luckDrawRemark");
                 }
                 //准备数据
@@ -508,7 +512,7 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                     BigDecimal bg = new BigDecimal(luckDrawMoney);
                     luckDrawMoney = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                     waitGetLuckDrawMap.put("luckDrawMoney", luckDrawMoney.toString());
-                    waitGetLuckDrawMap.put("rankIndex", i+"");
+                    waitGetLuckDrawMap.put("rankIndex", (i+1)+"");
                     waitGetLuckDrawMap.remove("luckDrawRemark");
                     if(shopMap.containsKey(shopId)){
                         //返现金额
@@ -725,6 +729,75 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
         }
         logger.info("在【service】中获取参加过抽奖的商家列表-getAllLuckDrawShopByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
+    }
+
+
+
+    /**
+     * 兑换积分
+     * @param paramMap
+     * @return
+     */
+    @Override
+    public ResultMapDTO convertIntegral(Map<String, Object> paramMap) {
+        logger.info("在【service】中兑换积分-convertIntegral,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        Integer updateNum = 0;
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        String uid = paramMap.get("uid") != null ? paramMap.get("uid").toString() : "";
+        String wxOrderId = paramMap.get("wxOrderId") != null ? paramMap.get("wxOrderId").toString() : "";
+        if (!"".equals(uid) && !"".equals(wxOrderId)) {
+            Map<String, Object> userMap = Maps.newHashMap();
+            userMap.put("uid", uid);
+            List<Map<String, Object>> currentUserList = wxUserDao.getSimpleUserByCondition(userMap);
+            Map<String, Object> orderMap = Maps.newHashMap();
+            orderMap.put("wxOrderId", wxOrderId);
+            List<Map<String, Object>> currentOrderList = wxOrderDao.getSimpleOrderByCondition(orderMap);
+            if(currentOrderList != null && currentOrderList.size() > 0
+                    && currentUserList != null && currentUserList.size() > 0){
+                //获取订单的交易总金额
+                Map<String, Object> currentOrderMap = currentOrderList.get(0);
+                Double payMoney = currentOrderMap.get("payMoney")!=null?Double.parseDouble(currentOrderMap.get("payMoney").toString()):0.0;
+                Double useBalanceMonney = currentOrderMap.get("useBalanceMonney")!=null?Double.parseDouble(currentOrderMap.get("useBalanceMonney").toString()):0.0;
+                Double orderPayMoney = payMoney + useBalanceMonney;     //交易的总金额转化为积分
+                //获取用户的总积分
+                Map<String, Object> currentUserMap = currentUserList.get(0);
+                Double integral = currentOrderMap.get("integral")!=null?Double.parseDouble(currentOrderMap.get("integral").toString()):0.0;
+                Double newIntegral = integral + orderPayMoney;
+                BigDecimal bg = new BigDecimal(newIntegral);
+                newIntegral = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                //更新 抽奖状态 为 已发送
+                Map<String, Object> luckDrawMap = Maps.newHashMap();
+                luckDrawMap.put("status", "1");    //抽奖状态，0是未发放，1是已发放，2是已删除
+                luckDrawMap.put("wxOrderId", wxOrderId);
+                luckDrawMap.put("remark", "奖励积分：" + newIntegral + "个.");
+                updateNum = wxLuckDrawDao.updateLuckDraw(orderMap);
+                if (updateNum != null && updateNum > 0) {
+                    //更新 用户积分 为 原积分数量+订单交易总金额
+                    userMap.clear();
+                    userMap.put("uid", uid);
+                    userMap.put("integral", newIntegral);
+                    updateNum = wxUserDao.updateUser(userMap);
+                    if (updateNum != null && updateNum > 0) {
+                        resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
+                        resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+                    } else {
+                        resultMapDTO.setCode(NewMallCode.LUCKDRAW_UPDATE_USER_INEGRAL_IS_FAILED.getNo());
+                        resultMapDTO.setMessage(NewMallCode.LUCKDRAW_UPDATE_USER_INEGRAL_IS_FAILED.getMessage());
+                    }
+                } else {
+                    resultMapDTO.setCode(NewMallCode.LUCKDRAW_UPDATE_STATUS_IS_FAILED.getNo());
+                    resultMapDTO.setMessage(NewMallCode.LUCKDRAW_UPDATE_STATUS_IS_FAILED.getMessage());
+                }
+            } else {
+                resultMapDTO.setCode(NewMallCode.LUCKDRAW_WXORDERID_IS_NOT_EXIST.getNo());
+                resultMapDTO.setMessage(NewMallCode.LUCKDRAW_WXORDERID_IS_NOT_EXIST.getMessage());
+            }
+        } else {
+            resultMapDTO.setCode(NewMallCode.LUCKDRAW_UID_OR_WXORDERID_IS_NULL.getNo());
+            resultMapDTO.setMessage(NewMallCode.LUCKDRAW_UID_OR_WXORDERID_IS_NULL.getMessage());
+        }
+        logger.info("在【service】中兑换积分-convertIntegral,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        return resultMapDTO;
     }
 
 }

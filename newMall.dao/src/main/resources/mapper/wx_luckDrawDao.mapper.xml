@@ -96,6 +96,9 @@
         <if test="id != null and id != ''">
             and nld.id = #{id}
         </if>
+        <if test="wxOrderId != null and wxOrderId != ''">
+            and nld.wx_order_id = #{wxOrderId}
+        </if>
     </update>
 
     <select id="getSimpleLuckDrawByCondition" resultType="java.util.Map">
@@ -154,7 +157,9 @@
             nu.id as "uid",
             nu.avatar_url as "avatarUrl",
             nu.nick_name as "nickName",
+            nld.wx_order_id as "wxOrderId",
             nld.create_time as "createTime",
+            nld.remark as "luckDrawRemark",
             no.pay_money as "payMoney",
             nd.dic_remark as "luckDrawRemark",
             ns.shop_title as "shopTitle",
@@ -200,7 +205,9 @@
             nu.id as "uid",
             nu.avatar_url as "avatarUrl",
             nu.nick_name as "nickName",
+            nld.wx_order_id as "wxOrderId",
             nld.create_time as "createTime",
+            nld.remark as "luckDrawRemark",
             no.pay_money as "payMoney",
             nd.dic_remark as "luckDrawRemark",
             ns.id as "shopId",

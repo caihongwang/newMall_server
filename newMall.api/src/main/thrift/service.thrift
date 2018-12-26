@@ -221,7 +221,9 @@ service WX_LuckDrawHandler {
 
     dto.ResultDTO getRecevicedLuckDrawShopByCondition(1:int tid, 2:map<string, string> paramMap),
 
-    dto.ResultDTO getAllLuckDrawShopByCondition(1:int tid, 2:map<string, string> paramMap)
+    dto.ResultDTO getAllLuckDrawShopByCondition(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultMapDTO convertIntegral(1:int tid, 2:map<string, string> paramMap)
 
 }
 

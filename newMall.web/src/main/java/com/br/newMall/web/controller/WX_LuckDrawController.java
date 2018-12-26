@@ -60,7 +60,6 @@ public class WX_LuckDrawController {
         return resultMap;
     }
 
-
     /**
      * 添加抽奖信息
      * @param request
@@ -545,5 +544,32 @@ public class WX_LuckDrawController {
         return resultMap;
     }
 
-
+    /**
+     * 兑换积分
+     * @param request
+     * @return
+     */
+    @RequestMapping("/convertIntegral")
+    @ResponseBody
+    public Map<String, Object> convertIntegral(HttpServletRequest request) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        //获取请求参数能够获取到并解析
+        paramMap = HttpUtil.getRequestParams(request);
+        logger.info("在【controller】中兑换积分-convertIntegral,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        try {
+            ResultMapDTO resultMapDTO = wxLuckDrawHandler.convertIntegral(0, paramMap);
+            resultMap.put("recordsFiltered", resultMapDTO.getResultListTotal());
+            resultMap.put("data", resultMapDTO.getResultMap());
+            resultMap.put("code", resultMapDTO.getCode());
+            resultMap.put("message", resultMapDTO.getMessage());
+        } catch (Exception e) {
+            logger.error("在【controller】中兑换积分-convertIntegral is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            resultMap.put("success", false);
+            resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
+            resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
+        }
+        logger.info("在【controller】中兑换积分-convertIntegral,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        return resultMap;
+    }
 }
