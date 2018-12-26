@@ -158,9 +158,12 @@
             no.pay_money as "payMoney",
             nd.dic_remark as "luckDrawRemark",
             ns.shop_title as "shopTitle",
-            ns.shop_head_img_url as "shopHeadImgUrl"
+            ns.shop_head_img_url as "shopHeadImgUrl",
+            nld.status as "luckDrawStatusCode",
+            lds.dic_name as "luckDrawStatusName"
         from n_luck_draw nld
             INNER JOIN n_dic nd ON nld.luck_draw_code=nd.dic_code and dic_type="luckDraw"
+            INNER JOIN n_dic lds ON nld.status=lds.dic_code and lds.dic_type="luckDrawStatus"
             INNER JOIN n_user nu ON nld.uid=nu.id
             INNER JOIN n_order no ON no.wx_order_id=nld.wx_order_id
             INNER JOIN n_shop ns ON ns.id=no.shop_id
@@ -169,7 +172,7 @@
                 and nld.status=#{status}
             </if>
             <if test="shopId != null and shopId != ''">
-                and ns.id=#{shopId}
+                and no.shop_id=#{shopId}
             </if>
         ORDER BY nld.create_time ASC
     </select>
@@ -179,6 +182,7 @@
             COUNT(*) total
         from n_luck_draw nld
             INNER JOIN n_dic nd ON nld.luck_draw_code=nd.dic_code and dic_type="luckDraw"
+            INNER JOIN n_dic lds ON nld.status=lds.dic_code and lds.dic_type="luckDrawStatus"
             INNER JOIN n_user nu ON nld.uid=nu.id
             INNER JOIN n_order no ON no.wx_order_id=nld.wx_order_id
             INNER JOIN n_shop ns ON ns.id=no.shop_id
@@ -201,9 +205,12 @@
             nd.dic_remark as "luckDrawRemark",
             ns.id as "shopId",
             ns.shop_title as "shopTitle",
-            ns.shop_head_img_url as "shopHeadImgUrl"
+            ns.shop_head_img_url as "shopHeadImgUrl",
+            nld.status as "luckDrawStatusCode",
+            lds.dic_name as "luckDrawStatusName"
         from n_luck_draw nld
             INNER JOIN n_dic nd ON nld.luck_draw_code=nd.dic_code and dic_type="luckDraw"
+            INNER JOIN n_dic lds ON nld.status=lds.dic_code and lds.dic_type="luckDrawStatus"
             INNER JOIN n_user nu ON nld.uid=nu.id
             INNER JOIN n_order no ON no.wx_order_id=nld.wx_order_id
             INNER JOIN n_shop ns ON ns.id=no.shop_id
@@ -222,6 +229,7 @@
             COUNT(*) total
         from n_luck_draw nld
             INNER JOIN n_dic nd ON nld.luck_draw_code=nd.dic_code and dic_type="luckDraw"
+            INNER JOIN n_dic lds ON nld.status=lds.dic_code and lds.dic_type="luckDrawStatus"
             INNER JOIN n_user nu ON nld.uid=nu.id
             INNER JOIN n_order no ON no.wx_order_id=nld.wx_order_id
             INNER JOIN n_shop ns ON ns.id=no.shop_id
