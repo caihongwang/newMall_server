@@ -13,16 +13,40 @@ import java.util.Map;
 public interface WX_LuckDrawService {
 
     /**
+     * 获取参加过抽奖的商家列表
+     * @param paramMap
+     * @return
+     */
+    ResultDTO getAllLuckDrawShopByCondition(Map<String, Object> paramMap) throws Exception;
+
+    /**
+     * 获取已领取奖励的商家列表
+     * @param paramMap
+     * @return
+     */
+    ResultDTO getRecevicedLuckDrawShopByCondition(Map<String, Object> paramMap) throws Exception;
+
+    /**
      * 获取待领取奖励的商家列表
      * @param paramMap
      * @return
      */
-    ResultDTO getWaitGetLuckDrawShopByCondition(Map<String, Object> paramMap) throws Exception;
+    ResultDTO getWaitLuckDrawShopByCondition(Map<String, Object> paramMap) throws Exception;
+
+    /**
+     * 获取某商家下所有参与过领取奖励的队列
+     */
+    ResultMapDTO getAllLuckDrawRankByCondition(Map<String, Object> paramMap);
+
+    /**
+     * 获取某商家下已领取奖励的队列
+     */
+    ResultMapDTO getRecevicedLuckDrawRankByCondition(Map<String, Object> paramMap);
 
     /**
      * 获取某商家下待领取奖励的队列
      */
-    ResultMapDTO getWaitGetLuckDrawRankByCondition(Map<String, Object> paramMap);
+    ResultMapDTO getWaitLuckDrawRankByCondition(Map<String, Object> paramMap);
 
     /**
      * 获取抽奖的产品列表

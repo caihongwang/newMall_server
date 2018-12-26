@@ -37,15 +37,15 @@ public class WX_LuckDrawHandler implements com.br.newMall.api.service.WX_LuckDra
      * @throws TException
      */
     @Override
-    public ResultMapDTO getWaitGetLuckDrawRankByCondition(int tid, Map<String, String> paramMap) throws TException {
-        logger.info("在【hanlder】中获取商家下待领取奖励的队列-getWaitGetLuckDrawRankByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+    public ResultMapDTO getWaitLuckDrawRankByCondition(int tid, Map<String, String> paramMap) throws TException {
+        logger.info("在【hanlder】中获取商家下待领取奖励的队列-getWaitLuckDrawRankByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         if (paramMap.size() > 0) {
             try {
-                resultMapDTO = wxLuckDrawService.getWaitGetLuckDrawRankByCondition(objectParamMap);
+                resultMapDTO = wxLuckDrawService.getWaitLuckDrawRankByCondition(objectParamMap);
             } catch (Exception e) {
-                logger.error("在【hanlder】中获取商家下待领取奖励的队列-getWaitGetLuckDrawRankByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                logger.error("在【hanlder】中获取商家下待领取奖励的队列-getWaitLuckDrawRankByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
                 Map<String, String> resultMap = Maps.newHashMap();
                 resultMapDTO.setResultListTotal(0);
                 resultMapDTO.setResultMap(resultMap);
@@ -56,7 +56,69 @@ public class WX_LuckDrawHandler implements com.br.newMall.api.service.WX_LuckDra
             resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
-        logger.info("在【hanlder】中获取商家下待领取奖励的队列-getWaitGetLuckDrawRankByCondition,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        logger.info("在【hanlder】中获取商家下待领取奖励的队列-getWaitLuckDrawRankByCondition,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        return resultMapDTO;
+    }
+
+    /**
+     * 获取某商家下已领取奖励的队列
+     * @param tid
+     * @param paramMap
+     * @return
+     * @throws TException
+     */
+    @Override
+    public ResultMapDTO getRecevicedLuckDrawRankByCondition(int tid, Map<String, String> paramMap) throws TException {
+        logger.info("在【hanlder】中获取某商家下已领取奖励的队列-getRecevicedLuckDrawRankByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        if (paramMap.size() > 0) {
+            try {
+                resultMapDTO = wxLuckDrawService.getWaitLuckDrawRankByCondition(objectParamMap);
+            } catch (Exception e) {
+                logger.error("在【hanlder】中获取某商家下已领取奖励的队列-getRecevicedLuckDrawRankByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                Map<String, String> resultMap = Maps.newHashMap();
+                resultMapDTO.setResultListTotal(0);
+                resultMapDTO.setResultMap(resultMap);
+                resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
+            }
+        } else {
+            resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
+            resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
+        }
+        logger.info("在【hanlder】中获取某商家下已领取奖励的队列-getRecevicedLuckDrawRankByCondition,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        return resultMapDTO;
+    }
+
+    /**
+     * 获取某商家下所有参与过领取奖励的队列
+     * @param tid
+     * @param paramMap
+     * @return
+     * @throws TException
+     */
+    @Override
+    public ResultMapDTO getAllLuckDrawRankByCondition(int tid, Map<String, String> paramMap) throws TException {
+        logger.info("在【hanlder】中获取某商家下所有参与过领取奖励的队列-getAllLuckDrawRankByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        if (paramMap.size() > 0) {
+            try {
+                resultMapDTO = wxLuckDrawService.getWaitLuckDrawRankByCondition(objectParamMap);
+            } catch (Exception e) {
+                logger.error("在【hanlder】中获取某商家下所有参与过领取奖励的队列-getAllLuckDrawRankByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                Map<String, String> resultMap = Maps.newHashMap();
+                resultMapDTO.setResultListTotal(0);
+                resultMapDTO.setResultMap(resultMap);
+                resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
+            }
+        } else {
+            resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
+            resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
+        }
+        logger.info("在【hanlder】中获取某商家下所有参与过领取奖励的队列-getAllLuckDrawRankByCondition,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
     }
 
@@ -68,15 +130,15 @@ public class WX_LuckDrawHandler implements com.br.newMall.api.service.WX_LuckDra
      * @throws TException
      */
     @Override
-    public ResultDTO getWaitGetLuckDrawShopByCondition(int tid, Map<String, String> paramMap) throws TException {
-        logger.info("在【hanlder】中获取待领取奖励的商家列表-getWaitGetLuckDrawShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+    public ResultDTO getWaitLuckDrawShopByCondition(int tid, Map<String, String> paramMap) throws TException {
+        logger.info("在【hanlder】中获取待领取奖励的商家列表-getWaitLuckDrawShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         if (paramMap.size() > 0) {
             try {
-                resultDTO = wxLuckDrawService.getWaitGetLuckDrawShopByCondition(objectParamMap);
+                resultDTO = wxLuckDrawService.getWaitLuckDrawShopByCondition(objectParamMap);
             } catch (Exception e) {
-                logger.error("在【hanlder】中获取待领取奖励的商家列表-getWaitGetLuckDrawShopByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                logger.error("在【hanlder】中获取待领取奖励的商家列表-getWaitLuckDrawShopByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
                 List<Map<String, String>> resultList = Lists.newArrayList();
                 resultDTO.setResultListTotal(0);
                 resultDTO.setResultList(resultList);
@@ -87,7 +149,69 @@ public class WX_LuckDrawHandler implements com.br.newMall.api.service.WX_LuckDra
             resultDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
-        logger.info("在【hanlder】中获取待领取奖励的商家列表-getWaitGetLuckDrawShopByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        logger.info("在【hanlder】中获取待领取奖励的商家列表-getWaitLuckDrawShopByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        return resultDTO;
+    }
+
+    /**
+     * 获取已领取奖励的商家列表
+     * @param tid
+     * @param paramMap
+     * @return
+     * @throws TException
+     */
+    @Override
+    public ResultDTO getRecevicedLuckDrawShopByCondition(int tid, Map<String, String> paramMap) throws TException {
+        logger.info("在【hanlder】中获取已领取奖励的商家列表-getRecevicedLuckDrawShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultDTO resultDTO = new ResultDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        if (paramMap.size() > 0) {
+            try {
+                resultDTO = wxLuckDrawService.getRecevicedLuckDrawShopByCondition(objectParamMap);
+            } catch (Exception e) {
+                logger.error("在【hanlder】中获取已领取奖励的商家列表-getRecevicedLuckDrawShopByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                List<Map<String, String>> resultList = Lists.newArrayList();
+                resultDTO.setResultListTotal(0);
+                resultDTO.setResultList(resultList);
+                resultDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                resultDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
+            }
+        } else {
+            resultDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
+            resultDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
+        }
+        logger.info("在【hanlder】中获取已领取奖励的商家列表-getRecevicedLuckDrawShopByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        return resultDTO;
+    }
+
+    /**
+     * 获取参加过抽奖的商家列表
+     * @param tid
+     * @param paramMap
+     * @return
+     * @throws TException
+     */
+    @Override
+    public ResultDTO getAllLuckDrawShopByCondition(int tid, Map<String, String> paramMap) throws TException {
+        logger.info("在【hanlder】中获取参加过抽奖的商家列表-getAllLuckDrawShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultDTO resultDTO = new ResultDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        if (paramMap.size() > 0) {
+            try {
+                resultDTO = wxLuckDrawService.getAllLuckDrawShopByCondition(objectParamMap);
+            } catch (Exception e) {
+                logger.error("在【hanlder】中获取参加过抽奖的商家列表-getAllLuckDrawShopByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                List<Map<String, String>> resultList = Lists.newArrayList();
+                resultDTO.setResultListTotal(0);
+                resultDTO.setResultList(resultList);
+                resultDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                resultDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
+            }
+        } else {
+            resultDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
+            resultDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
+        }
+        logger.info("在【hanlder】中获取参加过抽奖的商家列表-getAllLuckDrawShopByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
 

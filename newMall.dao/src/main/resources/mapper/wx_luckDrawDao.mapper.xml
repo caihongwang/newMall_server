@@ -149,7 +149,7 @@
             </if>
     </select>
 
-    <select id="getWaitGetLuckDrawRankByCondition" resultType="java.util.Map">
+    <select id="getLuckDrawRankByCondition" resultType="java.util.Map">
         select
             nu.id as "uid",
             nu.avatar_url as "avatarUrl",
@@ -164,14 +164,17 @@
             INNER JOIN n_user nu ON nld.uid=nu.id
             INNER JOIN n_order no ON no.wx_order_id=nld.wx_order_id
             INNER JOIN n_shop ns ON ns.id=no.shop_id
-        where nld.status=0
+        where 1=1
+            <if test="status != null and status != ''">
+                and nld.status=#{status}
+            </if>
             <if test="shopId != null and shopId != ''">
                 and ns.id=#{shopId}
             </if>
         ORDER BY nld.create_time ASC
     </select>
 
-    <select id="getWaitGetLuckDrawRankTotalByCondition" resultType="java.lang.Integer">
+    <select id="getLuckDrawRankTotalByCondition" resultType="java.lang.Integer">
         select
             COUNT(*) total
         from n_luck_draw nld
@@ -179,13 +182,16 @@
             INNER JOIN n_user nu ON nld.uid=nu.id
             INNER JOIN n_order no ON no.wx_order_id=nld.wx_order_id
             INNER JOIN n_shop ns ON ns.id=no.shop_id
-        where nld.status=0
+        where 1=1
+            <if test="status != null and status != ''">
+                and nld.status=#{status}
+            </if>
             <if test="shopId != null and shopId != ''">
                 and ns.id=#{shopId}
             </if>
     </select>
 
-    <select id="getWaitGetLuckDrawShopByCondition" resultType="java.util.Map">
+    <select id="getLuckDrawShopByCondition" resultType="java.util.Map">
         select
             nu.id as "uid",
             nu.avatar_url as "avatarUrl",
@@ -201,14 +207,17 @@
             INNER JOIN n_user nu ON nld.uid=nu.id
             INNER JOIN n_order no ON no.wx_order_id=nld.wx_order_id
             INNER JOIN n_shop ns ON ns.id=no.shop_id
-        where nld.status=0
+        where 1=1
+            <if test="status != null and status != ''">
+                and nld.status=#{status}
+            </if>
             <if test="uid != null and uid != ''">
                 and nld.uid=#{uid}
             </if>
         ORDER BY nld.create_time ASC
     </select>
 
-    <select id="getWaitGetLuckDrawShopTotalByCondition" resultType="java.lang.Integer">
+    <select id="getLuckDrawShopTotalByCondition" resultType="java.lang.Integer">
         select
             COUNT(*) total
         from n_luck_draw nld
@@ -216,7 +225,10 @@
             INNER JOIN n_user nu ON nld.uid=nu.id
             INNER JOIN n_order no ON no.wx_order_id=nld.wx_order_id
             INNER JOIN n_shop ns ON ns.id=no.shop_id
-        where nld.status=0
+        where 1=1
+            <if test="status != null and status != ''">
+                and nld.status=#{status}
+            </if>
             <if test="uid != null and uid != ''">
                 and nld.uid=#{uid}
             </if>
