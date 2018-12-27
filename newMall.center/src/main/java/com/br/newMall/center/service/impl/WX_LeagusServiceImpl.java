@@ -71,6 +71,7 @@ public class WX_LeagusServiceImpl implements WX_LeagueService {
         String leagueTypeCode = paramMap.get("leagueTypeCode") != null ? paramMap.get("leagueTypeCode").toString() : "";
         if (!"".equals(uid) && !"".equals(phone)
                 && !"".equals(name) && !"".equals(leagueTypeCode)) {
+            addNum = wxLeagueDao.addLeague(paramMap);
             if (addNum != null && addNum > 0) {
                 boolDTO.setCode(NewMallCode.SUCCESS.getNo());
                 boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
