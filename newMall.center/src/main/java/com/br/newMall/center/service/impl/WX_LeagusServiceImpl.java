@@ -153,11 +153,10 @@ public class WX_LeagusServiceImpl implements WX_LeagueService {
         logger.info("在【service】中获取单一的加盟-getSimpleLeagueByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         List<Map<String, String>> leagueStrList = Lists.newArrayList();
-
         Boolean isQueryListFlag = paramMap.get("isQueryListFlag") != null ? Boolean.parseBoolean(paramMap.get("isQueryListFlag").toString()) : false;
         List<Map<String, Object>> leagueList = wxLeagueDao.getSimpleLeagueByCondition(paramMap);
-        if ((leagueList != null && leagueList.size() > 0) || isQueryListFlag) {
-            if(leagueList == null || leagueList.size() < 0){
+        if ((leagueList != null && leagueList.size() > 0)) {
+            if(isQueryListFlag){
                 leagueList = Lists.newArrayList();
             }
             leagueStrList = MapUtil.getStringMapList(leagueList);
