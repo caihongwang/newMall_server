@@ -734,13 +734,13 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
     }
 
     /**
-     * 奖励兑换积分
+     * 奖励兑换用户积分
      * @param paramMap
      * @return
      */
     @Override
     public ResultMapDTO convertIntegral(Map<String, Object> paramMap) {
-        logger.info("在【service】中奖励兑换积分-convertIntegral,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("在【service】中奖励兑换用户积分-convertIntegral,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Integer updateNum = 0;
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, String> resultMap = Maps.newHashMap();
@@ -770,7 +770,7 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                 Map<String, Object> luckDrawMap = Maps.newHashMap();
                 luckDrawMap.put("status", "1");    //抽奖状态，0是未发放，1是已发放，2是已删除
                 luckDrawMap.put("wxOrderId", wxOrderId);
-                luckDrawMap.put("remark", "奖励积分：" + newIntegral + "个.");
+                luckDrawMap.put("remark", "奖励到用户积分：" + orderPayMoney + "个，当前用户积分：" + newIntegral + "个.");
                 updateNum = wxLuckDrawDao.updateLuckDraw(luckDrawMap);
                 if (updateNum != null && updateNum > 0) {
                     //更新 用户积分 为 原积分数量+订单交易总金额
@@ -797,18 +797,18 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
             resultMapDTO.setCode(NewMallCode.LUCKDRAW_UID_OR_WXORDERID_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.LUCKDRAW_UID_OR_WXORDERID_IS_NULL.getMessage());
         }
-        logger.info("在【service】中奖励兑换积分-convertIntegral,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        logger.info("在【service】中奖励兑换用户积分-convertIntegral,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
     }
 
     /**
-     * 奖励兑换零钱
+     * 奖励兑换用户余额
      * @param paramMap
      * @return
      */
     @Override
     public ResultMapDTO convertBalance(Map<String, Object> paramMap) throws Exception{
-        logger.info("在【service】中奖励兑换零钱-convertBalance,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("在【service】中奖励兑换用户余额-convertBalance,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Integer updateNum = 0;
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         //获取待奖励的列表
@@ -861,7 +861,7 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                                 Map<String, Object> luckDrawParamMap = Maps.newHashMap();
                                 luckDrawParamMap.put("status", "1");    //抽奖状态，0是未发放，1是已发放，2是已删除
                                 luckDrawParamMap.put("wxOrderId", wxOrderId);
-                                luckDrawParamMap.put("remark", "奖励零钱：" + cashBackMoney + "元，当前用户余额：" + newBalance + "元.");
+                                luckDrawParamMap.put("remark", "奖励到用户余额：" + cashBackMoney + "元，当前用户余额：" + newBalance + "元.");
                                 updateNum = wxLuckDrawDao.updateLuckDraw(luckDrawParamMap);
                                 if (updateNum != null && updateNum > 0) {
                                     //更新 用户积分 为 原积分数量+订单交易总金额
@@ -918,7 +918,7 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                 }
             }
         }
-        logger.info("在【service】中奖励兑换零钱-convertBalance,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        logger.info("在【service】中奖励兑换用户余额-convertBalance,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
     }
 

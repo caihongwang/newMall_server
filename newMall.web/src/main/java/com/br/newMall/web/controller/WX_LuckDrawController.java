@@ -545,7 +545,7 @@ public class WX_LuckDrawController {
     }
 
     /**
-     * 奖励兑换积分
+     * 奖励兑换用户积分
      * @param request
      * @return
      */
@@ -556,7 +556,7 @@ public class WX_LuckDrawController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中奖励兑换积分-convertIntegral,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("在【controller】中奖励兑换用户积分-convertIntegral,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             ResultMapDTO resultMapDTO = wxLuckDrawHandler.convertIntegral(0, paramMap);
             resultMap.put("recordsFiltered", resultMapDTO.getResultListTotal());
@@ -564,17 +564,17 @@ public class WX_LuckDrawController {
             resultMap.put("code", resultMapDTO.getCode());
             resultMap.put("message", resultMapDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中奖励兑换积分-convertIntegral is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("在【controller】中奖励兑换用户积分-convertIntegral is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中奖励兑换积分-convertIntegral,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("在【controller】中奖励兑换用户积分-convertIntegral,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
     /**
-     * 奖励兑换零钱
+     * 奖励兑换用户余额
      * @param request
      * @return
      */
@@ -585,7 +585,7 @@ public class WX_LuckDrawController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中奖励兑换零钱-convertBalance,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("在【controller】中奖励兑换用户余额-convertBalance,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             ResultMapDTO resultMapDTO = wxLuckDrawHandler.convertBalance(0, paramMap);
             resultMap.put("recordsFiltered", resultMapDTO.getResultListTotal());
@@ -593,12 +593,12 @@ public class WX_LuckDrawController {
             resultMap.put("code", resultMapDTO.getCode());
             resultMap.put("message", resultMapDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中奖励兑换零钱-convertBalance is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("在【controller】中奖励兑换用户余额-convertBalance is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中奖励兑换零钱-convertBalance,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("在【controller】中奖励兑换用户余额-convertBalance,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 }
