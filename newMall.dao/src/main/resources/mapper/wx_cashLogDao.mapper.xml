@@ -28,7 +28,7 @@
     </sql>
 
     <sql id="queryConditions"><!-- 查询条件 -->
-        <where>ncl.cashStatus=1
+        <where>
             <if test="id != null and id != ''">
                 AND ncl.id = #{id}
             </if>

@@ -262,9 +262,9 @@ public class WX_CashLogServiceImpl implements WX_CashLogService {
                     }
                 }
             } catch (Exception e) {
-                logger.info("当前用户 uid = " + paramMap.get("uid") +
+                logger.error("当前用户 uid = " + paramMap.get("uid") +
                         " ，提现现比例 proportion = "+ proportionStr +
-                        " 用户提现时提现比例或者提现金额下限非数字，请联系管理员.");
+                        " 用户提现时提现比例或者提现金额下限非数字，请联系管理员. e : ", e);
                 resultMapDTO.setCode(NewMallCode.USER_PROPORTION_OR_CASHMONEYLOWERLIMIT_IS_NOT_NUMBER.getNo());
                 resultMapDTO.setMessage(NewMallCode.USER_PROPORTION_OR_CASHMONEYLOWERLIMIT_IS_NOT_NUMBER.getMessage());
             }
