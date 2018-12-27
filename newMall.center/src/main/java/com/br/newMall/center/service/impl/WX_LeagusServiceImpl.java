@@ -152,8 +152,13 @@ public class WX_LeagusServiceImpl implements WX_LeagueService {
         logger.info("在【service】中获取单一的加盟-getSimpleLeagueByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         List<Map<String, String>> leagueStrList = Lists.newArrayList();
+
+        Boolean isQueryListFlag = paramMap.get("isQueryListFlag") != null ? Boolean.parseBoolean(paramMap.get("isQueryListFlag").toString()) : false;
         List<Map<String, Object>> leagueList = wxLeagueDao.getSimpleLeagueByCondition(paramMap);
-        if (leagueList != null && leagueList.size() > 0) {
+        if ((leagueList != null && leagueList.size() > 0) || isQueryListFlag) {
+            if(leagueList == null || leagueList.size() < 0){
+                leagueList = Lists.newArrayList();
+            }
             leagueStrList = MapUtil.getStringMapList(leagueList);
             Integer total = wxLeagueDao.getSimpleLeagueTotalByCondition(paramMap);
             resultDTO.setResultListTotal(total);
@@ -164,8 +169,8 @@ public class WX_LeagusServiceImpl implements WX_LeagueService {
             List<Map<String, String>> resultList = Lists.newArrayList();
             resultDTO.setResultListTotal(0);
             resultDTO.setResultList(resultList);
-            resultDTO.setCode(NewMallCode.DIC_LIST_IS_NULL.getNo());
-            resultDTO.setMessage(NewMallCode.DIC_LIST_IS_NULL.getMessage());
+            resultDTO.setCode(NewMallCode.LEAGUE_LIST_IS_NULL.getNo());
+            resultDTO.setMessage(NewMallCode.LEAGUE_LIST_IS_NULL.getMessage());
         }
         logger.info("在【service】中获取单一的加盟-getSimpleLeagueByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;

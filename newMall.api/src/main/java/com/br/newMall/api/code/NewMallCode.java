@@ -178,6 +178,7 @@ public class NewMallCode {
     public static NewMallCode LEAGUE_UID_OR_PHONE_OR_NAME_OR_LEAGUETYPECODE_IS_NOT_NULL = new NewMallCode(30002, "加盟的uid或者手机号或者姓名或者加盟类型不能为空");
     public static NewMallCode LEAGUE_ID_IS_NOT_NULL = new NewMallCode(30003, "加盟的ID不能为空");
     public static NewMallCode LEAGUE_TYPE_IS_NULL = new NewMallCode(180005, "加盟类型不允许为空.");
+    public static NewMallCode LEAGUE_LIST_IS_NULL = new NewMallCode(0, "当前加盟没有数据.");
 
 
 
