@@ -73,6 +73,8 @@ public class NewMallCode {
     public static NewMallCode USER_PHONE_IS_ERROR = new NewMallCode(70004, "用户用户手机号错误，请重新输入.");
     public static NewMallCode USER_CODE_IS_NOT_NULL = new NewMallCode(70006, "用户微信访问的code参数不能为空.");
     public static NewMallCode USER_ID_OR_PRODUCTID_NULL = new NewMallCode(70007, "用户或者商品不存在.");
+    public static NewMallCode USER_PROPORTION_OR_CASHMONEYLOWERLIMIT_IS_NOT_NUMBER = new NewMallCode(180004, "用户提现时提现比例或者提现金额下限非数字.");
+    public static NewMallCode USER_CASHMONEY_NOT_MORE_CASHMONEYLOWERLIMIT_IS_NOT_NUMBER = new NewMallCode(180004, "用户余额大于等于提现金额下限才可以提现.");
 
 
     //加油站
@@ -161,6 +163,9 @@ public class NewMallCode {
     public static NewMallCode LUCKDRAW_UID_IS_NOT_NULL = new NewMallCode(180004, "您待领取领奖励的用户UID不允许为空.");
     public static NewMallCode LUCKDRAW_UPDATE_STATUS_IS_FAILED = new NewMallCode(180004, "转换积分时更新奖励状态失败.");
     public static NewMallCode LUCKDRAW_UPDATE_USER_INEGRAL_IS_FAILED = new NewMallCode(180004, "转换积分时更新用户积分失败.");
+    public static NewMallCode LUCKDRAW_UPDATE_USER_BANLANCE_IS_FAILED = new NewMallCode(180004, "转换零钱时更新用户余额失败.");
+    public static NewMallCode LUCKDRAW_BALANCE_OR_PAYMONEY_OR_PROPORTION_IS_NOT_NUMBER = new NewMallCode(180004, "转换零钱时支付金额或者用户余额或者返现比例非数字.");
+    public static NewMallCode LUCKDRAW_BALANCE_PROPORTION_IS_NOT_NUMBER = new NewMallCode(180004, "转换零钱时返现比例不允许为空.");
 
     //店铺
     public static NewMallCode SHOP_EXIST = new NewMallCode(30001, "店铺已经存在，请修改。");
@@ -179,6 +184,13 @@ public class NewMallCode {
     public static NewMallCode LEAGUE_ID_IS_NOT_NULL = new NewMallCode(30003, "加盟的ID不能为空");
     public static NewMallCode LEAGUE_TYPE_IS_NULL = new NewMallCode(180005, "加盟类型不允许为空.");
     public static NewMallCode LEAGUE_LIST_IS_NULL = new NewMallCode(0, "当前加盟没有数据.");
+
+    //提现日志
+    public static NewMallCode cashlog_EXIST = new NewMallCode(30001, "字典已经存在，请修改。");
+    public static NewMallCode CASHLOG_UID_OR_CASHTOWXMONEY_OR_CASHFEE_OR_USERBALANCE_IS_NOT_NULL = new NewMallCode(30002, "提现日志的用户uid或者提现金额或者提现手续费或者用户余额不能为空");
+    public static NewMallCode CASHLOG_ID_IS_NOT_NULL = new NewMallCode(30003, "提现日志的ID不能为空");
+    public static NewMallCode CASHLOG_UID_IS_NOT_NULL = new NewMallCode(30003, "提现日志的用户UID不能为空");
+    public static NewMallCode CASHLOG_LIST_IS_NULL = new NewMallCode(0, "当前体现日志没有数据.");
 
 
 

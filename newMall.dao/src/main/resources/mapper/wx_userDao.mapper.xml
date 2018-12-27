@@ -18,6 +18,7 @@
         shop_id,
         balance,
         integral,
+        auto_cash_to_wx_flag,
         gray_status,
         create_time,
         update_time
@@ -38,6 +39,7 @@
         nu.shop_id as "shopId",
         nu.balance as "balance",
         nu.integral as "integral",
+        nu.auto_cash_to_wx_flag as "autoCashToWxFlag",
         nu.gray_status as "grayStatus",
         nu.create_time as "createTime",
         nu.update_time as "updateTime"
@@ -87,6 +89,9 @@
             <if test="shopId != null and shopId != ''">
                 AND nu.shop_id = #{shopId}
             </if>
+            <if test="autoCashToWxFlag != null and autoCashToWxFlag != ''">
+                AND nu.auto_cash_to_wx_flag = #{autoCashToWxFlag}
+            </if>
         </where>
         ORDER BY nu.create_time desc
     </sql>
@@ -110,6 +115,7 @@
         #{shopId},
         #{balance},
         #{integral},
+        #{autoCashToWxFlag},
         #{grayStatus},
         #{createTime},
         #{updateTime}
@@ -167,6 +173,9 @@
                 </if>
                 <if test="integral != null and integral != ''">
                     nu.integral = #{integral},
+                </if>
+                <if test="autoCashToWxFlag != null and autoCashToWxFlag != ''">
+                    nu.auto_cash_to_wx_flag = #{autoCashToWxFlag},
                 </if>
                 update_time = #{updateTime}
             </set>

@@ -6,10 +6,13 @@ import com.br.newMall.api.dto.BoolDTO;
 import com.br.newMall.api.dto.MessageDTO;
 import com.br.newMall.api.dto.ResultDTO;
 import com.br.newMall.api.dto.ResultMapDTO;
+import com.br.newMall.center.service.WX_DicService;
+import com.br.newMall.center.service.WX_RedPacketService;
 import com.br.newMall.center.service.WX_UserService;
 import com.br.newMall.center.utils.HttpsUtil;
 import com.br.newMall.center.utils.MapUtil;
 import com.br.newMall.center.utils.WX_PublicNumberUtil;
+import com.br.newMall.dao.WX_CashLogDao;
 import com.br.newMall.dao.WX_UserDao;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -20,6 +23,7 @@ import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -38,6 +42,12 @@ public class WX_UserServiceImpl implements WX_UserService {
 
     @Autowired
     private WX_UserDao wxUserDao;
+
+    @Autowired
+    private WX_CashLogDao wxCashLogDao;
+
+    @Autowired
+    private WX_DicService wxDicService;
 
     @Autowired
     private HttpsUtil httpsUtil;
@@ -123,6 +133,7 @@ public class WX_UserServiceImpl implements WX_UserService {
                         paramMap.put("integral", "0");          //积分为0
                         paramMap.put("grayStatus", "0");        //灰度用户状态，0是正常登陆用户，1是不需要登陆的用户
                         paramMap.put("userType", "miniProgram");//微信用户类型，miniProgram是小程序用户，publicNumber是公众号用户
+                        paramMap.put("autoCashToWxFlag", "0");  //自动将余额提现到微信零钱，0：否，1：是
                         addNum = wxUserDao.addUser(paramMap);
                         //创建session
                         if (addNum != null && addNum > 0) {

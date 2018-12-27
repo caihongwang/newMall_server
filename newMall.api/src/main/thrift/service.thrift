@@ -223,7 +223,9 @@ service WX_LuckDrawHandler {
 
     dto.ResultDTO getAllLuckDrawShopByCondition(1:int tid, 2:map<string, string> paramMap),
 
-    dto.ResultMapDTO convertIntegral(1:int tid, 2:map<string, string> paramMap)
+    dto.ResultMapDTO convertIntegral(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultMapDTO convertBalance(1:int tid, 2:map<string, string> paramMap)
 
 }
 
@@ -257,6 +259,17 @@ service WX_LeagueHandler {
 
 }
 
+service WX_CashLogHandler {
 
+    dto.BoolDTO addCashLog(1:int tid, 2:map<string, string> paramMap),
+
+    dto.BoolDTO deleteCashLog(1:int tid, 2:map<string, string> paramMap),
+
+    dto.BoolDTO updateCashLog(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultDTO getSimpleCashLogByCondition(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultMapDTO cashBalanceToWx(1:int tid, 2:map<string, string> paramMap)
+}
 
 

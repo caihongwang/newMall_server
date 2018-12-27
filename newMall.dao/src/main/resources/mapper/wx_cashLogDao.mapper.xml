@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.br.newMall.dao.WX_CashLogDao">
+
+    <sql id="columnList">    <!-- 字段 -->
+        id,
+        uid,
+        cash_to_wx_money,
+        cash_fee,
+        user_balance,
+        cash_status,
+        remark,
+        create_time,
+        update_time
+    </sql>
+
+    <sql id="TColumnList">    <!-- 带表别名的字段 -->
+        ncl.id as "id",
+        ncl.uid as "uid",
+        ncl.cash_to_wx_money as "cashToWxMoney",
+        ncl.cash_fee as "cashFee",
+        ncl.user_balance as "userBalance",
+        ncl.cash_status as "cashStatus",
+        ncl.remark as "remark",
+        date_format(ncl.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
+        date_format(ncl.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
+    </sql>
+
+    <sql id="queryConditions"><!-- 查询条件 -->
+        <where>ncl.cashStatus=1
+            <if test="id != null and id != ''">
+                AND ncl.id = #{id}
+            </if>
+            <if test="uid != null and uid != ''">
+                AND ncl.uid = #{uid}
+            </if>
+            <if test="cashToWxMoney != null and cashToWxMoney != ''">
+                AND ncl.cash_to_wx_money = #{cashToWxMoney}
+            </if>
+            <if test="cashFee != null and cashFee != ''">
+                AND ncl.cash_fee = #{cashFee}
+            </if>
+            <if test="userBalance != null and userBalance != ''">
+                AND ncl.user_balance = #{userBalance}
+            </if>
+            <if test="cashStatus != null and cashStatus != ''">
+                AND ncl.cash_status = #{cashStatus}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND ncl.remark like concat('%',#{remark},'%')
+            </if>
+        </where>
+        ORDER BY ncl.create_time desc
+    </sql>
+
+    <insert id="addCashLog" parameterType="java.util.Map" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into n_cash_log (
+            <include refid="columnList"/>
+        ) values (
+            #{id},
+            #{uid},
+            #{cashToWxMoney},
+            #{cashFee},
+            #{userBalance},
+            #{cashStatus},
+            #{remark},
+            #{createTime},
+            #{updateTime}
+        )
+    </insert>
+
+    <delete id="deleteCashLog">
+        DELETE FROM n_cash_log WHERE 1=1
+        <if test="id != null and id != ''">
+            AND id = #{id}
+        </if>
+    </delete>
+
+    <update id="updateCashLog">
+        update n_cash_log ncl
+        <set>
+            <if test="uid != null and uid != ''">
+                ncl.uid = #{uid},
+            </if>
+            <if test="cashToWxMoney != null and cashToWxMoney != ''">
+                ncl.cash_to_wx_money = #{cashToWxMoney},
+            </if>
+            <if test="cashFee != null and cashFee != ''">
+                ncl.cash_fee = #{cashFee},
+            </if>
+            <if test="userBalance != null and userBalance != ''">
+                ncl.user_balance = #{userBalance},
+            </if>
+            <if test="cashStatus != null and cashStatus != ''">
+                ncl.cashStatus = #{cashStatus},
+            </if>
+            <if test="remark != null and remark != ''">
+                ncl.remark = #{remark},
+            </if>
+            ncl.update_time = CURRENT_TIMESTAMP
+        </set>
+        where 1=1
+        <if test="id != null and id != ''">
+            and ncl.id = #{id}
+        </if>
+    </update>
+
+    <select id="getSimpleCashLogByCondition" resultType="java.util.Map">
+        SELECT
+            <include refid="TColumnList"/>
+        FROM n_cash_log ncl
+            <include refid="queryConditions"/>
+    </select>
+
+    <select id="getSimpleCashLogTotalByCondition" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*) total
+        from n_cash_log ncl
+            <include refid="queryConditions"/>
+    </select>
+
+</mapper>

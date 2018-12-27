@@ -30,22 +30,22 @@ public class WX_LuckDrawHandler implements com.br.newMall.api.service.WX_LuckDra
     private WX_LuckDrawService wxLuckDrawService;
     
     /**
-     * 兑换积分
+     * 奖励兑换零钱
      * @param tid
      * @param paramMap
      * @return
      * @throws TException
      */
     @Override
-    public ResultMapDTO convertIntegral(int tid, Map<String, String> paramMap) throws TException {
-        logger.info("在【handler】中兑换积分-convertIntegral,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+    public ResultMapDTO convertBalance(int tid, Map<String, String> paramMap) throws TException {
+        logger.info("在【handler】中奖励兑换零钱-convertBalance,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         if (paramMap.size() > 0) {
             try {
                 resultMapDTO = wxLuckDrawService.convertIntegral(objectParamMap);
             } catch (Exception e) {
-                logger.error("在【handler】中兑换积分-convertIntegral is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                logger.error("在【handler】中奖励兑换零钱-convertBalance is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
                 resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             }
@@ -53,7 +53,35 @@ public class WX_LuckDrawHandler implements com.br.newMall.api.service.WX_LuckDra
             resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
-        logger.info("在【handler】中兑换积分-convertIntegral,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        logger.info("在【handler】中奖励兑换零钱-convertBalance,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        return resultMapDTO;
+    }
+
+    /**
+     * 奖励兑换积分
+     * @param tid
+     * @param paramMap
+     * @return
+     * @throws TException
+     */
+    @Override
+    public ResultMapDTO convertIntegral(int tid, Map<String, String> paramMap) throws TException {
+        logger.info("在【handler】中奖励兑换积分-convertIntegral,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        if (paramMap.size() > 0) {
+            try {
+                resultMapDTO = wxLuckDrawService.convertIntegral(objectParamMap);
+            } catch (Exception e) {
+                logger.error("在【handler】中奖励兑换积分-convertIntegral is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
+            }
+        } else {
+            resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
+            resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
+        }
+        logger.info("在【handler】中奖励兑换积分-convertIntegral,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
     }
 

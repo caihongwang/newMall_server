@@ -21,6 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static org.junit.Assert.*;
@@ -67,14 +68,133 @@ public class WX_LuckDrawServiceImplTest {
 //        paramMap.put("size", "1");
 //        getWaitLuckDrawShopByCondition(paramMap);
 
+//        Map<String, Object> paramMap = Maps.newHashMap();
+//        paramMap.put("uid", "1");
+//        paramMap.put("wxOrderId", "24aa84a13c974dc6bfcbd38af00f3b78");
+//        convertIntegral(paramMap);
+
         Map<String, Object> paramMap = Maps.newHashMap();
         paramMap.put("uid", "1");
-        paramMap.put("wxOrderId", "24aa84a13c974dc6bfcbd38af00f3b78");
-        convertIntegral(paramMap);
+        convertBalance(paramMap);
+    }
+
+    public ResultMapDTO convertBalance(Map<String, Object> paramMap) throws Exception{
+        logger.info("在【service】中奖励兑换零钱-convertBalance,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        Integer updateNum = 0;
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        //获取待奖励的列表
+        paramMap.put("status", "0");         //抽奖状态，0是未发放，1是已发放，2是已删除
+        List<Map<String, Object>> luckDrawList = wxLuckDrawDao.getLuckDrawByCondition(paramMap);
+        if (luckDrawList != null && luckDrawList.size() > 0) {
+            for (Map<String, Object> luckDrawMap : luckDrawList) {
+                String id = luckDrawMap.get("id")!=null?luckDrawMap.get("id").toString():"";
+                String uid = luckDrawMap.get("uid")!=null?luckDrawMap.get("uid").toString():"";
+                String wxOrderId = luckDrawMap.get("wxOrderId")!=null?luckDrawMap.get("wxOrderId").toString():"";
+                String openId = luckDrawMap.get("openId")!=null?luckDrawMap.get("openId").toString():"";
+                String balanceStr = luckDrawMap.get("balance")!=null?luckDrawMap.get("balance").toString():"0";
+                String payMoneyStr = luckDrawMap.get("payMoney")!=null?luckDrawMap.get("payMoney").toString():"0";
+                String cashBackModeJson = luckDrawMap.get("cashBackModeJson")!=null?luckDrawMap.get("cashBackModeJson").toString():"";
+                String createTime = luckDrawMap.get("createTime")!=null?luckDrawMap.get("createTime").toString():"";
+                if (!"".equals(id) && !"".equals(uid) && !"".equals(wxOrderId)
+                        && !"".equals(openId) && !"".equals(balanceStr)
+                        && !"".equals(payMoneyStr) && !"".equals(cashBackModeJson)
+                        && !"".equals(createTime)) {
+                    boolean isConvertBalanceFlag = false;
+                    //判断奖励的创建时间是否小于或者等于
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date createDate = formatter.parse(createTime);
+                    Date currentDate = new Date();
+                    if(createDate.before(currentDate)){
+                        isConvertBalanceFlag = true;
+                    } else if(currentDate.equals(createDate)){
+                        isConvertBalanceFlag = true;
+                    } else {
+                        isConvertBalanceFlag = false;
+                    }
+                    if(isConvertBalanceFlag){
+                        //对返现模式json进行解析
+                        Map<String, String> cashBackModeMap = JSONObject.parseObject(cashBackModeJson, Map.class);
+                        String proportionStr = cashBackModeMap.get("proportion");
+                        if(!"".equals(proportionStr)){
+                            try {
+                                //当前用户余额
+                                Double balance = Double.parseDouble(balanceStr);
+                                //计算待反还的金额
+                                Double payMoney = Double.parseDouble(payMoneyStr);
+                                Double proportion = Double.parseDouble(proportionStr);
+                                Double cashBackMoney = payMoney * proportion;
+                                //领取返现后的新余额
+                                Double newBalance = balance + cashBackMoney;
+                                //double转换为小数点后两位
+                                BigDecimal bg = new BigDecimal(newBalance);
+                                newBalance = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                                //更新 抽奖状态 为 已发送
+                                Map<String, Object> luckDrawParamMap = Maps.newHashMap();
+                                luckDrawParamMap.put("status", "1");    //抽奖状态，0是未发放，1是已发放，2是已删除
+                                luckDrawParamMap.put("wxOrderId", wxOrderId);
+                                luckDrawParamMap.put("remark", "奖励零钱：" + cashBackMoney + "元，当前用户余额：" + newBalance + "元.");
+                                updateNum = wxLuckDrawDao.updateLuckDraw(luckDrawParamMap);
+                                if (updateNum != null && updateNum > 0) {
+                                    //更新 用户积分 为 原积分数量+订单交易总金额
+                                    Map<String, Object> userMap = Maps.newHashMap();
+                                    userMap.clear();
+                                    userMap.put("id", uid);
+                                    userMap.put("balance", newBalance);
+                                    updateNum = wxUserDao.updateUser(userMap);
+                                    if (updateNum != null && updateNum > 0) {
+                                        logger.info("当前用户 uid = " + uid +
+                                                " ，订单金额 payMoney = " + payMoneyStr +
+                                                " ，返现比例 proportion = "+ proportionStr +
+                                                " 奖励返现成功，快去设置自动提现吧.");
+                                        resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
+                                        resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+                                    } else {
+                                        logger.info("当前用户 uid = " + uid +
+                                                " ，订单金额 payMoney = " + payMoneyStr +
+                                                " ，返现比例 proportion = "+ proportionStr +
+                                                " 转换积分时更新用户余额失败，请联系管理员.");
+                                        resultMapDTO.setCode(NewMallCode.LUCKDRAW_UPDATE_USER_BANLANCE_IS_FAILED.getNo());
+                                        resultMapDTO.setMessage(NewMallCode.LUCKDRAW_UPDATE_USER_BANLANCE_IS_FAILED.getMessage());
+                                    }
+                                } else {
+                                    logger.info("当前用户 uid = " + uid +
+                                            " ，订单金额 payMoney = " + payMoneyStr +
+                                            " ，返现比例 proportion = "+ proportionStr +
+                                            " 转换积分时更新奖励状态失败，请联系管理员.");
+                                    resultMapDTO.setCode(NewMallCode.LUCKDRAW_UPDATE_STATUS_IS_FAILED.getNo());
+                                    resultMapDTO.setMessage(NewMallCode.LUCKDRAW_UPDATE_STATUS_IS_FAILED.getMessage());
+                                }
+                            } catch (Exception e) {
+                                logger.info("当前用户 uid = " + uid +
+                                        " ，订单金额 payMoney = " + payMoneyStr +
+                                        " ，返现比例 proportion = "+ proportionStr +
+                                        " 不正确(非数字)，请联系管理员.");
+                                resultMapDTO.setCode(NewMallCode.LUCKDRAW_BALANCE_OR_PAYMONEY_OR_PROPORTION_IS_NOT_NUMBER.getNo());
+                                resultMapDTO.setMessage(NewMallCode.LUCKDRAW_BALANCE_OR_PAYMONEY_OR_PROPORTION_IS_NOT_NUMBER.getMessage());
+                                continue;
+                            }
+                        } else {
+                            //返现比例不存在
+                            logger.info("当前用户 uid = " + uid +
+                                    " ，订单金额 payMoney = " + payMoneyStr +
+                                    " ，返现比例不存在，请联系管理员.");
+                            resultMapDTO.setCode(NewMallCode.LUCKDRAW_BALANCE_PROPORTION_IS_NOT_NUMBER.getNo());
+                            resultMapDTO.setMessage(NewMallCode.LUCKDRAW_BALANCE_PROPORTION_IS_NOT_NUMBER.getMessage());
+                        }
+                    }
+                } else {
+                    logger.info("当前用户 uid = " + uid +
+                            " 存在垃圾数据，请联系管理员.");
+                    continue;
+                }
+            }
+        }
+        logger.info("在【service】中奖励兑换零钱-convertBalance,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        return resultMapDTO;
     }
 
     public ResultMapDTO convertIntegral(Map<String, Object> paramMap) {
-        logger.info("在【service】中兑换积分-convertIntegral,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("在【service】中奖励兑换积分-convertIntegral,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Integer updateNum = 0;
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, String> resultMap = Maps.newHashMap();
@@ -131,7 +251,7 @@ public class WX_LuckDrawServiceImplTest {
             resultMapDTO.setCode(NewMallCode.LUCKDRAW_UID_OR_WXORDERID_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.LUCKDRAW_UID_OR_WXORDERID_IS_NULL.getMessage());
         }
-        logger.info("在【service】中兑换积分-convertIntegral,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        logger.info("在【service】中奖励兑换积分-convertIntegral,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
     }
 

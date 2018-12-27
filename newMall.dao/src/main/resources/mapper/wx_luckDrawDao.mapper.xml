@@ -122,7 +122,10 @@
         SELECT
             nld.id as "id",
             nld.uid as "uid",
+            nld.wx_order_id as "wxOrderId",
+            date_format(nld.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
             nu.open_id as "openId",
+            nu.balance as "balance",
             no.pay_money as "payMoney",
             nd.dic_remark as "cashBackModeJson"
         from n_luck_draw nld
@@ -130,8 +133,14 @@
             INNER JOIN n_user nu on nld.uid = nu.id
             INNER JOIN n_dic nd on nld.luck_draw_code = dic_code
         where 1=1
+            <if test="status != null and status != ''">
+                and nld.status = #{status}
+            </if>
             <if test="uid != null and uid != ''">
-                nld.uid = #{uid}
+                and nld.uid = #{uid}
+            </if>
+            <if test="wxOrderId != null and wxOrderId != ''">
+                and nld.wx_order_id = #{wxOrderId}
             </if>
             ORDER BY nld.create_time asc
         <if test="start != null and size != null">
