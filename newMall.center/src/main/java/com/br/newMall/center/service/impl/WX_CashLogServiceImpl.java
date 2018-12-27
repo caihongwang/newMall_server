@@ -43,6 +43,28 @@ public class WX_CashLogServiceImpl implements WX_CashLogService {
     @Autowired
     private WX_RedPacketService wxRedPacketService;
 
+
+    /**
+     * 获取提现规则列表
+     * @param paramMap
+     * @return
+     */
+    @Override
+    public ResultDTO getCashFeeList(Map<String, Object> paramMap) {
+        logger.info("在【service】中获取提现规则列表-getCashFeeList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultDTO resultDTO = new ResultDTO();
+        String dicType = paramMap.get("dicType") != null ? paramMap.get("dicType").toString() : "caashFee";
+        if(!"".equals(dicType)){
+            paramMap.put("dicType", dicType);
+            resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
+        } else {
+            resultDTO.setCode(NewMallCode.PRODUCT_TYPE_IS_NULL.getNo());
+            resultDTO.setMessage(NewMallCode.PRODUCT_TYPE_IS_NULL.getMessage());
+        }
+        logger.info("在【service】中获取提现规则列表-getCashFeeList,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        return resultDTO;
+    }
+
     /**
      * 添加提现日志
      * @param paramMap

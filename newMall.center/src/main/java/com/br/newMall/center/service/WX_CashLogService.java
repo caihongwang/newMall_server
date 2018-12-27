@@ -11,6 +11,12 @@ import java.util.Map;
  * @author caihongwang
  */
 public interface WX_CashLogService {
+    /**
+     * 获取提现规则列表
+     * @param paramMap
+     * @return
+     */
+    ResultDTO getCashFeeList(Map<String, Object> paramMap);
 
     /**
      * 提现用户余额到微信零钱

@@ -269,7 +269,9 @@ service WX_CashLogHandler {
 
     dto.ResultDTO getSimpleCashLogByCondition(1:int tid, 2:map<string, string> paramMap),
 
-    dto.ResultMapDTO cashBalanceToWx(1:int tid, 2:map<string, string> paramMap)
+    dto.ResultMapDTO cashBalanceToWx(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultDTO getCashFeeList(1:int tid, 2:map<string, string> paramMap)
 }
 
 

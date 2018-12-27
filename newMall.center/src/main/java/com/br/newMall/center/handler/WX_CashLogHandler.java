@@ -29,6 +29,37 @@ public class WX_CashLogHandler implements com.br.newMall.api.service.WX_CashLogH
     private WX_CashLogService wxCashLogService;
 
     /**
+     * 获取提现规则列表
+     * @param tid
+     * @param paramMap
+     * @return
+     * @throws TException
+     */
+    @Override
+    public ResultDTO getCashFeeList(int tid, Map<String, String> paramMap) throws TException {
+        logger.info("在【hanlder】中获取提现规则列表-getCashFeeList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultDTO resultDTO = new ResultDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        if (paramMap.size() > 0) {
+            try {
+                resultDTO = wxCashLogService.getCashFeeList(objectParamMap);
+            } catch (Exception e) {
+                logger.error("在【hanlder】中获取商品类型列表-getCashFeeList is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                List<Map<String, String>> resultList = Lists.newArrayList();
+                resultDTO.setResultListTotal(0);
+                resultDTO.setResultList(resultList);
+                resultDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                resultDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
+            }
+        } else {
+            resultDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
+            resultDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
+        }
+        logger.info("在【hanlder】中获取提现规则列表-getCashFeeList,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        return resultDTO;
+    }
+
+    /**
      * 添加提现日志
      * @param tid
      * @param paramMap
