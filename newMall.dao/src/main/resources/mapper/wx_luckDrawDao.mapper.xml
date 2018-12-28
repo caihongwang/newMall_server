@@ -126,7 +126,9 @@
             date_format(nld.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
             nu.open_id as "openId",
             nu.balance as "balance",
+            nu.integral as "integral",
             no.pay_money as "payMoney",
+            no.use_balance_monney as "useBalanceMonney",
             nd.dic_remark as "cashBackModeJson"
         from n_luck_draw nld
             INNER JOIN n_order no on nld.wx_order_id = no.wx_order_id

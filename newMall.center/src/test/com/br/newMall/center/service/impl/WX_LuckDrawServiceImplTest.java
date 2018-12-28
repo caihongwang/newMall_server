@@ -68,14 +68,14 @@ public class WX_LuckDrawServiceImplTest {
 //        paramMap.put("size", "1");
 //        getWaitLuckDrawShopByCondition(paramMap);
 
-//        Map<String, Object> paramMap = Maps.newHashMap();
-//        paramMap.put("uid", "1");
-//        paramMap.put("wxOrderId", "24aa84a13c974dc6bfcbd38af00f3b78");
-//        convertIntegral(paramMap);
-
         Map<String, Object> paramMap = Maps.newHashMap();
         paramMap.put("uid", "1");
-        convertBalance(paramMap);
+        paramMap.put("wxOrderId", "24aa84a13c974dc6bfcbd38af00f3b78");
+        convertIntegral(paramMap);
+
+//        Map<String, Object> paramMap = Maps.newHashMap();
+//        paramMap.put("uid", "1");
+//        convertBalance(paramMap);
     }
 
     public ResultMapDTO convertBalance(Map<String, Object> paramMap) throws Exception{
@@ -201,37 +201,38 @@ public class WX_LuckDrawServiceImplTest {
         String uid = paramMap.get("uid") != null ? paramMap.get("uid").toString() : "";
         String wxOrderId = paramMap.get("wxOrderId") != null ? paramMap.get("wxOrderId").toString() : "";
         if (!"".equals(uid) && !"".equals(wxOrderId)) {
-            Map<String, Object> userMap = Maps.newHashMap();
-            userMap.put("id", uid);
-            List<Map<String, Object>> currentUserList = wxUserDao.getSimpleUserByCondition(userMap);
-            Map<String, Object> orderMap = Maps.newHashMap();
-            orderMap.put("wxOrderId", wxOrderId);
-            List<Map<String, Object>> currentOrderList = wxOrderDao.getSimpleOrderByCondition(orderMap);
-            if(currentOrderList != null && currentOrderList.size() > 0
-                    && currentUserList != null && currentUserList.size() > 0){
+//            Map<String, Object> userMap = Maps.newHashMap();
+//            userMap.put("id", uid);
+//            List<Map<String, Object>> currentUserList = wxUserDao.getSimpleUserByCondition(userMap);
+//            Map<String, Object> orderMap = Maps.newHashMap();
+//            orderMap.put("wxOrderId", wxOrderId);
+//            List<Map<String, Object>> currentOrderList = wxOrderDao.getSimpleOrderByCondition(orderMap);
+            paramMap.put("status", "0");
+            List<Map<String, Object>> luckDrawList = wxLuckDrawDao.getLuckDrawByCondition(paramMap);
+            if(luckDrawList != null && luckDrawList.size() > 0){
                 //获取订单的交易总金额
-                Map<String, Object> currentOrderMap = currentOrderList.get(0);
-                Double payMoney = currentOrderMap.get("payMoney")!=null?Double.parseDouble(currentOrderMap.get("payMoney").toString()):0.0;
-                Double useBalanceMonney = currentOrderMap.get("useBalanceMonney")!=null?Double.parseDouble(currentOrderMap.get("useBalanceMonney").toString()):0.0;
+                Map<String, Object> luckDrawMap = luckDrawList.get(0);
+                Double payMoney = luckDrawMap.get("payMoney")!=null?Double.parseDouble(luckDrawMap.get("payMoney").toString()):0.0;
+                Double useBalanceMonney = luckDrawMap.get("useBalanceMonney")!=null?Double.parseDouble(luckDrawMap.get("useBalanceMonney").toString()):0.0;
                 Double orderPayMoney = payMoney + useBalanceMonney;     //交易的总金额转化为积分
                 //获取用户的总积分
-                Map<String, Object> currentUserMap = currentUserList.get(0);
-                Double integral = currentUserMap.get("integral")!=null?Double.parseDouble(currentUserMap.get("integral").toString()):0.0;
+                Double integral = luckDrawMap.get("integral")!=null?Double.parseDouble(luckDrawMap.get("integral").toString()):0.0;
                 Double newIntegral = integral + orderPayMoney;
                 BigDecimal bg = new BigDecimal(newIntegral);
                 newIntegral = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                 //更新 抽奖状态 为 已发送
-                Map<String, Object> luckDrawMap = Maps.newHashMap();
+                Map<String, Object> luckDrawParamMap = Maps.newHashMap();
                 luckDrawMap.put("status", "1");    //抽奖状态，0是未发放，1是已发放，2是已删除
                 luckDrawMap.put("wxOrderId", wxOrderId);
-                luckDrawMap.put("remark", "奖励积分：" + newIntegral + "个.");
+                luckDrawMap.put("remark", "奖励到用户积分：" + orderPayMoney + "个，当前用户积分：" + newIntegral + "个.");
                 updateNum = wxLuckDrawDao.updateLuckDraw(luckDrawMap);
                 if (updateNum != null && updateNum > 0) {
                     //更新 用户积分 为 原积分数量+订单交易总金额
-                    userMap.clear();
-                    userMap.put("id", uid);
-                    userMap.put("integral", newIntegral);
-                    updateNum = wxUserDao.updateUser(userMap);
+                    Map<String, Object> userParamMap = Maps.newHashMap();
+                    userParamMap.clear();
+                    userParamMap.put("id", uid);
+                    userParamMap.put("integral", newIntegral);
+                    updateNum = wxUserDao.updateUser(userParamMap);
                     if (updateNum != null && updateNum > 0) {
                         resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
                         resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
