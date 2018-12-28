@@ -789,8 +789,12 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                 resultMapDTO.setMessage(NewMallCode.LUCKDRAW_WXORDERID_IS_NOT_EXIST.getMessage());
             }
         } else {
-            resultMapDTO.setCode(NewMallCode.LUCKDRAW_UID_OR_WXORDERID_IS_NULL.getNo());
-            resultMapDTO.setMessage(NewMallCode.LUCKDRAW_UID_OR_WXORDERID_IS_NULL.getMessage());
+            //订单不存在或者已被奖励
+            logger.info("当前用户 uid = " + paramMap.get("uid") +
+                    " ，订单金额 payMoney = " + paramMap.get("payMoney") +
+                    " ，订单不存在或者已被奖励.");
+            resultMapDTO.setCode(NewMallCode.LUCKDRAW_WXORDERID_IS_NOT_EXIST.getNo());
+            resultMapDTO.setMessage(NewMallCode.LUCKDRAW_WXORDERID_IS_NOT_EXIST.getMessage());
         }
         logger.info("在【service】中奖励兑换用户积分-convertIntegral,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
@@ -912,6 +916,13 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                     continue;
                 }
             }
+        } else {
+            //订单不存在或者已被奖励
+            logger.info("当前用户 uid = " + paramMap.get("uid") +
+                    " ，订单金额 payMoney = " + paramMap.get("payMoney") +
+                    " ，订单不存在或者已被奖励.");
+            resultMapDTO.setCode(NewMallCode.LUCKDRAW_WXORDERID_IS_NOT_EXIST.getNo());
+            resultMapDTO.setMessage(NewMallCode.LUCKDRAW_WXORDERID_IS_NOT_EXIST.getMessage());
         }
         logger.info("在【service】中奖励兑换用户余额-convertBalance,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
