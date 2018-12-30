@@ -88,11 +88,15 @@
                 AND na.is_default_address =  #{isDefaultAddress}
             </if>
         </where>
-        ORDER BY na.create_time desc
+        ORDER BY na.is_default_address DESC ,na.create_time DESC
     </sql>
 
     <insert id="addAddress" parameterType="java.util.Map" useGeneratedKeys="true"
             keyProperty="id">
+        <if test="isDefaultAddress == '1'">
+            update n_address na set na.is_default_address='0'
+            where na.uid = #{uid};
+        </if>
         insert into n_address (
             <include refid="columnList"/>
         ) values (

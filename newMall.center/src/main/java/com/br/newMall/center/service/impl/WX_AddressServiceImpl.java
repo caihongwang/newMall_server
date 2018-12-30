@@ -147,8 +147,11 @@ public class WX_AddressServiceImpl implements WX_AddressService {
         String streetId = paramMap.get("streetId") != null ? paramMap.get("streetId").toString() : "";
         String streetName = paramMap.get("streetName") != null ? paramMap.get("streetName").toString() : "";
         String detailAddress = paramMap.get("detailAddress") != null ? paramMap.get("detailAddress").toString() : "";
+        String isDefaultAddress = paramMap.get("isDefaultAddress") != null ? paramMap.get("detailAddress").toString() : "0";
+        if("0".equals(isDefaultAddress)){
+            paramMap.put("isDefaultAddress", "0");      //设置默认地址
+        }
         paramMap.put("status", "0");
-        paramMap.put("isDefaultAddress", "0");
         if (!"".equals(uid) && !"".equals(name)
                 && !"".equals(phone) && !"".equals(detailAddress)
                     && !"".equals(provinceId) && !"".equals(provinceName)
@@ -290,7 +293,4 @@ public class WX_AddressServiceImpl implements WX_AddressService {
         logger.info("在【service】中获取单一的地址-getSimpleAddressByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
-
-
-
 }
