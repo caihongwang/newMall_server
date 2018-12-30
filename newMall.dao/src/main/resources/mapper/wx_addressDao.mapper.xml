@@ -93,7 +93,7 @@
 
     <insert id="addAddress" parameterType="java.util.Map" useGeneratedKeys="true"
             keyProperty="id">
-        <if test="isDefaultAddress == '1'">
+        <if test="isDefaultAddress == '1'.toString()">
             update n_address na set na.is_default_address='0'
             where na.uid = #{uid};
         </if>
@@ -128,6 +128,10 @@
     </delete>
 
     <update id="updateAddress">
+        <if test="isDefaultAddress == '1'.toString()">
+            update n_address na set na.is_default_address='0'
+            where na.uid = #{uid};
+        </if>
         update n_address na
         <set>
             <if test="name != null and name != ''">
@@ -149,13 +153,13 @@
                 na.city_name = #{cityName},
             </if>
             <if test="regionId != null and regionId != ''">
-                na.region_id = #{regionId}
+                na.region_id = #{regionId},
             </if>
             <if test="regionName != null and regionName != ''">
                 na.region_name = #{regionName},
             </if>
             <if test="streetId != null and streetId != ''">
-                na.street_id = #{streetId}
+                na.street_id = #{streetId},
             </if>
             <if test="streetName != null and streetName != ''">
                 na.street_name = #{streetName},

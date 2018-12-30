@@ -144,8 +144,6 @@ public class WX_AddressServiceImpl implements WX_AddressService {
         String cityName = paramMap.get("cityName") != null ? paramMap.get("cityName").toString() : "";
         String regionId = paramMap.get("regionId") != null ? paramMap.get("regionId").toString() : "";
         String regionName = paramMap.get("regionName") != null ? paramMap.get("regionName").toString() : "";
-        String streetId = paramMap.get("streetId") != null ? paramMap.get("streetId").toString() : "";
-        String streetName = paramMap.get("streetName") != null ? paramMap.get("streetName").toString() : "";
         String detailAddress = paramMap.get("detailAddress") != null ? paramMap.get("detailAddress").toString() : "";
         String isDefaultAddress = paramMap.get("isDefaultAddress") != null ? paramMap.get("detailAddress").toString() : "0";
         if("0".equals(isDefaultAddress)){
@@ -156,8 +154,7 @@ public class WX_AddressServiceImpl implements WX_AddressService {
                 && !"".equals(phone) && !"".equals(detailAddress)
                     && !"".equals(provinceId) && !"".equals(provinceName)
                         && !"".equals(cityId) && !"".equals(cityName)
-                            && !"".equals(regionId) && !"".equals(regionName)
-                                && !"".equals(streetId) && !"".equals(streetName)) {
+                            && !"".equals(regionId) && !"".equals(regionName)) {
             addNum = wxAddressDao.addAddress(paramMap);
             if (addNum != null && addNum > 0) {
                 boolDTO.setCode(NewMallCode.SUCCESS.getNo());

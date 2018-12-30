@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -254,6 +256,18 @@ public class WX_ShopServiceImpl implements WX_ShopService {
                 }
             }
             shopStrList = MapUtil.getStringMapList(shopList);
+            //对oilStationPriceList进行排序
+            Collections.sort(shopStrList, new Comparator<Map<String, String>>() {
+                public int compare(Map<String, String> o1, Map<String, String> o2) {
+                    try {
+                        Double oilStationDistance_1 = Double.parseDouble(o1.get("shopDistance").toString());
+                        Double oilStationDistance_2 = Double.parseDouble(o2.get("shopDistance").toString());
+                        return oilStationDistance_1.compareTo(oilStationDistance_2);
+                    } catch (Exception e) {
+                        return -1;
+                    }
+                }
+            });
             Integer total = wxShopDao.getShopTotalByCondition(paramMap);
             resultDTO.setResultListTotal(total);
             resultDTO.setResultList(shopStrList);
