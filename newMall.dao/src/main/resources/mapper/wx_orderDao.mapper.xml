@@ -166,4 +166,16 @@
         <include refid="queryConditions"/>
     </select>
 
+    <select id="getOrderNumByStatus" resultType="java.util.Map">
+        select
+          nld.status as "status",
+          count(nld.status) as "total"
+        from n_luck_draw nld
+        WHERE
+            <if test="uid != null and uid != ''">
+                nld.uid = #{uid}
+            </if>
+        GROUP BY nld.status
+    </select>
+
 </mapper>

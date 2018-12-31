@@ -11,6 +11,14 @@ import java.util.Map;
 public interface WX_UserService {
 
     /**
+     * 获取用户的基本信息
+     *
+     * @param paramMap
+     * @return
+     */
+    ResultMapDTO getUserBaseInfo(Map<String, Object> paramMap);
+
+    /**
      * 添加用户
      *
      * @param paramMap

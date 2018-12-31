@@ -14,6 +14,7 @@ import com.br.newMall.center.utils.MapUtil;
 import com.br.newMall.center.utils.WX_PublicNumberUtil;
 import com.br.newMall.dao.WX_CashLogDao;
 import com.br.newMall.dao.WX_LeagueDao;
+import com.br.newMall.dao.WX_OrderDao;
 import com.br.newMall.dao.WX_UserDao;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -40,6 +41,9 @@ public class WX_UserServiceImpl implements WX_UserService {
 
     @Autowired
     private JedisPool jedisPool;
+
+    @Autowired
+    private WX_OrderDao wxOrderDao;
 
     @Autowired
     private WX_UserDao wxUserDao;
@@ -191,6 +195,7 @@ public class WX_UserServiceImpl implements WX_UserService {
      * @param paramMap
      * @return
      */
+    @Override
     public ResultMapDTO getUserBaseInfo(Map<String, Object> paramMap) {
         logger.info("在【service】中获取用户的基本信息-getUserBaseInfo,响应-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultMapDTO resultMapDTO = new ResultMapDTO();
@@ -212,25 +217,29 @@ public class WX_UserServiceImpl implements WX_UserService {
                 resultMap.put("integral", "0.00");
             }
             //获取用户待奖励的订单数量，已获得奖励的订单数量
-//            List<Map<String, Object>> luckDrawList = Lists.newArrayList();
-//            if(luckDrawList != null && luckDrawList.size() > 0){
-//                Map<String, Object> luckDrawMap = luckDrawList.get(i);
-//                Integer allLuckDrawTotal = 0;
-//                Integer waitLuckDrawTotal = 0;
-//                for (Map<String, Object> luckDrawMap : luckDrawList) {
-//                    String status = luckDrawMap.get("status")!=null?luckDrawMap.get("status").toString():"";
-//                    if(!"".equals(status)){
-//
-//                    }
-//                    Integer allLuckDrawTotal = luckDrawMap.get("status")!=null?userMap.get("balance").toString():"0.00";
-//                }
-//
-//
-//            } else {
-//                resultMap.put("allLuckDrawTotal", "0");
-//                resultMap.put("waitLuckDrawTotal", "0");
-//                resultMap.put("recevicedLuckDrawTotal", "0");
-//            }
+            List<Map<String, Object>> orderList = wxOrderDao.getOrderNumByStatus(paramMap);
+            if(orderList != null && orderList.size() > 0){
+                Integer allLuckDrawTotal = 0;
+                Integer waitLuckDrawTotal = 0;
+                Integer recevicedLuckDrawTotal = 0;
+                for (Map<String, Object> orderMap : orderList) {
+                    String status = orderMap.get("status")!=null?orderMap.get("status").toString():"";
+                    String total = orderMap.get("total")!=null?orderMap.get("total").toString():"0";
+                    if("0".equals(status)){            //待奖励
+                        waitLuckDrawTotal = Integer.parseInt(total);
+                    } else if("1".equals(status)){     //已奖励
+                        recevicedLuckDrawTotal = Integer.parseInt(total);
+                    }
+                }
+                allLuckDrawTotal = waitLuckDrawTotal + recevicedLuckDrawTotal;
+                resultMap.put("allLuckDrawTotal", allLuckDrawTotal);
+                resultMap.put("waitLuckDrawTotal", waitLuckDrawTotal);
+                resultMap.put("recevicedLuckDrawTotal", recevicedLuckDrawTotal);
+            } else {
+                resultMap.put("allLuckDrawTotal", "0");
+                resultMap.put("waitLuckDrawTotal", "0");
+                resultMap.put("recevicedLuckDrawTotal", "0");
+            }
             //获取当前加盟的总数
             Map<String, Object> leagueParamMap = Maps.newHashMap();
             Integer allLeagueTotal = wxLeagueDao.getSimpleLeagueTotalByCondition(leagueParamMap);
@@ -239,6 +248,9 @@ public class WX_UserServiceImpl implements WX_UserService {
             } else {
                 resultMap.put("allLeagueTotal", "0");
             }
+            resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
+            resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
+            resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
         } else {
             resultMapDTO.setCode(NewMallCode.USER_ID_IS_NOT_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.USER_ID_IS_NOT_NULL.getMessage());

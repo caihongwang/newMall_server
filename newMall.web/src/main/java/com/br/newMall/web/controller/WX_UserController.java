@@ -32,6 +32,35 @@ public class WX_UserController {
     private WX_UserHandler.Client wxUserHandler;
 
     /**
+     * 获取用户的基本信息
+     * @param request
+     * @return
+     */
+    @RequestMapping("/getUserBaseInfo")
+    @ResponseBody
+    public Map<String, Object> getUserBaseInfo(HttpServletRequest request) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        //获取请求参数能够获取到并解析
+        paramMap = HttpUtil.getRequestParams(request);
+        logger.info("在【controller】中获取用户的基本信息-getUserBaseInfo,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        try {
+            ResultMapDTO resultMapDTO = wxUserHandler.getUserBaseInfo(0, paramMap);
+            resultMap.put("success", true);
+            resultMap.put("code", resultMapDTO.getCode());
+            resultMap.put("message", resultMapDTO.getMessage());
+            resultMap.put("data", resultMapDTO.getResultMap());
+        } catch (Exception e) {
+            logger.error("在【controller】中获取用户的基本信息-getUserBaseInfo is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            resultMap.put("success", false);
+            resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
+            resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
+        }
+        logger.info("在【controller】中获取用户的基本信息-getUserBaseInfo,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        return resultMap;
+    }
+
+    /**
      * 登录(首次微信授权，则使用openId创建用户)
      * @param request
      * @return

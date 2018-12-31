@@ -29,6 +29,29 @@ public class WX_UserHandler implements com.br.newMall.api.service.WX_UserHandler
     private WX_UserService userService;
 
     /**
+     * 获取用户的基本信息
+     * @param tid
+     * @param paramMap
+     * @return
+     * @throws TException
+     */
+    @Override
+    public ResultMapDTO getUserBaseInfo(int tid, Map<String, String> paramMap) throws TException {
+        logger.info("在【hanlder】中获取用户的基本信息-getUserBaseInfo,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        try {
+            resultMapDTO = userService.getUserBaseInfo(objectParamMap);
+        } catch (Exception e) {
+            resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+            resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
+            logger.error("在【hanlder】中获取用户的基本信息-getUserBaseInfo is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+        }
+        logger.info("在【hanlder】中获取用户的基本信息-getUserBaseInfo,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        return resultMapDTO;
+    }
+
+    /**
      * 登录(首次微信授权，则使用openId创建用户)
      * @param tid
      * @param paramMap

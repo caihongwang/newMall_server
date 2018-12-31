@@ -24,6 +24,8 @@ service CommonHandler {
 
 service WX_UserHandler {
 
+    dto.ResultMapDTO getUserBaseInfo(1:int tid, 2:map<string, string> paramMap),
+
     dto.ResultMapDTO login(1:int tid, 2:map<string, string> paramMap),
 
     dto.BoolDTO updateUser(1:int tid, 2:map<string, string> paramMap),
