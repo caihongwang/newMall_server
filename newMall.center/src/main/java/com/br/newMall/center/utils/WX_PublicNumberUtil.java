@@ -110,7 +110,7 @@ public class WX_PublicNumberUtil {
         packageParams.put("out_trade_no", out_trade_no);//商户订单号
         packageParams.put("total_fee", total_fee);//支付金额，这边需要转成字符串类型，否则后面的签名会失败
         packageParams.put("spbill_create_ip", spbillCreateIp);
-        packageParams.put("notify_url", spbillCreateIp + notifyUrl);
+        packageParams.put("notify_url", NewMallCode.WX_PAY_DOMAIN + notifyUrl);
         packageParams.put("trade_type", NewMallCode.WX_PAY_TRADE_TYPE);
         packageParams.put("openid", openId);
         packageParams.put("sign_type", WXPayConstants.MD5);

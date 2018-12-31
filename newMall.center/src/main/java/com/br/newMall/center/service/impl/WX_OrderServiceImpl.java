@@ -180,7 +180,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                                 orderMap.put("useBalanceMonney", userBalance);
                                 orderMap.put("payMoney", finnalPayMoney);
                                 orderMap.put("payIntegral", productIntegral);
-                                orderMap.put("order_type", "purchaseProduct");   //订单类型：买单，payTheBill；购买商品：purchaseProduct
+                                orderMap.put("orderType", "purchaseProduct");   //订单类型：买单，payTheBill；购买商品：purchaseProduct
                                 orderMap.put("status", orderStatus);                //订单状态: 0是待支付，1是已支付
                                 orderMap.put("createTime", TimestampUtil.getTimestamp());
                                 orderMap.put("updateTime", TimestampUtil.getTimestamp());
@@ -203,7 +203,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                             orderMap.put("useBalanceMonney", price);
                             orderMap.put("payMoney", finnalPayMoney);
                             orderMap.put("payIntegral", productIntegral);
-                            orderMap.put("order_type", "purchaseProduct");   //订单类型：买单，payTheBill；购买商品：purchaseProduct
+                            orderMap.put("orderType", "purchaseProduct");   //订单类型：买单，payTheBill；购买商品：purchaseProduct
                             orderMap.put("status", orderStatus);                //订单状态: 0是待支付，1是已支付
                             orderMap.put("createTime", TimestampUtil.getTimestamp());
                             orderMap.put("updateTime", TimestampUtil.getTimestamp());
