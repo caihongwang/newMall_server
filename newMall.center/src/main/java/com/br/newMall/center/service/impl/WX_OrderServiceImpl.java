@@ -321,7 +321,12 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         DecimalFormat df = new DecimalFormat("#.00");
         Map<String, Object> resultMap = Maps.newHashMap();
+        //支付的金额
         String payMoneyStr = paramMap.get("payMoney") != null ? paramMap.get("payMoney").toString() : "";
+        //用于抵扣的积分
+        String payIntegralStr = paramMap.get("payIntegral") != null ? paramMap.get("payIntegral").toString() : "";
+        //用于抵扣的余额
+        String payBalanceStr = paramMap.get("payBalance") != null ? paramMap.get("payBalance").toString() : "";
         String nonce_str = WXPayUtil.generateUUID();        //生成的随机字符串
         String body = "小程序内发起支付";                     //商品名称
         String out_trade_no = WXPayUtil.generateUUID();     //统一订单编号
@@ -342,25 +347,53 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                 userMap.put("id", uid);
                 List<Map<String, Object>> userList = wxUserDao.getSimpleUserByCondition(userMap);
                 if(userList != null && userList.size() > 0){
-                    //获取付款用户uid，付款用户积分
+                    //用户openId
                     String openId = userList.get(0).get("openId").toString();
+                    //用户余额
                     String userBalanceStr = userList.get(0).get("balance")!=null?userList.get(0).get("balance").toString():"0";
                     Double userBalance = Double.parseDouble(userBalanceStr);
-                    String integralStr = userList.get(0).get("integral")!=null?userList.get(0).get("integral").toString():"0";
-                    Double integral = Double.parseDouble(integralStr);
-                    Double payMoney = Double.parseDouble(payMoneyStr != "" ? payMoneyStr : "10");      //支付费用，默认一角钱
+                    //用户积分
+                    String userIntegralStr = userList.get(0).get("integral")!=null?userList.get(0).get("integral").toString():"0";
+                    Double userIntegral = Double.parseDouble(userIntegralStr);
+                    //支付的金额
+                    Double payMoney = Double.parseDouble(payMoneyStr != "" ? payMoneyStr : "10");
+                    //抵扣的积分
+                    Double payIntegral = Double.parseDouble(payIntegralStr != "" ? payIntegralStr : "0");
+                    //抵扣的余额
+                    Double payBalance = Double.parseDouble(payBalanceStr != "" ? payBalanceStr : "0");
+                    //最终支付金额，用户余额，用户积分
                     Double finnalPayMoney = 0.0;
                     Double newUserBalance = 0.0;
-                    if(useBalanceFlag){     //使用余额进行支付
-                        if(userBalance >= payMoney){
-                            finnalPayMoney = 0.0;
-                            newUserBalance = userBalance - payMoney;
+                    Double newUserIntegral = 0.0;
+                    if(useIntegralFlag){     //使用积分进行抵扣支付
+                        if(userIntegral > 0){//用户的积分大于0，才可以进行抵扣
+                            if(userIntegral >= payIntegral){
+                                finnalPayMoney = payMoney;
+                                newUserIntegral = userIntegral - payIntegral;
+                            } else {
+                                finnalPayMoney = payMoney;
+                                newUserIntegral = userIntegral;
+                            }
                         } else {
-                            finnalPayMoney = payMoney - userBalance;
-                            newUserBalance = 0.0;
+                            finnalPayMoney = payMoney;
+                            newUserIntegral = userIntegral;
+                        }
+                    } else if(useBalanceFlag){//使用余额进行抵扣支付
+                        if(userBalance > 0){//用户的余额大于0，才可以进行抵扣
+                            if(userBalance >= payBalance){
+                                finnalPayMoney = payMoney;
+                                newUserBalance = userBalance - payBalance;
+                            } else {
+                                finnalPayMoney = payMoney;
+                                newUserBalance = userBalance;
+                            }
+                        } else {
+                            finnalPayMoney = payMoney;
+                            newUserBalance = userBalance;
                         }
                     } else {               //不使用余额进行支付
                         finnalPayMoney = payMoney;
+                        newUserIntegral = userIntegral;
                         newUserBalance = userBalance;
                     }
                     //用于购买商品更新付款用户的积分和余额,同事将店铺ID传递过去，便于给店铺的商家打钱
@@ -369,6 +402,11 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                         attachMap.put("balance", df.format(newUserBalance));
                     } else {
                         attachMap.put("balance", "0");
+                    }
+                    if(newUserIntegral > 0){
+                        attachMap.put("integral", df.format(newUserIntegral));
+                    } else {
+                        attachMap.put("integral", "0");
                     }
                     attachMap.put("shopId", shopId);
                     attachMap.put("payMoney", payMoney.toString());
@@ -471,12 +509,14 @@ public class WX_OrderServiceImpl implements WX_OrderService {
             if (updateNum != null && updateNum > 0) {
                 Map<String, String> attachMap = JSONObject.parseObject(attach, Map.class);
                 String balance = attachMap.get("balance");
+                String integral = attachMap.get("integral");
                 String shopId = attachMap.get("shopId");
                 String payMoneyStr = attachMap.get("payMoney");      //付款用户支付的金额
                 //更新用户和余额
                 Map<String, Object> userMap = Maps.newHashMap();
                 userMap.put("openId", openId);
                 userMap.put("balance", balance);
+                userMap.put("integral", integral);
                 updateNum = wxUserDao.updateUser(userMap);
                 if (updateNum != null && updateNum > 0) {
                     //想商家按照之前约定好的折扣值进行向商家发送费用
