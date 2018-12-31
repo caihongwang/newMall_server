@@ -341,13 +341,13 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
         Integer size = paramMap.get("size") != null ? Integer.parseInt(paramMap.get("size").toString()) : 10;
         paramMap.put("status", "1");        //抽奖状态，0是未发放，1是已发放，2是已删除
         if(!"".equals(shopId) && !"".equals(uid)){
-            List<Map<String, Object>> my_waitGetLuckDrawRankList = Lists.newArrayList();
-            List<Map<String, Object>> all_waitGetLuckDrawRankList = wxLuckDrawDao.getLuckDrawRankByCondition(paramMap);
-            if(all_waitGetLuckDrawRankList != null &&
-                    all_waitGetLuckDrawRankList.size() > 0){
+            List<Map<String, Object>> my_recevicedGetLuckDrawRankList = Lists.newArrayList();
+            List<Map<String, Object>> all_recevicedGetLuckDrawRankList = wxLuckDrawDao.getLuckDrawRankByCondition(paramMap);
+            if(all_recevicedGetLuckDrawRankList != null &&
+                    all_recevicedGetLuckDrawRankList.size() > 0){
                 //处理数据
-                for (int i = 0; i < all_waitGetLuckDrawRankList.size(); i++) {
-                    Map<String, Object> waitGetLuckDrawMap = all_waitGetLuckDrawRankList.get(i);
+                for (int i = 0; i < all_recevicedGetLuckDrawRankList.size(); i++) {
+                    Map<String, Object> waitGetLuckDrawMap = all_recevicedGetLuckDrawRankList.get(i);
                     Double payMoney = waitGetLuckDrawMap.get("payMoney")!=null?Double.parseDouble(waitGetLuckDrawMap.get("payMoney").toString()):0.0;
                     String luckDrawRule = waitGetLuckDrawMap.get("luckDrawRule").toString();
                     Map<String, String> luckDrawRuleMap = JSONObject.parseObject(luckDrawRule, Map.class);
@@ -362,32 +362,32 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                 //准备数据
                 //商家信息
                 Map<String, String> shopMap = Maps.newHashMap();
-                String shopTitle = all_waitGetLuckDrawRankList.get(0).get("shopTitle").toString();
-                String shopHeadImgUrl = all_waitGetLuckDrawRankList.get(0).get("shopHeadImgUrl").toString();
+                String shopTitle = all_recevicedGetLuckDrawRankList.get(0).get("shopTitle").toString();
+                String shopHeadImgUrl = all_recevicedGetLuckDrawRankList.get(0).get("shopHeadImgUrl").toString();
                 shopMap.put("shopTitle", shopTitle);
                 shopMap.put("shopHeadImgUrl", shopHeadImgUrl);
                 //当前用户的排队
-                for (int i = 0; i < all_waitGetLuckDrawRankList.size(); i++) {
-                    Map<String, Object> waitGetLuckDrawMap = all_waitGetLuckDrawRankList.get(i);
+                for (int i = 0; i < all_recevicedGetLuckDrawRankList.size(); i++) {
+                    Map<String, Object> waitGetLuckDrawMap = all_recevicedGetLuckDrawRankList.get(i);
                     if(uid.equals(waitGetLuckDrawMap.get("uid").toString())){
-                        my_waitGetLuckDrawRankList.add(waitGetLuckDrawMap);
+                        my_recevicedGetLuckDrawRankList.add(waitGetLuckDrawMap);
                     }
                 }
                 //总数
                 Integer total = wxLuckDrawDao.getLuckDrawRankTotalByCondition(paramMap);
                 //当前所有的排队
                 if((start+size) > total){
-                    all_waitGetLuckDrawRankList = all_waitGetLuckDrawRankList.subList(start, total);
+                    all_recevicedGetLuckDrawRankList = all_recevicedGetLuckDrawRankList.subList(start, total);
                 } else {
-                    all_waitGetLuckDrawRankList = all_waitGetLuckDrawRankList.subList(start, (start+size));
+                    all_recevicedGetLuckDrawRankList = all_recevicedGetLuckDrawRankList.subList(start, (start+size));
                 }
                 //整理回传参数
                 resultMap.put("shopMap",
                         JSONObject.toJSONString(shopMap) );
-                resultMap.put("my_waitGetLuckDrawRankList",
-                        JSONObject.toJSONString(MapUtil.getStringMapList(my_waitGetLuckDrawRankList)) );
-                resultMap.put("all_waitGetLuckDrawRankList",
-                        JSONObject.toJSONString(MapUtil.getStringMapList(all_waitGetLuckDrawRankList)) );
+                resultMap.put("my_recevicedGetLuckDrawRankList",
+                        JSONObject.toJSONString(MapUtil.getStringMapList(my_recevicedGetLuckDrawRankList)) );
+                resultMap.put("all_recevicedGetLuckDrawRankList",
+                        JSONObject.toJSONString(MapUtil.getStringMapList(all_recevicedGetLuckDrawRankList)) );
                 resultMapDTO.setResultMap(resultMap);
                 resultMapDTO.setResultListTotal(total);
                 resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
@@ -419,13 +419,13 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
         Integer start = paramMap.get("start") != null ? Integer.parseInt(paramMap.get("start").toString()) : 0;
         Integer size = paramMap.get("size") != null ? Integer.parseInt(paramMap.get("size").toString()) : 10;
         if(!"".equals(shopId) && !"".equals(uid)){
-            List<Map<String, Object>> my_waitGetLuckDrawRankList = Lists.newArrayList();
-            List<Map<String, Object>> all_waitGetLuckDrawRankList = wxLuckDrawDao.getLuckDrawRankByCondition(paramMap);
-            if(all_waitGetLuckDrawRankList != null &&
-                    all_waitGetLuckDrawRankList.size() > 0){
+            List<Map<String, Object>> my_allGetLuckDrawRankList = Lists.newArrayList();
+            List<Map<String, Object>> all_allGetLuckDrawRankList = wxLuckDrawDao.getLuckDrawRankByCondition(paramMap);
+            if(all_allGetLuckDrawRankList != null &&
+                    all_allGetLuckDrawRankList.size() > 0){
                 //处理数据
-                for (int i = 0; i < all_waitGetLuckDrawRankList.size(); i++) {
-                    Map<String, Object> waitGetLuckDrawMap = all_waitGetLuckDrawRankList.get(i);
+                for (int i = 0; i < all_allGetLuckDrawRankList.size(); i++) {
+                    Map<String, Object> waitGetLuckDrawMap = all_allGetLuckDrawRankList.get(i);
                     Double payMoney = waitGetLuckDrawMap.get("payMoney")!=null?Double.parseDouble(waitGetLuckDrawMap.get("payMoney").toString()):0.0;
                     String luckDrawRule = waitGetLuckDrawMap.get("luckDrawRule").toString();
                     Map<String, String> luckDrawRuleMap = JSONObject.parseObject(luckDrawRule, Map.class);
@@ -440,32 +440,32 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                 //准备数据
                 //商家信息
                 Map<String, String> shopMap = Maps.newHashMap();
-                String shopTitle = all_waitGetLuckDrawRankList.get(0).get("shopTitle").toString();
-                String shopHeadImgUrl = all_waitGetLuckDrawRankList.get(0).get("shopHeadImgUrl").toString();
+                String shopTitle = all_allGetLuckDrawRankList.get(0).get("shopTitle").toString();
+                String shopHeadImgUrl = all_allGetLuckDrawRankList.get(0).get("shopHeadImgUrl").toString();
                 shopMap.put("shopTitle", shopTitle);
                 shopMap.put("shopHeadImgUrl", shopHeadImgUrl);
                 //当前用户的排队
-                for (int i = 0; i < all_waitGetLuckDrawRankList.size(); i++) {
-                    Map<String, Object> waitGetLuckDrawMap = all_waitGetLuckDrawRankList.get(i);
+                for (int i = 0; i < all_allGetLuckDrawRankList.size(); i++) {
+                    Map<String, Object> waitGetLuckDrawMap = all_allGetLuckDrawRankList.get(i);
                     if(uid.equals(waitGetLuckDrawMap.get("uid").toString())){
-                        my_waitGetLuckDrawRankList.add(waitGetLuckDrawMap);
+                        my_allGetLuckDrawRankList.add(waitGetLuckDrawMap);
                     }
                 }
                 //总数
                 Integer total = wxLuckDrawDao.getLuckDrawRankTotalByCondition(paramMap);
                 //当前所有的排队
                 if((start+size) > total){
-                    all_waitGetLuckDrawRankList = all_waitGetLuckDrawRankList.subList(start, total);
+                    all_allGetLuckDrawRankList = all_allGetLuckDrawRankList.subList(start, total);
                 } else {
-                    all_waitGetLuckDrawRankList = all_waitGetLuckDrawRankList.subList(start, (start+size));
+                    all_allGetLuckDrawRankList = all_allGetLuckDrawRankList.subList(start, (start+size));
                 }
                 //整理回传参数
                 resultMap.put("shopMap",
                         JSONObject.toJSONString(shopMap) );
-                resultMap.put("my_waitGetLuckDrawRankList",
-                        JSONObject.toJSONString(MapUtil.getStringMapList(my_waitGetLuckDrawRankList)) );
-                resultMap.put("all_waitGetLuckDrawRankList",
-                        JSONObject.toJSONString(MapUtil.getStringMapList(all_waitGetLuckDrawRankList)) );
+                resultMap.put("my_allGetLuckDrawRankList",
+                        JSONObject.toJSONString(MapUtil.getStringMapList(my_allGetLuckDrawRankList)) );
+                resultMap.put("all_allGetLuckDrawRankList",
+                        JSONObject.toJSONString(MapUtil.getStringMapList(all_allGetLuckDrawRankList)) );
                 resultMapDTO.setResultMap(resultMap);
                 resultMapDTO.setResultListTotal(total);
                 resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
@@ -497,7 +497,6 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
         Integer size = paramMap.get("size") != null ? Integer.parseInt(paramMap.get("size").toString()) : 10;
         paramMap.put("status", "0");        //抽奖状态，0是未发放，1是已发放，2是已删除
         if(!"".equals(uid)){
-            List<Map<String, Object>> my_waitGetLuckDrawShopList = Lists.newArrayList();
             List<Map<String, Object>> all_waitGetLuckDrawShopList = wxLuckDrawDao.getLuckDrawShopByCondition(paramMap);
             if(all_waitGetLuckDrawShopList != null &&
                     all_waitGetLuckDrawShopList.size() > 0){
@@ -581,14 +580,13 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
         Integer size = paramMap.get("size") != null ? Integer.parseInt(paramMap.get("size").toString()) : 10;
         paramMap.put("status", "1");        //抽奖状态，0是未发放，1是已发放，2是已删除
         if(!"".equals(uid)){
-            List<Map<String, Object>> my_waitGetLuckDrawShopList = Lists.newArrayList();
-            List<Map<String, Object>> all_waitGetLuckDrawShopList = wxLuckDrawDao.getLuckDrawShopByCondition(paramMap);
-            if(all_waitGetLuckDrawShopList != null &&
-                    all_waitGetLuckDrawShopList.size() > 0){
+            List<Map<String, Object>> all_recevicedGetLuckDrawShopList = wxLuckDrawDao.getLuckDrawShopByCondition(paramMap);
+            if(all_recevicedGetLuckDrawShopList != null &&
+                    all_recevicedGetLuckDrawShopList.size() > 0){
                 //处理数据
                 Map<String, Object> shopMap = Maps.newHashMap();
-                for (int i = 0; i < all_waitGetLuckDrawShopList.size(); i++) {
-                    Map<String, Object> waitGetLuckDrawMap = all_waitGetLuckDrawShopList.get(i);
+                for (int i = 0; i < all_recevicedGetLuckDrawShopList.size(); i++) {
+                    Map<String, Object> waitGetLuckDrawMap = all_recevicedGetLuckDrawShopList.get(i);
                     String shopId = waitGetLuckDrawMap.get("shopId").toString();
                     Double payMoney = waitGetLuckDrawMap.get("payMoney")!=null?Double.parseDouble(waitGetLuckDrawMap.get("payMoney").toString()):0.0;
                     String luckDrawRule = waitGetLuckDrawMap.get("luckDrawRule").toString();
@@ -664,16 +662,17 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
         Integer start = paramMap.get("start") != null ? Integer.parseInt(paramMap.get("start").toString()) : 0;
         Integer size = paramMap.get("size") != null ? Integer.parseInt(paramMap.get("size").toString()) : 10;
         if(!"".equals(uid)){
-            List<Map<String, Object>> my_waitGetLuckDrawShopList = Lists.newArrayList();
-            List<Map<String, Object>> all_waitGetLuckDrawShopList = wxLuckDrawDao.getLuckDrawShopByCondition(paramMap);
-            if(all_waitGetLuckDrawShopList != null &&
-                    all_waitGetLuckDrawShopList.size() > 0){
+            List<Map<String, Object>> all_allGetLuckDrawShopList = wxLuckDrawDao.getLuckDrawShopByCondition(paramMap);
+            if(all_allGetLuckDrawShopList != null &&
+                    all_allGetLuckDrawShopList.size() > 0){
                 //处理数据
                 Map<String, Object> shopMap = Maps.newHashMap();
-                for (int i = 0; i < all_waitGetLuckDrawShopList.size(); i++) {
-                    Map<String, Object> waitGetLuckDrawMap = all_waitGetLuckDrawShopList.get(i);
+                for (int i = 0; i < all_allGetLuckDrawShopList.size(); i++) {
+                    Map<String, Object> waitGetLuckDrawMap = all_allGetLuckDrawShopList.get(i);
                     String shopId = waitGetLuckDrawMap.get("shopId").toString();
                     Double payMoney = waitGetLuckDrawMap.get("payMoney")!=null?Double.parseDouble(waitGetLuckDrawMap.get("payMoney").toString()):0.0;
+                    String luckDrawStatusCode = waitGetLuckDrawMap.get("luckDrawStatusCode")!=null?waitGetLuckDrawMap.get("luckDrawStatusCode").toString():"0";
+                    String luckDrawStatusName = waitGetLuckDrawMap.get("luckDrawStatusName")!=null?waitGetLuckDrawMap.get("luckDrawStatusName").toString():"0";
                     String luckDrawRule = waitGetLuckDrawMap.get("luckDrawRule").toString();
                     Map<String, String> luckDrawRuleMap = JSONObject.parseObject(luckDrawRule, Map.class);
                     Double proportion = luckDrawRuleMap.get("proportion")!=null?Double.parseDouble(luckDrawRuleMap.get("proportion").toString()):1.0;
@@ -681,7 +680,6 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                     BigDecimal bg = new BigDecimal(luckDrawMoney);
                     luckDrawMoney = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                     waitGetLuckDrawMap.put("luckDrawMoney", luckDrawMoney.toString());
-                    waitGetLuckDrawMap.put("rankIndex", i+"");
                     waitGetLuckDrawMap.remove("luckDrawRule");
                     if(shopMap.containsKey(shopId)){
                         //返现金额
@@ -697,6 +695,10 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                         payMoney = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                         temp.put("payMoney", payMoney.toString());
                         temp.put("luckDrawMoney", luckDrawMoney.toString());
+                        if("0".equals(luckDrawStatusCode)){     //如果存在待奖励，则全部显示待奖励
+                            temp.put("luckDrawStatusCode", luckDrawStatusCode.toString());
+                            temp.put("luckDrawStatusName", luckDrawStatusName.toString());
+                        }
                     } else {
                         shopMap.put(shopId, waitGetLuckDrawMap);
                     }
