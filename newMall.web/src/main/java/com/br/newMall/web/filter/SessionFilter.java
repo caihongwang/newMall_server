@@ -51,6 +51,8 @@ public class SessionFilter implements Filter {
         //todo 单测暂时放开
 
         totallyAnonymousUrl.add("login.do");
+        totallyAnonymousUrl.add("wxPayNotifyForPayTheBillInMiniProgram.do");
+        totallyAnonymousUrl.add("wxPayNotifyForPurchaseProductInMiniProgram.do");
 
         totallyAnonymousUrl.add("redActivityRulePage.do");        //获取 红包活动规则页面
 
