@@ -372,11 +372,11 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                                 newUserIntegral = userIntegral - payIntegral;
                             } else {
                                 finnalPayMoney = payMoney;
-                                newUserIntegral = userIntegral;
+                                newUserIntegral = 0.0;
                             }
                         } else {
                             finnalPayMoney = payMoney;
-                            newUserIntegral = userIntegral;
+                            newUserIntegral = 0.0;
                         }
                     } else if(useBalanceFlag){//使用余额进行抵扣支付
                         if(userBalance > 0){//用户的余额大于0，才可以进行抵扣
@@ -385,16 +385,16 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                                 newUserBalance = userBalance - payBalance;
                             } else {
                                 finnalPayMoney = payMoney;
-                                newUserBalance = userBalance;
+                                newUserBalance = 0.0;
                             }
                         } else {
                             finnalPayMoney = payMoney;
-                            newUserBalance = userBalance;
+                            newUserBalance = 0.0;
                         }
-                    } else {               //不使用余额进行支付
+                    } else {               //不使用余额和积分进行支付
                         finnalPayMoney = payMoney;
-                        newUserIntegral = userIntegral;
-                        newUserBalance = userBalance;
+                        newUserIntegral = 0.0;
+                        newUserBalance = 0.0;
                     }
                     //用于购买商品更新付款用户的积分和余额,同事将店铺ID传递过去，便于给店铺的商家打钱
                     Map<String, String> attachMap = Maps.newHashMap();
@@ -435,9 +435,10 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                             orderMap.put("wxOrderId", out_trade_no);
                             orderMap.put("shopId", shopId);
                             orderMap.put("uid", uid);
-                            orderMap.put("useBalanceMonney", userBalance);
+                            orderMap.put("useBalanceMonney", payBalanceStr);
+                            orderMap.put("useIntegralNum", payIntegralStr);
                             orderMap.put("payMoney", finnalPayMoney);
-                            orderMap.put("order_type", "purchaseProduct");   //订单类型：买单，payTheBill；购买商品：purchaseProduct
+                            orderMap.put("orderType", "payTheBill");   //订单类型：买单，payTheBill；购买商品：purchaseProduct
                             orderMap.put("status", orderStatus);                //订单状态: 0是待支付，1是已支付
                             orderMap.put("createTime", TimestampUtil.getTimestamp());
                             orderMap.put("updateTime", TimestampUtil.getTimestamp());
@@ -455,9 +456,10 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                         orderMap.put("wxOrderId", out_trade_no);
                         orderMap.put("shopId", shopId);
                         orderMap.put("uid", uid);
-                        orderMap.put("useBalanceMonney", payMoney);
+                        orderMap.put("useBalanceMonney", payBalanceStr);
+                        orderMap.put("useIntegralNum", payIntegralStr);
                         orderMap.put("payMoney", finnalPayMoney);
-                        orderMap.put("order_type", "purchaseProduct");   //订单类型：买单，payTheBill；购买商品：purchaseProduct
+                        orderMap.put("order_type", "payTheBill");   //订单类型：买单，payTheBill；购买商品：purchaseProduct
                         orderMap.put("status", orderStatus);                //订单状态: 0是待支付，1是已支付
                         orderMap.put("createTime", TimestampUtil.getTimestamp());
                         orderMap.put("updateTime", TimestampUtil.getTimestamp());

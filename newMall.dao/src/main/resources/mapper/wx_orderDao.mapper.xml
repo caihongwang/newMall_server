@@ -12,6 +12,7 @@
         product_num,
         address_id,
         use_balance_monney,
+        use_integral_num,
         pay_money,
         pay_integral,
         order_type,
@@ -29,6 +30,7 @@
         no.product_num as "productNum",
         no.address_id as "addressId",
         no.use_balance_monney as "useBalanceMonney",
+        no.use_integral_num as "useIntegralNum",
         no.pay_money as "payMoney",
         no.pay_integral as "payIntegral",
         no.order_type as "orderType",
@@ -66,6 +68,9 @@
             <if test="useBalanceMonney != null and useBalanceMonney != ''">
                 AND no.use_balance_monney = #{useBalanceMonney}
             </if>
+            <if test="useIntegralNum != null and useIntegralNum != ''">
+                AND no.use_integral_num = #{useIntegralNum}
+            </if>
             <if test="payMoney != null and payMoney != ''">
                 AND no.pay_money = #{payMoney}
             </if>
@@ -92,6 +97,7 @@
             #{productNum},
             #{addressId},
             #{useBalanceMonney},
+            #{useIntegralNum},
             #{payMoney},
             #{payIntegral},
             #{orderType},
@@ -125,6 +131,9 @@
             </if>
             <if test="useBalanceMonney != null and useBalanceMonney != ''">
                no.use_balance_monney = #{useBalanceMonney},
+            </if>
+            <if test="useIntegralNum != null and useIntegralNum != ''">
+               no.use_integral_num = #{useIntegralNum},
             </if>
             <if test="payMoney != null and payMoney != ''">
                no.pay_money = #{payMoney},
