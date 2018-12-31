@@ -13,6 +13,7 @@ import com.br.newMall.center.utils.HttpsUtil;
 import com.br.newMall.center.utils.MapUtil;
 import com.br.newMall.center.utils.WX_PublicNumberUtil;
 import com.br.newMall.dao.WX_CashLogDao;
+import com.br.newMall.dao.WX_LeagueDao;
 import com.br.newMall.dao.WX_UserDao;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -42,6 +43,9 @@ public class WX_UserServiceImpl implements WX_UserService {
 
     @Autowired
     private WX_UserDao wxUserDao;
+
+    @Autowired
+    private WX_LeagueDao wxLeagueDao;
 
     @Autowired
     private WX_CashLogDao wxCashLogDao;
@@ -182,6 +186,67 @@ public class WX_UserServiceImpl implements WX_UserService {
         return resultMapDTO;
     }
 
+    /**
+     * 获取用户的基本信息
+     * @param paramMap
+     * @return
+     */
+    public ResultMapDTO getUserBaseInfo(Map<String, Object> paramMap) {
+        logger.info("在【service】中获取用户的基本信息-getUserBaseInfo,响应-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        Map<String, Object> resultMap = Maps.newHashMap();
+        String uid = paramMap.get("uid")!=null?paramMap.get("uid").toString():"";
+        if (!"".equals(uid)) {
+            //获取用户余额，积分
+            Map<String, Object> userParamMap = Maps.newHashMap();
+            userParamMap.put("id", uid);
+            List<Map<String, Object>> userMapList = wxUserDao.getSimpleUserByCondition(userParamMap);
+            if(userMapList != null && userMapList.size() > 0){
+                Map<String, Object> userMap = userMapList.get(0);
+                String balance = userMap.get("balance")!=null?userMap.get("balance").toString():"0.00";
+                String integral = userMap.get("integral")!=null?userMap.get("integral").toString():"0.00";
+                resultMap.put("balance", balance);
+                resultMap.put("integral", integral);
+            } else {
+                resultMap.put("balance", "0.00");
+                resultMap.put("integral", "0.00");
+            }
+            //获取用户待奖励的订单数量，已获得奖励的订单数量
+//            List<Map<String, Object>> luckDrawList = Lists.newArrayList();
+//            if(luckDrawList != null && luckDrawList.size() > 0){
+//                Map<String, Object> luckDrawMap = luckDrawList.get(i);
+//                Integer allLuckDrawTotal = 0;
+//                Integer waitLuckDrawTotal = 0;
+//                for (Map<String, Object> luckDrawMap : luckDrawList) {
+//                    String status = luckDrawMap.get("status")!=null?luckDrawMap.get("status").toString():"";
+//                    if(!"".equals(status)){
+//
+//                    }
+//                    Integer allLuckDrawTotal = luckDrawMap.get("status")!=null?userMap.get("balance").toString():"0.00";
+//                }
+//
+//
+//            } else {
+//                resultMap.put("allLuckDrawTotal", "0");
+//                resultMap.put("waitLuckDrawTotal", "0");
+//                resultMap.put("recevicedLuckDrawTotal", "0");
+//            }
+            //获取当前加盟的总数
+            Map<String, Object> leagueParamMap = Maps.newHashMap();
+            Integer allLeagueTotal = wxLeagueDao.getSimpleLeagueTotalByCondition(leagueParamMap);
+            if(allLeagueTotal != null){
+                resultMap.put("allLeagueTotal", allLeagueTotal);
+            } else {
+                resultMap.put("allLeagueTotal", "0");
+            }
+        } else {
+            resultMapDTO.setCode(NewMallCode.USER_ID_IS_NOT_NULL.getNo());
+            resultMapDTO.setMessage(NewMallCode.USER_ID_IS_NOT_NULL.getMessage());
+        }
+        logger.info("在【service】中获取用户的基本信息-getUserBaseInfo,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        return resultMapDTO;
+    }
+    
     /**
      * 更新用户信息
      * @param paramMap

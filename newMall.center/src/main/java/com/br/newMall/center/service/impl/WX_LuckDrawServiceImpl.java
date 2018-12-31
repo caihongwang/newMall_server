@@ -277,7 +277,7 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                     BigDecimal bg = new BigDecimal(luckDrawMoney);
                     luckDrawMoney = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                     waitGetLuckDrawMap.put("luckDrawMoney", luckDrawMoney.toString());
-                    waitGetLuckDrawMap.put("rankIndex", i+"");
+                    waitGetLuckDrawMap.put("rankIndex", (i+1)+"");
                     waitGetLuckDrawMap.remove("luckDrawRule");
                 }
                 //准备数据
@@ -356,7 +356,7 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                     BigDecimal bg = new BigDecimal(luckDrawMoney);
                     luckDrawMoney = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                     waitGetLuckDrawMap.put("luckDrawMoney", luckDrawMoney.toString());
-                    waitGetLuckDrawMap.put("rankIndex", i+"");
+                    waitGetLuckDrawMap.put("rankIndex", (i+1)+"");
                     waitGetLuckDrawMap.remove("luckDrawRule");
                 }
                 //准备数据
@@ -596,7 +596,7 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                     BigDecimal bg = new BigDecimal(luckDrawMoney);
                     luckDrawMoney = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                     waitGetLuckDrawMap.put("luckDrawMoney", luckDrawMoney.toString());
-                    waitGetLuckDrawMap.put("rankIndex", i+"");
+                    waitGetLuckDrawMap.put("rankIndex", (i+1)+"");
                     waitGetLuckDrawMap.remove("luckDrawRule");
                     if(shopMap.containsKey(shopId)){
                         //返现金额

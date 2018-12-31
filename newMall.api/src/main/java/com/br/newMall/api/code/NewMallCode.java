@@ -75,6 +75,7 @@ public class NewMallCode {
     public static NewMallCode USER_ID_OR_PRODUCTID_NULL = new NewMallCode(70007, "用户或者商品不存在.");
     public static NewMallCode USER_PROPORTION_OR_CASHMONEYLOWERLIMIT_IS_NOT_NUMBER = new NewMallCode(180004, "用户提现时提现比例或者提现金额下限非数字.");
     public static NewMallCode USER_CASHMONEY_NOT_MORE_CASHMONEYLOWERLIMIT_IS_NOT_NUMBER = new NewMallCode(180004, "用户余额大于等于提现金额下限才可以提现.");
+    public static NewMallCode USER_ID_IS_NOT_NULL = new NewMallCode(70001, "用户的uid不允许为空.");
 
 
     //加油站

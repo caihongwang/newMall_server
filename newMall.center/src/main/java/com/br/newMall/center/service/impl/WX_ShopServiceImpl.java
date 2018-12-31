@@ -158,6 +158,7 @@ public class WX_ShopServiceImpl implements WX_ShopService {
         Double currentLon = Double.parseDouble(paramMap.get("currentLon") != null ? paramMap.get("currentLon").toString() : "0");
         Double currentLat = Double.parseDouble(paramMap.get("currentLat") != null ? paramMap.get("currentLat").toString() : "0");
         Double dis = Double.parseDouble(paramMap.get("dis") != null ? paramMap.get("dis").toString() : "100");    //默认100公里范围
+        paramMap.put("shopStatus", "1");    //店铺表_状态，0是带签约，1是已签约
         if(currentLon > 0 && currentLat > 0){
             //先计算查询点的经纬度范围
             double r = LonLatUtil.EARTH_RADIUS;//地球半径千米
@@ -218,67 +219,27 @@ public class WX_ShopServiceImpl implements WX_ShopService {
         logger.info("在【service】中根据条件查询店铺相关信息-getShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         List<Map<String, String>> shopStrList = Lists.newArrayList();
-        Double currentLon = Double.parseDouble(paramMap.get("currentLon") != null ? paramMap.get("currentLon").toString() : "0");
-        Double currentLat = Double.parseDouble(paramMap.get("currentLat") != null ? paramMap.get("currentLat").toString() : "0");
-        Double dis = Double.parseDouble(paramMap.get("dis") != null ? paramMap.get("dis").toString() : "100");    //默认100公里范围
-        if(currentLon > 0 && currentLat > 0){
-            //先计算查询点的经纬度范围
-            double r = LonLatUtil.EARTH_RADIUS;//地球半径千米
-            double dlng = 2 * Math.asin(Math.sin(dis / (2 * r)) / Math.cos(currentLat * Math.PI / 180));
-            dlng = dlng * 180 / Math.PI;//角度转为弧度
-            double dlat = dis / r;
-            dlat = dlat * 180 / Math.PI;
-            double minLat = currentLat - dlat;
-            double maxLat = currentLat + dlat;
-            double maxLon = currentLon - dlng;
-            double minLon = currentLon + dlng;
-            paramMap.put("minLon", minLon);
-            paramMap.put("maxLon", maxLon);
-            paramMap.put("minLat", minLat);
-            paramMap.put("maxLat", maxLat);
-        }
-        logger.info("在【service】中添加店铺-addShop,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
-        List<Map<String, Object>> shopList = wxShopDao.getShopByCondition(paramMap);
-        if (shopList != null && shopList.size() > 0) {
-            for (Map<String, Object> shopMap : shopList) {
-                Double endLat = Double.parseDouble(shopMap.get("shopLat").toString());
-                Double endLon = Double.parseDouble(shopMap.get("shopLon").toString());
-                Double distance = 0.0;
-                if(currentLon > 0 && currentLat > 0){
-                    distance = LonLatUtil.getDistance(currentLat, currentLon, endLat, endLon);
-                } else {
-                    distance = 0.0;
-                }
-                if(distance > 0){
-                    shopMap.put("shopDistance", distance.toString());
-                } else {
-                    shopMap.put("shopDistance", "未知");
-                }
+        String shopId = paramMap.get("shopId") != null ? paramMap.get("shopId").toString() : "0";
+        paramMap.put("shopStatus", "1");    //店铺表_状态，0是带签约，1是已签约
+        if(!"".equals(shopId)){
+            List<Map<String, Object>> shopList = wxShopDao.getShopByCondition(paramMap);
+            if (shopList != null && shopList.size() > 0) {
+                shopStrList = MapUtil.getStringMapList(shopList);
+                Integer total = wxShopDao.getShopTotalByCondition(paramMap);
+                resultDTO.setResultListTotal(total);
+                resultDTO.setResultList(shopStrList);
+                resultDTO.setCode(NewMallCode.SUCCESS.getNo());
+                resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+            } else {
+                List<Map<String, String>> resultList = Lists.newArrayList();
+                resultDTO.setResultListTotal(0);
+                resultDTO.setResultList(resultList);
+                resultDTO.setCode(NewMallCode.SHOP_LIST_IS_NULL.getNo());
+                resultDTO.setMessage(NewMallCode.SHOP_LIST_IS_NULL.getMessage());
             }
-            shopStrList = MapUtil.getStringMapList(shopList);
-            //对oilStationPriceList进行排序
-            Collections.sort(shopStrList, new Comparator<Map<String, String>>() {
-                public int compare(Map<String, String> o1, Map<String, String> o2) {
-                    try {
-                        Double oilStationDistance_1 = Double.parseDouble(o1.get("shopDistance").toString());
-                        Double oilStationDistance_2 = Double.parseDouble(o2.get("shopDistance").toString());
-                        return oilStationDistance_1.compareTo(oilStationDistance_2);
-                    } catch (Exception e) {
-                        return -1;
-                    }
-                }
-            });
-            Integer total = wxShopDao.getShopTotalByCondition(paramMap);
-            resultDTO.setResultListTotal(total);
-            resultDTO.setResultList(shopStrList);
-            resultDTO.setCode(NewMallCode.SUCCESS.getNo());
-            resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
         } else {
-            List<Map<String, String>> resultList = Lists.newArrayList();
-            resultDTO.setResultListTotal(0);
-            resultDTO.setResultList(resultList);
-            resultDTO.setCode(NewMallCode.SHOP_LIST_IS_NULL.getNo());
-            resultDTO.setMessage(NewMallCode.SHOP_LIST_IS_NULL.getMessage());
+            resultDTO.setCode(NewMallCode.SHOP_ID_IS_NOT_NULL.getNo());
+            resultDTO.setMessage(NewMallCode.SHOP_ID_IS_NOT_NULL.getMessage());
         }
         logger.info("在【service】中根据条件查询店铺相关信息-getShopByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
