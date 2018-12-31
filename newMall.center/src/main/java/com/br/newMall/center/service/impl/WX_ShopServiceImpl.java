@@ -168,8 +168,8 @@ public class WX_ShopServiceImpl implements WX_ShopService {
             dlat = dlat * 180 / Math.PI;
             double minLat = currentLat - dlat;
             double maxLat = currentLat + dlat;
-            double maxLon = currentLon - dlng;
-            double minLon = currentLon + dlng;
+            double maxLon = currentLon + dlng;
+            double minLon = currentLon - dlng;
             paramMap.put("minLon", minLon);
             paramMap.put("maxLon", maxLon);
             paramMap.put("minLat", minLat);

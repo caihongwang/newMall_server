@@ -329,6 +329,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         String uid = paramMap.get("uid") != null ? paramMap.get("uid").toString() : "";         //付款用户的uid
         String shopId = paramMap.get("shopId") != null ? paramMap.get("shopId").toString() : "";         //收钱商家的店铺id
         Boolean useBalanceFlag = paramMap.get("useBalanceFlag") != null ? Boolean.parseBoolean(paramMap.get("useBalanceFlag").toString()) : false;
+        Boolean useIntegralFlag = paramMap.get("useIntegralFlag") != null ? Boolean.parseBoolean(paramMap.get("useIntegralFlag").toString()) : false;
         String orderStatus = "0";
         if (!"".equals(uid) && !"".equals(shopId)
                 && !"".equals(spbillCreateIp)) {
@@ -345,6 +346,8 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                     String openId = userList.get(0).get("openId").toString();
                     String userBalanceStr = userList.get(0).get("balance")!=null?userList.get(0).get("balance").toString():"0";
                     Double userBalance = Double.parseDouble(userBalanceStr);
+                    String integralStr = userList.get(0).get("integral")!=null?userList.get(0).get("integral").toString():"0";
+                    Double integral = Double.parseDouble(integralStr);
                     Double payMoney = Double.parseDouble(payMoneyStr != "" ? payMoneyStr : "10");      //支付费用，默认一角钱
                     Double finnalPayMoney = 0.0;
                     Double newUserBalance = 0.0;
