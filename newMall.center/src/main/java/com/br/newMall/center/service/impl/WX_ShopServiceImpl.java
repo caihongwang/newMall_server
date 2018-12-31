@@ -219,11 +219,28 @@ public class WX_ShopServiceImpl implements WX_ShopService {
         logger.info("在【service】中根据条件查询店铺相关信息-getShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         List<Map<String, String>> shopStrList = Lists.newArrayList();
+        Double currentLon = Double.parseDouble(paramMap.get("currentLon") != null ? paramMap.get("currentLon").toString() : "0");
+        Double currentLat = Double.parseDouble(paramMap.get("currentLat") != null ? paramMap.get("currentLat").toString() : "0");
         String shopId = paramMap.get("shopId") != null ? paramMap.get("shopId").toString() : "0";
         paramMap.put("shopStatus", "1");    //店铺表_状态，0是带签约，1是已签约
         if(!"".equals(shopId)){
             List<Map<String, Object>> shopList = wxShopDao.getShopByCondition(paramMap);
             if (shopList != null && shopList.size() > 0) {
+                for (Map<String, Object> shopMap : shopList) {
+                    Double endLat = Double.parseDouble(shopMap.get("shopLat").toString());
+                    Double endLon = Double.parseDouble(shopMap.get("shopLon").toString());
+                    Double distance = 0.0;
+                    if(currentLon > 0 && currentLat > 0){
+                        distance = LonLatUtil.getDistance(currentLat, currentLon, endLat, endLon);
+                    } else {
+                        distance = 0.0;
+                    }
+                    if(distance > 0){
+                        shopMap.put("shopDistance", distance.toString());
+                    } else {
+                        shopMap.put("shopDistance", "未知");
+                    }
+                }
                 shopStrList = MapUtil.getStringMapList(shopList);
                 Integer total = wxShopDao.getShopTotalByCondition(paramMap);
                 resultDTO.setResultListTotal(total);
