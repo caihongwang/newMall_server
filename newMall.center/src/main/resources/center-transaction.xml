@@ -49,6 +49,7 @@
             <tx:method name="set*" propagation="REQUIRED"/>
             <tx:method name="convert*" propagation="REQUIRED"/>
             <tx:method name="cash*" propagation="REQUIRED"/>
+            <tx:method name="pay*" propagation="REQUIRED"/>
 
 
             <tx:method name="*" read-only="true"/>
