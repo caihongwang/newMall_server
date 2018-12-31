@@ -92,9 +92,9 @@ public class WX_OrderServiceImpl implements WX_OrderService {
             //通过productId获取商品信息
             Map<String, Object> productMap = Maps.newHashMap();
             productMap.put("id", productId);
-            List<Map<String, Object>> productList = wxProductDao.getSimpleProductByCondition(productMap);
+            List<Map<String, Object>> orderList = wxProductDao.getSimpleProductByCondition(productMap);
             if(userList != null && userList.size() > 0
-                    && productList != null && productList.size() > 0){
+                    && orderList != null && orderList.size() > 0){
                 //获取用户uid，用户积分，用户余额
                 String openId = userList.get(0).get("openId").toString();
                 String userIntegralStr = userList.get(0).get("integral")!=null?userList.get(0).get("integral").toString():"0";
@@ -102,11 +102,11 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                 Double userIntegral = Double.parseDouble(userIntegralStr);
                 Double userBalance = Double.parseDouble(userBalanceStr);
                 //获取商品所需积分，所需金额，库存，购买的商品数量
-                String productIntegralStr = productList.get(0).get("integral")!=null?productList.get(0).get("integral").toString():"0";
+                String productIntegralStr = orderList.get(0).get("integral")!=null?orderList.get(0).get("integral").toString():"0";
                 Double productIntegral = Double.parseDouble(productIntegralStr);
-                String priceStr = productList.get(0).get("price")!=null?productList.get(0).get("price").toString():"0";
+                String priceStr = orderList.get(0).get("price")!=null?orderList.get(0).get("price").toString():"0";
                 Double price = Double.parseDouble(priceStr);
-                String stockStr = productList.get(0).get("stock")!=null?productList.get(0).get("stock").toString():"0";
+                String stockStr = orderList.get(0).get("stock")!=null?orderList.get(0).get("stock").toString():"0";
                 Double stock = Double.parseDouble(stockStr);
                 Double productNum = Double.parseDouble(productNumStr);
                 if(stock >= productNum){
@@ -322,11 +322,11 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         DecimalFormat df = new DecimalFormat("#.00");
         Map<String, Object> resultMap = Maps.newHashMap();
         //支付的金额
-        String payMoneyStr = paramMap.get("payMoney") != null ? paramMap.get("payMoney").toString() : "";
+        String payMoneyStr = paramMap.get("payMoney") != null ? paramMap.get("payMoney").toString() : "0";
         //用于抵扣的积分
-        String payIntegralStr = paramMap.get("payIntegral") != null ? paramMap.get("payIntegral").toString() : "";
+        String payIntegralStr = paramMap.get("payIntegral") != null ? paramMap.get("payIntegral").toString() : "0";
         //用于抵扣的余额
-        String payBalanceStr = paramMap.get("payBalance") != null ? paramMap.get("payBalance").toString() : "";
+        String payBalanceStr = paramMap.get("payBalance") != null ? paramMap.get("payBalance").toString() : "0";
         String nonce_str = WXPayUtil.generateUUID();        //生成的随机字符串
         String body = "小程序内发起支付";                     //商品名称
         String out_trade_no = WXPayUtil.generateUUID();     //统一订单编号
@@ -695,13 +695,13 @@ public class WX_OrderServiceImpl implements WX_OrderService {
     public ResultDTO getSimpleOrderByCondition(Map<String, Object> paramMap) {
         logger.info("在【service】中获取单一的订单-getSimpleOrderByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
-        List<Map<String, String>> productStrList = Lists.newArrayList();
-        List<Map<String, Object>> productList = wxOrderDao.getSimpleOrderByCondition(paramMap);
-        if (productList != null && productList.size() > 0) {
-            productStrList = MapUtil.getStringMapList(productList);
+        List<Map<String, String>> orderStrList = Lists.newArrayList();
+        List<Map<String, Object>> orderList = wxOrderDao.getSimpleOrderByCondition(paramMap);
+        if (orderList != null && orderList.size() > 0) {
+            orderStrList = MapUtil.getStringMapList(orderList);
             Integer total = wxOrderDao.getSimpleOrderTotalByCondition(paramMap);
             resultDTO.setResultListTotal(total);
-            resultDTO.setResultList(productStrList);
+            resultDTO.setResultList(orderStrList);
             resultDTO.setCode(NewMallCode.SUCCESS.getNo());
             resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
         } else {
@@ -712,6 +712,40 @@ public class WX_OrderServiceImpl implements WX_OrderService {
             resultDTO.setMessage(NewMallCode.ORDER_LIST_IS_NULL.getMessage());
         }
         logger.info("在【service】中获取单一的订单-getSimpleOrderByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        return resultDTO;
+    }
+
+    /**
+     * 获取当前用户的订单信息
+     * @param paramMap
+     * @return
+     */
+    @Override
+    public ResultDTO getOrderByCondition(Map<String, Object> paramMap) {
+        logger.info("在【service】中获取当前用户的订单信息-getOrderByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultDTO resultDTO = new ResultDTO();
+        List<Map<String, String>> orderStrList = Lists.newArrayList();
+        String uid = paramMap.get("uid")!=null?paramMap.get("uid").toString():"";
+        if(!"".equals(uid)){List<Map<String, Object>> orderList = wxOrderDao.getOrderByCondition(paramMap);
+            if (orderList != null && orderList.size() > 0) {
+                orderStrList = MapUtil.getStringMapList(orderList);
+                Integer total = wxOrderDao.getOrderTotalByCondition(paramMap);
+                resultDTO.setResultListTotal(total);
+                resultDTO.setResultList(orderStrList);
+                resultDTO.setCode(NewMallCode.SUCCESS.getNo());
+                resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+            } else {
+                List<Map<String, String>> resultList = Lists.newArrayList();
+                resultDTO.setResultListTotal(0);
+                resultDTO.setResultList(resultList);
+                resultDTO.setCode(NewMallCode.ORDER_LIST_IS_NULL.getNo());
+                resultDTO.setMessage(NewMallCode.ORDER_LIST_IS_NULL.getMessage());
+            }
+        } else {
+            resultDTO.setCode(NewMallCode.ORDER_UID_IS_NOT_NULL.getNo());
+            resultDTO.setMessage(NewMallCode.ORDER_UID_IS_NOT_NULL.getMessage());
+        }
+        logger.info("在【service】中获取当前用户的订单信息-getOrderByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
 

@@ -166,6 +166,40 @@
         <include refid="queryConditions"/>
     </select>
 
+    <select id="getOrderByCondition" resultType="java.util.Map">
+        select
+            np.id as "productId",
+            np.title as "productTitle",
+            np.head_img_url as "productHeadImgUrl",
+            np.price as "productPrice",
+            no.product_num as "productNum",
+            no.pay_money as "payMoney",
+            no.express_number as "expressNumber",
+            os.dic_name as "orderStatus"
+        from n_order no
+            INNER JOIN n_dic os on no.status=os.dic_code and os.dic_type="orderStatus"
+            INNER JOIN n_product np on no.product_id=np.id
+        where
+            <if test="uid != null and uid != ''">
+                and no.uid = #{uid}
+            </if>
+        <if test="start != null and size != null">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getOrderTotalByCondition" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*) total
+        from n_order no
+            INNER JOIN n_dic os on no.status=os.dic_code and os.dic_type="orderStatus"
+            INNER JOIN n_product np on no.product_id=np.id
+        where
+            <if test="uid != null and uid != ''">
+                and no.uid = #{uid}
+            </if>
+    </select>
+
     <select id="getOrderNumByStatus" resultType="java.util.Map">
         select
           nld.status as "status",

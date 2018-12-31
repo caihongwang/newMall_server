@@ -12,6 +12,10 @@ import java.util.Map;
  */
 public interface WX_OrderService {
 
+    /**
+     * 获取当前用户的订单信息
+     */
+    public ResultDTO getOrderByCondition(Map<String, Object> paramMap);
 
     /**
      * 购买商品

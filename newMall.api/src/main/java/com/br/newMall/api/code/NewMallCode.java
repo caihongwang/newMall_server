@@ -149,6 +149,8 @@ public class NewMallCode {
     public static NewMallCode ORDER_OPENID_OR_WXORDERID_OR_ATTACH_IS_NOT_NULL = new NewMallCode(190009, "openId或者微信订单号或者附加参数不允许为空.");
     public static NewMallCode ORDER_UID_SHOPID_SPBILLCREATEIP_IS_NOT_NULL = new NewMallCode(190010, "付款用户uid或者店铺id或者交易IP不允许为空.");
     public static NewMallCode ORDER_PRODUCT_STOCK_IS_NOT_ENOUGH = new NewMallCode(190011, "购买的商品库存不足.");
+    public static NewMallCode ORDER_UID_IS_NOT_NULL = new NewMallCode(190002, "订单的UID不允许为空.");
+
 
     //抽奖
     public static NewMallCode LUCKDRAW_LUCKDRAWTYPE_IS_NULL = new NewMallCode(200001, "抽奖的产品类型不允许为空.");

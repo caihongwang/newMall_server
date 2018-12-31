@@ -197,7 +197,9 @@ service WX_OrderHandler {
 
     dto.BoolDTO updateOrder(1:int tid, 2:map<string, string> paramMap),
 
-    dto.ResultDTO getSimpleOrderByCondition(1:int tid, 2:map<string, string> paramMap)
+    dto.ResultDTO getSimpleOrderByCondition(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultDTO getOrderByCondition(1:int tid, 2:map<string, string> paramMap)
 
 }
 
