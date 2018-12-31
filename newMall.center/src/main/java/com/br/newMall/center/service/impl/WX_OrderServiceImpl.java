@@ -333,8 +333,8 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         String spbillCreateIp = paramMap.get("spbillCreateIp") != null ? paramMap.get("spbillCreateIp").toString() : "";      //获取发起支付的IP地址
         String uid = paramMap.get("uid") != null ? paramMap.get("uid").toString() : "";         //付款用户的uid
         String shopId = paramMap.get("shopId") != null ? paramMap.get("shopId").toString() : "";         //收钱商家的店铺id
-        Boolean useBalanceFlag = paramMap.get("useBalanceFlag") != null ? Boolean.parseBoolean(paramMap.get("useBalanceFlag").toString()) : false;
         Boolean useIntegralFlag = paramMap.get("useIntegralFlag") != null ? Boolean.parseBoolean(paramMap.get("useIntegralFlag").toString()) : false;
+        Boolean useBalanceFlag = paramMap.get("useBalanceFlag") != null ? Boolean.parseBoolean(paramMap.get("useBalanceFlag").toString()) : false;
         String orderStatus = "0";
         if (!"".equals(uid) && !"".equals(shopId)
                 && !"".equals(spbillCreateIp)) {
