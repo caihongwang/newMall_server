@@ -399,16 +399,22 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                     //用于购买商品更新付款用户的积分和余额,同事将店铺ID传递过去，便于给店铺的商家打钱
                     Map<String, String> attachMap = Maps.newHashMap();
                     if(newUserBalance > 0){
+                        BigDecimal bg = new BigDecimal(newUserBalance);
+                        newUserBalance = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                         attachMap.put("balance", df.format(newUserBalance));
                     } else {
                         attachMap.put("balance", "0");
                     }
                     if(newUserIntegral > 0){
+                        BigDecimal bg = new BigDecimal(newUserIntegral);
+                        newUserIntegral = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                         attachMap.put("integral", df.format(newUserIntegral));
                     } else {
                         attachMap.put("integral", "0");
                     }
                     attachMap.put("shopId", shopId);
+                    BigDecimal bg = new BigDecimal(payMoney);
+                    payMoney = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                     attachMap.put("payMoney", payMoney.toString());
                     //判断是否需要付钱
                     boolean isNeedPay = true;
