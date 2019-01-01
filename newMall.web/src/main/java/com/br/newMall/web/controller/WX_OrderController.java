@@ -18,10 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -151,8 +148,10 @@ public class WX_OrderController {
                 "  <return_code><![CDATA[SUCCESS]]></return_code>\n" +
                 "  <return_msg><![CDATA[OK]]></return_msg>\n" +
                 "</xml>";
-        OutputStream os = response.getOutputStream();
-        os.write(resposeStr.getBytes());
+        // 处理业务完毕 通知微信已经收到消息，不要再给我发消息了，否则微信会8连击调用本接口
+        PrintWriter writer = response.getWriter();
+        writer.write(resposeStr);
+        writer.flush();
         return response;
     }
 
