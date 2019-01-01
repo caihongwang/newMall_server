@@ -227,8 +227,11 @@ public class WX_OrderController {
         paramMap.clear();
         paramMap = PayUtil.doXMLParse(notityXml);
         String returnCode = (String) paramMap.get("return_code");
+        logger.info("在【controller】中买单成功后的回调通知-wxPayNotifyForPayTheBillInMiniProgram,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         if ("SUCCESS".equals(returnCode)) {
             //验证签名是否正确，确定是不是当前小程序对应的商户发起的订单
+            logger.info("PayUtil.verify(PayUtil.createLinkString(paramMap), (String) paramMap.get(\"sign\"), NewMallCode.WX_PAY_API_SECRET, \"utf-8\")");
+            logger.info(""+PayUtil.verify(PayUtil.createLinkString(paramMap), (String) paramMap.get("sign"), NewMallCode.WX_PAY_API_SECRET, "utf-8"));
             if (PayUtil.verify(PayUtil.createLinkString(paramMap), (String) paramMap.get("sign"), NewMallCode.WX_PAY_API_SECRET, "utf-8")) {
                 /**此处添加自己的业务逻辑代码start**/
                 ResultMapDTO resultMapDTO = wxOrderHandler.wxPayNotifyForPayTheBillInMiniProgram(0, paramMap);
