@@ -123,13 +123,22 @@ public class WX_OrderController {
         String resXml = "";
         paramMap.clear();
         paramMap = PayUtil.doXMLParse(notityXml);
+        logger.info("在【controller】中买单成功后的回调通知-wxPayNotifyForPayTheBillInMiniProgram,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         String returnCode = (String) paramMap.get("return_code");
         if ("SUCCESS".equals(returnCode)) {
             //验证签名是否正确，确定是不是当前小程序对应的商户发起的订单
-            if (PayUtil.verify(PayUtil.createLinkString(paramMap), (String) paramMap.get("sign"), NewMallCode.WX_PAY_API_SECRET, "utf-8")) {
+//            if (PayUtil.verify(PayUtil.createLinkString(paramMap), (String) paramMap.get("sign"), NewMallCode.WX_PAY_API_SECRET, "utf-8")) {
+//                /**此处添加自己的业务逻辑代码start**/
+//                ResultMapDTO resultMapDTO = wxOrderHandler.wxPayNotifyForPurchaseProductInMiniProgram(0, paramMap);
+//                /**此处添加自己的业务逻辑代码end**/
+//            }
+            String appId = paramMap.get("appid")!=null?paramMap.get("appid").toString():"";
+            if(NewMallCode.WX_MINI_PROGRAM_APPID.equals(appId)){
                 /**此处添加自己的业务逻辑代码start**/
                 ResultMapDTO resultMapDTO = wxOrderHandler.wxPayNotifyForPurchaseProductInMiniProgram(0, paramMap);
                 /**此处添加自己的业务逻辑代码end**/
+            } else {
+                logger.info("非购买商品成功后的回调通知");
             }
             resultMap.putAll(paramMap);
         } else {

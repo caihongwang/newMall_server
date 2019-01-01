@@ -251,7 +251,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         String wxOrderId = paramMap.get("out_trade_no") != null ? paramMap.get("out_trade_no").toString() : "";
         String attach = paramMap.get("attach") != null ? paramMap.get("attach").toString() : "";
-        String openId = paramMap.get("openId") != null ? paramMap.get("openId").toString() : "";
+        String openId = paramMap.get("openid") != null ? paramMap.get("openid").toString() : "";
         if (!"".equals(wxOrderId) && !"".equals(attach)
                 && !"".equals(openId)) {
             //修改订单状态为已付款
@@ -500,7 +500,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         String wxOrderId = paramMap.get("out_trade_no") != null ? paramMap.get("out_trade_no").toString() : "";
         String attach = paramMap.get("attach") != null ? paramMap.get("attach").toString() : "";
-        String openId = paramMap.get("openId") != null ? paramMap.get("openId").toString() : "";
+        String openId = paramMap.get("openid") != null ? paramMap.get("openid").toString() : "";
         if (!"".equals(wxOrderId) && !"".equals(attach)
                 && !"".equals(openId)) {
             //修改订单状态为已付款
