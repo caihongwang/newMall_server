@@ -319,7 +319,6 @@ public class WX_OrderServiceImpl implements WX_OrderService {
     public ResultMapDTO payTheBillInMiniProgram(Map<String, Object> paramMap) throws Exception {
         logger.info("在【service】中买单-payTheBillInMiniProgram,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultMapDTO resultMapDTO = new ResultMapDTO();
-        DecimalFormat df = new DecimalFormat("#.00");
         Map<String, Object> resultMap = Maps.newHashMap();
         //支付的金额
         String payMoneyStr = paramMap.get("payMoney") != null ? paramMap.get("payMoney").toString() : "0";
@@ -401,14 +400,14 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                     if(newUserBalance > 0){
                         BigDecimal bg = new BigDecimal(newUserBalance);
                         newUserBalance = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                        attachMap.put("balance", df.format(newUserBalance));
+                        attachMap.put("balance", newUserBalance.toString());
                     } else {
                         attachMap.put("balance", "0");
                     }
                     if(newUserIntegral > 0){
                         BigDecimal bg = new BigDecimal(newUserIntegral);
                         newUserIntegral = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                        attachMap.put("integral", df.format(newUserIntegral));
+                        attachMap.put("integral", newUserIntegral.toString());
                     } else {
                         attachMap.put("integral", "0");
                     }
@@ -427,7 +426,8 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                     }
                     if(isNeedPay){
                         //准备获取支付相关的验签等数据
-                        finnalPayMoney = Double.parseDouble(df.format(finnalPayMoney) + "");
+                        bg = new BigDecimal(finnalPayMoney);
+                        finnalPayMoney = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                         String total_fee = ((int) (finnalPayMoney * 100)) + "";                           //支付金额，单位：分，这边需要转成字符串类型，否则后面的签名会失败，默认付款1元
                         logger.info("支付费用(转化前) payMoney = {}" + finnalPayMoney + ", 支付费用(转化后) total_fee = {}" + total_fee);
                         resultMap = WX_PublicNumberUtil.unifiedOrderForMiniProgram(
