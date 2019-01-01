@@ -74,7 +74,7 @@ public class WX_OrderController {
      */
     @RequestMapping("/wxPayNotifyForPurchaseProductInMiniProgram")
     @ResponseBody
-    public void wxPayNotifyForPurchaseProductInMiniProgram(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String wxPayNotifyForPurchaseProductInMiniProgram(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, String> paramMap = new HashMap<String, String>();
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
@@ -145,11 +145,20 @@ public class WX_OrderController {
         }
         logger.info("在【controller】中购买商品成功后的回调通知-wxPayNotifyForPurchaseProductInMiniProgram,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         String resposeStr = "<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>";
+        response.setContentType("text/xml;charset=UTF-8");
         // 处理业务完毕 通知微信已经收到消息，不要再给我发消息了，否则微信会8连击调用本接口
         PrintWriter writer = response.getWriter();
         writer.write(resposeStr);
         writer.flush();
-        return;
+        writer.close();
+
+        // 处理业务完毕
+        BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
+        out.write(resXml.getBytes());
+        out.flush();
+        out.close();
+
+        return resposeStr;
     }
 
     /**
