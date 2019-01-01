@@ -76,7 +76,7 @@ public class WX_OrderController {
      */
     @RequestMapping("/wxPayNotifyForPurchaseProductInMiniProgram")
     @ResponseBody
-    public void wxPayNotifyForPurchaseProductInMiniProgram(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String wxPayNotifyForPurchaseProductInMiniProgram(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, String> paramMap = new HashMap<String, String>();
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
@@ -146,7 +146,10 @@ public class WX_OrderController {
             resultMap.put("message", "报文为空");
         }
         logger.info("在【controller】中购买商品成功后的回调通知-wxPayNotifyForPurchaseProductInMiniProgram,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
-        return;
+        return "<xml>\n" +
+                "  <return_code><![CDATA[SUCCESS]]></return_code>\n" +
+                "  <return_msg><![CDATA[OK]]></return_msg>\n" +
+                "</xml>";
     }
 
     /**
