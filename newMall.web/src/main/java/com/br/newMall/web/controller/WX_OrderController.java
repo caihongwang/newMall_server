@@ -74,7 +74,7 @@ public class WX_OrderController {
      */
     @RequestMapping("/wxPayNotifyForPurchaseProductInMiniProgram")
     @ResponseBody
-    public String wxPayNotifyForPurchaseProductInMiniProgram(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void wxPayNotifyForPurchaseProductInMiniProgram(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, String> paramMap = new HashMap<String, String>();
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
@@ -158,7 +158,7 @@ public class WX_OrderController {
         out.flush();
         out.close();
 
-        return resposeStr;
+        return;
     }
 
     /**
