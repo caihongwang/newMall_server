@@ -377,6 +377,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                             finnalPayMoney = payMoney;
                             newUserIntegral = userIntegral;
                         }
+                        newUserBalance = userBalance;
                     } else if(useBalanceFlag){//使用余额进行抵扣支付
                         if(userBalance > 0){//用户的余额大于0，才可以进行抵扣
                             if(userBalance >= payBalance){
@@ -390,6 +391,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                             finnalPayMoney = payMoney;
                             newUserBalance = userBalance;
                         }
+                        newUserIntegral = userIntegral;
                     } else {               //不使用余额和积分进行支付
                         finnalPayMoney = payMoney;
                         newUserIntegral = userIntegral;

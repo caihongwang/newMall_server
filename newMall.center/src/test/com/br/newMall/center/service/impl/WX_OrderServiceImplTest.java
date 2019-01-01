@@ -68,10 +68,10 @@ public class WX_OrderServiceImplTest {
         Map<String, Object> paramMap = Maps.newHashMap();
         paramMap.put("uid", "2");
         paramMap.put("shopId", "1");
-        paramMap.put("payMoney", "0.01");
+        paramMap.put("payMoney", "0.02");
         paramMap.put("payIntegral", "0");
-        paramMap.put("payBalance", "0");
-        paramMap.put("useBalanceFlag", "false");
+        paramMap.put("payBalance", "0.01");
+        paramMap.put("useBalanceFlag", "true");
         paramMap.put("useIntegralFlag", "false");
         paramMap.put("spbillCreateIp", "https://www.91caihongwang.com");
         this.payTheBillInMiniProgram(paramMap);
@@ -151,6 +151,7 @@ public class WX_OrderServiceImplTest {
                             finnalPayMoney = payMoney;
                             newUserIntegral = userIntegral;
                         }
+                        newUserBalance = userBalance;
                     } else if(useBalanceFlag){//使用余额进行抵扣支付
                         if(userBalance > 0){//用户的余额大于0，才可以进行抵扣
                             if(userBalance >= payBalance){
@@ -164,6 +165,7 @@ public class WX_OrderServiceImplTest {
                             finnalPayMoney = payMoney;
                             newUserBalance = userBalance;
                         }
+                        newUserIntegral = userIntegral;
                     } else {               //不使用余额和积分进行支付
                         finnalPayMoney = payMoney;
                         newUserIntegral = userIntegral;
