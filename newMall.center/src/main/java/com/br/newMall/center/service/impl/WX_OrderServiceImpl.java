@@ -372,11 +372,11 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                                 newUserIntegral = userIntegral - payIntegral;
                             } else {
                                 finnalPayMoney = payMoney;
-                                newUserIntegral = 0.0;
+                                newUserIntegral = userIntegral;
                             }
                         } else {
                             finnalPayMoney = payMoney;
-                            newUserIntegral = 0.0;
+                            newUserIntegral = userIntegral;
                         }
                     } else if(useBalanceFlag){//使用余额进行抵扣支付
                         if(userBalance > 0){//用户的余额大于0，才可以进行抵扣
@@ -385,16 +385,16 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                                 newUserBalance = userBalance - payBalance;
                             } else {
                                 finnalPayMoney = payMoney;
-                                newUserBalance = 0.0;
+                                newUserBalance = userBalance;
                             }
                         } else {
                             finnalPayMoney = payMoney;
-                            newUserBalance = 0.0;
+                            newUserBalance = userBalance;
                         }
                     } else {               //不使用余额和积分进行支付
                         finnalPayMoney = payMoney;
-                        newUserIntegral = 0.0;
-                        newUserBalance = 0.0;
+                        newUserIntegral = userIntegral;
+                        newUserBalance = userBalance;
                     }
                     //用于购买商品更新付款用户的积分和余额,同事将店铺ID传递过去，便于给店铺的商家打钱
                     Map<String, String> attachMap = Maps.newHashMap();
