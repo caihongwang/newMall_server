@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -76,7 +77,7 @@ public class WX_OrderController {
      */
     @RequestMapping("/wxPayNotifyForPurchaseProductInMiniProgram")
     @ResponseBody
-    public String wxPayNotifyForPurchaseProductInMiniProgram(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public HttpServletResponse wxPayNotifyForPurchaseProductInMiniProgram(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, String> paramMap = new HashMap<String, String>();
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
@@ -146,10 +147,13 @@ public class WX_OrderController {
             resultMap.put("message", "报文为空");
         }
         logger.info("在【controller】中购买商品成功后的回调通知-wxPayNotifyForPurchaseProductInMiniProgram,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
-        return "<xml>\n" +
+        String resposeStr = "<xml>\n" +
                 "  <return_code><![CDATA[SUCCESS]]></return_code>\n" +
                 "  <return_msg><![CDATA[OK]]></return_msg>\n" +
                 "</xml>";
+        OutputStream os = response.getOutputStream();
+        os.write(resposeStr.getBytes());
+        return response;
     }
 
     /**
