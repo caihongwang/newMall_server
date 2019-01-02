@@ -515,6 +515,8 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                     //只要使用余额或者积分进行支付均布允许进行抽奖
                     if(useBalanceFlag || useIntegralFlag){
                         resultMap.put("isLuckDrawFlag", false);
+                    } else {
+                        resultMap.put("isLuckDrawFlag", true);
                     }
                 } else {
                     resultMapDTO.setCode(NewMallCode.USER_IS_NULL.getNo());
