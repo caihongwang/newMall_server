@@ -105,7 +105,6 @@
             #{allPayAmount},
             #{payMoney},
             #{useBalanceMonney},
-            #{payIntegral},
             #{useIntegralNum},
             #{status},
             #{createTime},
