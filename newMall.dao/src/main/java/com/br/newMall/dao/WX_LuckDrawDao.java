@@ -10,6 +10,11 @@ import java.util.Map;
 public interface WX_LuckDrawDao {
 
     /**
+     * 获取订单各个状态的数量
+     */
+    List<Map<String, Object>> getLuckDrawNumByStatus(Map<String, Object> paramMap);
+
+    /**
      * 获取抽过奖励的商家列表
      */
     List<Map<String, Object>> getLuckDrawShopByCondition(Map<String, Object> paramMap);

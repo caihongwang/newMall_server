@@ -5,35 +5,37 @@
 
     <sql id="columnList">    <!-- 字段 -->
         id,
-        wx_order_id,
-        shop_id,
         uid,
+        wx_order_id,
+        order_type,
         product_id,
         product_num,
         address_id,
+        express_number,
+        shop_id,
+        all_pay_amount,
+        pay_money,
         use_balance_monney,
         use_integral_num,
-        pay_money,
-        pay_integral,
-        order_type,
         status,
         create_time,
-        update_time
+        update_time,
     </sql>
 
     <sql id="TColumnList">    <!-- 带表别名的字段 -->
         no.id as "id",
-        no.wx_order_id as "wxOrderId",
-        no.shop_id as "shopId",
         no.uid as "uid",
+        no.wx_order_id as "wxOrderId",
+        no.order_type as "orderType",
         no.product_id as "productId",
         no.product_num as "productNum",
         no.address_id as "addressId",
+        no.express_number as "expressNumber",
+        no.shop_id as "shopId",
+        no.all_pay_amount as "allPayAmount",
+        no.pay_money as "payMoney",
         no.use_balance_monney as "useBalanceMonney",
         no.use_integral_num as "useIntegralNum",
-        no.pay_money as "payMoney",
-        no.pay_integral as "payIntegral",
-        no.order_type as "orderType",
         no.status as "status",
         date_format(no.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
         date_format(no.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
@@ -41,9 +43,6 @@
 
     <sql id="queryConditions"><!-- 查询条件 -->
         <where>
-            <if test="status != null and status != ''">
-                AND no.status = #{status}
-            </if>
             <if test="id != null and id != ''">
                 AND no.id = #{id}
             </if>
@@ -53,8 +52,8 @@
             <if test="wxOrderId != null and wxOrderId != ''">
                 AND no.wx_order_id = #{wxOrderId}
             </if>
-            <if test="shopId != null and shopId != ''">
-                AND no.shop_id = #{shopId}
+            <if test="orderType != null and orderType != ''">
+                AND no.order_type = #{orderType}
             </if>
             <if test="productId != null and productId != ''">
                 AND no.product_id = #{productId}
@@ -65,20 +64,26 @@
             <if test="addressId != null and addressId != ''">
                 AND no.address_id = #{addressId}
             </if>
+            <if test="expressNumber != null and expressNumber != ''">
+                AND no.express_number = #{expressNumber}
+            </if>
+            <if test="shopId != null and shopId != ''">
+                AND no.shop_id = #{shopId}
+            </if>
+            <if test="allPayAmount != null and allPayAmount != ''">
+                AND no.all_pay_amount = #{allPayAmount}
+            </if>
+            <if test="payMoney != null and payMoney != ''">
+                AND no.pay_money = #{payMoney}
+            </if>
             <if test="useBalanceMonney != null and useBalanceMonney != ''">
                 AND no.use_balance_monney = #{useBalanceMonney}
             </if>
             <if test="useIntegralNum != null and useIntegralNum != ''">
                 AND no.use_integral_num = #{useIntegralNum}
             </if>
-            <if test="payMoney != null and payMoney != ''">
-                AND no.pay_money = #{payMoney}
-            </if>
-            <if test="payIntegral != null and payIntegral != ''">
-                AND no.pay_integral = #{payIntegral}
-            </if>
-            <if test="orderType != null and orderType != ''">
-                AND no.order_type = #{orderType}
+            <if test="status != null and status != ''">
+                AND no.status = #{status}
             </if>
         </where>
         ORDER BY no.create_time desc
@@ -90,17 +95,18 @@
             <include refid="columnList"/>
         ) values (
             #{id},
-            #{wxOrderId},
-            #{shopId},
             #{uid},
+            #{wxOrderId},
+            #{orderType},
             #{productId},
             #{productNum},
             #{addressId},
-            #{useBalanceMonney},
-            #{useIntegralNum},
+            #{expressNumber},
+            #{allPayAmount},
             #{payMoney},
+            #{useBalanceMonney},
             #{payIntegral},
-            #{orderType},
+            #{useIntegralNum},
             #{status},
             #{createTime},
             #{updateTime}
@@ -108,7 +114,7 @@
     </insert>
 
     <delete id="deleteOrder">
-        update n_order no set np.status=1  WHERE 1=1
+        update n_order no set np.status=4  WHERE 1=1
         <if test="id != null and id != ''">
             AND no.id = #{id}
         </if>
@@ -117,8 +123,8 @@
     <update id="updateOrder">
         update n_order no
         <set>
-            <if test="shopId != null and shopId != ''">
-               no.shop_id = #{shopId},
+            <if test="orderType != null and orderType != ''">
+                no.order_type = #{orderType},
             </if>
             <if test="productId != null and productId != ''">
                no.product_id = #{productId},
@@ -129,20 +135,23 @@
             <if test="addressId != null and addressId != ''">
                no.address_id = #{addressId},
             </if>
+            <if test="expressNumber != null and expressNumber != ''">
+               no.express_number = #{expressNumber},
+            </if>
+            <if test="allPayAmount != null and allPayAmount != ''">
+                no.all_pay_amount = #{allPayAmount},
+            </if>
+            <if test="shopId != null and shopId != ''">
+                no.shop_id = #{shopId},
+            </if>
+            <if test="payMoney != null and payMoney != ''">
+                no.pay_money = #{payMoney},
+            </if>
             <if test="useBalanceMonney != null and useBalanceMonney != ''">
                no.use_balance_monney = #{useBalanceMonney},
             </if>
             <if test="useIntegralNum != null and useIntegralNum != ''">
                no.use_integral_num = #{useIntegralNum},
-            </if>
-            <if test="payMoney != null and payMoney != ''">
-               no.pay_money = #{payMoney},
-            </if>
-            <if test="payIntegral != null and payIntegral != ''">
-               no.pay_integral = #{payIntegral},
-            </if>
-            <if test="orderType != null and orderType != ''">
-               no.order_type = #{orderType},
             </if>
             <if test="status != null and status != ''">
                no.status = #{status},
@@ -207,18 +216,6 @@
             <if test="uid != null and uid != ''">
                 and no.uid = #{uid}
             </if>
-    </select>
-
-    <select id="getOrderNumByStatus" resultType="java.util.Map">
-        select
-          nld.status as "status",
-          count(nld.status) as "total"
-        from n_luck_draw nld
-        WHERE
-            <if test="uid != null and uid != ''">
-                nld.uid = #{uid}
-            </if>
-        GROUP BY nld.status
     </select>
 
 </mapper>

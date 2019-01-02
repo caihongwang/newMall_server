@@ -12,10 +12,7 @@ import com.br.newMall.center.service.WX_UserService;
 import com.br.newMall.center.utils.HttpsUtil;
 import com.br.newMall.center.utils.MapUtil;
 import com.br.newMall.center.utils.WX_PublicNumberUtil;
-import com.br.newMall.dao.WX_CashLogDao;
-import com.br.newMall.dao.WX_LeagueDao;
-import com.br.newMall.dao.WX_OrderDao;
-import com.br.newMall.dao.WX_UserDao;
+import com.br.newMall.dao.*;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.slf4j.Logger;
@@ -44,6 +41,9 @@ public class WX_UserServiceImpl implements WX_UserService {
 
     @Autowired
     private WX_OrderDao wxOrderDao;
+
+    @Autowired
+    private WX_LuckDrawDao wxLuckDrawDao;
 
     @Autowired
     private WX_UserDao wxUserDao;
@@ -217,7 +217,7 @@ public class WX_UserServiceImpl implements WX_UserService {
                 resultMap.put("integral", "0.00");
             }
             //获取用户待奖励的订单数量，已获得奖励的订单数量
-            List<Map<String, Object>> orderList = wxOrderDao.getOrderNumByStatus(paramMap);
+            List<Map<String, Object>> orderList = wxLuckDrawDao.getLuckDrawNumByStatus(paramMap);
             if(orderList != null && orderList.size() > 0){
                 Integer allLuckDrawTotal = 0;
                 Integer waitLuckDrawTotal = 0;

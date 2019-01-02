@@ -20,11 +20,6 @@ public interface WX_OrderDao {
     Integer getOrderTotalByCondition(Map<String, Object> paramMap);
 
     /**
-     * 获取订单各个状态的数量
-     */
-    List<Map<String, Object>> getOrderNumByStatus(Map<String, Object> paramMap);
-
-    /**
      * 根据条件查询订单信息
      */
     List<Map<String, Object>> getSimpleOrderByCondition(Map<String, Object> paramMap);
