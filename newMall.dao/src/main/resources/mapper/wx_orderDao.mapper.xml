@@ -19,7 +19,7 @@
         use_integral_num,
         status,
         create_time,
-        update_time,
+        update_time
     </sql>
 
     <sql id="TColumnList">    <!-- 带表别名的字段 -->
@@ -102,6 +102,7 @@
             #{productNum},
             #{addressId},
             #{expressNumber},
+            #{shopId},
             #{allPayAmount},
             #{payMoney},
             #{useBalanceMonney},
