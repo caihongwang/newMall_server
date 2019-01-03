@@ -153,6 +153,7 @@ public class NewMallCode {
     public static NewMallCode ORDER_WXORDERID_IS_NOT_EXIST = new NewMallCode(190009, "订单的微信订单号不存在.");
     public static NewMallCode ORDER_STATUS_IS_NOT_WAIT_PAY_STATUS = new NewMallCode(190009, "订单的状态不是待支付.");
     public static NewMallCode ORDER_STATUS_IS_NOT_2_OR_EXPRESSNUMBER_IS_NULL = new NewMallCode(190009, "订单的状态不是已发货或者发货的快递编号为空.");
+    public static NewMallCode ORDER_ID_IS_NOT_EXIST = new NewMallCode(190002, "订单不存在，可能已被删除.");
 
 
     //抽奖

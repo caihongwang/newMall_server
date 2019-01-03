@@ -1031,5 +1031,37 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         return boolDTO;
     }
 
+    /**
+     * 获取商品订单详情
+     * @param paramMap
+     * @return
+     */
+    @Override
+    public ResultMapDTO getGoodsOrderDetailById(Map<String, Object> paramMap) {
+        logger.info("在【service】中获取商品订单详情-getGoodsOrderDetailById,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        Map<String, Object> resultMap = Maps.newHashMap();
+        String orderId = paramMap.get("orderId")!=null?paramMap.get("orderId").toString():"";
+        if(!"".equals(orderId)){
+            Map<String, Object> orderMap = Maps.newHashMap();
+            orderMap.put("id", orderId);        //订单ID
+            List<Map<String, Object>> orderList = wxOrderDao.getSimpleOrderByCondition(orderMap);
+            if(orderList != null && orderList.size() > 0){
+                resultMap.putAll(orderList.get(0));
+                resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
+                resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+            } else {
+                resultMapDTO.setCode(NewMallCode.ORDER_ID_IS_NOT_EXIST.getNo());
+                resultMapDTO.setMessage(NewMallCode.ORDER_ID_IS_NOT_EXIST.getMessage());
+            }
+        } else {
+            resultMapDTO.setCode(NewMallCode.ORDER_ID_IS_NOT_NULL.getNo());
+            resultMapDTO.setMessage(NewMallCode.ORDER_ID_IS_NOT_NULL.getMessage());
+        }
+        resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
+        logger.info("在【service】中获取商品订单详情-getGoodsOrderDetailById,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        return resultMapDTO;
+    }
+
 
 }

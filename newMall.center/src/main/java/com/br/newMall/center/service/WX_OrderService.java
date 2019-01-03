@@ -38,6 +38,13 @@ public interface WX_OrderService {
     public BoolDTO confirmReceiptGoodsOrder(Map<String, Object> paramMap);
 
     /**
+     * 获取商品订单详情
+     * @param paramMap
+     * @return
+     */
+    public ResultMapDTO getGoodsOrderDetailById(Map<String, Object> paramMap);
+
+    /**
      * 获取当前用户的订单信息
      */
     public ResultDTO getOrderByCondition(Map<String, Object> paramMap);

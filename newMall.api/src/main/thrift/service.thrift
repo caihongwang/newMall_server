@@ -209,7 +209,9 @@ service WX_OrderHandler {
 
     dto.ResultDTO getCompletedGoodsOrder(1:int tid, 2:map<string, string> paramMap),
 
-    dto.BoolDTO confirmReceiptGoodsOrder(1:int tid, 2:map<string, string> paramMap)
+    dto.BoolDTO confirmReceiptGoodsOrder(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultMapDTO getGoodsOrderDetailById(1:int tid, 2:map<string, string> paramMap)
 
 }
 
