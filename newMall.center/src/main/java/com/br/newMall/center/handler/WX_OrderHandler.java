@@ -395,7 +395,7 @@ public class WX_OrderHandler implements com.br.newMall.api.service.WX_OrderHandl
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         if (paramMap.size() > 0) {
             try {
-                resultDTO = wxOrderService.getAlreadyDeliverGoodsOrder(objectParamMap);
+                resultDTO = wxOrderService.getCompletedGoodsOrder(objectParamMap);
             } catch (Exception e) {
                 logger.error("在【hanlder】中获取已完成的商品订单-getCompletedGoodsOrder is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
                 List<Map<String, String>> resultList = Lists.newArrayList();

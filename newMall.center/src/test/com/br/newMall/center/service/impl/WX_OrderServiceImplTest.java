@@ -96,13 +96,13 @@ public class WX_OrderServiceImplTest {
 //        paramMap.put("uid", "1");
 //        getAlreadyDeliverGoodsOrder(paramMap);
 
-//        Map<String, Object> paramMap = Maps.newHashMap();
-//        paramMap.put("uid", "1");
-//        getCompletedGoodsOrder(paramMap);
-
         Map<String, Object> paramMap = Maps.newHashMap();
-        paramMap.put("orderId", "9");
-        confirmReceiptGoodsOrder(paramMap);
+        paramMap.put("uid", "1");
+        getCompletedGoodsOrder(paramMap);
+
+//        Map<String, Object> paramMap = Maps.newHashMap();
+//        paramMap.put("orderId", "9");
+//        confirmReceiptGoodsOrder(paramMap);
     }
 
 

@@ -231,6 +231,9 @@
             no.use_balance_monney as "useBalanceMonney",
             no.use_integral_num as "useIntegralNum",
             no.express_number as "expressNumber",
+            no.wx_order_id as "wxOrderId",
+            date_format(no.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
+            date_format(no.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime",
             os.dic_code as "orderStatusCode",
             os.dic_name as "orderStatusName"
         from n_order no
