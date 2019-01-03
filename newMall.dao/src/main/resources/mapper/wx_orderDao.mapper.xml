@@ -218,4 +218,52 @@
             </if>
     </select>
 
+    <select id="getGoodsOrderByCondition" resultType="java.util.Map">
+        select
+            np.id as "productId",
+            np.title as "productTitle",
+            np.head_img_url as "productHeadImgUrl",
+            np.price as "productPrice",
+            no.id as "orderId",
+            no.product_num as "productNum",
+            no.all_pay_amount as "allPayAmount",
+            no.pay_money as "payMoney",
+            no.use_balance_monney as "useBalanceMonney",
+            no.use_integral_num as "useIntegralNum",
+            no.express_number as "expressNumber",
+            os.dic_code as "orderStatusCode",
+            os.dic_name as "orderStatusName"
+        from n_order no
+            INNER JOIN n_dic os on no.status=os.dic_code and os.dic_type="orderStatus"
+            INNER JOIN n_product np on no.product_id=np.id
+        where order_type='purchaseProduct'
+            <if test="uid != null and uid != ''">
+                and no.uid = #{uid}
+            </if>
+            <if test="status != null and status != ''">
+                and no.status = #{status}
+            </if>
+            <if test="expressNumber == 'MUST_HAVE_EXPRESSNUMBER'">
+                and express_number != "" and express_number IS NOT NULL
+            </if>
+        <if test="start != null and size != null">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getGoodsOrderTotalByCondition" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*) total
+        from n_order no
+            INNER JOIN n_dic os on no.status=os.dic_code and os.dic_type="orderStatus"
+            INNER JOIN n_product np on no.product_id=np.id
+        where order_type='purchaseProduct'
+            <if test="uid != null and uid != ''">
+                and no.uid = #{uid}
+            </if>
+            <if test="status != null and status != ''">
+                and no.status = #{status}
+            </if>
+    </select>
+
 </mapper>

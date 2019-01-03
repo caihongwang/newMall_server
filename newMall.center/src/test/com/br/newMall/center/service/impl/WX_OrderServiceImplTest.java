@@ -16,6 +16,7 @@ import com.br.newMall.dao.WX_OrderDao;
 import com.br.newMall.dao.WX_ProductDao;
 import com.br.newMall.dao.WX_ShopDao;
 import com.br.newMall.dao.WX_UserDao;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -64,20 +65,16 @@ public class WX_OrderServiceImplTest {
     @Test
     public void TEST() throws Exception {
 
-
-
-        Map<String, Object> paramMap = Maps.newHashMap();
-        paramMap.put("uid", "2");
-        paramMap.put("shopId", "1");
-        paramMap.put("payMoney", "0.02");
-        paramMap.put("payIntegral", "0");
-        paramMap.put("payBalance", "0.01");
-        paramMap.put("useBalanceFlag", "true");
-        paramMap.put("useIntegralFlag", "false");
-        paramMap.put("spbillCreateIp", "https://www.91caihongwang.com");
-        this.payTheBillInMiniProgram(paramMap);
-
-
+//        Map<String, Object> paramMap = Maps.newHashMap();
+//        paramMap.put("uid", "2");
+//        paramMap.put("shopId", "1");
+//        paramMap.put("payMoney", "0.02");
+//        paramMap.put("payIntegral", "0");
+//        paramMap.put("payBalance", "0.01");
+//        paramMap.put("useBalanceFlag", "true");
+//        paramMap.put("useIntegralFlag", "false");
+//        paramMap.put("spbillCreateIp", "https://www.91caihongwang.com");
+//        this.payTheBillInMiniProgram(paramMap);
 
 //        Map<String, Object> paramMap = Maps.newHashMap();
 //        paramMap.put("productId", "1");
@@ -87,8 +84,198 @@ public class WX_OrderServiceImplTest {
 //        paramMap.put("spbillCreateIp", "https://www.91caihongwang.com");
 //        this.purchaseProductInMiniProgram(paramMap);
 
+//        Map<String, Object> paramMap = Maps.newHashMap();
+//        paramMap.put("uid", "1");
+//        getWaitPayGoodsOrder(paramMap);
+
+//        Map<String, Object> paramMap = Maps.newHashMap();
+//        paramMap.put("uid", "1");
+//        getAlreadyPayGoodsOrder(paramMap);
+
+//        Map<String, Object> paramMap = Maps.newHashMap();
+//        paramMap.put("uid", "1");
+//        getAlreadyDeliverGoodsOrder(paramMap);
+
+//        Map<String, Object> paramMap = Maps.newHashMap();
+//        paramMap.put("uid", "1");
+//        getCompletedGoodsOrder(paramMap);
+
+        Map<String, Object> paramMap = Maps.newHashMap();
+        paramMap.put("orderId", "9");
+        confirmReceiptGoodsOrder(paramMap);
+    }
 
 
+    /**
+     * 对商品订单进行确认收货
+     * @param paramMap
+     * @return
+     */
+    public BoolDTO confirmReceiptGoodsOrder(Map<String, Object> paramMap) {
+        logger.info("在【service】中对商品订单进行确认收货-confirmReceiptGoodsOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        Integer updateNum = 0;
+        BoolDTO boolDTO = new BoolDTO();
+        String orderId = paramMap.get("orderId")!=null?paramMap.get("orderId").toString():"";
+        if(!"".equals(orderId)){
+            paramMap.clear();
+            paramMap.put("id", orderId);        //订单ID
+            paramMap.put("status", "3");        //已完成
+            updateNum = wxOrderDao.updateOrder(paramMap);
+            if (updateNum != null && updateNum > 0) {
+                boolDTO.setCode(NewMallCode.SUCCESS.getNo());
+                boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+            } else {
+                boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
+                boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
+            }
+        } else {
+            boolDTO.setCode(NewMallCode.ORDER_ID_IS_NOT_NULL.getNo());
+            boolDTO.setMessage(NewMallCode.ORDER_ID_IS_NOT_NULL.getMessage());
+        }
+        logger.info("在【service】中对商品订单进行确认收货-confirmReceiptGoodsOrder,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        return boolDTO;
+    }
+
+    /**
+     * 获取待支付的商品订单
+     * @param paramMap
+     * @return
+     */
+    public ResultDTO getWaitPayGoodsOrder(Map<String, Object> paramMap) {
+        logger.info("在【service】中获取待支付的商品订单-getWaitPayGoodsOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultDTO resultDTO = new ResultDTO();
+        List<Map<String, String>> orderStrList = Lists.newArrayList();
+        String uid = paramMap.get("uid")!=null?paramMap.get("uid").toString():"";
+        if(!"".equals(uid)){
+            paramMap.put("status", "0");        //待支付
+            List<Map<String, Object>> goodsOrderList = wxOrderDao.getGoodsOrderByCondition(paramMap);
+            if (goodsOrderList != null && goodsOrderList.size() > 0) {
+                orderStrList = MapUtil.getStringMapList(goodsOrderList);
+                Integer total = wxOrderDao.getGoodsOrderTotalByCondition(paramMap);
+                resultDTO.setResultListTotal(total);
+                resultDTO.setResultList(orderStrList);
+                resultDTO.setCode(NewMallCode.SUCCESS.getNo());
+                resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+            } else {
+                List<Map<String, String>> resultList = Lists.newArrayList();
+                resultDTO.setResultListTotal(0);
+                resultDTO.setResultList(resultList);
+                resultDTO.setCode(NewMallCode.ORDER_LIST_IS_NULL.getNo());
+                resultDTO.setMessage(NewMallCode.ORDER_LIST_IS_NULL.getMessage());
+            }
+        } else {
+            resultDTO.setCode(NewMallCode.ORDER_UID_IS_NOT_NULL.getNo());
+            resultDTO.setMessage(NewMallCode.ORDER_UID_IS_NOT_NULL.getMessage());
+        }
+        logger.info("在【service】中获取待支付的商品订单-getWaitPayGoodsOrder,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        return resultDTO;
+    }
+
+    /**
+     * 获取已支付的商品订单
+     * @param paramMap
+     * @return
+     */
+    public ResultDTO getAlreadyPayGoodsOrder(Map<String, Object> paramMap) {
+        logger.info("在【service】中获取已支付的商品订单-getAlreadyPayGoodsOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultDTO resultDTO = new ResultDTO();
+        List<Map<String, String>> orderStrList = Lists.newArrayList();
+        String uid = paramMap.get("uid")!=null?paramMap.get("uid").toString():"";
+        if(!"".equals(uid)){
+            paramMap.put("status", "1");        //已支付
+            List<Map<String, Object>> goodsOrderList = wxOrderDao.getGoodsOrderByCondition(paramMap);
+            if (goodsOrderList != null && goodsOrderList.size() > 0) {
+                orderStrList = MapUtil.getStringMapList(goodsOrderList);
+                Integer total = wxOrderDao.getGoodsOrderTotalByCondition(paramMap);
+                resultDTO.setResultListTotal(total);
+                resultDTO.setResultList(orderStrList);
+                resultDTO.setCode(NewMallCode.SUCCESS.getNo());
+                resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+            } else {
+                List<Map<String, String>> resultList = Lists.newArrayList();
+                resultDTO.setResultListTotal(0);
+                resultDTO.setResultList(resultList);
+                resultDTO.setCode(NewMallCode.ORDER_LIST_IS_NULL.getNo());
+                resultDTO.setMessage(NewMallCode.ORDER_LIST_IS_NULL.getMessage());
+            }
+        } else {
+            resultDTO.setCode(NewMallCode.ORDER_UID_IS_NOT_NULL.getNo());
+            resultDTO.setMessage(NewMallCode.ORDER_UID_IS_NOT_NULL.getMessage());
+        }
+        logger.info("在【service】中获取已支付的商品订单-getAlreadyPayGoodsOrder,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        return resultDTO;
+    }
+
+    /**
+     * 获取已发货的商品订单
+     * @param paramMap
+     * @return
+     */
+    public ResultDTO getAlreadyDeliverGoodsOrder(Map<String, Object> paramMap) {
+        logger.info("在【service】中获取已发货的商品订单-getAlreadyDeliverGoods,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultDTO resultDTO = new ResultDTO();
+        List<Map<String, String>> orderStrList = Lists.newArrayList();
+        String uid = paramMap.get("uid")!=null?paramMap.get("uid").toString():"";
+        if(!"".equals(uid)){
+            paramMap.put("status", "2");        //已发货
+            paramMap.put("expressNumber", "MUST_HAVE_EXPRESSNUMBER");  //快递编号必须存在
+            List<Map<String, Object>> goodsOrderList = wxOrderDao.getGoodsOrderByCondition(paramMap);
+            if (goodsOrderList != null && goodsOrderList.size() > 0) {
+                orderStrList = MapUtil.getStringMapList(goodsOrderList);
+                Integer total = wxOrderDao.getGoodsOrderTotalByCondition(paramMap);
+                resultDTO.setResultListTotal(total);
+                resultDTO.setResultList(orderStrList);
+                resultDTO.setCode(NewMallCode.SUCCESS.getNo());
+                resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+            } else {
+                List<Map<String, String>> resultList = Lists.newArrayList();
+                resultDTO.setResultListTotal(0);
+                resultDTO.setResultList(resultList);
+                resultDTO.setCode(NewMallCode.ORDER_LIST_IS_NULL.getNo());
+                resultDTO.setMessage(NewMallCode.ORDER_LIST_IS_NULL.getMessage());
+            }
+        } else {
+            resultDTO.setCode(NewMallCode.ORDER_UID_IS_NOT_NULL.getNo());
+            resultDTO.setMessage(NewMallCode.ORDER_UID_IS_NOT_NULL.getMessage());
+        }
+        logger.info("在【service】中获取已发货的商品订单-getAlreadyDeliverGoods,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        return resultDTO;
+    }
+
+    /**
+     * 获取已完成的商品订单
+     * @param paramMap
+     * @return
+     */
+    public ResultDTO getCompletedGoodsOrder(Map<String, Object> paramMap) {
+        logger.info("在【service】中获取已完成的商品订单-getCompletedGoodsOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultDTO resultDTO = new ResultDTO();
+        List<Map<String, String>> orderStrList = Lists.newArrayList();
+        String uid = paramMap.get("uid")!=null?paramMap.get("uid").toString():"";
+        if(!"".equals(uid)){
+            paramMap.put("status", "3");        //已支付
+            paramMap.put("expressNumber", "MUST_HAVE_EXPRESSNUMBER");  //快递编号必须存在
+            List<Map<String, Object>> goodsOrderList = wxOrderDao.getGoodsOrderByCondition(paramMap);
+            if (goodsOrderList != null && goodsOrderList.size() > 0) {
+                orderStrList = MapUtil.getStringMapList(goodsOrderList);
+                Integer total = wxOrderDao.getGoodsOrderTotalByCondition(paramMap);
+                resultDTO.setResultListTotal(total);
+                resultDTO.setResultList(orderStrList);
+                resultDTO.setCode(NewMallCode.SUCCESS.getNo());
+                resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+            } else {
+                List<Map<String, String>> resultList = Lists.newArrayList();
+                resultDTO.setResultListTotal(0);
+                resultDTO.setResultList(resultList);
+                resultDTO.setCode(NewMallCode.ORDER_LIST_IS_NULL.getNo());
+                resultDTO.setMessage(NewMallCode.ORDER_LIST_IS_NULL.getMessage());
+            }
+        } else {
+            resultDTO.setCode(NewMallCode.ORDER_UID_IS_NOT_NULL.getNo());
+            resultDTO.setMessage(NewMallCode.ORDER_UID_IS_NOT_NULL.getMessage());
+        }
+        logger.info("在【service】中获取已完成的商品订单-getCompletedGoodsOrder,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        return resultDTO;
     }
 
     public ResultMapDTO payTheBillInMiniProgram(Map<String, Object> paramMap) throws Exception {
