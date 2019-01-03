@@ -28,6 +28,13 @@ public class NewMallCode {
         return message;
     }
 
+    //常量值
+    public static final int MSG_EXPIRED_TIME = 60 * 2;    //短信失效时间：2分钟
+    public static final String REDIS_PREFIX = "sp:";
+    public static final String REDIS_MSG_PREFIX = REDIS_PREFIX + "getVerificationCode:";//财富名片夹的短信在redis中的前缀
+    public static final int USER_SESSION_EXPIRED_TIME = 86400;    //session失效时间：1天
+    public static final String USER_SESSION_PREFIX = "user:session:";//财富名片夹的短信在redis中的前缀
+
     //system
     public static NewMallCode SUCCESS = new NewMallCode(0, "成功");
     public static NewMallCode SERVER_INNER_ERROR = new NewMallCode(10001, "服务异常,请稍后重试.");
@@ -45,13 +52,6 @@ public class NewMallCode {
     public static NewMallCode DIC_ID_OR_CODE_IS_NOT_NULL = new NewMallCode(30003, "字典的ID或者编码不能为空");
     public static NewMallCode DIC_LIST_IS_NULL = new NewMallCode(0, "当前字典没有数据.");
 
-    //常量值
-    public static final int MSG_EXPIRED_TIME = 60 * 2;    //短信失效时间：2分钟
-    public static final String REDIS_PREFIX = "sp:";
-    public static final String REDIS_MSG_PREFIX = REDIS_PREFIX + "getVerificationCode:";//财富名片夹的短信在redis中的前缀
-    public static final int USER_SESSION_EXPIRED_TIME = 86400;    //session失效时间：1天
-    public static final String USER_SESSION_PREFIX = "user:session:";//财富名片夹的短信在redis中的前缀
-
     //申请财富名片夹--短信验证码
     public static NewMallCode USER_EXIST = new NewMallCode(0, "用户已经存在，请直接使用。");
     public static NewMallCode CARD_ERROR_PHONE_CAPTCHA = new NewMallCode(40001, "手机号或者验证码错误，请重新输入");
@@ -62,7 +62,7 @@ public class NewMallCode {
 
     //意见
     public static NewMallCode COMMENTS_LIST_IS_NULL = new NewMallCode(0, "当前用户没有反馈意见.");
-    public static NewMallCode COMMENTS_NOT_MORE_200 = new NewMallCode(80001, "反馈意见不能超过200个字.");
+    public static NewMallCode COMMENTS_NOT_MORE_200 = new NewMallCode(50001, "反馈意见不能超过200个字.");
 
     //公共模板
     public static NewMallCode PARAM_IS_NULL = new NewMallCode(60001, "必填参数不允许为空.");
@@ -73,21 +73,20 @@ public class NewMallCode {
     public static NewMallCode USER_PHONE_IS_ERROR = new NewMallCode(70004, "用户用户手机号错误，请重新输入.");
     public static NewMallCode USER_CODE_IS_NOT_NULL = new NewMallCode(70006, "用户微信访问的code参数不能为空.");
     public static NewMallCode USER_ID_OR_PRODUCTID_NULL = new NewMallCode(70007, "用户或者商品不存在.");
-    public static NewMallCode USER_PROPORTION_OR_CASHMONEYLOWERLIMIT_IS_NOT_NUMBER = new NewMallCode(180004, "用户提现时提现比例或者提现金额下限非数字.");
-    public static NewMallCode USER_CASHMONEY_NOT_MORE_CASHMONEYLOWERLIMIT_IS_NOT_NUMBER = new NewMallCode(180004, "用户余额大于等于提现金额下限才可以提现.");
-    public static NewMallCode USER_ID_IS_NOT_NULL = new NewMallCode(70001, "用户的uid不允许为空.");
-
-
-    //加油站
-    public static NewMallCode OIL_QUERY_IS_NULL = new NewMallCode(130002, "获取加油站信息为空。");
-    public static NewMallCode OIL_ADDRESS_QUERY_IS_NULL = new NewMallCode(130005, "您所处的位置不是加油站，请打赏一点开发小哥哥吧。");
-    public static NewMallCode OIL_STATION_EXIST_AND_UPDATE = new NewMallCode(130003, "加油站已存在，并更新。");
-    public static NewMallCode OIL_STATION_PARAM_IS_NOT_NULL = new NewMallCode(130004, "加油站必填参数不允许为空,相关参数请查看文档。");
+    public static NewMallCode USER_PROPORTION_OR_CASHMONEYLOWERLIMIT_IS_NOT_NUMBER = new NewMallCode(70008, "用户提现时提现比例或者提现金额下限非数字.");
+    public static NewMallCode USER_CASHMONEY_NOT_MORE_CASHMONEYLOWERLIMIT_IS_NOT_NUMBER = new NewMallCode(70009, "用户余额大于等于提现金额下限才可以提现.");
+    public static NewMallCode USER_ID_IS_NOT_NULL = new NewMallCode(70010, "用户的uid不允许为空.");
 
     //微信的form_id
     public static NewMallCode USER_FORM_UID_OR_FORMID_IS_NOT_NULL = new NewMallCode(80001, "用户id或者微信的formId不能为空");
     public static NewMallCode USER_FORM_ID_OR_UID_IS_NOT_NULL = new NewMallCode(80002, "用户id或者uid不能为空");
     public static NewMallCode USER_FORM_LIST_IS_NULL = new NewMallCode(80003, "当前用户对应的formId没有数据.");
+
+    //加油站
+    public static NewMallCode OIL_QUERY_IS_NULL = new NewMallCode(130001, "获取加油站信息为空。");
+    public static NewMallCode OIL_ADDRESS_QUERY_IS_NULL = new NewMallCode(130002, "您所处的位置不是加油站，请打赏一点开发小哥哥吧。");
+    public static NewMallCode OIL_STATION_EXIST_AND_UPDATE = new NewMallCode(130003, "加油站已存在，并更新。");
+    public static NewMallCode OIL_STATION_PARAM_IS_NOT_NULL = new NewMallCode(130004, "加油站必填参数不允许为空,相关参数请查看文档。");
 
     //红包领取
     public static NewMallCode WX_RED_PACKET__ACTIVITY_IS_NOT_EXIST = new NewMallCode(150001, "红包活动不存在");
@@ -95,8 +94,9 @@ public class NewMallCode {
     public static NewMallCode WX_RED_PACKET__SEND_FAILTURE = new NewMallCode(150003, "红包发送失败");
     public static NewMallCode WX_RED_PACKET__UID_OR_MONEY_IS_NOT_NULL = new NewMallCode(150004, "用户UID或者红包金额不允许为空");
     public static NewMallCode WX_RED_PACKET__HISTORY_IS_NULL = new NewMallCode(150005, "当前用户没有红包领取记录");
-    public static NewMallCode RED_PACKET_SEND_IS_ERROR = new NewMallCode(50020, "红包状态发送异常，请联系管理员检查微信公众号相关配置.");
-    public static NewMallCode RED_PACKET_SEND_IS_ERROR_BUT_RESPOSE_SUCCESS = new NewMallCode(50020, "发送红包响应正常，但是发送失败.");
+    public static NewMallCode RED_PACKET_SEND_IS_ERROR = new NewMallCode(150006, "红包状态发送异常，请联系管理员检查微信公众号相关配置.");
+    public static NewMallCode RED_PACKET_SEND_IS_ERROR_BUT_RESPOSE_SUCCESS = new NewMallCode(150007, "发送红包响应正常，但是发送失败.");
+
     //红包提现
     public static NewMallCode WX_RED_PACKET_DRAW_CASH__ACTIVITY_IS_NOT_EXIST = new NewMallCode(160001, "红包活动不存在");
     public static NewMallCode WX_RED_PACKET_DRAW_CASH__SEND_SUCCESS = new NewMallCode(160002, "红包发送成功");
@@ -134,7 +134,7 @@ public class NewMallCode {
     public static NewMallCode ADDRESS_REGIONTYPE_OR_CITYID_IS_NULL = new NewMallCode(190007, "地址的区域类型或者城市ID不允许为空.");
     public static NewMallCode ADDRESS_REGIONTYPE_OR_REGIONID_IS_NULL = new NewMallCode(190008, "地址的区域类型或者区域ID不允许为空.");
     public static NewMallCode ADDRESS_UID_IS_NOT_NULL = new NewMallCode(190009, "地址UID不允许为空.");
-    public static NewMallCode ADDRESS_ID_OR_UID_IS_NOT_NULL = new NewMallCode(190003, "地址ID或者UID不允许为空.");
+    public static NewMallCode ADDRESS_ID_OR_UID_IS_NOT_NULL = new NewMallCode(190010, "地址ID或者UID不允许为空.");
 
 
     //订单
@@ -155,47 +155,67 @@ public class NewMallCode {
 
 
     //抽奖
-    public static NewMallCode LUCKDRAW_LUCKDRAWTYPE_IS_NULL = new NewMallCode(200001, "抽奖的产品类型不允许为空.");
-    public static NewMallCode LUCKDRAW_UID_OR_WXORDERID_IS_NULL = new NewMallCode(200001, "抽奖的用户uid或者微信订单编号不允许为空.");
-    public static NewMallCode LUCKDRAW_WXORDERID_IS_NOT_EXIST = new NewMallCode(200001, "待返现订单不存在或者已被奖励.");
-    public static NewMallCode LUCKDRAW_ORDER_IS_NOT_PAYED = new NewMallCode(200001, "抽奖的微信订单还未付款.");
-    public static NewMallCode LUCKDRAW_ID_IS_NOT_NULL = new NewMallCode(200001, "抽奖ID不允许为空.");
     public static NewMallCode LUCKDRAW_LIST_IS_NULL = new NewMallCode(0, "没有更多抽奖信息.");
-    public static NewMallCode LUCKDRAW_PRODUCT_IS_NULL = new NewMallCode(180004, "没有更多抽奖产品.");
-    public static NewMallCode LUCKDRAW_GETPRIZE_IS_FAILED = new NewMallCode(180004, "抽奖失败，再抽一次吧.");
-    public static NewMallCode LUCKDRAW_GETPRIZE_HAS_GETED = new NewMallCode(180004, "您已抽过奖。如想再次抽奖，请再交易一笔订单.");
-    public static NewMallCode LUCKDRAW_SHOPID_OR_UID_IS_NOT_NULL = new NewMallCode(180004, "您待领取领奖励的商家ID或者用户UID不允许为空.");
-    public static NewMallCode LUCKDRAW_UID_IS_NOT_NULL = new NewMallCode(180004, "您待领取领奖励的用户UID不允许为空.");
-    public static NewMallCode LUCKDRAW_UPDATE_STATUS_IS_FAILED = new NewMallCode(180004, "转换积分时更新奖励状态失败.");
-    public static NewMallCode LUCKDRAW_UPDATE_USER_INEGRAL_IS_FAILED = new NewMallCode(180004, "转换用户积分时更新用户积分失败.");
-    public static NewMallCode LUCKDRAW_UPDATE_USER_BANLANCE_IS_FAILED = new NewMallCode(180004, "转换用户余额时更新用户余额失败.");
-    public static NewMallCode LUCKDRAW_BALANCE_OR_PAYMONEY_OR_PROPORTION_IS_NOT_NUMBER = new NewMallCode(180004, "转换用户余额时支付金额或者用户余额或者返现比例非数字.");
-    public static NewMallCode LUCKDRAW_BALANCE_PROPORTION_IS_NOT_NUMBER = new NewMallCode(180004, "转换用户余额时返现比例不允许为空.");
+    public static NewMallCode LUCKDRAW_LUCKDRAWTYPE_IS_NULL = new NewMallCode(200001, "抽奖的产品类型不允许为空.");
+    public static NewMallCode LUCKDRAW_UID_OR_WXORDERID_IS_NULL = new NewMallCode(200002, "抽奖的用户uid或者微信订单编号不允许为空.");
+    public static NewMallCode LUCKDRAW_WXORDERID_IS_NOT_EXIST = new NewMallCode(200003, "待返现订单不存在或者已被奖励.");
+    public static NewMallCode LUCKDRAW_ORDER_IS_NOT_PAYED = new NewMallCode(200004, "抽奖的微信订单还未付款.");
+    public static NewMallCode LUCKDRAW_ID_IS_NOT_NULL = new NewMallCode(200005, "抽奖ID不允许为空.");
+    public static NewMallCode LUCKDRAW_PRODUCT_IS_NULL = new NewMallCode(200006, "没有更多抽奖产品.");
+    public static NewMallCode LUCKDRAW_GETPRIZE_IS_FAILED = new NewMallCode(200007, "抽奖失败，再抽一次吧.");
+    public static NewMallCode LUCKDRAW_GETPRIZE_HAS_GETED = new NewMallCode(200008, "您已抽过奖。如想再次抽奖，请再交易一笔订单.");
+    public static NewMallCode LUCKDRAW_SHOPID_OR_UID_IS_NOT_NULL = new NewMallCode(200009, "您待领取领奖励的商家ID或者用户UID不允许为空.");
+    public static NewMallCode LUCKDRAW_UID_IS_NOT_NULL = new NewMallCode(200010, "您待领取领奖励的用户UID不允许为空.");
+    public static NewMallCode LUCKDRAW_UPDATE_STATUS_IS_FAILED = new NewMallCode(200011, "转换积分时更新奖励状态失败.");
+    public static NewMallCode LUCKDRAW_UPDATE_USER_INEGRAL_IS_FAILED = new NewMallCode(200012, "转换用户积分时更新用户积分失败.");
+    public static NewMallCode LUCKDRAW_UPDATE_USER_BANLANCE_IS_FAILED = new NewMallCode(200013, "转换用户余额时更新用户余额失败.");
+    public static NewMallCode LUCKDRAW_BALANCE_OR_PAYMONEY_OR_PROPORTION_IS_NOT_NUMBER = new NewMallCode(200014, "转换用户余额时支付金额或者用户余额或者返现比例非数字.");
+    public static NewMallCode LUCKDRAW_BALANCE_PROPORTION_IS_NOT_NUMBER = new NewMallCode(200015, "转换用户余额时返现比例不允许为空.");
 
     //店铺
-    public static NewMallCode SHOP_EXIST = new NewMallCode(30001, "店铺已经存在，请修改。");
-    public static NewMallCode SHOP_SHOPDISCOUNTID_SHOPTITLE_SHOPDEGIST_SHOPPHONE_SHOPADDRESS_SHOPLON_SHOPLAT_SHOPHEADIMGURL_SHOPDESCRIBEIMGURL_IS_NOT_NULL = new NewMallCode(30002, "店铺的折扣ID或者名称或者店铺地址或者店铺经纬度或者店铺头像地址或者店铺描述图片地址不能为空");
-    public static NewMallCode SHOP_ID_IS_NOT_NULL = new NewMallCode(30003, "店铺的ID不能为空");
     public static NewMallCode SHOP_LIST_IS_NULL = new NewMallCode(0, "当前店铺没有数据.");
-    public static NewMallCode SHOP_UID_IS_NOT_NULL = new NewMallCode(0, "查询店铺的用户UID不能为空.");
-    public static NewMallCode SHOP_UID_NICKNAME_SHOPTITLE_PAGE_SCENE_FILEPATH_IS_NOT_NULL = new NewMallCode(0, "店铺小程序码的用户uid或者微信昵称或者店铺名称或者小程序页面或者小程序码存放路径不能为空.");
-    public static NewMallCode SHOP_UID_NICKNAME_SHOPTITLE_IS_NOT_EXIST_SHOP = new NewMallCode(0, "店铺小程序码的用户uid或者微信昵称或者店铺名称不存在店铺.");
-    public static NewMallCode SHOP_SHOPDISCOUNTID_IS_NOT_NULL = new NewMallCode(30003, "店铺与平台之间的折扣值为空，请联系平台客服人员.");
-    public static NewMallCode SHOP_SHOPDISCOUNTID_IS_NOT_EXIST = new NewMallCode(30003, "店铺与平台之间的折扣值不存在，请联系平台客服人员.");
-    public static NewMallCode SHOP_SHOPDISCOUNTID_IS_NOT_NUM = new NewMallCode(30003, "店铺与平台之间的折扣值不是数字，请联系平台客服人员.");
+    public static NewMallCode SHOP_EXIST = new NewMallCode(210001, "店铺已经存在，请修改。");
+    public static NewMallCode SHOP_SHOPDISCOUNTID_SHOPTITLE_SHOPDEGIST_SHOPPHONE_SHOPADDRESS_SHOPLON_SHOPLAT_SHOPHEADIMGURL_SHOPDESCRIBEIMGURL_IS_NOT_NULL = new NewMallCode(210002, "店铺的折扣ID或者名称或者店铺地址或者店铺经纬度或者店铺头像地址或者店铺描述图片地址不能为空");
+    public static NewMallCode SHOP_ID_IS_NOT_NULL = new NewMallCode(210003, "店铺的ID不能为空");
+    public static NewMallCode SHOP_UID_IS_NOT_NULL = new NewMallCode(210004, "查询店铺的用户UID不能为空.");
+    public static NewMallCode SHOP_UID_NICKNAME_SHOPTITLE_PAGE_SCENE_FILEPATH_IS_NOT_NULL = new NewMallCode(210005, "店铺小程序码的用户uid或者微信昵称或者店铺名称或者小程序页面或者小程序码存放路径不能为空.");
+    public static NewMallCode SHOP_UID_NICKNAME_SHOPTITLE_IS_NOT_EXIST_SHOP = new NewMallCode(210006, "店铺小程序码的用户uid或者微信昵称或者店铺名称不存在店铺.");
+    public static NewMallCode SHOP_SHOPDISCOUNTID_IS_NOT_NULL = new NewMallCode(210007, "店铺与平台之间的折扣值为空，请联系平台客服人员.");
+    public static NewMallCode SHOP_SHOPDISCOUNTID_IS_NOT_EXIST = new NewMallCode(210008, "店铺与平台之间的折扣值不存在，请联系平台客服人员.");
+    public static NewMallCode SHOP_SHOPDISCOUNTID_IS_NOT_NUM = new NewMallCode(210009, "店铺与平台之间的折扣值不是数字，请联系平台客服人员.");
 
     //加盟
-    public static NewMallCode LEAGUE_UID_OR_PHONE_OR_NAME_OR_LEAGUETYPECODE_IS_NOT_NULL = new NewMallCode(30002, "加盟的uid或者手机号或者姓名或者加盟类型不能为空");
-    public static NewMallCode LEAGUE_ID_IS_NOT_NULL = new NewMallCode(30003, "加盟的ID不能为空");
-    public static NewMallCode LEAGUE_TYPE_IS_NULL = new NewMallCode(180005, "加盟类型不允许为空.");
     public static NewMallCode LEAGUE_LIST_IS_NULL = new NewMallCode(0, "当前加盟没有数据.");
+    public static NewMallCode LEAGUE_UID_OR_PHONE_OR_NAME_OR_LEAGUETYPECODE_IS_NOT_NULL = new NewMallCode(220001, "加盟的uid或者手机号或者姓名或者加盟类型不能为空");
+    public static NewMallCode LEAGUE_ID_IS_NOT_NULL = new NewMallCode(220002, "加盟的ID不能为空");
+    public static NewMallCode LEAGUE_TYPE_IS_NULL = new NewMallCode(220003, "加盟类型不允许为空.");
 
     //提现日志
-    public static NewMallCode cashlog_EXIST = new NewMallCode(30001, "字典已经存在，请修改。");
-    public static NewMallCode CASHLOG_UID_OR_CASHTOWXMONEY_OR_CASHFEE_OR_USERBALANCE_IS_NOT_NULL = new NewMallCode(30002, "提现日志的用户uid或者提现金额或者提现手续费或者用户余额不能为空");
-    public static NewMallCode CASHLOG_ID_IS_NOT_NULL = new NewMallCode(30003, "提现日志的ID不能为空");
-    public static NewMallCode CASHLOG_UID_IS_NOT_NULL = new NewMallCode(30003, "提现日志的用户UID不能为空");
-    public static NewMallCode CASHLOG_LIST_IS_NULL = new NewMallCode(0, "当前体现日志没有数据.");
+    public static NewMallCode CASHLOG_LIST_IS_NULL = new NewMallCode(0, "当前提现日志没有数据.");
+    public static NewMallCode CASHLOG_UID_OR_CASHTOWXMONEY_OR_CASHFEE_OR_USERBALANCE_IS_NOT_NULL = new NewMallCode(230001, "提现日志的用户uid或者提现金额或者提现手续费或者用户余额不能为空");
+    public static NewMallCode CASHLOG_ID_IS_NOT_NULL = new NewMallCode(230002, "提现日志的ID不能为空");
+    public static NewMallCode CASHLOG_UID_IS_NOT_NULL = new NewMallCode(230003, "提现日志的用户UID不能为空");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
