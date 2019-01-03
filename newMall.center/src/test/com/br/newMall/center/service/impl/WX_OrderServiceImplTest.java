@@ -117,16 +117,32 @@ public class WX_OrderServiceImplTest {
         BoolDTO boolDTO = new BoolDTO();
         String orderId = paramMap.get("orderId")!=null?paramMap.get("orderId").toString():"";
         if(!"".equals(orderId)){
-            paramMap.clear();
-            paramMap.put("id", orderId);        //订单ID
-            paramMap.put("status", "3");        //已完成
-            updateNum = wxOrderDao.updateOrder(paramMap);
-            if (updateNum != null && updateNum > 0) {
-                boolDTO.setCode(NewMallCode.SUCCESS.getNo());
-                boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+            Map<String, Object> orderMap = Maps.newHashMap();
+            orderMap.put("id", orderId);        //订单ID
+            List<Map<String, Object>> orderList = wxOrderDao.getSimpleOrderByCondition(orderMap);
+            if(orderList != null && orderList.size() > 0){
+                String status = orderList.get(0).get("status").toString();
+                String expressNumber = orderList.get(0).get("expressNumber").toString();
+                //订单的状态必须已发货或者发货的快递编号非空
+                if("2".equals(status) && !"".equals(expressNumber)){
+                    paramMap.clear();
+                    paramMap.put("id", orderId);        //订单ID
+                    paramMap.put("status", "3");        //已完成
+                    updateNum = wxOrderDao.updateOrder(paramMap);
+                    if (updateNum != null && updateNum > 0) {
+                        boolDTO.setCode(NewMallCode.SUCCESS.getNo());
+                        boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+                    } else {
+                        boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
+                        boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
+                    }
+                } else {
+                    boolDTO.setCode(NewMallCode.ORDER_STATUS_IS_NOT_2_OR_EXPRESSNUMBER_IS_NULL.getNo());
+                    boolDTO.setMessage(NewMallCode.ORDER_STATUS_IS_NOT_2_OR_EXPRESSNUMBER_IS_NULL.getMessage());
+                }
             } else {
-                boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
-                boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
+                boolDTO.setCode(NewMallCode.ORDER_LIST_IS_NULL.getNo());
+                boolDTO.setMessage(NewMallCode.ORDER_LIST_IS_NULL.getMessage());
             }
         } else {
             boolDTO.setCode(NewMallCode.ORDER_ID_IS_NOT_NULL.getNo());
