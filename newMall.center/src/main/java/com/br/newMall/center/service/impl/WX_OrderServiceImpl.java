@@ -1045,7 +1045,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         if(!"".equals(orderId)){
             Map<String, Object> orderMap = Maps.newHashMap();
             orderMap.put("id", orderId);        //订单ID
-            List<Map<String, Object>> orderList = wxOrderDao.getSimpleOrderByCondition(orderMap);
+            List<Map<String, Object>> orderList = wxOrderDao.getGoodsOrderByCondition(orderMap);
             if(orderList != null && orderList.size() > 0){
                 resultMap.putAll(orderList.get(0));
                 resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
