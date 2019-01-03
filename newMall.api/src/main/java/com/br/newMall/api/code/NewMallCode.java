@@ -150,6 +150,8 @@ public class NewMallCode {
     public static NewMallCode ORDER_UID_SHOPID_SPBILLCREATEIP_IS_NOT_NULL = new NewMallCode(190010, "付款用户uid或者店铺id或者交易IP不允许为空.");
     public static NewMallCode ORDER_PRODUCT_STOCK_IS_NOT_ENOUGH = new NewMallCode(190011, "购买的商品库存不足.");
     public static NewMallCode ORDER_UID_IS_NOT_NULL = new NewMallCode(190002, "订单的UID不允许为空.");
+    public static NewMallCode ORDER_WXORDERID_IS_NOT_EXIST = new NewMallCode(190009, "订单的微信订单号不存在.");
+    public static NewMallCode ORDER_STATUS_IS_NOT_WAIT_PAY_STATUS = new NewMallCode(190009, "订单的状态不是待支付.");
 
 
     //抽奖
