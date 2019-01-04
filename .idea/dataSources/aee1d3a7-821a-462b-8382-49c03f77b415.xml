@@ -684,57 +684,57 @@
       <Comment>用户_备注</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="137" parent="20" name="user_type">
-      <Position>12</Position>
-      <Comment>微信用户类型，miniProgram是小程序用户，publicNumber是公众号用户</Comment>
-      <DataType>varchar(100)|0</DataType>
-      <DefaultExpression>&apos;miniProgram&apos;</DefaultExpression>
-    </column>
-    <column id="138" parent="20" name="gray_status">
+    <column id="137" parent="20" name="gray_status">
       <Position>16</Position>
       <Comment>灰度用户状态，0是正常登陆用户，1是不需要登陆的用户</Comment>
       <DataType>int(11)|0</DataType>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
     </column>
-    <column id="139" parent="20" name="create_time">
+    <column id="138" parent="20" name="create_time">
       <Position>17</Position>
       <Comment>用户_创建时间</Comment>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
     </column>
-    <column id="140" parent="20" name="update_time">
+    <column id="139" parent="20" name="update_time">
       <Position>18</Position>
       <Comment>用户_更新时间</Comment>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
     </column>
-    <column id="141" parent="20" name="language">
+    <column id="140" parent="20" name="language">
       <Position>8</Position>
       <Comment>用户的语言</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="142" parent="20" name="balance">
+    <column id="141" parent="20" name="balance">
       <Position>10</Position>
       <Comment>余额</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="143" parent="20" name="integral">
+    <column id="142" parent="20" name="integral">
       <Position>11</Position>
       <Comment>积分</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="144" parent="20" name="shop_id">
+    <column id="143" parent="20" name="shop_id">
       <Position>14</Position>
       <Comment>店铺ID，存在即代表当前用户属于商家</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="145" parent="20" name="auto_cash_to_wx_flag">
+    <column id="144" parent="20" name="auto_cash_to_wx_flag">
       <Position>13</Position>
       <Comment>自动将余额提现到微信零钱，0：否，1：是</Comment>
       <DataType>varchar(10)|0</DataType>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="145" parent="20" name="user_source">
+      <Position>12</Position>
+      <Comment>微信用户来源，miniProgram是小程序用户，publicNumber是公众号用户</Comment>
+      <DataType>varchar(100)|0</DataType>
+      <DefaultExpression>&apos;miniProgram&apos;</DefaultExpression>
     </column>
     <index id="146" parent="20" name="index_n_user_of_id">
       <ColNames>id</ColNames>

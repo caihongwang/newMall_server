@@ -43,7 +43,7 @@ public class WX_LuckDrawController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中获取抽奖的产品列表-getLuckDrawProductList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】获取抽奖的产品列表-getLuckDrawProductList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             ResultDTO resultDTO = wxLuckDrawHandler.getLuckDrawProductList(0, paramMap);
             resultMap.put("recordsFiltered", resultDTO.getResultListTotal());
@@ -51,12 +51,12 @@ public class WX_LuckDrawController {
             resultMap.put("code", resultDTO.getCode());
             resultMap.put("message", resultDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中获取抽奖的产品列表-getLuckDrawProductList is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】获取抽奖的产品列表-getLuckDrawProductList is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中获取抽奖的产品列表-getLuckDrawProductList,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】获取抽奖的产品列表-getLuckDrawProductList,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -72,7 +72,7 @@ public class WX_LuckDrawController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中添加抽奖信息-addLuckDraw,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】添加抽奖信息-addLuckDraw,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             ResultMapDTO resultMapDTO = wxLuckDrawHandler.addLuckDraw(0, paramMap);
             resultMap.put("recordsFiltered", resultMapDTO.getResultListTotal());
@@ -80,12 +80,12 @@ public class WX_LuckDrawController {
             resultMap.put("code", resultMapDTO.getCode());
             resultMap.put("message", resultMapDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中添加抽奖信息-addLuckDraw is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】添加抽奖信息-addLuckDraw is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中添加抽奖信息-addLuckDraw,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】添加抽奖信息-addLuckDraw,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -101,19 +101,19 @@ public class WX_LuckDrawController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中删除抽奖信息-deleteLuckDraw,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】删除抽奖信息-deleteLuckDraw,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             BoolDTO boolDTO = wxLuckDrawHandler.deleteLuckDraw(0, paramMap);
             resultMap.put("success", true);
             resultMap.put("code", boolDTO.getCode());
             resultMap.put("message", boolDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中删除抽奖信息-deleteLuckDraw is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】删除抽奖信息-deleteLuckDraw is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中删除抽奖信息-deleteLuckDraw,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】删除抽奖信息-deleteLuckDraw,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -129,19 +129,19 @@ public class WX_LuckDrawController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中修改抽奖信息-updateLuckDraw,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】修改抽奖信息-updateLuckDraw,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             BoolDTO boolDTO = wxLuckDrawHandler.updateLuckDraw(0, paramMap);
             resultMap.put("success", true);
             resultMap.put("code", boolDTO.getCode());
             resultMap.put("message", boolDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中修改抽奖信息-updateLuckDraw is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】修改抽奖信息-updateLuckDraw is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中修改抽奖信息-updateLuckDraw,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】修改抽奖信息-updateLuckDraw,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -157,7 +157,7 @@ public class WX_LuckDrawController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中获取单一的抽奖信息-getSimpleLuckDrawByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】获取单一的抽奖信息-getSimpleLuckDrawByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         String start = paramMap.get("start")!=null?paramMap.get("start").toString():"";
         String size = paramMap.get("size")!=null?paramMap.get("size").toString():"";
         if("".equals(start)){
@@ -193,12 +193,12 @@ public class WX_LuckDrawController {
             resultMap.put("code", resultDTO.getCode());
             resultMap.put("message", resultDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中获取单一的抽奖信息-getSimpleLuckDrawByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】获取单一的抽奖信息-getSimpleLuckDrawByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中获取单一的抽奖信息-getSimpleLuckDrawByCondition,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】获取单一的抽奖信息-getSimpleLuckDrawByCondition,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -214,7 +214,7 @@ public class WX_LuckDrawController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中获取某商家下待领取奖励的队列-getWaitLuckDrawRankByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】获取某商家下待领取奖励的队列-getWaitLuckDrawRankByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         String start = paramMap.get("start")!=null?paramMap.get("start").toString():"";
         String size = paramMap.get("size")!=null?paramMap.get("size").toString():"";
         if("".equals(start)){
@@ -250,12 +250,12 @@ public class WX_LuckDrawController {
             resultMap.put("code", resultMapDTO.getCode());
             resultMap.put("message", resultMapDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中获取某商家下待领取奖励的队列-getWaitLuckDrawRankByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】获取某商家下待领取奖励的队列-getWaitLuckDrawRankByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中获取某商家下待领取奖励的队列-getWaitLuckDrawRankByCondition,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】获取某商家下待领取奖励的队列-getWaitLuckDrawRankByCondition,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -271,7 +271,7 @@ public class WX_LuckDrawController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中获取某商家下已领取奖励的队列-getRecevicedLuckDrawRankByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】获取某商家下已领取奖励的队列-getRecevicedLuckDrawRankByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         String start = paramMap.get("start")!=null?paramMap.get("start").toString():"";
         String size = paramMap.get("size")!=null?paramMap.get("size").toString():"";
         if("".equals(start)){
@@ -307,12 +307,12 @@ public class WX_LuckDrawController {
             resultMap.put("code", resultMapDTO.getCode());
             resultMap.put("message", resultMapDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中获取某商家下已领取奖励的队列-getRecevicedLuckDrawRankByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】获取某商家下已领取奖励的队列-getRecevicedLuckDrawRankByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中获取某商家下已领取奖励的队列-getRecevicedLuckDrawRankByCondition,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】获取某商家下已领取奖励的队列-getRecevicedLuckDrawRankByCondition,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -328,7 +328,7 @@ public class WX_LuckDrawController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中获取某商家下所有参与过领取奖励的队列-getAllLuckDrawRankByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】获取某商家下所有参与过领取奖励的队列-getAllLuckDrawRankByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         String start = paramMap.get("start")!=null?paramMap.get("start").toString():"";
         String size = paramMap.get("size")!=null?paramMap.get("size").toString():"";
         if("".equals(start)){
@@ -364,12 +364,12 @@ public class WX_LuckDrawController {
             resultMap.put("code", resultMapDTO.getCode());
             resultMap.put("message", resultMapDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中获取某商家下所有参与过领取奖励的队列-getAllLuckDrawRankByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】获取某商家下所有参与过领取奖励的队列-getAllLuckDrawRankByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中获取某商家下所有参与过领取奖励的队列-getAllLuckDrawRankByCondition,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】获取某商家下所有参与过领取奖励的队列-getAllLuckDrawRankByCondition,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -385,7 +385,7 @@ public class WX_LuckDrawController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中获取待领取奖励的商家列表-getWaitLuckDrawShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】获取待领取奖励的商家列表-getWaitLuckDrawShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         String start = paramMap.get("start")!=null?paramMap.get("start").toString():"";
         String size = paramMap.get("size")!=null?paramMap.get("size").toString():"";
         if("".equals(start)){
@@ -421,12 +421,12 @@ public class WX_LuckDrawController {
             resultMap.put("code", resultDTO.getCode());
             resultMap.put("message", resultDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中获取待领取奖励的商家列表-getWaitLuckDrawShopByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】获取待领取奖励的商家列表-getWaitLuckDrawShopByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中获取待领取奖励的商家列表-getWaitLuckDrawShopByCondition,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】获取待领取奖励的商家列表-getWaitLuckDrawShopByCondition,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -442,7 +442,7 @@ public class WX_LuckDrawController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中获取已领取奖励的商家列表-getRecevicedLuckDrawShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】获取已领取奖励的商家列表-getRecevicedLuckDrawShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         String start = paramMap.get("start")!=null?paramMap.get("start").toString():"";
         String size = paramMap.get("size")!=null?paramMap.get("size").toString():"";
         if("".equals(start)){
@@ -478,12 +478,12 @@ public class WX_LuckDrawController {
             resultMap.put("code", resultDTO.getCode());
             resultMap.put("message", resultDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中获取已领取奖励的商家列表-getRecevicedLuckDrawShopByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】获取已领取奖励的商家列表-getRecevicedLuckDrawShopByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中获取已领取奖励的商家列表-getRecevicedLuckDrawShopByCondition,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】获取已领取奖励的商家列表-getRecevicedLuckDrawShopByCondition,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -499,7 +499,7 @@ public class WX_LuckDrawController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中获取参加过抽奖的商家列表-getAllLuckDrawShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】获取参加过抽奖的商家列表-getAllLuckDrawShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         String start = paramMap.get("start")!=null?paramMap.get("start").toString():"";
         String size = paramMap.get("size")!=null?paramMap.get("size").toString():"";
         if("".equals(start)){
@@ -535,12 +535,12 @@ public class WX_LuckDrawController {
             resultMap.put("code", resultDTO.getCode());
             resultMap.put("message", resultDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中获取参加过抽奖的商家列表-getAllLuckDrawShopByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】获取参加过抽奖的商家列表-getAllLuckDrawShopByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中获取参加过抽奖的商家列表-getAllLuckDrawShopByCondition,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】获取参加过抽奖的商家列表-getAllLuckDrawShopByCondition,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -556,7 +556,7 @@ public class WX_LuckDrawController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中奖励兑换用户积分-convertIntegral,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】奖励兑换用户积分-convertIntegral,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             ResultMapDTO resultMapDTO = wxLuckDrawHandler.convertIntegral(0, paramMap);
             resultMap.put("recordsFiltered", resultMapDTO.getResultListTotal());
@@ -564,12 +564,12 @@ public class WX_LuckDrawController {
             resultMap.put("code", resultMapDTO.getCode());
             resultMap.put("message", resultMapDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中奖励兑换用户积分-convertIntegral is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】奖励兑换用户积分-convertIntegral is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中奖励兑换用户积分-convertIntegral,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】奖励兑换用户积分-convertIntegral,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -585,7 +585,7 @@ public class WX_LuckDrawController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中奖励兑换用户余额-convertBalance,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】奖励兑换用户余额-convertBalance,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             ResultMapDTO resultMapDTO = wxLuckDrawHandler.convertBalance(0, paramMap);
             resultMap.put("recordsFiltered", resultMapDTO.getResultListTotal());
@@ -593,12 +593,12 @@ public class WX_LuckDrawController {
             resultMap.put("code", resultMapDTO.getCode());
             resultMap.put("message", resultMapDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中奖励兑换用户余额-convertBalance is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】奖励兑换用户余额-convertBalance is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中奖励兑换用户余额-convertBalance,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】奖励兑换用户余额-convertBalance,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 }

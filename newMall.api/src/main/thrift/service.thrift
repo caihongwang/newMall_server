@@ -34,7 +34,9 @@ service WX_UserHandler {
 
     dto.ResultDTO getSimpleUserByCondition(1:int tid, 2:map<string, string> paramMap),
 
-    dto.MessageDTO getCheckVerificationCode(1:int tid, 2:map<string, string> paramMap)
+    dto.MessageDTO getCheckVerificationCode(1:int tid, 2:map<string, string> paramMap),
+
+    dto.BoolDTO checkUserAutoCashBalance(1:int tid, 2:map<string, string> paramMap)
 
 }
 

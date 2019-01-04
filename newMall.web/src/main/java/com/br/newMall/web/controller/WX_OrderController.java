@@ -49,7 +49,7 @@ public class WX_OrderController {
         paramMap = HttpUtil.getRequestParams(request);
         //获取本机的ip地址
         paramMap.put("spbillCreateIp", HttpUtil.getIpAddr(request));
-        logger.info("在【controller】中购买商品-purchaseProductInMiniProgram,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】购买商品-purchaseProductInMiniProgram,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             ResultMapDTO resultMapDTO = wxOrderHandler.payTheBillInMiniProgram(0, paramMap);
             resultMap.put("recordsFiltered", resultMapDTO.getResultListTotal());
@@ -57,12 +57,12 @@ public class WX_OrderController {
             resultMap.put("code", resultMapDTO.getCode());
             resultMap.put("message", resultMapDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中买单-purchaseProductInMiniProgram is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】买单-purchaseProductInMiniProgram is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中购买商品-purchaseProductInMiniProgram,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】购买商品-purchaseProductInMiniProgram,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -108,7 +108,7 @@ public class WX_OrderController {
             //26.out_trade_no           商户系统内部订单号，要求32个字符内，只能是数字、大小写字母_-|*@ ，且在同一个商户号下唯一
             //27.attach                 商家数据包，原样返回
             //28.time_end               支付完成时间，格式为yyyyMMddHHmmss，如2009年12月25日9点10分10秒表示为20091225091010。其他详见时间规则
-        logger.info("在【controller】中购买商品成功后的回调通知-wxPayNotifyForPurchaseProductInMiniProgram,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】购买商品成功后的回调通知-wxPayNotifyForPurchaseProductInMiniProgram,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         BufferedReader br = new BufferedReader(new InputStreamReader((ServletInputStream) request.getInputStream()));
         String line = null;
         StringBuilder sb = new StringBuilder();
@@ -121,7 +121,7 @@ public class WX_OrderController {
         String resXml = "";
         paramMap.clear();
         paramMap = PayUtil.doXMLParse(notityXml);
-        logger.info("在【controller】中买单成功后的回调通知-wxPayNotifyForPayTheBillInMiniProgram,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】买单成功后的回调通知-wxPayNotifyForPayTheBillInMiniProgram,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         String returnCode = (String) paramMap.get("return_code");
         if ("SUCCESS".equals(returnCode)) {
             //验证签名是否正确，确定是不是当前小程序对应的商户发起的订单
@@ -143,7 +143,7 @@ public class WX_OrderController {
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", "报文为空");
         }
-        logger.info("在【controller】中购买商品成功后的回调通知-wxPayNotifyForPurchaseProductInMiniProgram,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】购买商品成功后的回调通知-wxPayNotifyForPurchaseProductInMiniProgram,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         String resposeStr = "<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>";
         response.setContentType("text/xml;charset=UTF-8");
         // 处理业务完毕 通知微信已经收到消息，不要再给我发消息了，否则微信会8连击调用本接口
@@ -175,7 +175,7 @@ public class WX_OrderController {
         paramMap = HttpUtil.getRequestParams(request);
         //获取本机的ip地址
         paramMap.put("spbillCreateIp", HttpUtil.getIpAddr(request));
-        logger.info("在【controller】中买单-payTheBillInMiniProgram,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】买单-payTheBillInMiniProgram,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             ResultMapDTO resultMapDTO = wxOrderHandler.payTheBillInMiniProgram(0, paramMap);
             resultMap.put("recordsFiltered", resultMapDTO.getResultListTotal());
@@ -183,12 +183,12 @@ public class WX_OrderController {
             resultMap.put("code", resultMapDTO.getCode());
             resultMap.put("message", resultMapDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中买单-payTheBillInMiniProgram is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】买单-payTheBillInMiniProgram is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中买单-payTheBillInMiniProgram,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】买单-payTheBillInMiniProgram,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -234,7 +234,7 @@ public class WX_OrderController {
             //26.out_trade_no           商户系统内部订单号，要求32个字符内，只能是数字、大小写字母_-|*@ ，且在同一个商户号下唯一
             //27.attach                 商家数据包，原样返回
             //28.time_end               支付完成时间，格式为yyyyMMddHHmmss，如2009年12月25日9点10分10秒表示为20091225091010。其他详见时间规则
-        logger.info("在【controller】中买单成功后的回调通知-wxPayNotifyForPayTheBillInMiniProgram,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】买单成功后的回调通知-wxPayNotifyForPayTheBillInMiniProgram,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         BufferedReader br = new BufferedReader(new InputStreamReader((ServletInputStream) request.getInputStream()));
         String line = null;
         StringBuilder sb = new StringBuilder();
@@ -248,7 +248,7 @@ public class WX_OrderController {
         paramMap.clear();
         paramMap = PayUtil.doXMLParse(notityXml);
         String returnCode = (String) paramMap.get("return_code");
-        logger.info("在【controller】中买单成功后的回调通知-wxPayNotifyForPayTheBillInMiniProgram,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】买单成功后的回调通知-wxPayNotifyForPayTheBillInMiniProgram,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         if ("SUCCESS".equals(returnCode)) {
             //验证签名是否正确，确定是不是当前小程序对应的商户发起的订单
 //            if (PayUtil.verify(PayUtil.createLinkString(paramMap), (String) paramMap.get("sign"), NewMallCode.WX_PAY_API_SECRET, "utf-8")) {
@@ -269,7 +269,7 @@ public class WX_OrderController {
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", "报文为空");
         }
-        logger.info("在【controller】中买单成功后的回调通知-wxPayNotifyForPayTheBillInMiniProgram,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】买单成功后的回调通知-wxPayNotifyForPayTheBillInMiniProgram,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return;
     }
 
@@ -285,19 +285,19 @@ public class WX_OrderController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中添加订单-addOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】添加订单-addOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             BoolDTO boolDTO = wxOrderHandler.addOrder(0, paramMap);
             resultMap.put("success", true);
             resultMap.put("code", boolDTO.getCode());
             resultMap.put("message", boolDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中添加订单-addOrder is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】添加订单-addOrder is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中添加订单-addOrder,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】添加订单-addOrder,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -313,19 +313,19 @@ public class WX_OrderController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中删除订单-deleteOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】删除订单-deleteOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             BoolDTO boolDTO = wxOrderHandler.deleteOrder(0, paramMap);
             resultMap.put("success", true);
             resultMap.put("code", boolDTO.getCode());
             resultMap.put("message", boolDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中删除订单-deleteOrder is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】删除订单-deleteOrder is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中删除订单-deleteOrder,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】删除订单-deleteOrder,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -341,19 +341,19 @@ public class WX_OrderController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中修改订单-updateOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】修改订单-updateOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             BoolDTO boolDTO = wxOrderHandler.updateOrder(0, paramMap);
             resultMap.put("success", true);
             resultMap.put("code", boolDTO.getCode());
             resultMap.put("message", boolDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中修改订单-updateOrder is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】修改订单-updateOrder is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中修改订单-updateOrder,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】修改订单-updateOrder,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -369,7 +369,7 @@ public class WX_OrderController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中获取单一的订单-getSimpleOrderByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】获取单一的订单-getSimpleOrderByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         String start = paramMap.get("start")!=null?paramMap.get("start").toString():"";
         String size = paramMap.get("size")!=null?paramMap.get("size").toString():"";
         if("".equals(start)){
@@ -405,12 +405,12 @@ public class WX_OrderController {
             resultMap.put("code", resultDTO.getCode());
             resultMap.put("message", resultDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中获取单一的订单-getSimpleOrderByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】获取单一的订单-getSimpleOrderByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中获取单一的订单-getSimpleOrderByCondition,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】获取单一的订单-getSimpleOrderByCondition,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -426,7 +426,7 @@ public class WX_OrderController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中获取当前用户的订单信息-getOrderByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】获取当前用户的订单信息-getOrderByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         String start = paramMap.get("start")!=null?paramMap.get("start").toString():"";
         String size = paramMap.get("size")!=null?paramMap.get("size").toString():"";
         if("".equals(start)){
@@ -462,12 +462,12 @@ public class WX_OrderController {
             resultMap.put("code", resultDTO.getCode());
             resultMap.put("message", resultDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中获取当前用户的订单信息-getOrderByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】获取当前用户的订单信息-getOrderByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中获取当前用户的订单信息-getOrderByCondition,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】获取当前用户的订单信息-getOrderByCondition,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -483,7 +483,7 @@ public class WX_OrderController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中获取待支付的商品订单-getWaitPayGoodsOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】获取待支付的商品订单-getWaitPayGoodsOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         String start = paramMap.get("start")!=null?paramMap.get("start").toString():"";
         String size = paramMap.get("size")!=null?paramMap.get("size").toString():"";
         if("".equals(start)){
@@ -519,12 +519,12 @@ public class WX_OrderController {
             resultMap.put("code", resultDTO.getCode());
             resultMap.put("message", resultDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中获取待支付的商品订单-getWaitPayGoodsOrder is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】获取待支付的商品订单-getWaitPayGoodsOrder is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中获取待支付的商品订单-getWaitPayGoodsOrder,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】获取待支付的商品订单-getWaitPayGoodsOrder,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -540,7 +540,7 @@ public class WX_OrderController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中获取已支付的商品订单-getAlreadyPayGoodsOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】获取已支付的商品订单-getAlreadyPayGoodsOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         String start = paramMap.get("start")!=null?paramMap.get("start").toString():"";
         String size = paramMap.get("size")!=null?paramMap.get("size").toString():"";
         if("".equals(start)){
@@ -576,12 +576,12 @@ public class WX_OrderController {
             resultMap.put("code", resultDTO.getCode());
             resultMap.put("message", resultDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中获取已支付的商品订单-getAlreadyPayGoodsOrder is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】获取已支付的商品订单-getAlreadyPayGoodsOrder is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中获取已支付的商品订单-getAlreadyPayGoodsOrder,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】获取已支付的商品订单-getAlreadyPayGoodsOrder,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -597,7 +597,7 @@ public class WX_OrderController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中获取已发货的商品订单-getAlreadyDeliverGoodsOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】获取已发货的商品订单-getAlreadyDeliverGoodsOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         String start = paramMap.get("start")!=null?paramMap.get("start").toString():"";
         String size = paramMap.get("size")!=null?paramMap.get("size").toString():"";
         if("".equals(start)){
@@ -633,12 +633,12 @@ public class WX_OrderController {
             resultMap.put("code", resultDTO.getCode());
             resultMap.put("message", resultDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中获取已发货的商品订单-getAlreadyDeliverGoodsOrder is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】获取已发货的商品订单-getAlreadyDeliverGoodsOrder is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中获取已发货的商品订单-getAlreadyDeliverGoodsOrder,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】获取已发货的商品订单-getAlreadyDeliverGoodsOrder,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -654,7 +654,7 @@ public class WX_OrderController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中获取已完成的商品订单-getCompletedGoodsOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】获取已完成的商品订单-getCompletedGoodsOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         String start = paramMap.get("start")!=null?paramMap.get("start").toString():"";
         String size = paramMap.get("size")!=null?paramMap.get("size").toString():"";
         if("".equals(start)){
@@ -690,12 +690,12 @@ public class WX_OrderController {
             resultMap.put("code", resultDTO.getCode());
             resultMap.put("message", resultDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中获取已完成的商品订单-getCompletedGoodsOrder is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】获取已完成的商品订单-getCompletedGoodsOrder is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中获取已完成的商品订单-getCompletedGoodsOrder,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】获取已完成的商品订单-getCompletedGoodsOrder,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -711,19 +711,19 @@ public class WX_OrderController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中对商品订单进行确认收货-confirmReceiptGoodsOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】对商品订单进行确认收货-confirmReceiptGoodsOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             BoolDTO boolDTO = wxOrderHandler.confirmReceiptGoodsOrder(0, paramMap);
             resultMap.put("success", true);
             resultMap.put("code", boolDTO.getCode());
             resultMap.put("message", boolDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中对商品订单进行确认收货-confirmReceiptGoodsOrder is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】对商品订单进行确认收货-confirmReceiptGoodsOrder is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中对商品订单进行确认收货-confirmReceiptGoodsOrder,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】对商品订单进行确认收货-confirmReceiptGoodsOrder,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -739,7 +739,7 @@ public class WX_OrderController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中获取商品订单详情-getGoodsOrderDetailById,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】获取商品订单详情-getGoodsOrderDetailById,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             ResultMapDTO resultMapDTO = wxOrderHandler.getGoodsOrderDetailById(0, paramMap);
             resultMap.put("recordsFiltered", resultMapDTO.getResultListTotal());
@@ -747,12 +747,12 @@ public class WX_OrderController {
             resultMap.put("code", resultMapDTO.getCode());
             resultMap.put("message", resultMapDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中获取商品订单详情-getGoodsOrderDetailById is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】获取商品订单详情-getGoodsOrderDetailById is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中获取商品订单详情-getGoodsOrderDetailById,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】获取商品订单详情-getGoodsOrderDetailById,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 

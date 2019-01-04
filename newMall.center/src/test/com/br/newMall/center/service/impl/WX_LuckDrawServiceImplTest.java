@@ -79,7 +79,7 @@ public class WX_LuckDrawServiceImplTest {
     }
 
     public ResultMapDTO convertBalance(Map<String, Object> paramMap) throws Exception{
-        logger.info("在【service】中奖励兑换用户余额-convertBalance,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】奖励兑换用户余额-convertBalance,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Integer updateNum = 0;
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         //获取待奖励的列表
@@ -189,12 +189,12 @@ public class WX_LuckDrawServiceImplTest {
                 }
             }
         }
-        logger.info("在【service】中奖励兑换用户余额-convertBalance,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        logger.info("【service】奖励兑换用户余额-convertBalance,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
     }
 
     public ResultMapDTO convertIntegral(Map<String, Object> paramMap) {
-        logger.info("在【service】中奖励兑换用户积分-convertIntegral,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】奖励兑换用户积分-convertIntegral,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Integer updateNum = 0;
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, String> resultMap = Maps.newHashMap();
@@ -252,12 +252,12 @@ public class WX_LuckDrawServiceImplTest {
             resultMapDTO.setCode(NewMallCode.LUCKDRAW_UID_OR_WXORDERID_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.LUCKDRAW_UID_OR_WXORDERID_IS_NULL.getMessage());
         }
-        logger.info("在【service】中奖励兑换用户积分-convertIntegral,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        logger.info("【service】奖励兑换用户积分-convertIntegral,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
     }
 
     public ResultDTO getWaitLuckDrawShopByCondition(Map<String, Object> paramMap) throws Exception{
-        logger.info("在【service】中获取待领取奖励的商家列表-getWaitLuckDrawShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】获取待领取奖励的商家列表-getWaitLuckDrawShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         Map<String, String> resultMap = Maps.newHashMap();
         String uid = paramMap.get("uid") != null ? paramMap.get("uid").toString() : "";
@@ -318,12 +318,12 @@ public class WX_LuckDrawServiceImplTest {
             resultDTO.setCode(NewMallCode.LUCKDRAW_UID_IS_NOT_NULL.getNo());
             resultDTO.setMessage(NewMallCode.LUCKDRAW_UID_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中获取待领取奖励的商家列表-getWaitLuckDrawShopByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        logger.info("【service】获取待领取奖励的商家列表-getWaitLuckDrawShopByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
 
     public ResultMapDTO getWaitLuckDrawRankByCondition(Map<String, Object> paramMap){
-        logger.info("在【service】中获取某商家下待领取奖励的队列-getWaitLuckDrawRankByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】获取某商家下待领取奖励的队列-getWaitLuckDrawRankByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, String> resultMap = Maps.newHashMap();
         String uid = paramMap.get("uid") != null ? paramMap.get("uid").toString() : "";
@@ -386,12 +386,12 @@ public class WX_LuckDrawServiceImplTest {
             resultMapDTO.setCode(NewMallCode.LUCKDRAW_SHOPID_OR_UID_IS_NOT_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.LUCKDRAW_SHOPID_OR_UID_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中获取某商家下待领取奖励的队列-getWaitLuckDrawRankByCondition,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        logger.info("【service】获取某商家下待领取奖励的队列-getWaitLuckDrawRankByCondition,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
     }
 
     public ResultMapDTO addLuckDraw(Map<String, Object> paramMap) {
-        logger.info("在【service】中添加抽奖信息-addLuckDraw,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】添加抽奖信息-addLuckDraw,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Integer addNum = 0;
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, String> resultMap = Maps.newHashMap();
@@ -473,12 +473,12 @@ public class WX_LuckDrawServiceImplTest {
             resultMapDTO.setCode(NewMallCode.LUCKDRAW_UID_OR_WXORDERID_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.LUCKDRAW_UID_OR_WXORDERID_IS_NULL.getMessage());
         }
-        logger.info("在【service】中添加抽奖信息-addLuckDraw,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        logger.info("【service】添加抽奖信息-addLuckDraw,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
     }
 
     public ResultDTO getLuckDrawProductList(Map<String, Object> paramMap) {
-        logger.info("在【service】中获取抽奖的产品列表-getLuckDrawProductList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】获取抽奖的产品列表-getLuckDrawProductList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         String dicType = paramMap.get("dicType") != null ? paramMap.get("dicType").toString() : "luckDraw";
         if(!"".equals(dicType)){
@@ -488,7 +488,7 @@ public class WX_LuckDrawServiceImplTest {
             resultDTO.setCode(NewMallCode.LUCKDRAW_LUCKDRAWTYPE_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.LUCKDRAW_LUCKDRAWTYPE_IS_NULL.getMessage());
         }
-        logger.info("在【service】中获取抽奖的产品列表-getLuckDrawProductList,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        logger.info("【service】获取抽奖的产品列表-getLuckDrawProductList,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
 }

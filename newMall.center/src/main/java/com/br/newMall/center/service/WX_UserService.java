@@ -11,6 +11,14 @@ import java.util.Map;
 public interface WX_UserService {
 
     /**
+     * 设置用户余额是否自动提现
+     *
+     * @param paramMap
+     * @return
+     */
+    BoolDTO checkUserAutoCashBalance(Map<String, Object> paramMap);
+
+    /**
      * 获取用户的基本信息
      *
      * @param paramMap

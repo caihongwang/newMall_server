@@ -46,7 +46,7 @@ public class WX_ShopServiceImpl implements WX_ShopService {
      */
     @Override
     public BoolDTO addShop(Map<String, Object> paramMap) {
-        logger.info("在【service】中添加店铺-addShop,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】添加店铺-addShop,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Integer addNum = 0;
         BoolDTO boolDTO = new BoolDTO();
         String shopDiscountId = paramMap.get("shopDiscountId") != null ? paramMap.get("shopDiscountId").toString() : "";
@@ -84,7 +84,7 @@ public class WX_ShopServiceImpl implements WX_ShopService {
             boolDTO.setCode(NewMallCode.SHOP_SHOPDISCOUNTID_SHOPTITLE_SHOPDEGIST_SHOPPHONE_SHOPADDRESS_SHOPLON_SHOPLAT_SHOPHEADIMGURL_SHOPDESCRIBEIMGURL_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.SHOP_SHOPDISCOUNTID_SHOPTITLE_SHOPDEGIST_SHOPPHONE_SHOPADDRESS_SHOPLON_SHOPLAT_SHOPHEADIMGURL_SHOPDESCRIBEIMGURL_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中添加店铺-addShop,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        logger.info("【service】添加店铺-addShop,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
@@ -95,7 +95,7 @@ public class WX_ShopServiceImpl implements WX_ShopService {
      */
     @Override
     public BoolDTO deleteShop(Map<String, Object> paramMap) {
-        logger.info("在【service】中删除店铺-deleteShop,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】删除店铺-deleteShop,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Integer deleteNum = 0;
         BoolDTO boolDTO = new BoolDTO();
         String id = paramMap.get("id") != null ? paramMap.get("id").toString() : "";
@@ -112,7 +112,7 @@ public class WX_ShopServiceImpl implements WX_ShopService {
             boolDTO.setCode(NewMallCode.SHOP_ID_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.SHOP_ID_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中删除店铺-deleteShop,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        logger.info("【service】删除店铺-deleteShop,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
@@ -123,7 +123,7 @@ public class WX_ShopServiceImpl implements WX_ShopService {
      */
     @Override
     public BoolDTO updateShop(Map<String, Object> paramMap) {
-        logger.info("在【service】中修改店铺-updateShop,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】修改店铺-updateShop,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Integer updateNum = 0;
         BoolDTO boolDTO = new BoolDTO();
         String id = paramMap.get("id") != null ? paramMap.get("id").toString() : "";
@@ -140,7 +140,7 @@ public class WX_ShopServiceImpl implements WX_ShopService {
             boolDTO.setCode(NewMallCode.SHOP_ID_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.SHOP_ID_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中修改店铺-updateShop,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        logger.info("【service】修改店铺-updateShop,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
@@ -151,7 +151,7 @@ public class WX_ShopServiceImpl implements WX_ShopService {
      */
     @Override
     public ResultDTO getSimpleShopByCondition(Map<String, Object> paramMap) {
-        logger.info("在【service】中获取单一的店铺-getSimpleShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】获取单一的店铺-getSimpleShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         List<Map<String, String>> dicStrList = Lists.newArrayList();
         paramMap.remove("uid");
@@ -205,7 +205,7 @@ public class WX_ShopServiceImpl implements WX_ShopService {
             resultDTO.setCode(NewMallCode.SHOP_LIST_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.SHOP_LIST_IS_NULL.getMessage());
         }
-        logger.info("在【service】中获取单一的店铺-getSimpleShopByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        logger.info("【service】获取单一的店铺-getSimpleShopByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
 
@@ -216,7 +216,7 @@ public class WX_ShopServiceImpl implements WX_ShopService {
      */
     @Override
     public ResultDTO getShopByCondition(Map<String, Object> paramMap) {
-        logger.info("在【service】中根据条件查询店铺相关信息-getShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】根据条件查询店铺相关信息-getShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         List<Map<String, String>> shopStrList = Lists.newArrayList();
         Double currentLon = Double.parseDouble(paramMap.get("currentLon") != null ? paramMap.get("currentLon").toString() : "0");
@@ -258,7 +258,7 @@ public class WX_ShopServiceImpl implements WX_ShopService {
             resultDTO.setCode(NewMallCode.SHOP_ID_IS_NOT_NULL.getNo());
             resultDTO.setMessage(NewMallCode.SHOP_ID_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中根据条件查询店铺相关信息-getShopByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        logger.info("【service】根据条件查询店铺相关信息-getShopByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
 
@@ -268,7 +268,7 @@ public class WX_ShopServiceImpl implements WX_ShopService {
      */
     @Override
     public ResultMapDTO getMiniProgramCode(Map<String, Object> paramMap) {
-        logger.info("在【service】中根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getMiniProgramCode,响应-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getMiniProgramCode,响应-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> resultMap = Maps.newHashMap();
         String page = paramMap.get("page")!=null?paramMap.get("page").toString():"";
@@ -317,7 +317,7 @@ public class WX_ShopServiceImpl implements WX_ShopService {
             resultMapDTO.setCode(NewMallCode.SHOP_UID_NICKNAME_SHOPTITLE_PAGE_SCENE_FILEPATH_IS_NOT_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.SHOP_UID_NICKNAME_SHOPTITLE_PAGE_SCENE_FILEPATH_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getMiniProgramCode,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        logger.info("【service】根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getMiniProgramCode,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
     }
 

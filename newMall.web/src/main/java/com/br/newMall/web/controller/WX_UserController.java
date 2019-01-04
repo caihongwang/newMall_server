@@ -32,6 +32,34 @@ public class WX_UserController {
     private WX_UserHandler.Client wxUserHandler;
 
     /**
+     * 设置用户余额是否自动提现
+     * @param request
+     * @return
+     */
+    @RequestMapping("/checkUserAutoCashBalance")
+    @ResponseBody
+    public Map<String, Object> checkUserAutoCashBalance(HttpServletRequest request) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        //获取请求参数能够获取到并解析
+        paramMap = HttpUtil.getRequestParams(request);
+        logger.info("【controller】设置用户余额是否自动提现-checkUserAutoCashBalance,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        try {
+            BoolDTO boolDTO = wxUserHandler.checkUserAutoCashBalance(0, paramMap);
+            resultMap.put("success", true);
+            resultMap.put("code", boolDTO.getCode());
+            resultMap.put("message", boolDTO.getMessage());
+        } catch (Exception e) {
+            logger.error("【controller】设置用户余额是否自动提现-checkUserAutoCashBalance is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            resultMap.put("success", false);
+            resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
+            resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
+        }
+        logger.info("【controller】设置用户余额是否自动提现-checkUserAutoCashBalance,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        return resultMap;
+    }
+
+    /**
      * 获取用户的基本信息
      * @param request
      * @return
@@ -43,7 +71,7 @@ public class WX_UserController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中获取用户的基本信息-getUserBaseInfo,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】获取用户的基本信息-getUserBaseInfo,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             ResultMapDTO resultMapDTO = wxUserHandler.getUserBaseInfo(0, paramMap);
             resultMap.put("success", true);
@@ -51,12 +79,12 @@ public class WX_UserController {
             resultMap.put("message", resultMapDTO.getMessage());
             resultMap.put("data", resultMapDTO.getResultMap());
         } catch (Exception e) {
-            logger.error("在【controller】中获取用户的基本信息-getUserBaseInfo is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】获取用户的基本信息-getUserBaseInfo is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中获取用户的基本信息-getUserBaseInfo,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】获取用户的基本信息-getUserBaseInfo,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -72,7 +100,7 @@ public class WX_UserController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中登录(首次微信授权，则使用openId创建用户)-login,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】登录(首次微信授权，则使用openId创建用户)-login,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             ResultMapDTO resultMapDTO = wxUserHandler.login(0, paramMap);
             resultMap.put("success", true);
@@ -80,12 +108,12 @@ public class WX_UserController {
             resultMap.put("message", resultMapDTO.getMessage());
             resultMap.put("data", resultMapDTO.getResultMap());
         } catch (Exception e) {
-            logger.error("在【controller】中登录(首次微信授权，则使用openId创建用户)-login is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】登录(首次微信授权，则使用openId创建用户)-login is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中登录(首次微信授权，则使用openId创建用户)-login,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】登录(首次微信授权，则使用openId创建用户)-login,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -101,19 +129,19 @@ public class WX_UserController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中更新用户信息-updateUser,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】更新用户信息-updateUser,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             BoolDTO boolDTO = wxUserHandler.updateUser(0, paramMap);
             resultMap.put("success", true);
             resultMap.put("code", boolDTO.getCode());
             resultMap.put("message", boolDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中更新用户信息-updateUser is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】更新用户信息-updateUser is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中更新用户信息-updateUser,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】更新用户信息-updateUser,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -129,19 +157,19 @@ public class WX_UserController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中检测用户会话是否过期-checkSession,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】检测用户会话是否过期-checkSession,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             BoolDTO boolDTO = wxUserHandler.checkSession(0, paramMap);
             resultMap.put("success", true);
             resultMap.put("code", boolDTO.getCode());
             resultMap.put("message", boolDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中检测用户会话是否过期-checkSession is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】检测用户会话是否过期-checkSession is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中检测用户会话是否过期-checkSession,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】检测用户会话是否过期-checkSession,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -157,19 +185,19 @@ public class WX_UserController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中校验手机验证码-getCheckVerificationCode,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】校验手机验证码-getCheckVerificationCode,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             MessageDTO messageDTO = wxUserHandler.getCheckVerificationCode(0, paramMap);
             resultMap.put("success", true);
             resultMap.put("code", messageDTO.getCode());
             resultMap.put("message", messageDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中校验手机验证码-getCheckVerificationCode is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】校验手机验证码-getCheckVerificationCode is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中校验手机验证码-getCheckVerificationCode,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】校验手机验证码-getCheckVerificationCode,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 

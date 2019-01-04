@@ -37,14 +37,14 @@ public class WX_ShopHandler implements com.br.newMall.api.service.WX_ShopHandler
      */
     @Override
     public BoolDTO addShop(int tid, Map<String, String> paramMap) throws TException {
-        logger.info("在【handler】中添加店铺-addShop,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【handler】添加店铺-addShop,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         BoolDTO boolDTO = new BoolDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         if (paramMap.size() > 0) {
             try {
                 boolDTO = wxShopService.addShop(objectParamMap);
             } catch (Exception e) {
-                logger.error("在【handler】中添加店铺-addShop is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                logger.error("【handler】添加店铺-addShop is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
                 boolDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 boolDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             }
@@ -52,7 +52,7 @@ public class WX_ShopHandler implements com.br.newMall.api.service.WX_ShopHandler
             boolDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             boolDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
-        logger.info("在【handler】中添加店铺-addShop,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        logger.info("【handler】添加店铺-addShop,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
@@ -65,17 +65,17 @@ public class WX_ShopHandler implements com.br.newMall.api.service.WX_ShopHandler
      */
     @Override
     public BoolDTO deleteShop(int tid, Map<String, String> paramMap) throws TException {
-        logger.info("在【handler】中删除店铺-deleteShop,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【handler】删除店铺-deleteShop,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         BoolDTO boolDTO = new BoolDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         try {
             boolDTO = wxShopService.deleteShop(objectParamMap);
         } catch (Exception e) {
-            logger.error("在【handler】中删除店铺-deleteShop is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【handler】删除店铺-deleteShop is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             boolDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
             boolDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【handler】中删除店铺-deleteShop,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        logger.info("【handler】删除店铺-deleteShop,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
@@ -88,17 +88,17 @@ public class WX_ShopHandler implements com.br.newMall.api.service.WX_ShopHandler
      */
     @Override
     public BoolDTO updateShop(int tid, Map<String, String> paramMap) throws TException {
-        logger.info("在【handler】中修改店铺-updateShop,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【handler】修改店铺-updateShop,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         BoolDTO boolDTO = new BoolDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         try {
             boolDTO = wxShopService.updateShop(objectParamMap);
         } catch (Exception e) {
-            logger.error("在【handler】中修改店铺-updateShop is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【handler】修改店铺-updateShop is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             boolDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
             boolDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【handler】中修改店铺-updateShop,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        logger.info("【handler】修改店铺-updateShop,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
@@ -111,14 +111,14 @@ public class WX_ShopHandler implements com.br.newMall.api.service.WX_ShopHandler
      */
     @Override
     public ResultDTO getSimpleShopByCondition(int tid, Map<String, String> paramMap) throws TException {
-        logger.info("在【hanlder】中获取单一的店铺-getSimpleShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【hanlder】获取单一的店铺-getSimpleShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         if (paramMap.size() > 0) {
             try {
                 resultDTO = wxShopService.getSimpleShopByCondition(objectParamMap);
             } catch (Exception e) {
-                logger.error("在【hanlder】中获取单一的店铺-getSimpleShopByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                logger.error("【hanlder】获取单一的店铺-getSimpleShopByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
                 List<Map<String, String>> resultList = Lists.newArrayList();
                 resultDTO.setResultListTotal(0);
                 resultDTO.setResultList(resultList);
@@ -129,7 +129,7 @@ public class WX_ShopHandler implements com.br.newMall.api.service.WX_ShopHandler
             resultDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
-        logger.info("在【hanlder】中获取单一的店铺-getSimpleShopByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        logger.info("【hanlder】获取单一的店铺-getSimpleShopByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
 
@@ -142,14 +142,14 @@ public class WX_ShopHandler implements com.br.newMall.api.service.WX_ShopHandler
      */
     @Override
     public ResultDTO getShopByCondition(int tid, Map<String, String> paramMap) throws TException {
-        logger.info("在【hanlder】中根据条件查询店铺相关信息-getShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【hanlder】根据条件查询店铺相关信息-getShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         if (paramMap.size() > 0) {
             try {
                 resultDTO = wxShopService.getShopByCondition(objectParamMap);
             } catch (Exception e) {
-                logger.error("在【hanlder】中根据条件查询店铺相关信息-getShopByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                logger.error("【hanlder】根据条件查询店铺相关信息-getShopByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
                 List<Map<String, String>> resultList = Lists.newArrayList();
                 resultDTO.setResultListTotal(0);
                 resultDTO.setResultList(resultList);
@@ -160,7 +160,7 @@ public class WX_ShopHandler implements com.br.newMall.api.service.WX_ShopHandler
             resultDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
-        logger.info("在【hanlder】中根据条件查询店铺相关信息-getShopByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        logger.info("【hanlder】根据条件查询店铺相关信息-getShopByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
 
@@ -173,14 +173,14 @@ public class WX_ShopHandler implements com.br.newMall.api.service.WX_ShopHandler
      */
     @Override
     public ResultMapDTO getMiniProgramCode(int tid, Map<String, String> paramMap) throws TException {
-        logger.info("在【hanlder】中根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getMiniProgramCode,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【hanlder】根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getMiniProgramCode,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         if (paramMap.size() > 0) {
             try {
                 resultMapDTO = wxShopService.getMiniProgramCode(objectParamMap);
             } catch (Exception e) {
-                logger.error("在【hanlder】中根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getMiniProgramCode is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                logger.error("【hanlder】根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getMiniProgramCode is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
                 resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             }
@@ -188,7 +188,7 @@ public class WX_ShopHandler implements com.br.newMall.api.service.WX_ShopHandler
             resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
-        logger.info("在【hanlder】中根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getMiniProgramCode,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        logger.info("【hanlder】根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getMiniProgramCode,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
     }
 

@@ -37,14 +37,14 @@ public class WX_LeagueHandler implements com.br.newMall.api.service.WX_LeagueHan
      */
     @Override
     public ResultDTO getLeagueTypeList(int tid, Map<String, String> paramMap) throws TException {
-        logger.info("在【hanlder】中获取加盟类型列表-getLeagueTypeList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【hanlder】获取加盟类型列表-getLeagueTypeList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         if (paramMap.size() > 0) {
             try {
                 resultDTO = wxLeagueService.getLeagueTypeList(objectParamMap);
             } catch (Exception e) {
-                logger.error("在【hanlder】中获取加盟类型列表-getLeagueTypeList is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                logger.error("【hanlder】获取加盟类型列表-getLeagueTypeList is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
                 List<Map<String, String>> resultList = Lists.newArrayList();
                 resultDTO.setResultListTotal(0);
                 resultDTO.setResultList(resultList);
@@ -55,7 +55,7 @@ public class WX_LeagueHandler implements com.br.newMall.api.service.WX_LeagueHan
             resultDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
-        logger.info("在【hanlder】中获取加盟类型列表-getLeagueTypeList,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        logger.info("【hanlder】获取加盟类型列表-getLeagueTypeList,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
 
@@ -68,14 +68,14 @@ public class WX_LeagueHandler implements com.br.newMall.api.service.WX_LeagueHan
      */
     @Override
     public BoolDTO addLeague(int tid, Map<String, String> paramMap) throws TException {
-        logger.info("在【handler】中添加加盟-addLeague,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【handler】添加加盟-addLeague,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         BoolDTO boolDTO = new BoolDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         if (paramMap.size() > 0) {
             try {
                 boolDTO = wxLeagueService.addLeague(objectParamMap);
             } catch (Exception e) {
-                logger.error("在【handler】中添加加盟-addLeague is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                logger.error("【handler】添加加盟-addLeague is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
                 boolDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 boolDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             }
@@ -83,7 +83,7 @@ public class WX_LeagueHandler implements com.br.newMall.api.service.WX_LeagueHan
             boolDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             boolDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
-        logger.info("在【handler】中添加加盟-addLeague,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        logger.info("【handler】添加加盟-addLeague,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
@@ -96,17 +96,17 @@ public class WX_LeagueHandler implements com.br.newMall.api.service.WX_LeagueHan
      */
     @Override
     public BoolDTO deleteLeague(int tid, Map<String, String> paramMap) throws TException {
-        logger.info("在【handler】中删除加盟-deleteLeague,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【handler】删除加盟-deleteLeague,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         BoolDTO boolDTO = new BoolDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         try {
             boolDTO = wxLeagueService.deleteLeague(objectParamMap);
         } catch (Exception e) {
-            logger.error("在【handler】中删除加盟-deleteLeague is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【handler】删除加盟-deleteLeague is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             boolDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
             boolDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【handler】中删除加盟-deleteLeague,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        logger.info("【handler】删除加盟-deleteLeague,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
@@ -119,17 +119,17 @@ public class WX_LeagueHandler implements com.br.newMall.api.service.WX_LeagueHan
      */
     @Override
     public BoolDTO updateLeague(int tid, Map<String, String> paramMap) throws TException {
-        logger.info("在【handler】中修改加盟-updateLeague,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【handler】修改加盟-updateLeague,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         BoolDTO boolDTO = new BoolDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         try {
             boolDTO = wxLeagueService.updateLeague(objectParamMap);
         } catch (Exception e) {
-            logger.error("在【handler】中修改加盟-updateLeague is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【handler】修改加盟-updateLeague is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             boolDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
             boolDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【handler】中修改加盟-updateLeague,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        logger.info("【handler】修改加盟-updateLeague,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
@@ -142,14 +142,14 @@ public class WX_LeagueHandler implements com.br.newMall.api.service.WX_LeagueHan
      */
     @Override
     public ResultDTO getSimpleLeagueByCondition(int tid, Map<String, String> paramMap) throws TException {
-        logger.info("在【hanlder】中获取单一的加盟-getSimpleLeagueByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【hanlder】获取单一的加盟-getSimpleLeagueByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         if (paramMap.size() > 0) {
             try {
                 resultDTO = wxLeagueService.getSimpleLeagueByCondition(objectParamMap);
             } catch (Exception e) {
-                logger.error("在【hanlder】中获取单一的加盟-getSimpleLeagueByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                logger.error("【hanlder】获取单一的加盟-getSimpleLeagueByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
                 List<Map<String, String>> resultList = Lists.newArrayList();
                 resultDTO.setResultListTotal(0);
                 resultDTO.setResultList(resultList);
@@ -160,7 +160,7 @@ public class WX_LeagueHandler implements com.br.newMall.api.service.WX_LeagueHan
             resultDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
-        logger.info("在【hanlder】中获取单一的加盟-getSimpleLeagueByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        logger.info("【hanlder】获取单一的加盟-getSimpleLeagueByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
 }

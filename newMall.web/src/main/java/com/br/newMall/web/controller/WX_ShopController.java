@@ -43,19 +43,19 @@ public class WX_ShopController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中添加店铺-addShop,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】添加店铺-addShop,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             BoolDTO boolDTO = wxShopHandler.addShop(0, paramMap);
             resultMap.put("success", true);
             resultMap.put("code", boolDTO.getCode());
             resultMap.put("message", boolDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中添加店铺-addShop is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】添加店铺-addShop is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中添加店铺-addShop,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】添加店铺-addShop,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -71,19 +71,19 @@ public class WX_ShopController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中删除店铺-deleteShop,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】删除店铺-deleteShop,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             BoolDTO boolDTO = wxShopHandler.deleteShop(0, paramMap);
             resultMap.put("success", true);
             resultMap.put("code", boolDTO.getCode());
             resultMap.put("message", boolDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中删除店铺-deleteShop is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】删除店铺-deleteShop is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中删除店铺-deleteShop,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】删除店铺-deleteShop,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -99,19 +99,19 @@ public class WX_ShopController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中修改店铺-updateShop,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】修改店铺-updateShop,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             BoolDTO boolDTO = wxShopHandler.updateShop(0, paramMap);
             resultMap.put("success", true);
             resultMap.put("code", boolDTO.getCode());
             resultMap.put("message", boolDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中修改店铺-updateShop is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】修改店铺-updateShop is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中修改店铺-updateShop,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】修改店铺-updateShop,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -127,7 +127,7 @@ public class WX_ShopController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中获取单一的店铺-getSimpleShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】获取单一的店铺-getSimpleShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         String start = paramMap.get("start")!=null?paramMap.get("start").toString():"";
         String size = paramMap.get("size")!=null?paramMap.get("size").toString():"";
         if("".equals(start)){
@@ -163,12 +163,12 @@ public class WX_ShopController {
             resultMap.put("code", resultDTO.getCode());
             resultMap.put("message", resultDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中获取单一的店铺-getSimpleShopByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】获取单一的店铺-getSimpleShopByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中获取单一的店铺-getSimpleShopByCondition,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】获取单一的店铺-getSimpleShopByCondition,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -184,7 +184,7 @@ public class WX_ShopController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中根据条件查询店铺相关信息-getShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】根据条件查询店铺相关信息-getShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         String start = paramMap.get("start")!=null?paramMap.get("start").toString():"";
         String size = paramMap.get("size")!=null?paramMap.get("size").toString():"";
         if("".equals(start)){
@@ -220,12 +220,12 @@ public class WX_ShopController {
             resultMap.put("code", resultDTO.getCode());
             resultMap.put("message", resultDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中根据条件查询店铺相关信息-getShopByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】根据条件查询店铺相关信息-getShopByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中中根据条件查询店铺相关信息获取单一的店铺-getShopByCondition,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】中根据条件查询店铺相关信息获取单一的店铺-getShopByCondition,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -241,7 +241,7 @@ public class WX_ShopController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getMiniProgramCode,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getMiniProgramCode,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             ResultMapDTO resultMapDTO = wxShopHandler.getMiniProgramCode(0, paramMap);
             resultMap.put("recordsFiltered", resultMapDTO.getResultMapSize());
@@ -249,12 +249,12 @@ public class WX_ShopController {
             resultMap.put("code", resultMapDTO.getCode());
             resultMap.put("message", resultMapDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getMiniProgramCode is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getMiniProgramCode is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getMiniProgramCode,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getMiniProgramCode,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 

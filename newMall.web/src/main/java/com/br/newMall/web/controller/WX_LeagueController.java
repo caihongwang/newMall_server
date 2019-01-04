@@ -43,7 +43,7 @@ public class WX_LeagueController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中获取加盟类型列表-getLeagueTypeList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】获取加盟类型列表-getLeagueTypeList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             ResultDTO resultDTO = wxLeagueHandler.getLeagueTypeList(0, paramMap);
             resultMap.put("recordsFiltered", resultDTO.getResultListTotal());
@@ -51,12 +51,12 @@ public class WX_LeagueController {
             resultMap.put("code", resultDTO.getCode());
             resultMap.put("message", resultDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中获取加盟类型列表-getLeagueTypeList is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】获取加盟类型列表-getLeagueTypeList is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中获取加盟类型列表-getLeagueTypeList,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】获取加盟类型列表-getLeagueTypeList,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
     
@@ -72,19 +72,19 @@ public class WX_LeagueController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中添加加盟-addLeague,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】添加加盟-addLeague,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             BoolDTO boolDTO = wxLeagueHandler.addLeague(0, paramMap);
             resultMap.put("success", true);
             resultMap.put("code", boolDTO.getCode());
             resultMap.put("message", boolDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中添加加盟-addLeague is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】添加加盟-addLeague is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中添加加盟-addLeague,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】添加加盟-addLeague,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -100,19 +100,19 @@ public class WX_LeagueController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中删除加盟-deleteLeague,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】删除加盟-deleteLeague,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             BoolDTO boolDTO = wxLeagueHandler.deleteLeague(0, paramMap);
             resultMap.put("success", true);
             resultMap.put("code", boolDTO.getCode());
             resultMap.put("message", boolDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中删除加盟-deleteLeague is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】删除加盟-deleteLeague is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中删除加盟-deleteLeague,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】删除加盟-deleteLeague,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -128,19 +128,19 @@ public class WX_LeagueController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中修改加盟-updateLeague,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】修改加盟-updateLeague,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             BoolDTO boolDTO = wxLeagueHandler.updateLeague(0, paramMap);
             resultMap.put("success", true);
             resultMap.put("code", boolDTO.getCode());
             resultMap.put("message", boolDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中修改加盟-updateLeague is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】修改加盟-updateLeague is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中修改加盟-updateLeague,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】修改加盟-updateLeague,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 
@@ -156,7 +156,7 @@ public class WX_LeagueController {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("在【controller】中获取单一的加盟-getSimpleLeagueByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】获取单一的加盟-getSimpleLeagueByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             ResultDTO resultDTO = wxLeagueHandler.getSimpleLeagueByCondition(0, paramMap);
             resultMap.put("recordsFiltered", resultDTO.getResultListTotal());
@@ -164,12 +164,12 @@ public class WX_LeagueController {
             resultMap.put("code", resultDTO.getCode());
             resultMap.put("message", resultDTO.getMessage());
         } catch (Exception e) {
-            logger.error("在【controller】中获取单一的加盟-getSimpleLeagueByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】获取单一的加盟-getSimpleLeagueByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【controller】中获取单一的加盟-getSimpleLeagueByCondition,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】获取单一的加盟-getSimpleLeagueByCondition,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 

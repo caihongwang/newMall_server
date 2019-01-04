@@ -69,7 +69,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
      */
     @Override
     public ResultMapDTO purchaseProductInMiniProgram(Map<String, Object> paramMap) throws Exception {
-        logger.info("在【service】中购买商品-purchaseProductInMiniProgram,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】购买商品-purchaseProductInMiniProgram,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> resultMap = Maps.newHashMap();
         resultMap.put("dealFlag", false);       //默认交易状态为失败
@@ -263,7 +263,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         //购买商品不允许进行抽奖
         resultMap.put("isLuckDrawFlag", false);
         resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
-        logger.info("在【service】中购买商品-purchaseProductInMiniProgram,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        logger.info("【service】购买商品-purchaseProductInMiniProgram,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
     }
 
@@ -274,7 +274,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
      */
     @Override
     public ResultMapDTO wxPayNotifyForPurchaseProductInMiniProgram(Map<String, Object> paramMap) {
-        logger.info("在【service】中购买商品成功后的回调通知-wxPayNotifyForPurchaseProductInMiniProgram,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】购买商品成功后的回调通知-wxPayNotifyForPurchaseProductInMiniProgram,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Integer updateNum = 0;
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         String wxOrderId = paramMap.get("out_trade_no") != null ? paramMap.get("out_trade_no").toString() : "";
@@ -350,7 +350,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
             resultMapDTO.setCode(NewMallCode.ORDER_OPENID_OR_WXORDERID_OR_ATTACH_IS_NOT_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.ORDER_OPENID_OR_WXORDERID_OR_ATTACH_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中购买商品成功后的回调通知-wxPayNotifyForPurchaseProductInMiniProgram,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        logger.info("【service】购买商品成功后的回调通知-wxPayNotifyForPurchaseProductInMiniProgram,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
     }
 
@@ -362,7 +362,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
      */
     @Override
     public ResultMapDTO payTheBillInMiniProgram(Map<String, Object> paramMap) throws Exception {
-        logger.info("在【service】中买单-payTheBillInMiniProgram,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】买单-payTheBillInMiniProgram,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> resultMap = Maps.newHashMap();
         resultMap.put("dealFlag", false);       //默认交易状态为失败
@@ -554,7 +554,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
             resultMap.put("isLuckDrawFlag", true);
         }
         resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
-        logger.info("在【service】中买单-payTheBillInMiniProgram,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        logger.info("【service】买单-payTheBillInMiniProgram,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
     }
 
@@ -565,7 +565,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
      */
     @Override
     public ResultMapDTO wxPayNotifyForPayTheBillInMiniProgram(Map<String, Object> paramMap) {
-        logger.info("在【service】中买单成功后的回调通知-wxPayNotifyForPayTheBillInMiniProgram,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】买单成功后的回调通知-wxPayNotifyForPayTheBillInMiniProgram,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Integer updateNum = 0;
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         String wxOrderId = paramMap.get("out_trade_no") != null ? paramMap.get("out_trade_no").toString() : "";
@@ -681,7 +681,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
             resultMapDTO.setCode(NewMallCode.ORDER_OPENID_OR_WXORDERID_OR_ATTACH_IS_NOT_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.ORDER_OPENID_OR_WXORDERID_OR_ATTACH_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中买单成功后的回调通知-wxPayNotifyForPayTheBillInMiniProgram,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        logger.info("【service】买单成功后的回调通知-wxPayNotifyForPayTheBillInMiniProgram,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
     }
 
@@ -692,7 +692,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
      */
     @Override
     public BoolDTO addOrder(Map<String, Object> paramMap) {
-        logger.info("在【service】中添加订单-addOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】添加订单-addOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Integer addNum = 0;
         BoolDTO boolDTO = new BoolDTO();
         String uid = paramMap.get("uid") != null ? paramMap.get("uid").toString() : "";
@@ -714,7 +714,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
             boolDTO.setCode(NewMallCode.ORDER_UID_OR_PAYMONEY_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.ORDER_UID_OR_PAYMONEY_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中添加订单-addOrder,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        logger.info("【service】添加订单-addOrder,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
@@ -725,7 +725,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
      */
     @Override
     public BoolDTO deleteOrder(Map<String, Object> paramMap) {
-        logger.info("在【service】中删除订单-deleteOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】删除订单-deleteOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Integer deleteNum = 0;
         BoolDTO boolDTO = new BoolDTO();
         String id = paramMap.get("id") != null ? paramMap.get("id").toString() : "";
@@ -742,7 +742,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
             boolDTO.setCode(NewMallCode.ORDER_ID_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.ORDER_ID_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中删除订单-deleteOrder,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        logger.info("【service】删除订单-deleteOrder,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
@@ -753,7 +753,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
      */
     @Override
     public BoolDTO updateOrder(Map<String, Object> paramMap) {
-        logger.info("在【service】中修改订单-updateOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】修改订单-updateOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Integer updateNum = 0;
         BoolDTO boolDTO = new BoolDTO();
         String id = paramMap.get("id") != null ? paramMap.get("id").toString() : "";
@@ -770,7 +770,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
             boolDTO.setCode(NewMallCode.ORDER_ID_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.ORDER_ID_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中修改订单-updateOrder,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        logger.info("【service】修改订单-updateOrder,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
@@ -781,7 +781,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
      */
     @Override
     public ResultDTO getSimpleOrderByCondition(Map<String, Object> paramMap) {
-        logger.info("在【service】中获取单一的订单-getSimpleOrderByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】获取单一的订单-getSimpleOrderByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         List<Map<String, String>> orderStrList = Lists.newArrayList();
         List<Map<String, Object>> orderList = wxOrderDao.getSimpleOrderByCondition(paramMap);
@@ -799,7 +799,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
             resultDTO.setCode(NewMallCode.ORDER_LIST_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.ORDER_LIST_IS_NULL.getMessage());
         }
-        logger.info("在【service】中获取单一的订单-getSimpleOrderByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        logger.info("【service】获取单一的订单-getSimpleOrderByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
 
@@ -810,7 +810,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
      */
     @Override
     public ResultDTO getOrderByCondition(Map<String, Object> paramMap) {
-        logger.info("在【service】中获取当前用户的订单信息-getOrderByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】获取当前用户的订单信息-getOrderByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         List<Map<String, String>> orderStrList = Lists.newArrayList();
         String uid = paramMap.get("uid")!=null?paramMap.get("uid").toString():"";
@@ -834,7 +834,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
             resultDTO.setCode(NewMallCode.ORDER_UID_IS_NOT_NULL.getNo());
             resultDTO.setMessage(NewMallCode.ORDER_UID_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中获取当前用户的订单信息-getOrderByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        logger.info("【service】获取当前用户的订单信息-getOrderByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
 
@@ -845,7 +845,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
      */
     @Override
     public ResultDTO getWaitPayGoodsOrder(Map<String, Object> paramMap) {
-        logger.info("在【service】中获取待支付的商品订单-getWaitPayGoodsOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】获取待支付的商品订单-getWaitPayGoodsOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         List<Map<String, String>> orderStrList = Lists.newArrayList();
         String uid = paramMap.get("uid")!=null?paramMap.get("uid").toString():"";
@@ -870,7 +870,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
             resultDTO.setCode(NewMallCode.ORDER_UID_IS_NOT_NULL.getNo());
             resultDTO.setMessage(NewMallCode.ORDER_UID_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中获取待支付的商品订单-getWaitPayGoodsOrder,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        logger.info("【service】获取待支付的商品订单-getWaitPayGoodsOrder,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
 
@@ -881,7 +881,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
      */
     @Override
     public ResultDTO getAlreadyPayGoodsOrder(Map<String, Object> paramMap) {
-        logger.info("在【service】中获取已支付的商品订单-getAlreadyPayGoodsOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】获取已支付的商品订单-getAlreadyPayGoodsOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         List<Map<String, String>> orderStrList = Lists.newArrayList();
         String uid = paramMap.get("uid")!=null?paramMap.get("uid").toString():"";
@@ -906,7 +906,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
             resultDTO.setCode(NewMallCode.ORDER_UID_IS_NOT_NULL.getNo());
             resultDTO.setMessage(NewMallCode.ORDER_UID_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中获取已支付的商品订单-getAlreadyPayGoodsOrder,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        logger.info("【service】获取已支付的商品订单-getAlreadyPayGoodsOrder,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
 
@@ -917,7 +917,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
      */
     @Override
     public ResultDTO getAlreadyDeliverGoodsOrder(Map<String, Object> paramMap) {
-        logger.info("在【service】中获取已发货的商品订单-getAlreadyDeliverGoods,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】获取已发货的商品订单-getAlreadyDeliverGoods,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         List<Map<String, String>> orderStrList = Lists.newArrayList();
         String uid = paramMap.get("uid")!=null?paramMap.get("uid").toString():"";
@@ -943,7 +943,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
             resultDTO.setCode(NewMallCode.ORDER_UID_IS_NOT_NULL.getNo());
             resultDTO.setMessage(NewMallCode.ORDER_UID_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中获取已发货的商品订单-getAlreadyDeliverGoods,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        logger.info("【service】获取已发货的商品订单-getAlreadyDeliverGoods,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
 
@@ -954,7 +954,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
      */
     @Override
     public ResultDTO getCompletedGoodsOrder(Map<String, Object> paramMap) {
-        logger.info("在【service】中获取已完成的商品订单-getCompletedGoodsOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】获取已完成的商品订单-getCompletedGoodsOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         List<Map<String, String>> orderStrList = Lists.newArrayList();
         String uid = paramMap.get("uid")!=null?paramMap.get("uid").toString():"";
@@ -980,7 +980,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
             resultDTO.setCode(NewMallCode.ORDER_UID_IS_NOT_NULL.getNo());
             resultDTO.setMessage(NewMallCode.ORDER_UID_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中获取已完成的商品订单-getCompletedGoodsOrder,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        logger.info("【service】获取已完成的商品订单-getCompletedGoodsOrder,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
 
@@ -991,7 +991,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
      */
     @Override
     public BoolDTO confirmReceiptGoodsOrder(Map<String, Object> paramMap) {
-        logger.info("在【service】中对商品订单进行确认收货-confirmReceiptGoodsOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】对商品订单进行确认收货-confirmReceiptGoodsOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Integer updateNum = 0;
         BoolDTO boolDTO = new BoolDTO();
         String orderId = paramMap.get("orderId")!=null?paramMap.get("orderId").toString():"";
@@ -1027,7 +1027,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
             boolDTO.setCode(NewMallCode.ORDER_ID_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.ORDER_ID_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中对商品订单进行确认收货-confirmReceiptGoodsOrder,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        logger.info("【service】对商品订单进行确认收货-confirmReceiptGoodsOrder,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
@@ -1038,7 +1038,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
      */
     @Override
     public ResultMapDTO getGoodsOrderDetailById(Map<String, Object> paramMap) {
-        logger.info("在【service】中获取商品订单详情-getGoodsOrderDetailById,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】获取商品订单详情-getGoodsOrderDetailById,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> resultMap = Maps.newHashMap();
         String orderId = paramMap.get("orderId")!=null?paramMap.get("orderId").toString():"";
@@ -1059,7 +1059,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
             resultMapDTO.setMessage(NewMallCode.ORDER_ID_IS_NOT_NULL.getMessage());
         }
         resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
-        logger.info("在【service】中获取商品订单详情-getGoodsOrderDetailById,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        logger.info("【service】获取商品订单详情-getGoodsOrderDetailById,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
     }
 

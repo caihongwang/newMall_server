@@ -2,6 +2,7 @@ package com.br.newMall.center.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.br.newMall.api.code.NewMallCode;
+import com.br.newMall.api.dto.BoolDTO;
 import com.br.newMall.api.dto.ResultDTO;
 import com.br.newMall.api.dto.ResultMapDTO;
 import com.br.newMall.center.service.WX_DicService;
@@ -64,8 +65,36 @@ public class WX_UserServiceImplTest {
     public void Test() throws Exception{
         Map<String, Object> paramMap = Maps.newHashMap();
         paramMap.put("uid", "1");
-//        paramMap.put("cashToWxMoney", "1");
-//        cashBalanceToWx(paramMap);
+        paramMap.put("autoCashToWxFlag", "0");
+        checkUserAutoCashBalance(paramMap);
+    }
+
+    /**
+     * 设置用户余额是否自动提现
+     * @param paramMap
+     * @return
+     */
+    public BoolDTO checkUserAutoCashBalance(Map<String, Object> paramMap) {
+        logger.info("【service】设置用户余额是否自动提现-checkUserAutoCashBalance,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        Integer updateNum = 0;
+        BoolDTO boolDTO = new BoolDTO();
+        String uid = paramMap.get("uid")!=null?paramMap.get("uid").toString():"";
+        String autoCashToWxFlag = paramMap.get("autoCashToWxFlag")!=null?paramMap.get("autoCashToWxFlag").toString():"";
+        if(!"".equals(uid) && !"".equals(autoCashToWxFlag)){
+            updateNum = wxUserDao.checkUserAutoCashBalance(paramMap);
+            if (updateNum != null && updateNum > 0) {
+                boolDTO.setCode(NewMallCode.SUCCESS.getNo());
+                boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+            } else {
+                boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
+                boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
+            }
+        } else {
+            boolDTO.setCode(NewMallCode.USER_ID_OR_AUTOCASHTOWXFLAG_IS_NOT_NULL.getNo());
+            boolDTO.setMessage(NewMallCode.USER_ID_OR_AUTOCASHTOWXFLAG_IS_NOT_NULL.getMessage());
+        }
+        logger.info("【service】设置用户余额是否自动提现-checkUserAutoCashBalance,请求-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        return boolDTO;
     }
 
 }

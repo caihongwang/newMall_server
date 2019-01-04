@@ -80,7 +80,7 @@ public class WX_AddressServiceImplTest {
     }
 
     public BoolDTO setDefaultAddress(Map<String, Object> paramMap) {
-        logger.info("在【service】中设置默认地址-setDefaultAddress,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】设置默认地址-setDefaultAddress,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Integer updateNum = 0;
         BoolDTO boolDTO = new BoolDTO();
         String id = paramMap.get("id") != null ? paramMap.get("id").toString() : "";
@@ -98,12 +98,12 @@ public class WX_AddressServiceImplTest {
             boolDTO.setCode(NewMallCode.ADDRESS_ID_OR_UID_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.ADDRESS_ID_OR_UID_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中设置默认地址-setDefaultAddress,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        logger.info("【service】设置默认地址-setDefaultAddress,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
     public BoolDTO addAddress(Map<String, Object> paramMap) {
-        logger.info("在【service】中添加地址-addAddress,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】添加地址-addAddress,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Integer addNum = 0;
         BoolDTO boolDTO = new BoolDTO();
         String uid = paramMap.get("uid") != null ? paramMap.get("uid").toString() : "";
@@ -137,12 +137,12 @@ public class WX_AddressServiceImplTest {
             boolDTO.setCode(NewMallCode.ADDRESS_UID_OR_NAME_OR_PHONE_OR_PROVINCEID_OR_PROVINCENAME_OR_CITYID_OR_CITYNAME_OR_REGIONID_OR_REGIONNAME_OR_STREETID_OR_STREETNAME_OR_DETAILADDRESS_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.ADDRESS_UID_OR_NAME_OR_PHONE_OR_PROVINCEID_OR_PROVINCENAME_OR_CITYID_OR_CITYNAME_OR_REGIONID_OR_REGIONNAME_OR_STREETID_OR_STREETNAME_OR_DETAILADDRESS_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中添加地址-addAddress,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        logger.info("【service】添加地址-addAddress,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
     public ResultDTO getStreetList(Map<String, Object> paramMap) {
-        logger.info("在【service】中根据地区ID获取地区列表-getStreetList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】根据地区ID获取地区列表-getStreetList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         String dicType = paramMap.get("dicType") != null ? paramMap.get("dicType").toString() : "province";
         String regionId = paramMap.get("regionId") != null ? paramMap.get("regionId").toString() : "province";
@@ -153,12 +153,12 @@ public class WX_AddressServiceImplTest {
             resultDTO.setCode(NewMallCode.ADDRESS_REGIONTYPE_OR_REGIONID_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.ADDRESS_REGIONTYPE_OR_REGIONID_IS_NULL.getMessage());
         }
-        logger.info("在【service】中根据地区ID获取地区列表-getStreetList,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        logger.info("【service】根据地区ID获取地区列表-getStreetList,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
 
     public ResultDTO getRegionList(Map<String, Object> paramMap) {
-        logger.info("在【service】中根据城市ID获取地区列表-getRegionList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】根据城市ID获取地区列表-getRegionList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         String dicType = paramMap.get("dicType") != null ? paramMap.get("dicType").toString() : "province";
         String cityId = paramMap.get("cityId") != null ? paramMap.get("cityId").toString() : "province";
@@ -169,12 +169,12 @@ public class WX_AddressServiceImplTest {
             resultDTO.setCode(NewMallCode.ADDRESS_REGIONTYPE_OR_CITYID_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.ADDRESS_REGIONTYPE_OR_CITYID_IS_NULL.getMessage());
         }
-        logger.info("在【service】中根据城市ID获取地区列表-getRegionList,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        logger.info("【service】根据城市ID获取地区列表-getRegionList,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
 
     public ResultDTO getCityList(Map<String, Object> paramMap) {
-        logger.info("在【service】中根据省份ID获取城市列表-getCityList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】根据省份ID获取城市列表-getCityList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         String dicType = paramMap.get("dicType") != null ? paramMap.get("dicType").toString() : "province";
         String provinceId = paramMap.get("provinceId") != null ? paramMap.get("provinceId").toString() : "province";
@@ -185,12 +185,12 @@ public class WX_AddressServiceImplTest {
             resultDTO.setCode(NewMallCode.ADDRESS_CITYTYPE_OR_PROVINCEID_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.ADDRESS_CITYTYPE_OR_PROVINCEID_IS_NULL.getMessage());
         }
-        logger.info("在【service】中根据省份ID获取城市列表-getCityList,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        logger.info("【service】根据省份ID获取城市列表-getCityList,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
 
     public ResultDTO getProvinceList(Map<String, Object> paramMap) {
-        logger.info("在【service】中默认获取中国省份列表-getProvinceList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】默认获取中国省份列表-getProvinceList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         String dicType = paramMap.get("dicType") != null ? paramMap.get("dicType").toString() : "province";
         if(!"".equals(dicType)){
@@ -200,7 +200,7 @@ public class WX_AddressServiceImplTest {
             resultDTO.setCode(NewMallCode.ADDRESS_PROVINCETYPE_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.ADDRESS_PROVINCETYPE_IS_NULL.getMessage());
         }
-        logger.info("在【service】中默认获取中国省份列表-getProvinceList,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        logger.info("【service】默认获取中国省份列表-getProvinceList,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
 }

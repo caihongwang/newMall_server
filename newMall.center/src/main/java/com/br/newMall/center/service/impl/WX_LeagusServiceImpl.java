@@ -41,7 +41,7 @@ public class WX_LeagusServiceImpl implements WX_LeagueService {
      */
     @Override
     public ResultDTO getLeagueTypeList(Map<String, Object> paramMap) {
-        logger.info("在【service】中获取加盟类型列表-getLeagueTypeList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】获取加盟类型列表-getLeagueTypeList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         String dicType = paramMap.get("dicType") != null ? paramMap.get("dicType").toString() : "leagueType";
         if(!"".equals(dicType)){
@@ -51,7 +51,7 @@ public class WX_LeagusServiceImpl implements WX_LeagueService {
             resultDTO.setCode(NewMallCode.LEAGUE_TYPE_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.LEAGUE_TYPE_IS_NULL.getMessage());
         }
-        logger.info("在【service】中获取加盟类型列表-getLeagueTypeList,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        logger.info("【service】获取加盟类型列表-getLeagueTypeList,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
 
@@ -62,7 +62,7 @@ public class WX_LeagusServiceImpl implements WX_LeagueService {
      */
     @Override
     public BoolDTO addLeague(Map<String, Object> paramMap) {
-        logger.info("在【service】中添加加盟-addLeague,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】添加加盟-addLeague,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Integer addNum = 0;
         BoolDTO boolDTO = new BoolDTO();
         String uid = paramMap.get("uid") != null ? paramMap.get("uid").toString() : "";
@@ -83,7 +83,7 @@ public class WX_LeagusServiceImpl implements WX_LeagueService {
             boolDTO.setCode(NewMallCode.LEAGUE_UID_OR_PHONE_OR_NAME_OR_LEAGUETYPECODE_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.LEAGUE_UID_OR_PHONE_OR_NAME_OR_LEAGUETYPECODE_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中添加加盟-addLeague,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        logger.info("【service】添加加盟-addLeague,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
@@ -94,7 +94,7 @@ public class WX_LeagusServiceImpl implements WX_LeagueService {
      */
     @Override
     public BoolDTO deleteLeague(Map<String, Object> paramMap) {
-        logger.info("在【service】中删除加盟-deleteLeague,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】删除加盟-deleteLeague,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Integer deleteNum = 0;
         BoolDTO boolDTO = new BoolDTO();
         String id = paramMap.get("id") != null ? paramMap.get("id").toString() : "";
@@ -111,7 +111,7 @@ public class WX_LeagusServiceImpl implements WX_LeagueService {
             boolDTO.setCode(NewMallCode.LEAGUE_ID_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.LEAGUE_ID_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中删除加盟-deleteLeague,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        logger.info("【service】删除加盟-deleteLeague,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
@@ -122,7 +122,7 @@ public class WX_LeagusServiceImpl implements WX_LeagueService {
      */
     @Override
     public BoolDTO updateLeague(Map<String, Object> paramMap) {
-        logger.info("在【service】中修改加盟-updateLeague,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】修改加盟-updateLeague,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Integer updateNum = 0;
         BoolDTO boolDTO = new BoolDTO();
         String id = paramMap.get("id") != null ? paramMap.get("id").toString() : "";
@@ -139,7 +139,7 @@ public class WX_LeagusServiceImpl implements WX_LeagueService {
             boolDTO.setCode(NewMallCode.LEAGUE_ID_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.LEAGUE_ID_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中修改加盟-updateLeague,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        logger.info("【service】修改加盟-updateLeague,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
@@ -150,7 +150,7 @@ public class WX_LeagusServiceImpl implements WX_LeagueService {
      */
     @Override
     public ResultDTO getSimpleLeagueByCondition(Map<String, Object> paramMap) {
-        logger.info("在【service】中获取单一的加盟-getSimpleLeagueByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】获取单一的加盟-getSimpleLeagueByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         List<Map<String, String>> leagueStrList = Lists.newArrayList();
         Boolean isQueryListFlag = paramMap.get("isQueryListFlag") != null ? Boolean.parseBoolean(paramMap.get("isQueryListFlag").toString()) : false;
@@ -172,7 +172,7 @@ public class WX_LeagusServiceImpl implements WX_LeagueService {
             resultDTO.setCode(NewMallCode.LEAGUE_LIST_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.LEAGUE_LIST_IS_NULL.getMessage());
         }
-        logger.info("在【service】中获取单一的加盟-getSimpleLeagueByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        logger.info("【service】获取单一的加盟-getSimpleLeagueByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
 }

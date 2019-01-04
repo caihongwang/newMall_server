@@ -37,7 +37,7 @@ public class WX_UserHandler implements com.br.newMall.api.service.WX_UserHandler
      */
     @Override
     public ResultMapDTO getUserBaseInfo(int tid, Map<String, String> paramMap) throws TException {
-        logger.info("在【hanlder】中获取用户的基本信息-getUserBaseInfo,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【hanlder】获取用户的基本信息-getUserBaseInfo,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         try {
@@ -45,9 +45,9 @@ public class WX_UserHandler implements com.br.newMall.api.service.WX_UserHandler
         } catch (Exception e) {
             resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
-            logger.error("在【hanlder】中获取用户的基本信息-getUserBaseInfo is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【hanlder】获取用户的基本信息-getUserBaseInfo is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
         }
-        logger.info("在【hanlder】中获取用户的基本信息-getUserBaseInfo,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        logger.info("【hanlder】获取用户的基本信息-getUserBaseInfo,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
     }
 
@@ -60,7 +60,7 @@ public class WX_UserHandler implements com.br.newMall.api.service.WX_UserHandler
      */
     @Override
     public ResultMapDTO login(int tid, Map<String, String> paramMap) throws TException {
-        logger.info("在【hanlder】中登录(首次微信授权，则使用openId创建用户)-login,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【hanlder】登录(首次微信授权，则使用openId创建用户)-login,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         try {
@@ -68,9 +68,9 @@ public class WX_UserHandler implements com.br.newMall.api.service.WX_UserHandler
         } catch (Exception e) {
             resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
-            logger.error("在【hanlder】中登录(首次微信授权，则使用openId创建用户)-login is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【hanlder】登录(首次微信授权，则使用openId创建用户)-login is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
         }
-        logger.info("在【hanlder】中登录(首次微信授权，则使用openId创建用户)-login,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        logger.info("【hanlder】登录(首次微信授权，则使用openId创建用户)-login,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
     }
 
@@ -83,7 +83,7 @@ public class WX_UserHandler implements com.br.newMall.api.service.WX_UserHandler
      */
     @Override
     public BoolDTO updateUser(int tid, Map<String, String> paramMap) throws TException {
-        logger.info("在【hanlder】中更新用户信息-updateUser,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【hanlder】更新用户信息-updateUser,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         BoolDTO boolDTO = new BoolDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         try {
@@ -91,9 +91,9 @@ public class WX_UserHandler implements com.br.newMall.api.service.WX_UserHandler
         } catch (Exception e) {
             boolDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
             boolDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
-            logger.error("在【hanlder】中更新用户信息-updateUser is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【hanlder】更新用户信息-updateUser is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
         }
-        logger.info("在【hanlder】中更新用户信息-updateUser,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        logger.info("【hanlder】更新用户信息-updateUser,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
@@ -106,17 +106,17 @@ public class WX_UserHandler implements com.br.newMall.api.service.WX_UserHandler
      */
     @Override
     public BoolDTO checkSession(int tid, Map<String, String> paramMap) throws TException {
-        logger.info("在【hanlder】中检测用户会话是否过期-checkSession,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【hanlder】检测用户会话是否过期-checkSession,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         BoolDTO boolDTO = new BoolDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         try {
             boolDTO = userService.checkSession(objectParamMap);
         } catch (Exception e) {
-            logger.error("在【hanlder】中检测用户会话是否过期-checkSession is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【hanlder】检测用户会话是否过期-checkSession is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             boolDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
             boolDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【hanlder】中检测用户会话是否过期-checkSession,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        logger.info("【hanlder】检测用户会话是否过期-checkSession,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
@@ -125,14 +125,14 @@ public class WX_UserHandler implements com.br.newMall.api.service.WX_UserHandler
      */
     @Override
     public MessageDTO getCheckVerificationCode(int tid, Map<String, String> paramMap) throws TException {
-        logger.info("在【hanlder】中校验手机验证码-getCheckVerificationCode,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【hanlder】校验手机验证码-getCheckVerificationCode,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         MessageDTO messageDTO = new MessageDTO();
         if (paramMap.size() > 0) {
             Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
             try {
                 messageDTO = userService.getCheckVerificationCode(objectParamMap);
             } catch (Exception e) {
-                logger.error("在【hanlder】中校验手机验证码-getCheckVerificationCode is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                logger.error("【hanlder】校验手机验证码-getCheckVerificationCode is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
                 messageDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 messageDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             }
@@ -140,7 +140,7 @@ public class WX_UserHandler implements com.br.newMall.api.service.WX_UserHandler
             messageDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             messageDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
-        logger.info("在【hanlder】中获取校验手机验证码-getCheckVerificationCode,响应-messageDTO = {}", JSONObject.toJSONString(messageDTO));
+        logger.info("【hanlder】获取校验手机验证码-getCheckVerificationCode,响应-messageDTO = {}", JSONObject.toJSONString(messageDTO));
         return messageDTO;
     }
 
@@ -153,7 +153,7 @@ public class WX_UserHandler implements com.br.newMall.api.service.WX_UserHandler
      */
     @Override
     public ResultDTO getSimpleUserByCondition(int tid, Map<String, String> paramMap) throws TException {
-        logger.info("在【hanlder】中获取单一的用户信息-getSimpleUserByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【hanlder】获取单一的用户信息-getSimpleUserByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         if (paramMap.size() > 0) {
@@ -165,14 +165,37 @@ public class WX_UserHandler implements com.br.newMall.api.service.WX_UserHandler
                 resultDTO.setResultList(resultList);
                 resultDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 resultDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
-                logger.error("在【hanlder】中获取单一的字典-getSimpleDicByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                logger.error("【hanlder】获取单一的字典-getSimpleDicByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             }
         } else {
             resultDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
-        logger.info("在【hanlder】中获取单一的用户信息-getSimpleUserByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        logger.info("【hanlder】获取单一的用户信息-getSimpleUserByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
 
+
+    /**
+     * 设置用户余额是否自动提现
+     * @param tid
+     * @param paramMap
+     * @return
+     * @throws TException
+     */
+    @Override
+    public BoolDTO checkUserAutoCashBalance(int tid, Map<String, String> paramMap) throws TException {
+        logger.info("【hanlder】设置用户余额是否自动提现-checkUserAutoCashBalance,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        BoolDTO boolDTO = new BoolDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        try {
+            boolDTO = userService.checkUserAutoCashBalance(objectParamMap);
+        } catch (Exception e) {
+            boolDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+            boolDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
+            logger.error("【hanlder】设置用户余额是否自动提现-checkUserAutoCashBalance is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+        }
+        logger.info("【hanlder】设置用户余额是否自动提现-checkUserAutoCashBalance,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        return boolDTO;
+    }
 }

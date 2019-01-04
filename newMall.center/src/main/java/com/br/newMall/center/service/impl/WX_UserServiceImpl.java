@@ -67,7 +67,7 @@ public class WX_UserServiceImpl implements WX_UserService {
      */
     @Override
     public ResultMapDTO login(Map<String, Object> paramMap) {
-        logger.info("在【service】中登录(首次微信授权，则使用openId创建用户)-login,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】登录(首次微信授权，则使用openId创建用户)-login,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Integer addNum = 0;
         Map<String, String> resultMap = Maps.newHashMap();
         ResultMapDTO resultMapDTO = new ResultMapDTO();
@@ -140,7 +140,7 @@ public class WX_UserServiceImpl implements WX_UserService {
                         paramMap.put("balance", "0");           //余额为0
                         paramMap.put("integral", "0");          //积分为0
                         paramMap.put("grayStatus", "0");        //灰度用户状态，0是正常登陆用户，1是不需要登陆的用户
-                        paramMap.put("userType", "miniProgram");//微信用户类型，miniProgram是小程序用户，publicNumber是公众号用户
+                        paramMap.put("userSource", "miniProgram");//微信用户来源，miniProgram是小程序用户，publicNumber是公众号用户
                         paramMap.put("autoCashToWxFlag", "0");  //自动将余额提现到微信零钱，0：否，1：是
                         addNum = wxUserDao.addUser(paramMap);
                         //创建session
@@ -186,8 +186,38 @@ public class WX_UserServiceImpl implements WX_UserService {
             resultMapDTO.setCode(NewMallCode.CODE_IS_NOT_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.CODE_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中登录(首次微信授权，则使用openId创建用户)-login,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        logger.info("【service】登录(首次微信授权，则使用openId创建用户)-login,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
+    }
+
+
+    /**
+     * 设置用户余额是否自动提现
+     * @param paramMap
+     * @return
+     */
+    @Override
+    public BoolDTO checkUserAutoCashBalance(Map<String, Object> paramMap) {
+        logger.info("【service】设置用户余额是否自动提现-checkUserAutoCashBalance,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        Integer updateNum = 0;
+        BoolDTO boolDTO = new BoolDTO();
+        String uid = paramMap.get("uid")!=null?paramMap.get("uid").toString():"";
+        String autoCashToWxFlag = paramMap.get("autoCashToWxFlag")!=null?paramMap.get("autoCashToWxFlag").toString():"";
+        if(!"".equals(uid) && !"".equals(autoCashToWxFlag)){
+            updateNum = wxUserDao.checkUserAutoCashBalance(paramMap);
+            if (updateNum != null && updateNum > 0) {
+                boolDTO.setCode(NewMallCode.SUCCESS.getNo());
+                boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+            } else {
+                boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
+                boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
+            }
+        } else {
+            boolDTO.setCode(NewMallCode.USER_ID_OR_AUTOCASHTOWXFLAG_IS_NOT_NULL.getNo());
+            boolDTO.setMessage(NewMallCode.USER_ID_OR_AUTOCASHTOWXFLAG_IS_NOT_NULL.getMessage());
+        }
+        logger.info("【service】设置用户余额是否自动提现-checkUserAutoCashBalance,请求-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        return boolDTO;
     }
 
     /**
@@ -197,7 +227,7 @@ public class WX_UserServiceImpl implements WX_UserService {
      */
     @Override
     public ResultMapDTO getUserBaseInfo(Map<String, Object> paramMap) {
-        logger.info("在【service】中获取用户的基本信息-getUserBaseInfo,响应-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】获取用户的基本信息-getUserBaseInfo,响应-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> resultMap = Maps.newHashMap();
         String uid = paramMap.get("uid")!=null?paramMap.get("uid").toString():"";
@@ -210,11 +240,20 @@ public class WX_UserServiceImpl implements WX_UserService {
                 Map<String, Object> userMap = userMapList.get(0);
                 String balance = userMap.get("balance")!=null?userMap.get("balance").toString():"0.00";
                 String integral = userMap.get("integral")!=null?userMap.get("integral").toString():"0.00";
+                String nickName = userMap.get("nickName")!=null?userMap.get("nickName").toString():"0.00";
+                String avatarUrl = userMap.get("avatarUrl")!=null?userMap.get("avatarUrl").toString():"0.00";
+                String userType = userMap.get("userType")!=null?userMap.get("userType").toString():"0.00";
                 resultMap.put("balance", balance);
                 resultMap.put("integral", integral);
+                resultMap.put("nickName", nickName);
+                resultMap.put("avatarUrl", avatarUrl);
+                resultMap.put("userType", userType);
             } else {
                 resultMap.put("balance", "0.00");
                 resultMap.put("integral", "0.00");
+                resultMap.put("nickName", "未知");
+                resultMap.put("avatarUrl", "未知");
+                resultMap.put("userType", "普通用户");
             }
             //获取用户待奖励的订单数量，已获得奖励的订单数量
             List<Map<String, Object>> orderList = wxLuckDrawDao.getLuckDrawNumByStatus(paramMap);
@@ -255,7 +294,7 @@ public class WX_UserServiceImpl implements WX_UserService {
             resultMapDTO.setCode(NewMallCode.USER_ID_IS_NOT_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.USER_ID_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中获取用户的基本信息-getUserBaseInfo,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        logger.info("【service】获取用户的基本信息-getUserBaseInfo,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
     }
     
@@ -266,7 +305,7 @@ public class WX_UserServiceImpl implements WX_UserService {
      */
     @Override
     public BoolDTO updateUser(Map<String, Object> paramMap) {
-        logger.info("在【service】中更新用户信息-updateUser,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】更新用户信息-updateUser,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Integer updateNum = 0;
         BoolDTO boolDTO = new BoolDTO();
         //对微信的用户信息进行解析
@@ -284,7 +323,7 @@ public class WX_UserServiceImpl implements WX_UserService {
             boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
             boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
         }
-        logger.info("在【service】中更新用户信息-updateUser,请求-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        logger.info("【service】更新用户信息-updateUser,请求-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
@@ -298,7 +337,7 @@ public class WX_UserServiceImpl implements WX_UserService {
      */
     @Override
     public BoolDTO checkSession(Map<String, Object> paramMap) {
-        logger.info("在【service】中检测用户会话是否过期-checkSession,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】检测用户会话是否过期-checkSession,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         BoolDTO boolDTO = new BoolDTO();
         String userSessionKey = paramMap.get("sessionKey") != null ? paramMap.get("sessionKey").toString() : "";
         if (!"".equals(userSessionKey)) {
@@ -326,7 +365,7 @@ public class WX_UserServiceImpl implements WX_UserService {
             boolDTO.setCode(NewMallCode.SESSION_KEY_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.SESSION_KEY_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中检测用户会话是否过期-checkSession,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        logger.info("【service】检测用户会话是否过期-checkSession,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
@@ -337,7 +376,7 @@ public class WX_UserServiceImpl implements WX_UserService {
      */
     @Override
     public MessageDTO getCheckVerificationCode(Map<String, Object> paramMap) {
-        logger.info("在【service】中校验手机验证码-getCheckVerificationCode,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】校验手机验证码-getCheckVerificationCode,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         MessageDTO messageDTO = new MessageDTO();
         String userPhone = paramMap.get("userPhone") != null ? paramMap.get("userPhone").toString() : "";
         String captcha = paramMap.get("captcha") != null ? paramMap.get("captcha").toString() : "";
@@ -358,13 +397,13 @@ public class WX_UserServiceImpl implements WX_UserService {
             } catch (Exception e) {
                 messageDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 messageDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
-                logger.error("在【service】中校验手机验证码-getCheckVerificationCode is error, paramMap = {}", JSONObject.toJSONString(paramMap), ", e : {}", e);
+                logger.error("【service】校验手机验证码-getCheckVerificationCode is error, paramMap = {}", JSONObject.toJSONString(paramMap), ", e : {}", e);
             }
         } else {
             messageDTO.setCode(NewMallCode.PHONE_OR_CAPTCHA_IS_NOT_NULL.getNo());
             messageDTO.setMessage(NewMallCode.PHONE_OR_CAPTCHA_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中校验手机验证码-getCheckVerificationCode,响应-messageDTO = {}", JSONObject.toJSONString(messageDTO));
+        logger.info("【service】校验手机验证码-getCheckVerificationCode,响应-messageDTO = {}", JSONObject.toJSONString(messageDTO));
         return messageDTO;
     }
 
@@ -375,7 +414,7 @@ public class WX_UserServiceImpl implements WX_UserService {
      */
     @Override
     public ResultDTO getSimpleUserByCondition(Map<String, Object> paramMap) {
-        logger.info("在【service】中获取单一的用户信息-getSimpleUserByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】获取单一的用户信息-getSimpleUserByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         String uid = paramMap.get("uid") != null ? paramMap.get("uid").toString() : "";
         List<Map<String, Object>> userList = wxUserDao.getSimpleUserByCondition(paramMap);
@@ -398,7 +437,7 @@ public class WX_UserServiceImpl implements WX_UserService {
             resultDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
-        logger.info("在【service】中获取单一的用户信息-getSimpleUserByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        logger.info("【service】获取单一的用户信息-getSimpleUserByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
 
@@ -410,7 +449,7 @@ public class WX_UserServiceImpl implements WX_UserService {
      */
     @Override
     public BoolDTO deleteUser(Map<String, Object> paramMap) {
-        logger.info("在【service】中删除用户-deleteUser,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】删除用户-deleteUser,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Integer deleteNum = 0;
         BoolDTO boolDTO = new BoolDTO();
         deleteNum = wxUserDao.deleteUser(paramMap);
@@ -421,7 +460,7 @@ public class WX_UserServiceImpl implements WX_UserService {
             boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
             boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
         }
-        logger.info("在【service】中删除用户-deleteUser,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        logger.info("【service】删除用户-deleteUser,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
 
         return boolDTO;
     }
@@ -436,7 +475,7 @@ public class WX_UserServiceImpl implements WX_UserService {
      */
     @Override
     public BoolDTO setSession(Map<String, Object> paramMap) {
-        logger.info("在【service】中设置用户的session-setSession,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【service】设置用户的session-setSession,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         BoolDTO boolDTO = new BoolDTO();
         String key = paramMap.get("key") != null ? paramMap.get("key").toString() : "";
         String session_key = paramMap.get("session_key") != null ? paramMap.get("session_key").toString() : "";
@@ -457,7 +496,7 @@ public class WX_UserServiceImpl implements WX_UserService {
             boolDTO.setCode(NewMallCode.SESSION_KEY_IS_NOT_NULL.getNo());
             boolDTO.setMessage(NewMallCode.SESSION_KEY_IS_NOT_NULL.getMessage());
         }
-        logger.info("在【service】中设置用户的session-setSession,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        logger.info("【service】设置用户的session-setSession,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 

@@ -10,6 +10,11 @@ import java.util.Map;
 public interface WX_UserDao {
 
     /**
+     * 设置用户余额是否自动提现
+     */
+    Integer checkUserAutoCashBalance(Map<String, Object> paramMap);
+
+    /**
      * 根据条件查询用户信息
      */
     List<Map<String, Object>> getSimpleUserByCondition(Map<String, Object> paramMap);

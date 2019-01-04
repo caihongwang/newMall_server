@@ -37,14 +37,14 @@ public class WX_CashLogHandler implements com.br.newMall.api.service.WX_CashLogH
      */
     @Override
     public ResultDTO getCashFeeList(int tid, Map<String, String> paramMap) throws TException {
-        logger.info("在【hanlder】中获取提现规则列表-getCashFeeList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【hanlder】获取提现规则列表-getCashFeeList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         if (paramMap.size() > 0) {
             try {
                 resultDTO = wxCashLogService.getCashFeeList(objectParamMap);
             } catch (Exception e) {
-                logger.error("在【hanlder】中获取商品类型列表-getCashFeeList is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                logger.error("【hanlder】获取商品类型列表-getCashFeeList is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
                 List<Map<String, String>> resultList = Lists.newArrayList();
                 resultDTO.setResultListTotal(0);
                 resultDTO.setResultList(resultList);
@@ -55,7 +55,7 @@ public class WX_CashLogHandler implements com.br.newMall.api.service.WX_CashLogH
             resultDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
-        logger.info("在【hanlder】中获取提现规则列表-getCashFeeList,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        logger.info("【hanlder】获取提现规则列表-getCashFeeList,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
 
@@ -68,14 +68,14 @@ public class WX_CashLogHandler implements com.br.newMall.api.service.WX_CashLogH
      */
     @Override
     public BoolDTO addCashLog(int tid, Map<String, String> paramMap) throws TException {
-        logger.info("在【handler】中添加提现日志-addCashLog,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【handler】添加提现日志-addCashLog,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         BoolDTO boolDTO = new BoolDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         if (paramMap.size() > 0) {
             try {
                 boolDTO = wxCashLogService.addCashLog(objectParamMap);
             } catch (Exception e) {
-                logger.error("在【handler】中添加提现日志-addCashLog is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                logger.error("【handler】添加提现日志-addCashLog is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
                 boolDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 boolDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             }
@@ -83,7 +83,7 @@ public class WX_CashLogHandler implements com.br.newMall.api.service.WX_CashLogH
             boolDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             boolDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
-        logger.info("在【handler】中添加提现日志-addCashLog,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        logger.info("【handler】添加提现日志-addCashLog,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
@@ -96,17 +96,17 @@ public class WX_CashLogHandler implements com.br.newMall.api.service.WX_CashLogH
      */
     @Override
     public BoolDTO deleteCashLog(int tid, Map<String, String> paramMap) throws TException {
-        logger.info("在【handler】中删除提现日志-deleteCashLog,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【handler】删除提现日志-deleteCashLog,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         BoolDTO boolDTO = new BoolDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         try {
             boolDTO = wxCashLogService.deleteCashLog(objectParamMap);
         } catch (Exception e) {
-            logger.error("在【handler】中删除提现日志-deleteCashLog is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【handler】删除提现日志-deleteCashLog is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             boolDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
             boolDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【handler】中删除提现日志-deleteCashLog,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        logger.info("【handler】删除提现日志-deleteCashLog,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
@@ -119,17 +119,17 @@ public class WX_CashLogHandler implements com.br.newMall.api.service.WX_CashLogH
      */
     @Override
     public BoolDTO updateCashLog(int tid, Map<String, String> paramMap) throws TException {
-        logger.info("在【handler】中修改提现日志-updateCashLog,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【handler】修改提现日志-updateCashLog,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         BoolDTO boolDTO = new BoolDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         try {
             boolDTO = wxCashLogService.updateCashLog(objectParamMap);
         } catch (Exception e) {
-            logger.error("在【handler】中修改提现日志-updateCashLog is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【handler】修改提现日志-updateCashLog is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             boolDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
             boolDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("在【handler】中修改提现日志-updateCashLog,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
+        logger.info("【handler】修改提现日志-updateCashLog,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
     }
 
@@ -142,14 +142,14 @@ public class WX_CashLogHandler implements com.br.newMall.api.service.WX_CashLogH
      */
     @Override
     public ResultDTO getSimpleCashLogByCondition(int tid, Map<String, String> paramMap) throws TException {
-        logger.info("在【hanlder】中获取单一的提现日志-getSimpleCashLogByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【hanlder】获取单一的提现日志-getSimpleCashLogByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         if (paramMap.size() > 0) {
             try {
                 resultDTO = wxCashLogService.getSimpleCashLogByCondition(objectParamMap);
             } catch (Exception e) {
-                logger.error("在【hanlder】中获取单一的提现日志-getSimpleCashLogByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                logger.error("【hanlder】获取单一的提现日志-getSimpleCashLogByCondition is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
                 List<Map<String, String>> resultList = Lists.newArrayList();
                 resultDTO.setResultListTotal(0);
                 resultDTO.setResultList(resultList);
@@ -160,7 +160,7 @@ public class WX_CashLogHandler implements com.br.newMall.api.service.WX_CashLogH
             resultDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
-        logger.info("在【hanlder】中获取单一的提现日志-getSimpleCashLogByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        logger.info("【hanlder】获取单一的提现日志-getSimpleCashLogByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
 
@@ -173,14 +173,14 @@ public class WX_CashLogHandler implements com.br.newMall.api.service.WX_CashLogH
      */
     @Override
     public ResultMapDTO cashBalanceToWx(int tid, Map<String, String> paramMap) throws TException {
-        logger.info("在【hanlder】中提现用户余额到微信零钱-cashBalanceToWx,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【hanlder】提现用户余额到微信零钱-cashBalanceToWx,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         if (paramMap.size() > 0) {
             try {
                 resultMapDTO = wxCashLogService.cashBalanceToWx(objectParamMap);
             } catch (Exception e) {
-                logger.error("在【hanlder】中提现用户余额到微信零钱-cashBalanceToWx is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                logger.error("【hanlder】提现用户余额到微信零钱-cashBalanceToWx is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
                 resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             }
@@ -188,7 +188,7 @@ public class WX_CashLogHandler implements com.br.newMall.api.service.WX_CashLogH
             resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
-        logger.info("在【hanlder】中提现用户余额到微信零钱-cashBalanceToWx,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        logger.info("【hanlder】提现用户余额到微信零钱-cashBalanceToWx,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
     }
 

@@ -14,7 +14,7 @@
         country,
         language,
         user_remark,
-        user_type,
+        user_source,
         shop_id,
         balance,
         integral,
@@ -35,8 +35,14 @@
         nu.country as "country",
         nu.language as "language",
         nu.user_remark as "userRemark",
-        nu.user_type as "userType",
+        nu.user_source as "userSource",
         nu.shop_id as "shopId",
+        (CASE
+            WHEN (shop_id IS NOT null and shop_id != "") THEN
+            '商家用户'
+            ELSE
+            '普通用户'
+        END) AS userType,
         nu.balance as "balance",
         nu.integral as "integral",
         nu.auto_cash_to_wx_flag as "autoCashToWxFlag",
@@ -77,8 +83,8 @@
             <if test="language != null and language != ''">
                 AND nu.language = #{language}
             </if>
-            <if test="userType != null and userType != ''">
-                AND nu.user_type = #{userType}
+            <if test="userSource != null and userSource != ''">
+                AND nu.user_source = #{userSource}
             </if>
             <if test="grayStatus != null and grayStatus != ''">
                 AND nu.gray_status = #{grayStatus}
@@ -111,7 +117,7 @@
         #{country},
         #{language},
         #{userRemark},
-        #{userType},
+        #{userSource},
         #{shopId},
         #{balance},
         #{integral},
@@ -162,8 +168,8 @@
                 <if test="userRemark != null and userRemark != ''">
                     nu.user_remark = #{userRemark},
                 </if>
-                <if test="userType != null and userType != ''">
-                    nu.user_type = #{userType},
+                <if test="userSource != null and userSource != ''">
+                    nu.user_source = #{userSource},
                 </if>
                 <if test="shopId != null and shopId != ''">
                     nu.shop_id = #{shopId},
@@ -204,5 +210,22 @@
         from n_user nu
         <include refid="queryConditions"/>
     </select>
+
+    <update id="checkUserAutoCashBalance">
+        update n_user nu
+        <set>
+            <if test="autoCashToWxFlag != null and autoCashToWxFlag != ''">
+                nu.auto_cash_to_wx_flag = #{autoCashToWxFlag},
+            </if>
+            update_time = #{updateTime}
+        </set>
+        where 1=1
+        <if test="id != null and id != ''">
+            and nu.id = #{id}
+        </if>
+        <if test="uid != null and uid != ''">
+            and nu.id = #{uid}
+        </if>
+    </update>
 
 </mapper>
