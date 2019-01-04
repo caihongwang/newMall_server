@@ -28,6 +28,34 @@ public class WX_LuckDrawHandler implements com.br.newMall.api.service.WX_LuckDra
 
     @Autowired
     private WX_LuckDrawService wxLuckDrawService;
+
+    /**
+     * 抽奖
+     * @param tid
+     * @param paramMap
+     * @return
+     * @throws TException
+     */
+    @Override
+    public ResultMapDTO getLuckDraw(int tid, Map<String, String> paramMap) throws TException {
+        logger.info("【handler】抽奖-getLuckDraw,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        if (paramMap.size() > 0) {
+            try {
+                resultMapDTO = wxLuckDrawService.addLuckDraw(objectParamMap);
+            } catch (Exception e) {
+                logger.error("【handler】抽奖-getLuckDraw is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
+            }
+        } else {
+            resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
+            resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
+        }
+        logger.info("【handler】抽奖-getLuckDraw,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        return resultMapDTO;
+    }
     
     /**
      * 奖励兑换用户余额

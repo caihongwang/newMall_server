@@ -243,7 +243,9 @@ service WX_LuckDrawHandler {
 
     dto.ResultMapDTO convertIntegral(1:int tid, 2:map<string, string> paramMap),
 
-    dto.ResultMapDTO convertBalance(1:int tid, 2:map<string, string> paramMap)
+    dto.ResultMapDTO convertBalance(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultMapDTO getLuckDraw(1:int tid, 2:map<string, string> paramMap)
 
 }
 
