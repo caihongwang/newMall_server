@@ -184,6 +184,7 @@
             nu.id as "shopUid",
             nu.open_id as "shopOpenId",
             nu.shop_id as "shopId",
+            ifnull(non.shopOrderAmount, 0) as "shopOrderAmount",
             ns.shop_discount_id as "shopDiscountId",
             ns.shop_title as "shopTitle",
             ns.shop_degist as "shopDegist",
@@ -199,6 +200,12 @@
             date_format(ns.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
         from n_shop ns
         INNER JOIN n_user nu on nu.shop_id=ns.id
+        LEFT JOIN (select
+                        shop_id,
+                        count(shop_id) as "shopOrderAmount" from n_order no
+                    where no.status=1 and no.order_type="payTheBill"
+                    and no.shop_id IS NOT NULL and no.shop_id != ""
+                    GROUP BY no.shop_id) non ON non.shop_id=ns.id
             <include refid="queryConditions"/>
         <if test="start != null and size != null">
             LIMIT ${start},${size}
@@ -210,6 +217,12 @@
           COUNT(*) total
         from n_shop ns
         INNER JOIN n_user nu on nu.shop_id=ns.id
+        LEFT JOIN (select
+                        shop_id,
+                        count(shop_id) as "shopOrderAmount" from n_order no
+                    where no.status=1 and no.order_type="payTheBill"
+                    and no.shop_id IS NOT NULL and no.shop_id != ""
+                    GROUP BY no.shop_id) non ON non.shop_id=ns.id
             <include refid="queryConditions"/>
     </select>
 

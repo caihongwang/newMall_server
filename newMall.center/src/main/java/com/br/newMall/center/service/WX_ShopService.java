@@ -12,6 +12,12 @@ import java.util.Map;
  */
 public interface WX_ShopService {
 
+    /**
+     * 获取订单排序类型
+     * @param paramMap
+     * @return
+     */
+    ResultDTO getOrderSortTypeList(Map<String, Object> paramMap);
 
     /**
      * 根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序吗

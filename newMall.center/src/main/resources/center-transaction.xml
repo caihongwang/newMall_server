@@ -52,6 +52,7 @@
             <tx:method name="pay*" propagation="REQUIRED"/>
             <tx:method name="wxPay*" propagation="REQUIRED"/>
             <tx:method name="confirm*" propagation="REQUIRED"/>
+            <tx:method name="check*" propagation="REQUIRED"/>
 
 
             <tx:method name="*" read-only="true"/>

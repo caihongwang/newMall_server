@@ -5,6 +5,7 @@ import com.br.newMall.api.code.NewMallCode;
 import com.br.newMall.api.dto.BoolDTO;
 import com.br.newMall.api.dto.ResultDTO;
 import com.br.newMall.api.dto.ResultMapDTO;
+import com.br.newMall.center.service.WX_DicService;
 import com.br.newMall.center.service.WX_ShopService;
 import com.br.newMall.center.utils.LonLatUtil;
 import com.br.newMall.center.utils.MapUtil;
@@ -35,9 +36,34 @@ public class WX_ShopServiceImpl implements WX_ShopService {
     @Autowired
     private WX_ShopDao wxShopDao;
 
+    @Autowired
+    private WX_DicService wxDicService;
+
 
     @Value("${newMall.shop.miniProgramCode}")
     private String shopMiniProgramCodePath;
+
+
+    /**
+     * 获取订单排序类型
+     * @param paramMap
+     * @return
+     */
+    @Override
+    public ResultDTO getOrderSortTypeList(Map<String, Object> paramMap) {
+        logger.info("【service】获取订单排序类型-getOrderSortTypeList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultDTO resultDTO = new ResultDTO();
+        String dicType = paramMap.get("dicType") != null ? paramMap.get("dicType").toString() : "orderSortType";
+        if(!"".equals(dicType)){
+            paramMap.put("dicType", dicType);
+            resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
+        } else {
+            resultDTO.setCode(NewMallCode.PRODUCT_TYPE_IS_NULL.getNo());
+            resultDTO.setMessage(NewMallCode.PRODUCT_TYPE_IS_NULL.getMessage());
+        }
+        logger.info("【service】获取订单排序类型-getOrderSortTypeList,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        return resultDTO;
+    }
 
     /**
      * 添加店铺
@@ -153,8 +179,10 @@ public class WX_ShopServiceImpl implements WX_ShopService {
     public ResultDTO getSimpleShopByCondition(Map<String, Object> paramMap) {
         logger.info("【service】获取单一的店铺-getSimpleShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
-        List<Map<String, String>> dicStrList = Lists.newArrayList();
-        paramMap.remove("uid");
+        List<Map<String, String>> shopStrList = Lists.newArrayList();
+//        paramMap.remove("uid");
+        //店铺排序顺序，默认距离
+        String orderSortType = paramMap.get("orderSortType") != null ? paramMap.get("orderSortType").toString() : "shopDistance";
         Double currentLon = Double.parseDouble(paramMap.get("currentLon") != null ? paramMap.get("currentLon").toString() : "0");
         Double currentLat = Double.parseDouble(paramMap.get("currentLat") != null ? paramMap.get("currentLat").toString() : "0");
         Double dis = Double.parseDouble(paramMap.get("dis") != null ? paramMap.get("dis").toString() : "100");    //默认100公里范围
@@ -177,11 +205,23 @@ public class WX_ShopServiceImpl implements WX_ShopService {
         }
         List<Map<String, Object>> shopList = wxShopDao.getSimpleShopByCondition(paramMap);
         if (shopList != null && shopList.size() > 0) {
+            //计算每个商家距离用户当前位置的距离
             for (Map<String, Object> shopMap : shopList) {
-                Double endLat = Double.parseDouble(shopMap.get("shopLat").toString());
-                Double endLon = Double.parseDouble(shopMap.get("shopLon").toString());
+                Double endLon = 0.0;
+                Double endLat = 0.0;
                 Double distance = 0.0;
-                if(currentLon > 0 && currentLat > 0){
+                try {
+                    endLon = Double.parseDouble(shopMap.get("shopLon").toString());
+                } catch (Exception e) {
+                    endLon = 0.0;
+                }
+                try {
+                    endLat = Double.parseDouble(shopMap.get("shopLat").toString());
+                } catch (Exception e) {
+                    endLat = 0.0;
+                }
+                if(currentLon > 0 && currentLat > 0
+                        && endLon > 0 && endLat > 0){
                     distance = LonLatUtil.getDistance(currentLat, currentLon, endLat, endLon);
                 } else {
                     distance = 0.0;
@@ -192,10 +232,67 @@ public class WX_ShopServiceImpl implements WX_ShopService {
                     shopMap.put("shopDistance", "未知");
                 }
             }
-            dicStrList = MapUtil.getStringMapList(shopList);
+            shopStrList = MapUtil.getStringMapList(shopList);
+            if("shopDistance".equals(orderSortType)){
+                //对shopStrList按照距离进行排序
+                Collections.sort(shopStrList, new Comparator<Map<String, String>>() {
+                    public int compare(Map<String, String> s1, Map<String, String> s2) {
+                        Double shopDistance_1 = 0.0;
+                        Double shopDistance_2 = 0.0;
+                        try {
+                            shopDistance_1 = Double.parseDouble(s1.get("shopDistance").toString());
+                        } catch (Exception e) {
+                            shopDistance_1 = 0.0;
+                        }
+                        try {
+                            shopDistance_2 = Double.parseDouble(s2.get("shopDistance").toString());                    } catch (Exception e) {
+                            shopDistance_1 = 0.0;
+                        }
+                        return shopDistance_1.compareTo(shopDistance_2);
+                    }
+                });
+            } else if("shopOrderAmount".equals(orderSortType)){
+                //对shopStrList按照订单量进行排序
+                Collections.sort(shopStrList, new Comparator<Map<String, String>>() {
+                    public int compare(Map<String, String> s1, Map<String, String> s2) {
+                        Double shopOrderAmount_1 = 0.0;
+                        Double shopOrderAmount_2 = 0.0;
+                        try {
+                            shopOrderAmount_1 = Double.parseDouble(s1.get("shopOrderAmount").toString());
+                        } catch (Exception e) {
+                            shopOrderAmount_1 = 0.0;
+                        }
+                        try {
+                            shopOrderAmount_2 = Double.parseDouble(s2.get("shopOrderAmount").toString());
+                        } catch (Exception e) {
+                            shopOrderAmount_2 = 0.0;
+                        }
+                        return shopOrderAmount_2.compareTo(shopOrderAmount_1);
+                    }
+                });
+            } else {
+                //对shopStrList按照距离进行排序
+                Collections.sort(shopStrList, new Comparator<Map<String, String>>() {
+                    public int compare(Map<String, String> s1, Map<String, String> s2) {
+                        Double shopDistance_1 = 0.0;
+                        Double shopDistance_2 = 0.0;
+                        try {
+                            shopDistance_1 = Double.parseDouble(s1.get("shopDistance").toString());
+                        } catch (Exception e) {
+                            shopDistance_1 = 0.0;
+                        }
+                        try {
+                            shopDistance_2 = Double.parseDouble(s2.get("shopDistance").toString());                    } catch (Exception e) {
+                            shopDistance_1 = 0.0;
+                        }
+                        return shopDistance_1.compareTo(shopDistance_2);
+                    }
+                });
+            }
+
             Integer total = wxShopDao.getSimpleShopTotalByCondition(paramMap);
             resultDTO.setResultListTotal(total);
-            resultDTO.setResultList(dicStrList);
+            resultDTO.setResultList(shopStrList);
             resultDTO.setCode(NewMallCode.SUCCESS.getNo());
             resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
         } else {
@@ -219,6 +316,8 @@ public class WX_ShopServiceImpl implements WX_ShopService {
         logger.info("【service】根据条件查询店铺相关信息-getShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultDTO resultDTO = new ResultDTO();
         List<Map<String, String>> shopStrList = Lists.newArrayList();
+        //店铺排序顺序，默认距离
+        String orderSortType = paramMap.get("orderSortType") != null ? paramMap.get("orderSortType").toString() : "shopDistance";
         Double currentLon = Double.parseDouble(paramMap.get("currentLon") != null ? paramMap.get("currentLon").toString() : "0");
         Double currentLat = Double.parseDouble(paramMap.get("currentLat") != null ? paramMap.get("currentLat").toString() : "0");
         String shopId = paramMap.get("shopId") != null ? paramMap.get("shopId").toString() : "0";
@@ -227,10 +326,21 @@ public class WX_ShopServiceImpl implements WX_ShopService {
             List<Map<String, Object>> shopList = wxShopDao.getShopByCondition(paramMap);
             if (shopList != null && shopList.size() > 0) {
                 for (Map<String, Object> shopMap : shopList) {
-                    Double endLat = Double.parseDouble(shopMap.get("shopLat").toString());
-                    Double endLon = Double.parseDouble(shopMap.get("shopLon").toString());
+                    Double endLon = 0.0;
+                    Double endLat = 0.0;
                     Double distance = 0.0;
-                    if(currentLon > 0 && currentLat > 0){
+                    try {
+                        endLon = Double.parseDouble(shopMap.get("shopLon").toString());
+                    } catch (Exception e) {
+                        endLon = 0.0;
+                    }
+                    try {
+                        endLat = Double.parseDouble(shopMap.get("shopLat").toString());
+                    } catch (Exception e) {
+                        endLat = 0.0;
+                    }
+                    if(currentLon > 0 && currentLat > 0
+                            && endLon > 0 && endLat > 0){
                         distance = LonLatUtil.getDistance(currentLat, currentLon, endLat, endLon);
                     } else {
                         distance = 0.0;
@@ -242,6 +352,62 @@ public class WX_ShopServiceImpl implements WX_ShopService {
                     }
                 }
                 shopStrList = MapUtil.getStringMapList(shopList);
+                if("shopDistance".equals(orderSortType)){
+                    //对shopStrList按照距离进行排序
+                    Collections.sort(shopStrList, new Comparator<Map<String, String>>() {
+                        public int compare(Map<String, String> s1, Map<String, String> s2) {
+                            Double shopDistance_1 = 0.0;
+                            Double shopDistance_2 = 0.0;
+                            try {
+                                shopDistance_1 = Double.parseDouble(s1.get("shopDistance").toString());
+                            } catch (Exception e) {
+                                shopDistance_1 = 0.0;
+                            }
+                            try {
+                                shopDistance_2 = Double.parseDouble(s2.get("shopDistance").toString());                    } catch (Exception e) {
+                                shopDistance_1 = 0.0;
+                            }
+                            return shopDistance_1.compareTo(shopDistance_2);
+                        }
+                    });
+                } else if("shopOrderAmount".equals(orderSortType)){
+                    //对shopStrList按照订单量进行排序
+                    Collections.sort(shopStrList, new Comparator<Map<String, String>>() {
+                        public int compare(Map<String, String> s1, Map<String, String> s2) {
+                            Double shopOrderAmount_1 = 0.0;
+                            Double shopOrderAmount_2 = 0.0;
+                            try {
+                                shopOrderAmount_1 = Double.parseDouble(s1.get("shopOrderAmount").toString());
+                            } catch (Exception e) {
+                                shopOrderAmount_1 = 0.0;
+                            }
+                            try {
+                                shopOrderAmount_2 = Double.parseDouble(s2.get("shopOrderAmount").toString());
+                            } catch (Exception e) {
+                                shopOrderAmount_2 = 0.0;
+                            }
+                            return shopOrderAmount_2.compareTo(shopOrderAmount_1);
+                        }
+                    });
+                } else {
+                    //对shopStrList按照距离进行排序
+                    Collections.sort(shopStrList, new Comparator<Map<String, String>>() {
+                        public int compare(Map<String, String> s1, Map<String, String> s2) {
+                            Double shopDistance_1 = 0.0;
+                            Double shopDistance_2 = 0.0;
+                            try {
+                                shopDistance_1 = Double.parseDouble(s1.get("shopDistance").toString());
+                            } catch (Exception e) {
+                                shopDistance_1 = 0.0;
+                            }
+                            try {
+                                shopDistance_2 = Double.parseDouble(s2.get("shopDistance").toString());                    } catch (Exception e) {
+                                shopDistance_1 = 0.0;
+                            }
+                            return shopDistance_1.compareTo(shopDistance_2);
+                        }
+                    });
+                }
                 Integer total = wxShopDao.getShopTotalByCondition(paramMap);
                 resultDTO.setResultListTotal(total);
                 resultDTO.setResultList(shopStrList);

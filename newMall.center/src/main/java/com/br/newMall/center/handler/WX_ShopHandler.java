@@ -29,6 +29,37 @@ public class WX_ShopHandler implements com.br.newMall.api.service.WX_ShopHandler
     private WX_ShopService wxShopService;
 
     /**
+     * 获取订单排序类型
+     * @param tid
+     * @param paramMap
+     * @return
+     * @throws TException
+     */
+    @Override
+    public ResultDTO getOrderSortTypeList(int tid, Map<String, String> paramMap) throws TException {
+        logger.info("【hanlder】获取订单排序类型-getProductTypeList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultDTO resultDTO = new ResultDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        if (paramMap.size() > 0) {
+            try {
+                resultDTO = wxShopService.getOrderSortTypeList(objectParamMap);
+            } catch (Exception e) {
+                logger.error("【hanlder】获取订单排序类型-getOrderSortTypeList is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                List<Map<String, String>> resultList = Lists.newArrayList();
+                resultDTO.setResultListTotal(0);
+                resultDTO.setResultList(resultList);
+                resultDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                resultDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
+            }
+        } else {
+            resultDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
+            resultDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
+        }
+        logger.info("【hanlder】获取订单排序类型-getOrderSortTypeList,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        return resultDTO;
+    }
+
+    /**
      * 添加店铺
      * @param tid
      * @param paramMap

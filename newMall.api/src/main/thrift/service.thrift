@@ -249,6 +249,8 @@ service WX_LuckDrawHandler {
 
 service WX_ShopHandler {
 
+    dto.ResultDTO getOrderSortTypeList(1:int tid, 2:map<string, string> paramMap),
+
     dto.BoolDTO addShop(1:int tid, 2:map<string, string> paramMap),
 
     dto.BoolDTO deleteShop(1:int tid, 2:map<string, string> paramMap),
