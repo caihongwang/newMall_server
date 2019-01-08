@@ -69,7 +69,7 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
     }
 
     /**
-     * 添加抽奖信息
+     * 抽奖
      * @param paramMap
      * @return
      */

@@ -31,7 +31,6 @@ public class WX_LuckDrawController {
     @Autowired
     private WX_LuckDrawHandler.Client wxLuckDrawHandler;
 
-
     /**
      * 抽奖
      * @param request

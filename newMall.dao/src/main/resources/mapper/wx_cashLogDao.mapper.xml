@@ -112,6 +112,9 @@
             <include refid="TColumnList"/>
         FROM n_cash_log ncl
             <include refid="queryConditions"/>
+        <if test="start != null and size != null">
+            LIMIT ${start},${size}
+        </if>
     </select>
 
     <select id="getSimpleCashLogTotalByCondition" resultType="java.lang.Integer">

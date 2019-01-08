@@ -43,7 +43,7 @@ public class WX_LuckDrawHandler implements com.br.newMall.api.service.WX_LuckDra
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         if (paramMap.size() > 0) {
             try {
-                resultMapDTO = wxLuckDrawService.addLuckDraw(objectParamMap);
+                resultMapDTO = wxLuckDrawService.getLuckDraw(objectParamMap);
             } catch (Exception e) {
                 logger.error("【handler】抽奖-getLuckDraw is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
                 resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
