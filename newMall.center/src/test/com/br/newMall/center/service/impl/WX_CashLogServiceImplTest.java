@@ -2,32 +2,36 @@ package com.br.newMall.center.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.br.newMall.api.code.NewMallCode;
-import com.br.newMall.api.dto.BoolDTO;
 import com.br.newMall.api.dto.ResultDTO;
 import com.br.newMall.api.dto.ResultMapDTO;
-import com.br.newMall.center.service.WX_CashLogService;
 import com.br.newMall.center.service.WX_DicService;
 import com.br.newMall.center.service.WX_RedPacketService;
-import com.br.newMall.center.utils.MapUtil;
 import com.br.newMall.dao.WX_CashLogDao;
 import com.br.newMall.dao.WX_UserDao;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.Assert.*;
+
 /**
- * @Description 提现日志Service
- * @author caihongwang
+ * Created by caihongwang on 2019/1/11.
  */
-@Service
-public class WX_CashLogServiceImpl implements WX_CashLogService {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath*:/center-context.xml"})
+@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = false)
+public class WX_CashLogServiceImplTest {
 
     private static final Logger logger = LoggerFactory.getLogger(WX_CashLogServiceImpl.class);
 
@@ -43,156 +47,25 @@ public class WX_CashLogServiceImpl implements WX_CashLogService {
     @Autowired
     private WX_RedPacketService wxRedPacketService;
 
-    /**
-     * 获取提现规则列表
-     * @param paramMap
-     * @return
-     */
-    @Override
-    public ResultDTO getCashFeeList(Map<String, Object> paramMap) {
-        logger.info("【service】获取提现规则列表-getCashFeeList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
-        ResultDTO resultDTO = new ResultDTO();
-        String dicType = paramMap.get("dicType") != null ? paramMap.get("dicType").toString() : "caashFee";
-        if(!"".equals(dicType)){
-            paramMap.put("dicType", dicType);
-            resultDTO = wxDicService.getSimpleDicByCondition(paramMap);
-        } else {
-            resultDTO.setCode(NewMallCode.PRODUCT_TYPE_IS_NULL.getNo());
-            resultDTO.setMessage(NewMallCode.PRODUCT_TYPE_IS_NULL.getMessage());
-        }
-        logger.info("【service】获取提现规则列表-getCashFeeList,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
-        return resultDTO;
-    }
 
-    /**
-     * 添加提现日志
-     * @param paramMap
-     * @return
-     */
-    @Override
-    public BoolDTO addCashLog(Map<String, Object> paramMap) {
-        logger.info("【service】添加提现日志-addCashLog,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
-        Integer addNum = 0;
-        BoolDTO boolDTO = new BoolDTO();
-        String uid = paramMap.get("uid") != null ? paramMap.get("uid").toString() : "";
-        String cashToWxMoney = paramMap.get("cashToWxMoney") != null ? paramMap.get("cashToWxMoney").toString() : "";
-        String cashFee = paramMap.get("cashFee") != null ? paramMap.get("cashFee").toString() : "";
-        String userBalance = paramMap.get("userBalance") != null ? paramMap.get("userBalance").toString() : "";
-        if (!"".equals(uid) && !"".equals(cashToWxMoney)
-                && !"".equals(cashFee) && !"".equals(userBalance)) {
-            addNum = wxCashLogDao.addCashLog(paramMap);
-            if (addNum != null && addNum > 0) {
-                boolDTO.setCode(NewMallCode.SUCCESS.getNo());
-                boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
-            } else {
-                boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
-                boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
-            }
-        } else {
-            boolDTO.setCode(NewMallCode.CASHLOG_UID_OR_CASHTOWXMONEY_OR_CASHFEE_OR_USERBALANCE_IS_NOT_NULL.getNo());
-            boolDTO.setMessage(NewMallCode.CASHLOG_UID_OR_CASHTOWXMONEY_OR_CASHFEE_OR_USERBALANCE_IS_NOT_NULL.getMessage());
+    @Test
+    public void Test() {
+        Map<String, Object> paramMap = Maps.newHashMap();
+        List<Double> cashToWxMoneyList = Lists.newArrayList();
+        cashToWxMoneyList.add(23.0);cashToWxMoneyList.add(78.3);cashToWxMoneyList.add(65.0);cashToWxMoneyList.add(13.4);cashToWxMoneyList.add(67.3);cashToWxMoneyList.add(98.12);cashToWxMoneyList.add(98.22);cashToWxMoneyList.add(13.54);cashToWxMoneyList.add(67.43);cashToWxMoneyList.add(64.98);cashToWxMoneyList.add(45.32);cashToWxMoneyList.add(22.22);cashToWxMoneyList.add(76.66);cashToWxMoneyList.add(98.99);
+        for (int i = 0; i < cashToWxMoneyList.size(); i++) {
+            paramMap.clear();
+            Double cashToWxMoney = cashToWxMoneyList.get(i);
+            paramMap.put("uid", "1");
+            paramMap.put("cashToWxMoney", cashToWxMoney);
+            cashBalanceToWx(paramMap);
         }
-        logger.info("【service】添加提现日志-addCashLog,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
-        return boolDTO;
     }
-
-    /**
-     * 删除提现日志
-     * @param paramMap
-     * @return
-     */
-    @Override
-    public BoolDTO deleteCashLog(Map<String, Object> paramMap) {
-        logger.info("【service】删除提现日志-deleteCashLog,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
-        Integer deleteNum = 0;
-        BoolDTO boolDTO = new BoolDTO();
-        String id = paramMap.get("id") != null ? paramMap.get("id").toString() : "";
-        if (!"".equals(id)) {
-            deleteNum = wxCashLogDao.deleteCashLog(paramMap);
-            if (deleteNum != null && deleteNum > 0) {
-                boolDTO.setCode(NewMallCode.SUCCESS.getNo());
-                boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
-            } else {
-                boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
-                boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
-            }
-        } else {
-            boolDTO.setCode(NewMallCode.CASHLOG_ID_IS_NOT_NULL.getNo());
-            boolDTO.setMessage(NewMallCode.CASHLOG_ID_IS_NOT_NULL.getMessage());
-        }
-        logger.info("【service】删除提现日志-deleteCashLog,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
-        return boolDTO;
-    }
-
-    /**
-     * 修改提现日志
-     * @param paramMap
-     * @return
-     */
-    @Override
-    public BoolDTO updateCashLog(Map<String, Object> paramMap) {
-        logger.info("【service】修改提现日志-updateCashLog,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
-        Integer updateNum = 0;
-        BoolDTO boolDTO = new BoolDTO();
-        String id = paramMap.get("id") != null ? paramMap.get("id").toString() : "";
-        if (!"".equals(id)) {
-            updateNum = wxCashLogDao.updateCashLog(paramMap);
-            if (updateNum != null && updateNum > 0) {
-                boolDTO.setCode(NewMallCode.SUCCESS.getNo());
-                boolDTO.setMessage(NewMallCode.SUCCESS.getMessage());
-            } else {
-                boolDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
-                boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
-            }
-        } else {
-            boolDTO.setCode(NewMallCode.CASHLOG_ID_IS_NOT_NULL.getNo());
-            boolDTO.setMessage(NewMallCode.CASHLOG_ID_IS_NOT_NULL.getMessage());
-        }
-        logger.info("【service】修改提现日志-updateCashLog,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
-        return boolDTO;
-    }
-
-    /**
-     * 获取单一的提现日志信息
-     * @param paramMap
-     * @return
-     */
-    @Override
-    public ResultDTO getSimpleCashLogByCondition(Map<String, Object> paramMap) {
-        logger.info("【service】获取单一的提现日志-getSimpleCashLogByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
-        ResultDTO resultDTO = new ResultDTO();
-        List<Map<String, String>> cashLogStrList = Lists.newArrayList();
-        String uid = paramMap.get("uid") != null ? paramMap.get("uid").toString() : "";
-        if (!"".equals(uid)) {
-            List<Map<String, Object>> cashLogList = wxCashLogDao.getSimpleCashLogByCondition(paramMap);
-            if (cashLogList != null && cashLogList.size() > 0) {
-                cashLogStrList = MapUtil.getStringMapList(cashLogList);
-                Integer total = wxCashLogDao.getSimpleCashLogTotalByCondition(paramMap);
-                resultDTO.setResultListTotal(total);
-                resultDTO.setResultList(cashLogStrList);
-                resultDTO.setCode(NewMallCode.SUCCESS.getNo());
-                resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
-            } else {
-                List<Map<String, String>> resultList = Lists.newArrayList();
-                resultDTO.setResultListTotal(0);
-                resultDTO.setResultList(resultList);
-                resultDTO.setCode(NewMallCode.CASHLOG_LIST_IS_NULL.getNo());
-                resultDTO.setMessage(NewMallCode.CASHLOG_LIST_IS_NULL.getMessage());
-            }
-        } else {
-            resultDTO.setCode(NewMallCode.CASHLOG_UID_IS_NOT_NULL.getNo());
-            resultDTO.setMessage(NewMallCode.CASHLOG_UID_IS_NOT_NULL.getMessage());
-        }
-        logger.info("【service】获取单一的提现日志-getSimpleCashLogByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
-        return resultDTO;
-    }
-
     /**
      * 提现用户余额到微信零钱
      * @param paramMap
      * @return
      */
-    @Override
     public ResultMapDTO cashBalanceToWx(Map<String, Object> paramMap) {
         logger.info("【service】提现用户余额到微信零钱-cashBalanceToWx,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Map<String, String> resultMap = Maps.newHashMap();
@@ -235,14 +108,19 @@ public class WX_CashLogServiceImpl implements WX_CashLogService {
                                 bg = new BigDecimal(cashToWxMoney);
                                 cashToWxMoney = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                                 //2.整合发送现金红包的参数
-                                Map<String, Object> cashRedPacketParamMap = Maps.newHashMap();
-                                String cashRedPacketTotal = ((int) (cashToWxMoney * 100)) + "";
-                                cashRedPacketParamMap.put("amount", cashRedPacketTotal);
-                                cashRedPacketParamMap.put("openId", openId);
-                                cashRedPacketParamMap.put("reUserName", NewMallCode.WX_MINI_PROGRAM_NAME);
-                                cashRedPacketParamMap.put("wxPublicNumGhId", "gh_417c90af3488");
-                                cashRedPacketParamMap.put("desc", NewMallCode.WX_MINI_PROGRAM_NAME + "发红包了，快来看看吧.");
-                                resultMapDTO = wxRedPacketService.enterprisePayment(cashRedPacketParamMap);
+//                                Map<String, Object> cashRedPacketParamMap = Maps.newHashMap();
+//                                String cashRedPacketTotal = ((int) (cashToWxMoney * 100)) + "";
+//                                cashRedPacketParamMap.put("amount", cashRedPacketTotal);
+//                                cashRedPacketParamMap.put("openId", openId);
+//                                cashRedPacketParamMap.put("reUserName", NewMallCode.WX_MINI_PROGRAM_NAME);
+//                                cashRedPacketParamMap.put("wxPublicNumGhId", "gh_417c90af3488");
+//                                cashRedPacketParamMap.put("desc", NewMallCode.WX_MINI_PROGRAM_NAME + "发红包了，快来看看吧.");
+//                                resultMapDTO = wxRedPacketService.enterprisePayment(cashRedPacketParamMap);
+
+                                //==============================
+                                resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
+                                //==============================
+
 
                                 bg = new BigDecimal(newUserBalance);
                                 newUserBalance = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
@@ -302,6 +180,5 @@ public class WX_CashLogServiceImpl implements WX_CashLogService {
         logger.info("【service】提现用户余额到微信零钱-cashBalanceToWx,请求-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
     }
-
 
 }

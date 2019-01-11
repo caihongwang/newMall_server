@@ -74,7 +74,6 @@ public class NewMallCode {
     public static NewMallCode USER_CODE_IS_NOT_NULL = new NewMallCode(70006, "用户微信访问的code参数不能为空.");
     public static NewMallCode USER_ID_OR_PRODUCTID_NULL = new NewMallCode(70007, "用户或者商品不存在.");
     public static NewMallCode USER_PROPORTION_OR_CASHMONEYLOWERLIMIT_IS_NOT_NUMBER = new NewMallCode(70008, "用户提现时提现比例或者提现金额下限非数字.");
-    public static NewMallCode USER_CASHMONEY_NOT_MORE_CASHMONEYLOWERLIMIT_IS_NOT_NUMBER = new NewMallCode(70009, "用户余额大于等于提现金额下限才可以提现.");
     public static NewMallCode USER_ID_IS_NOT_NULL = new NewMallCode(70010, "用户的uid不允许为空.");
     public static NewMallCode USER_ID_OR_AUTOCASHTOWXFLAG_IS_NOT_NULL = new NewMallCode(70011, "用户的uid或者自动提现标志不允许为空.");
 
@@ -198,6 +197,9 @@ public class NewMallCode {
     public static NewMallCode CASHLOG_UID_OR_CASHTOWXMONEY_OR_CASHFEE_OR_USERBALANCE_IS_NOT_NULL = new NewMallCode(230001, "提现日志的用户uid或者提现金额或者提现手续费或者用户余额不能为空");
     public static NewMallCode CASHLOG_ID_IS_NOT_NULL = new NewMallCode(230002, "提现日志的ID不能为空");
     public static NewMallCode CASHLOG_UID_IS_NOT_NULL = new NewMallCode(230003, "提现日志的用户UID不能为空");
+    public static NewMallCode CASHLOG_UID_OR_CASHTOWXMONEY_IS_NOT_NULL = new NewMallCode(230004, "提现的用户uid或者提现金额不能为空");
+    public static NewMallCode CASHLOG_CASHTOWXMONEY_MUST_BE_MORE_CASHMONEYLOWERLIMIT = new NewMallCode(230004, "提现余额大于等于提现金额下限才可以提现");
+    public static NewMallCode CASHLOG_USERBALANCE_MUST_BE_MORE_CASHTOWXMONEY = new NewMallCode(70009, "用户余额大于等于提现金额和所需的服务费才可以提现.");
 
 
 
