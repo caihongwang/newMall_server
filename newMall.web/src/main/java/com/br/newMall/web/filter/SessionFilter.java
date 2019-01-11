@@ -54,7 +54,7 @@ public class SessionFilter implements Filter {
         totallyAnonymousUrl.add("wxPayNotifyForPayTheBillInMiniProgram.do");
         totallyAnonymousUrl.add("wxPayNotifyForPurchaseProductInMiniProgram.do");
 
-        totallyAnonymousUrl.add("redActivityRulePage.do");        //获取 红包活动规则页面
+        totallyAnonymousUrl.add("cashedRulePage.do");        //获取 提现规则页面
 
         totallyAnonymousUrl.add("getOauth.do");                   //获取 整合openId的对外链接
         totallyAnonymousUrl.add("getToOauthUrl.do");              //获取 微信整合链接
