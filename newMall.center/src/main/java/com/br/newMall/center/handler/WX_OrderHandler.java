@@ -289,6 +289,37 @@ public class WX_OrderHandler implements com.br.newMall.api.service.WX_OrderHandl
     }
 
     /**
+     * 获取所有的商品订单
+     * @param tid
+     * @param paramMap
+     * @return
+     * @throws TException
+     */
+    @Override
+    public ResultDTO getAllPayGoodsOrder(int tid, Map<String, String> paramMap) throws TException {
+        logger.info("【hanlder】获取所有的商品订单-getAllPayGoodsOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultDTO resultDTO = new ResultDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        if (paramMap.size() > 0) {
+            try {
+                resultDTO = wxOrderService.getAllPayGoodsOrder(objectParamMap);
+            } catch (Exception e) {
+                logger.error("【hanlder】获取所有的商品订单-getAllPayGoodsOrder is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                List<Map<String, String>> resultList = Lists.newArrayList();
+                resultDTO.setResultListTotal(0);
+                resultDTO.setResultList(resultList);
+                resultDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                resultDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
+            }
+        } else {
+            resultDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
+            resultDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
+        }
+        logger.info("【hanlder】获取所有的商品订单-getAllPayGoodsOrder,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        return resultDTO;
+    }
+
+    /**
      * 获取待支付的商品订单
      * @param tid
      * @param paramMap

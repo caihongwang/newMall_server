@@ -472,6 +472,63 @@ public class WX_OrderController {
     }
 
     /**
+     * 获取所有的商品订单
+     * @param request
+     * @return
+     */
+    @RequestMapping("/getAllPayGoodsOrder")
+    @ResponseBody
+    public Map<String, Object> getAllPayGoodsOrder(HttpServletRequest request) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        //获取请求参数能够获取到并解析
+        paramMap = HttpUtil.getRequestParams(request);
+        logger.info("【controller】获取所有的商品订单-getAllPayGoodsOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        String start = paramMap.get("start")!=null?paramMap.get("start").toString():"";
+        String size = paramMap.get("size")!=null?paramMap.get("size").toString():"";
+        if("".equals(start)){
+            paramMap.put("start", "0");
+        } else {
+            try {
+                if(Integer.parseInt(start) < 0){
+                    paramMap.put("start", "0");
+                } else {
+                    paramMap.put("start", start);
+                }
+            } catch (Exception e){
+                paramMap.put("start", "0");
+            }
+        }
+        if("".equals(size)){
+            paramMap.put("size", "10");
+        } else {
+            try {
+                if(Integer.parseInt(size) < 0){
+                    paramMap.put("size", "10");
+                } else {
+                    paramMap.put("size", size);
+                }
+            } catch (Exception e){
+                paramMap.put("size", "0");
+            }
+        }
+        try {
+            ResultDTO resultDTO = wxOrderHandler.getAllPayGoodsOrder(0, paramMap);
+            resultMap.put("recordsFiltered", resultDTO.getResultListTotal());
+            resultMap.put("data", resultDTO.getResultList());
+            resultMap.put("code", resultDTO.getCode());
+            resultMap.put("message", resultDTO.getMessage());
+        } catch (Exception e) {
+            logger.error("【controller】获取所有的商品订单-getAllPayGoodsOrder is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            resultMap.put("success", false);
+            resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
+            resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
+        }
+        logger.info("【controller】获取所有的商品订单-getAllPayGoodsOrder,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        return resultMap;
+    }
+
+    /**
      * 获取待支付的商品订单
      * @param request
      * @return

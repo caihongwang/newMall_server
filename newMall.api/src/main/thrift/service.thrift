@@ -203,6 +203,8 @@ service WX_OrderHandler {
 
     dto.ResultDTO getOrderByCondition(1:int tid, 2:map<string, string> paramMap),
 
+    dto.ResultDTO getAllPayGoodsOrder(1:int tid, 2:map<string, string> paramMap),
+
     dto.ResultDTO getWaitPayGoodsOrder(1:int tid, 2:map<string, string> paramMap),
 
     dto.ResultDTO getAlreadyPayGoodsOrder(1:int tid, 2:map<string, string> paramMap),

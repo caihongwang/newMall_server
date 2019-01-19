@@ -13,6 +13,11 @@ import java.util.Map;
 public interface WX_OrderService {
 
     /**
+     * 获取所有的商品订单
+     */
+    public ResultDTO getAllPayGoodsOrder(Map<String, Object> paramMap);
+
+    /**
      * 获取待支付的商品订单
      */
     public ResultDTO getWaitPayGoodsOrder(Map<String, Object> paramMap);
