@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.br.newMall.dao.WX_BalanceLogDao">
+
+    <sql id="columnList">    <!-- 字段 -->
+        id,
+        uid,
+        cashback_to_user_balance,
+        user_balance,
+        cashback_status,
+        remark,
+        create_time,
+        update_time
+    </sql>
+
+    <sql id="TColumnList">    <!-- 带表别名的字段 -->
+        nbl.id as "id",
+        nbl.uid as "uid",
+        nbl.cashback_to_user_balance as "cashbackToUserBalance",
+        nbl.user_balance as "userBalance",
+        nbl.cashback_status as "cashbackStatus",
+        nbl.remark as "remark",
+        date_format(nbl.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
+        date_format(nbl.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
+    </sql>
+
+    <sql id="queryConditions"><!-- 查询条件 -->
+        <where>
+            <if test="id != null and id != ''">
+                AND nbl.id = #{id}
+            </if>
+            <if test="uid != null and uid != ''">
+                AND nbl.uid = #{uid}
+            </if>
+            <if test="cashbackToUserBalance != null and cashbackToUserBalance != ''">
+                AND nbl.cashback_to_user_balance = #{cashbackToUserBalance}
+            </if>
+            <if test="userBalance != null and userBalance != ''">
+                AND nbl.user_balance = #{userBalance}
+            </if>
+            <if test="cashbackStatus != null and cashbackStatus != ''">
+                AND nbl.cashback_status = #{cashbackStatus}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND nbl.remark like concat('%',#{remark},'%')
+            </if>
+        </where>
+        ORDER BY nbl.create_time desc
+    </sql>
+
+    <insert id="addBalanceLog" parameterType="java.util.Map" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into n_balance_log (
+            <include refid="columnList"/>
+        ) values (
+            #{id},
+            #{uid},
+            #{cashbackToUserBalance},
+            #{userBalance},
+            #{cashbackStatus},
+            #{remark},
+            #{createTime},
+            #{updateTime}
+        )
+    </insert>
+
+    <delete id="deleteBalanceLog">
+        DELETE FROM n_balance_log WHERE 1=1
+        <if test="id != null and id != ''">
+            AND id = #{id}
+        </if>
+    </delete>
+
+    <update id="updateBalanceLog">
+        update n_balance_log nbl
+        <set>
+            <if test="uid != null and uid != ''">
+                nbl.uid = #{uid},
+            </if>
+            <if test="cashbackToUserBalance != null and cashbackToUserBalance != ''">
+                nbl.cashback_to_user_balance = #{cashbackToUserBalance},
+            </if>
+            <if test="userBalance != null and userBalance != ''">
+                nbl.user_balance = #{userBalance},
+            </if>
+            <if test="cashbackStatus != null and cashbackStatus != ''">
+                nbl.cashback_status = #{cashbackStatus},
+            </if>
+            <if test="remark != null and remark != ''">
+                nbl.remark = #{remark},
+            </if>
+            nbl.update_time = CURRENT_TIMESTAMP
+        </set>
+        where 1=1
+        <if test="id != null and id != ''">
+            and nbl.id = #{id}
+        </if>
+    </update>
+
+    <select id="getSimpleBalanceLogByCondition" resultType="java.util.Map">
+        SELECT
+            <include refid="TColumnList"/>
+        FROM n_balance_log nbl
+            <include refid="queryConditions"/>
+        <if test="start != null and size != null">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getSimpleBalanceLogTotalByCondition" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*) total
+        from n_balance_log nbl
+            <include refid="queryConditions"/>
+    </select>
+
+</mapper>

@@ -18,739 +18,849 @@
     <table id="12" parent="2" name="n_address">
       <Comment>地址表</Comment>
     </table>
-    <table id="13" parent="2" name="n_cash_log">
+    <table id="13" parent="2" name="n_balance_log">
+      <Comment>余额日志表</Comment>
+    </table>
+    <table id="14" parent="2" name="n_cash_log">
       <Comment>提现日志表</Comment>
     </table>
-    <table id="14" parent="2" name="n_dic">
+    <table id="15" parent="2" name="n_dic">
       <Comment>字典表</Comment>
     </table>
-    <table id="15" parent="2" name="n_league">
+    <table id="16" parent="2" name="n_integral_log">
+      <Comment>积分日志表</Comment>
+    </table>
+    <table id="17" parent="2" name="n_league">
       <Comment>加盟表</Comment>
     </table>
-    <table id="16" parent="2" name="n_luck_draw"/>
-    <table id="17" parent="2" name="n_order">
+    <table id="18" parent="2" name="n_luck_draw"/>
+    <table id="19" parent="2" name="n_order">
       <Comment>订单表</Comment>
     </table>
-    <table id="18" parent="2" name="n_product">
+    <table id="20" parent="2" name="n_product">
       <Comment>商品表</Comment>
     </table>
-    <table id="19" parent="2" name="n_shop">
+    <table id="21" parent="2" name="n_shop">
       <Comment>店铺表</Comment>
     </table>
-    <table id="20" parent="2" name="n_user">
+    <table id="22" parent="2" name="n_user">
       <Comment>用户表</Comment>
     </table>
-    <column id="21" parent="12" name="id">
+    <column id="23" parent="12" name="id">
       <Position>1</Position>
       <Comment>地址_id</Comment>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="22" parent="12" name="uid">
+    <column id="24" parent="12" name="uid">
       <Position>2</Position>
       <Comment>用户_uid</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="23" parent="12" name="province_id">
+    <column id="25" parent="12" name="province_id">
       <Position>5</Position>
       <Comment>省份_id</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="24" parent="12" name="province_name">
+    <column id="26" parent="12" name="province_name">
       <Position>6</Position>
       <Comment>省份_名称</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="25" parent="12" name="city_id">
+    <column id="27" parent="12" name="city_id">
       <Position>7</Position>
       <Comment>城市_id</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="26" parent="12" name="city_name">
+    <column id="28" parent="12" name="city_name">
       <Position>8</Position>
       <Comment>城市_名称</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="27" parent="12" name="region_id">
+    <column id="29" parent="12" name="region_id">
       <Position>9</Position>
       <Comment>地区_id</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="28" parent="12" name="region_name">
+    <column id="30" parent="12" name="region_name">
       <Position>10</Position>
       <Comment>地区_名称</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="29" parent="12" name="detail_address">
+    <column id="31" parent="12" name="detail_address">
       <Position>13</Position>
       <Comment>详细地址</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="30" parent="12" name="create_time">
+    <column id="32" parent="12" name="create_time">
       <Position>16</Position>
       <Comment>创建时间</Comment>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
     </column>
-    <column id="31" parent="12" name="update_time">
+    <column id="33" parent="12" name="update_time">
       <Position>17</Position>
       <Comment>更新时间</Comment>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
     </column>
-    <column id="32" parent="12" name="status">
+    <column id="34" parent="12" name="status">
       <Position>15</Position>
       <Comment>商品状态: 0是未删除，1是已删除</Comment>
       <DataType>int(11)|0</DataType>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
     </column>
-    <column id="33" parent="12" name="name">
+    <column id="35" parent="12" name="name">
       <Position>3</Position>
       <Comment>收货人姓名</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="34" parent="12" name="phone">
+    <column id="36" parent="12" name="phone">
       <Position>4</Position>
       <Comment>收货人电话号码</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="35" parent="12" name="street_id">
+    <column id="37" parent="12" name="street_id">
       <Position>11</Position>
       <Comment>街道_id</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="36" parent="12" name="street_name">
+    <column id="38" parent="12" name="street_name">
       <Position>12</Position>
       <Comment>街道_名称</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="37" parent="12" name="is_default_address">
+    <column id="39" parent="12" name="is_default_address">
       <Position>14</Position>
       <DataType>varchar(10)|0</DataType>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
     </column>
-    <key id="38" parent="12" name="PRIMARY">
+    <key id="40" parent="12" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="39" parent="13" name="id">
+    <column id="41" parent="13" name="id">
       <Position>1</Position>
       <Comment>id</Comment>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="40" parent="13" name="uid">
+    <column id="42" parent="13" name="uid">
       <Position>2</Position>
       <Comment>用户_uid</Comment>
       <DataType>varchar(20)|0</DataType>
     </column>
-    <column id="41" parent="13" name="cash_to_wx_money">
+    <column id="43" parent="13" name="cashback_to_user_balance">
       <Position>3</Position>
-      <Comment>提现到微信的金额</Comment>
+      <Comment>返现到用户的余额</Comment>
       <DataType>varchar(20)|0</DataType>
     </column>
-    <column id="42" parent="13" name="user_balance">
-      <Position>5</Position>
+    <column id="44" parent="13" name="user_balance">
+      <Position>4</Position>
       <Comment>用户的余额</Comment>
       <DataType>varchar(20)|0</DataType>
     </column>
-    <column id="43" parent="13" name="remark">
+    <column id="45" parent="13" name="cashback_status">
+      <Position>5</Position>
+      <Comment>返现状态，0：返现失败，1：返现成功</Comment>
+      <DataType>varchar(10)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="46" parent="13" name="remark">
       <Position>6</Position>
       <Comment>备注</Comment>
       <DataType>text|0</DataType>
     </column>
-    <column id="44" parent="13" name="cash_status">
+    <column id="47" parent="13" name="create_time">
+      <Position>7</Position>
+      <Comment>用户_创建时间</Comment>
+      <DataType>timestamp|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="48" parent="13" name="update_time">
+      <Position>8</Position>
+      <Comment>用户_更新时间</Comment>
+      <DataType>timestamp|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <key id="49" parent="13" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="50" parent="14" name="id">
+      <Position>1</Position>
+      <Comment>id</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="51" parent="14" name="uid">
+      <Position>2</Position>
+      <Comment>用户_uid</Comment>
+      <DataType>varchar(20)|0</DataType>
+    </column>
+    <column id="52" parent="14" name="cash_to_wx_money">
+      <Position>3</Position>
+      <Comment>提现到微信的金额</Comment>
+      <DataType>varchar(20)|0</DataType>
+    </column>
+    <column id="53" parent="14" name="user_balance">
+      <Position>5</Position>
+      <Comment>用户的余额</Comment>
+      <DataType>varchar(20)|0</DataType>
+    </column>
+    <column id="54" parent="14" name="remark">
+      <Position>6</Position>
+      <Comment>备注</Comment>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="55" parent="14" name="cash_status">
       <Position>7</Position>
       <Comment>提现状态，0：提现失败，1：提现成功</Comment>
       <DataType>varchar(10)|0</DataType>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
     </column>
-    <column id="45" parent="13" name="create_time">
+    <column id="56" parent="14" name="create_time">
       <Position>8</Position>
       <Comment>用户_创建时间</Comment>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
     </column>
-    <column id="46" parent="13" name="update_time">
+    <column id="57" parent="14" name="update_time">
       <Position>9</Position>
       <Comment>用户_更新时间</Comment>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
     </column>
-    <column id="47" parent="13" name="cash_fee">
+    <column id="58" parent="14" name="cash_fee">
       <Position>4</Position>
       <Comment>提现手续费</Comment>
       <DataType>varchar(10)|0</DataType>
     </column>
-    <key id="48" parent="13" name="PRIMARY">
+    <key id="59" parent="14" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="49" parent="14" name="id">
+    <column id="60" parent="15" name="id">
       <Position>1</Position>
       <Comment>字典表_id</Comment>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="50" parent="14" name="dic_type">
+    <column id="61" parent="15" name="dic_type">
       <Position>2</Position>
       <Comment>字典表_类型</Comment>
       <DataType>varchar(50)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="51" parent="14" name="dic_code">
+    <column id="62" parent="15" name="dic_code">
       <Position>3</Position>
       <Comment>字典表_code</Comment>
       <DataType>varchar(100)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="52" parent="14" name="dic_name">
+    <column id="63" parent="15" name="dic_name">
       <Position>4</Position>
       <Comment>字典表_名称</Comment>
       <DataType>varchar(200)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="53" parent="14" name="dic_remark">
+    <column id="64" parent="15" name="dic_remark">
       <Position>5</Position>
       <Comment>字典表_备注,遵循json字符串格式</Comment>
       <DataType>varchar(1000)|0</DataType>
     </column>
-    <column id="54" parent="14" name="update_time">
+    <column id="65" parent="15" name="update_time">
       <Position>6</Position>
       <Comment>字典表_创建时间</Comment>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
     </column>
-    <column id="55" parent="14" name="create_time">
+    <column id="66" parent="15" name="create_time">
       <Position>7</Position>
       <Comment>字典表_更新时间</Comment>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
     </column>
-    <column id="56" parent="14" name="dic_status">
+    <column id="67" parent="15" name="dic_status">
       <Position>8</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
     </column>
-    <index id="57" parent="14" name="index_n_dic_of_dic_code">
+    <index id="68" parent="15" name="index_n_dic_of_dic_code">
       <ColNames>dic_code</ColNames>
     </index>
-    <index id="58" parent="14" name="index_n_dic_of_dic_name">
+    <index id="69" parent="15" name="index_n_dic_of_dic_name">
       <ColNames>dic_name</ColNames>
     </index>
-    <index id="59" parent="14" name="index_n_dic_of_dic_type">
+    <index id="70" parent="15" name="index_n_dic_of_dic_type">
       <ColNames>dic_type</ColNames>
     </index>
-    <index id="60" parent="14" name="index_n_dic_of_id">
+    <index id="71" parent="15" name="index_n_dic_of_id">
       <ColNames>id</ColNames>
     </index>
-    <key id="61" parent="14" name="PRIMARY">
+    <key id="72" parent="15" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="62" parent="15" name="id">
+    <column id="73" parent="16" name="id">
       <Position>1</Position>
       <Comment>id</Comment>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="63" parent="15" name="uid">
+    <column id="74" parent="16" name="uid">
       <Position>2</Position>
-      <Comment>用户uid</Comment>
-      <DataType>varchar(50)|0</DataType>
+      <Comment>用户_uid</Comment>
+      <DataType>varchar(20)|0</DataType>
     </column>
-    <column id="64" parent="15" name="phone">
+    <column id="75" parent="16" name="exchange_to_user_integral">
       <Position>3</Position>
-      <Comment>联系号码</Comment>
-      <DataType>varchar(50)|0</DataType>
+      <Comment>兑换到用户的积分数量</Comment>
+      <DataType>varchar(20)|0</DataType>
     </column>
-    <column id="65" parent="15" name="name">
+    <column id="76" parent="16" name="user_integral">
       <Position>4</Position>
-      <Comment>联系姓名</Comment>
-      <DataType>varchar(50)|0</DataType>
+      <Comment>用户的积分</Comment>
+      <DataType>varchar(20)|0</DataType>
     </column>
-    <column id="66" parent="15" name="remark">
+    <column id="77" parent="16" name="exchange_status">
+      <Position>5</Position>
+      <Comment>兑换状态，0：兑换失败，1：兑换成功</Comment>
+      <DataType>varchar(10)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="78" parent="16" name="remark">
       <Position>6</Position>
-      <Comment>加盟备注</Comment>
-      <DataType>varchar(50)|0</DataType>
+      <Comment>备注</Comment>
+      <DataType>text|0</DataType>
     </column>
-    <column id="67" parent="15" name="create_time">
+    <column id="79" parent="16" name="create_time">
       <Position>7</Position>
       <Comment>用户_创建时间</Comment>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
     </column>
-    <column id="68" parent="15" name="update_time">
+    <column id="80" parent="16" name="update_time">
       <Position>8</Position>
       <Comment>用户_更新时间</Comment>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
     </column>
-    <column id="69" parent="15" name="league_type_code">
-      <Position>5</Position>
-      <Comment>加盟类型，0：我要开店，1：成为服务商，2：成为代理</Comment>
-      <DataType>varchar(50)|0</DataType>
-    </column>
-    <key id="70" parent="15" name="PRIMARY">
+    <key id="81" parent="16" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
-    </key>
-    <column id="71" parent="16" name="id">
-      <Position>1</Position>
-      <DataType>int(11)|0</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
-    </column>
-    <column id="72" parent="16" name="uid">
-      <Position>2</Position>
-      <Comment>用户uid</Comment>
-      <DataType>int(11)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="73" parent="16" name="wx_order_id">
-      <Position>3</Position>
-      <Comment>微信订单编号</Comment>
-      <DataType>varchar(100)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="74" parent="16" name="luck_draw_code">
-      <Position>4</Position>
-      <Comment>奖品ID</Comment>
-      <DataType>varchar(255)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="75" parent="16" name="remark">
-      <Position>5</Position>
-      <Comment>备注</Comment>
-      <DataType>text|0</DataType>
-    </column>
-    <column id="76" parent="16" name="status">
-      <Position>6</Position>
-      <Comment>抽奖状态，0是未发放，1是已发放，2是已删除</Comment>
-      <DataType>int(11)|0</DataType>
-      <DefaultExpression>&apos;0&apos;</DefaultExpression>
-    </column>
-    <column id="77" parent="16" name="create_time">
-      <Position>7</Position>
-      <DataType>timestamp|0</DataType>
-      <NotNull>1</NotNull>
-      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
-    </column>
-    <column id="78" parent="16" name="update_time">
-      <Position>8</Position>
-      <DataType>timestamp|0</DataType>
-      <NotNull>1</NotNull>
-      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
-    </column>
-    <index id="79" parent="16" name="n_luck_draw_wx_order_id_uindex">
-      <ColNames>wx_order_id</ColNames>
-      <Unique>1</Unique>
-    </index>
-    <key id="80" parent="16" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <key id="81" parent="16" name="n_luck_draw_wx_order_id_uindex">
-      <ColNames>wx_order_id</ColNames>
-      <UnderlyingIndexName>n_luck_draw_wx_order_id_uindex</UnderlyingIndexName>
     </key>
     <column id="82" parent="17" name="id">
       <Position>1</Position>
-      <Comment>订单_id</Comment>
+      <Comment>id</Comment>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
     <column id="83" parent="17" name="uid">
       <Position>2</Position>
-      <Comment>用户_uid</Comment>
-      <DataType>varchar(100)|0</DataType>
+      <Comment>用户uid</Comment>
+      <DataType>varchar(50)|0</DataType>
     </column>
-    <column id="84" parent="17" name="wx_order_id">
+    <column id="84" parent="17" name="phone">
+      <Position>3</Position>
+      <Comment>联系号码</Comment>
+      <DataType>varchar(50)|0</DataType>
+    </column>
+    <column id="85" parent="17" name="name">
+      <Position>4</Position>
+      <Comment>联系姓名</Comment>
+      <DataType>varchar(50)|0</DataType>
+    </column>
+    <column id="86" parent="17" name="remark">
+      <Position>6</Position>
+      <Comment>加盟备注</Comment>
+      <DataType>varchar(50)|0</DataType>
+    </column>
+    <column id="87" parent="17" name="create_time">
+      <Position>7</Position>
+      <Comment>用户_创建时间</Comment>
+      <DataType>timestamp|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="88" parent="17" name="update_time">
+      <Position>8</Position>
+      <Comment>用户_更新时间</Comment>
+      <DataType>timestamp|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="89" parent="17" name="league_type_code">
+      <Position>5</Position>
+      <Comment>加盟类型，0：我要开店，1：成为服务商，2：成为代理</Comment>
+      <DataType>varchar(50)|0</DataType>
+    </column>
+    <key id="90" parent="17" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="91" parent="18" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="92" parent="18" name="uid">
+      <Position>2</Position>
+      <Comment>用户uid</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="93" parent="18" name="wx_order_id">
       <Position>3</Position>
       <Comment>微信订单编号</Comment>
       <DataType>varchar(100)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="85" parent="17" name="order_type">
+    <column id="94" parent="18" name="luck_draw_code">
+      <Position>4</Position>
+      <Comment>奖品ID</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="95" parent="18" name="remark">
+      <Position>5</Position>
+      <Comment>备注</Comment>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="96" parent="18" name="status">
+      <Position>6</Position>
+      <Comment>抽奖状态，0是未发放，1是已发放，2是已删除</Comment>
+      <DataType>int(11)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="97" parent="18" name="create_time">
+      <Position>7</Position>
+      <DataType>timestamp|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="98" parent="18" name="update_time">
+      <Position>8</Position>
+      <DataType>timestamp|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <index id="99" parent="18" name="n_luck_draw_wx_order_id_uindex">
+      <ColNames>wx_order_id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="100" parent="18" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="101" parent="18" name="n_luck_draw_wx_order_id_uindex">
+      <ColNames>wx_order_id</ColNames>
+      <UnderlyingIndexName>n_luck_draw_wx_order_id_uindex</UnderlyingIndexName>
+    </key>
+    <column id="102" parent="19" name="id">
+      <Position>1</Position>
+      <Comment>订单_id</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="103" parent="19" name="uid">
+      <Position>2</Position>
+      <Comment>用户_uid</Comment>
+      <DataType>varchar(100)|0</DataType>
+    </column>
+    <column id="104" parent="19" name="wx_order_id">
+      <Position>3</Position>
+      <Comment>微信订单编号</Comment>
+      <DataType>varchar(100)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="105" parent="19" name="order_type">
       <Position>4</Position>
       <Comment>订单类型：买单，payTheBill；购买商品：purchaseProduct</Comment>
       <DataType>varchar(100)|0</DataType>
       <DefaultExpression>&apos;payTheBill&apos;</DefaultExpression>
     </column>
-    <column id="86" parent="17" name="product_id">
+    <column id="106" parent="19" name="product_id">
       <Position>5</Position>
       <Comment>商品_id</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="87" parent="17" name="product_num">
+    <column id="107" parent="19" name="product_num">
       <Position>6</Position>
       <Comment>商品_数量</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="88" parent="17" name="address_id">
+    <column id="108" parent="19" name="address_id">
       <Position>7</Position>
       <Comment>地址_id</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="89" parent="17" name="express_number">
+    <column id="109" parent="19" name="express_number">
       <Position>9</Position>
       <Comment>快递编号</Comment>
       <DataType>varchar(50)|0</DataType>
     </column>
-    <column id="90" parent="17" name="shop_id">
+    <column id="110" parent="19" name="shop_id">
       <Position>10</Position>
       <Comment>店铺_id</Comment>
       <DataType>varchar(10)|0</DataType>
     </column>
-    <column id="91" parent="17" name="all_pay_amount">
+    <column id="111" parent="19" name="all_pay_amount">
       <Position>11</Position>
       <Comment>支付总额</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="92" parent="17" name="pay_money">
+    <column id="112" parent="19" name="pay_money">
       <Position>12</Position>
       <Comment>支付金额</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="93" parent="17" name="use_balance_monney">
+    <column id="113" parent="19" name="use_balance_monney">
       <Position>13</Position>
       <Comment>使用余额的金额</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="94" parent="17" name="use_integral_num">
+    <column id="114" parent="19" name="use_integral_num">
       <Position>14</Position>
       <Comment>使用积分的数量</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="95" parent="17" name="status">
+    <column id="115" parent="19" name="status">
       <Position>15</Position>
       <Comment>订单状态: 0是待支付，1是已支付，2是已发货，3是已完成，4是已删除</Comment>
       <DataType>int(11)|0</DataType>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
     </column>
-    <column id="96" parent="17" name="create_time">
+    <column id="116" parent="19" name="create_time">
       <Position>16</Position>
       <Comment>创建时间</Comment>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
     </column>
-    <column id="97" parent="17" name="update_time">
+    <column id="117" parent="19" name="update_time">
       <Position>17</Position>
       <Comment>更新时间</Comment>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
     </column>
-    <column id="98" parent="17" name="express_name">
+    <column id="118" parent="19" name="express_name">
       <Position>8</Position>
       <Comment>快递名称</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <key id="99" parent="17" name="PRIMARY">
+    <key id="119" parent="19" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="100" parent="18" name="id">
+    <column id="120" parent="20" name="id">
       <Position>1</Position>
       <Comment>商品_id</Comment>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="101" parent="18" name="title">
+    <column id="121" parent="20" name="title">
       <Position>2</Position>
       <Comment>商品名称</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="102" parent="18" name="degist">
+    <column id="122" parent="20" name="degist">
       <Position>3</Position>
       <Comment>商品简介</Comment>
       <DataType>varchar(200)|0</DataType>
     </column>
-    <column id="103" parent="18" name="stock">
+    <column id="123" parent="20" name="stock">
       <Position>5</Position>
       <Comment>商品库存, 默认为0</Comment>
       <DataType>int(11)|0</DataType>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
     </column>
-    <column id="104" parent="18" name="head_img_url">
+    <column id="124" parent="20" name="head_img_url">
       <Position>6</Position>
       <Comment>商品头链接</Comment>
       <DataType>varchar(1000)|0</DataType>
     </column>
-    <column id="105" parent="18" name="describe_img_url">
+    <column id="125" parent="20" name="describe_img_url">
       <Position>7</Position>
       <Comment>商品详情链接，数组的json字符串</Comment>
       <DataType>text|0</DataType>
     </column>
-    <column id="106" parent="18" name="price">
+    <column id="126" parent="20" name="price">
       <Position>8</Position>
       <Comment>商品价格</Comment>
       <DataType>varchar(10)|0</DataType>
       <DefaultExpression>&apos;10000&apos;</DefaultExpression>
     </column>
-    <column id="107" parent="18" name="integral">
+    <column id="127" parent="20" name="integral">
       <Position>9</Position>
       <Comment>商品所需积分</Comment>
       <DataType>varchar(10)|0</DataType>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
     </column>
-    <column id="108" parent="18" name="category">
+    <column id="128" parent="20" name="category">
       <Position>10</Position>
       <Comment>商品类别</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="109" parent="18" name="status">
+    <column id="129" parent="20" name="status">
       <Position>11</Position>
       <Comment>商品状态: 0是已上架，1是已下架</Comment>
       <DataType>int(11)|0</DataType>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
     </column>
-    <column id="110" parent="18" name="create_time">
+    <column id="130" parent="20" name="create_time">
       <Position>12</Position>
       <Comment>创建时间</Comment>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
     </column>
-    <column id="111" parent="18" name="update_time">
+    <column id="131" parent="20" name="update_time">
       <Position>13</Position>
       <Comment>更新时间</Comment>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
     </column>
-    <column id="112" parent="18" name="descript">
+    <column id="132" parent="20" name="descript">
       <Position>4</Position>
       <Comment>商品描述</Comment>
       <DataType>varchar(200)|0</DataType>
     </column>
-    <key id="113" parent="18" name="PRIMARY">
+    <key id="133" parent="20" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="114" parent="19" name="id">
+    <column id="134" parent="21" name="id">
       <Position>1</Position>
       <Comment>店铺_id</Comment>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="115" parent="19" name="shop_title">
+    <column id="135" parent="21" name="shop_title">
       <Position>3</Position>
       <Comment>店铺名称</Comment>
       <DataType>varchar(100)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="116" parent="19" name="shop_degist">
+    <column id="136" parent="21" name="shop_degist">
       <Position>4</Position>
       <Comment>店铺简介</Comment>
       <DataType>varchar(500)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="117" parent="19" name="shop_phone">
+    <column id="137" parent="21" name="shop_phone">
       <Position>5</Position>
       <Comment>店铺电话</Comment>
       <DataType>varchar(100)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="118" parent="19" name="shop_address">
+    <column id="138" parent="21" name="shop_address">
       <Position>6</Position>
       <Comment>店铺地址</Comment>
       <DataType>varchar(100)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="119" parent="19" name="shop_lon">
+    <column id="139" parent="21" name="shop_lon">
       <Position>7</Position>
       <Comment>店铺经度</Comment>
       <DataType>varchar(100)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="120" parent="19" name="shop_lat">
+    <column id="140" parent="21" name="shop_lat">
       <Position>8</Position>
       <Comment>店铺纬度</Comment>
       <DataType>varchar(100)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="121" parent="19" name="shop_head_img_url">
+    <column id="141" parent="21" name="shop_head_img_url">
       <Position>9</Position>
       <Comment>店铺招牌图片地址</Comment>
       <DataType>varchar(100)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="122" parent="19" name="shop_describe_img_url">
+    <column id="142" parent="21" name="shop_describe_img_url">
       <Position>10</Position>
       <Comment>店铺详情链接，遵循json数组字符串格式</Comment>
       <DataType>text|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="123" parent="19" name="shop_remark">
+    <column id="143" parent="21" name="shop_remark">
       <Position>11</Position>
       <Comment>店铺表_备注,</Comment>
       <DataType>varchar(1000)|0</DataType>
     </column>
-    <column id="124" parent="19" name="shop_status">
+    <column id="144" parent="21" name="shop_status">
       <Position>12</Position>
       <Comment>店铺表_状态，0是带签约，1是已签约</Comment>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
     </column>
-    <column id="125" parent="19" name="update_time">
+    <column id="145" parent="21" name="update_time">
       <Position>13</Position>
       <Comment>店铺表_创建时间</Comment>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
     </column>
-    <column id="126" parent="19" name="create_time">
+    <column id="146" parent="21" name="create_time">
       <Position>14</Position>
       <Comment>店铺表_更新时间</Comment>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
     </column>
-    <column id="127" parent="19" name="shop_discount_id">
+    <column id="147" parent="21" name="shop_discount_id">
       <Position>2</Position>
       <Comment>折扣ID，平台与商家确定的折扣</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <key id="128" parent="19" name="PRIMARY">
+    <key id="148" parent="21" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="129" parent="20" name="id">
+    <column id="149" parent="22" name="id">
       <Position>1</Position>
       <Comment>用户_id</Comment>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="130" parent="20" name="open_id">
+    <column id="150" parent="22" name="open_id">
       <Position>2</Position>
       <Comment>微信的open_id</Comment>
       <DataType>varchar(50)|0</DataType>
     </column>
-    <column id="131" parent="20" name="nick_name">
+    <column id="151" parent="22" name="nick_name">
       <Position>3</Position>
       <Comment>用户昵称</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="132" parent="20" name="gender">
+    <column id="152" parent="22" name="gender">
       <Position>4</Position>
       <Comment>性别</Comment>
       <DataType>int(11)|0</DataType>
     </column>
-    <column id="133" parent="20" name="city">
+    <column id="153" parent="22" name="city">
       <Position>5</Position>
       <Comment>城市</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="134" parent="20" name="province">
+    <column id="154" parent="22" name="province">
       <Position>6</Position>
       <Comment>省份</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="135" parent="20" name="country">
+    <column id="155" parent="22" name="country">
       <Position>7</Position>
       <Comment>国家</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="136" parent="20" name="avatar_url">
+    <column id="156" parent="22" name="avatar_url">
       <Position>9</Position>
       <Comment>用户头像</Comment>
       <DataType>varchar(500)|0</DataType>
     </column>
-    <column id="137" parent="20" name="user_remark">
+    <column id="157" parent="22" name="user_remark">
       <Position>15</Position>
       <Comment>用户_备注</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="138" parent="20" name="gray_status">
+    <column id="158" parent="22" name="gray_status">
       <Position>16</Position>
       <Comment>灰度用户状态，0是正常登陆用户，1是不需要登陆的用户</Comment>
       <DataType>int(11)|0</DataType>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
     </column>
-    <column id="139" parent="20" name="create_time">
+    <column id="159" parent="22" name="create_time">
       <Position>17</Position>
       <Comment>用户_创建时间</Comment>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
     </column>
-    <column id="140" parent="20" name="update_time">
+    <column id="160" parent="22" name="update_time">
       <Position>18</Position>
       <Comment>用户_更新时间</Comment>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
     </column>
-    <column id="141" parent="20" name="language">
+    <column id="161" parent="22" name="language">
       <Position>8</Position>
       <Comment>用户的语言</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="142" parent="20" name="balance">
+    <column id="162" parent="22" name="balance">
       <Position>10</Position>
       <Comment>余额</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="143" parent="20" name="integral">
+    <column id="163" parent="22" name="integral">
       <Position>11</Position>
       <Comment>积分</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="144" parent="20" name="shop_id">
+    <column id="164" parent="22" name="shop_id">
       <Position>14</Position>
       <Comment>店铺ID，存在即代表当前用户属于商家</Comment>
       <DataType>varchar(100)|0</DataType>
     </column>
-    <column id="145" parent="20" name="auto_cash_to_wx_flag">
+    <column id="165" parent="22" name="auto_cash_to_wx_flag">
       <Position>13</Position>
       <Comment>自动将余额提现到微信零钱，0：否，1：是</Comment>
       <DataType>varchar(10)|0</DataType>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
     </column>
-    <column id="146" parent="20" name="user_source">
+    <column id="166" parent="22" name="user_source">
       <Position>12</Position>
       <Comment>微信用户来源，miniProgram是小程序用户，publicNumber是公众号用户</Comment>
       <DataType>varchar(100)|0</DataType>
       <DefaultExpression>&apos;miniProgram&apos;</DefaultExpression>
     </column>
-    <index id="147" parent="20" name="index_n_user_of_id">
+    <index id="167" parent="22" name="index_n_user_of_id">
       <ColNames>id</ColNames>
     </index>
-    <index id="148" parent="20" name="index_n_user_of_nick_name">
+    <index id="168" parent="22" name="index_n_user_of_nick_name">
       <ColNames>nick_name</ColNames>
     </index>
-    <index id="149" parent="20" name="index_n_user_of_open_id">
+    <index id="169" parent="22" name="index_n_user_of_open_id">
       <ColNames>open_id</ColNames>
     </index>
-    <key id="150" parent="20" name="PRIMARY">
+    <key id="170" parent="22" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>

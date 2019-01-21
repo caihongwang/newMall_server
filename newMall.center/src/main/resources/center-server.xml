@@ -192,4 +192,20 @@
         <property name="version" value="${newMall.server.version}"/>
     </bean>
 
+    <!-- wxIntegralLogHandler -->
+    <bean id="wxIntegralLogHandler" class="com.br.rpc.provider.processor.Processor">
+        <property name="project" value="newMall_project"/>
+        <property name="handler" value="com.br.newMall.center.handler.WX_IntegralLogHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.version}"/>
+    </bean>
+
+    <!-- wxBalanceLogHandler -->
+    <bean id="wxBalanceLogHandler" class="com.br.rpc.provider.processor.Processor">
+        <property name="project" value="newMall_project"/>
+        <property name="handler" value="com.br.newMall.center.handler.WX_BalanceLogHandler"/>
+        <property name="model" value="${newMall.server.model}"/>
+        <property name="version" value="${newMall.server.version}"/>
+    </bean>
+
 </beans>

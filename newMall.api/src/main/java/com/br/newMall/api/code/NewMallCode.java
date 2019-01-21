@@ -201,6 +201,12 @@ public class NewMallCode {
     public static NewMallCode CASHLOG_CASHTOWXMONEY_MUST_BE_MORE_CASHMONEYLOWERLIMIT = new NewMallCode(230004, "提现余额大于等于提现金额下限才可以提现");
     public static NewMallCode CASHLOG_USERBALANCE_MUST_BE_MORE_CASHTOWXMONEY = new NewMallCode(70009, "用户余额大于等于提现金额和所需的服务费才可以提现.");
 
+    //积分日志
+    public static NewMallCode INTEGRALLOG_LIST_IS_NULL = new NewMallCode(0, "当前积分日志没有数据.");
+    public static NewMallCode INTEGRALLOG_UID_OR_EXCHANGETOUSERINTEGRAL_OR_USERINTEGRAL_IS_NOT_NULL = new NewMallCode(240001, "积分日志的用户uid或者兑换积分数量或者用户积分不能为空");
+    public static NewMallCode INTEGRALLOG_ID_IS_NOT_NULL = new NewMallCode(230002, "积分日志的ID不能为空");
+    public static NewMallCode INTEGRALLOG_UID_IS_NOT_NULL = new NewMallCode(230003, "积分日志的用户UID不能为空");
+    public static NewMallCode INTEGRALLOG_UID_OR_CASHTOWXMONEY_IS_NOT_NULL = new NewMallCode(230004, "积分的用户uid或者积分金额不能为空");
 
 
 

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.br.newMall.dao.WX_IntegralLogDao">
+
+    <sql id="columnList">    <!-- 字段 -->
+        id,
+        uid,
+        exchange_to_user_integral,
+        user_integral,
+        exchange_status,
+        remark,
+        create_time,
+        update_time
+    </sql>
+
+    <sql id="TColumnList">    <!-- 带表别名的字段 -->
+        nil.id as "id",
+        nil.uid as "uid",
+        nil.exchange_to_user_integral as "exchangeToUserIntegral",
+        nil.user_integral as "userIntegral",
+        nil.exchange_status as "exchangeStatus",
+        nil.remark as "remark",
+        date_format(nil.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
+        date_format(nil.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
+    </sql>
+
+    <sql id="queryConditions"><!-- 查询条件 -->
+        <where>
+            <if test="id != null and id != ''">
+                AND nil.id = #{id}
+            </if>
+            <if test="uid != null and uid != ''">
+                AND nil.uid = #{uid}
+            </if>
+            <if test="exchangeToUserIntegral != null and exchangeToUserIntegral != ''">
+                AND nil.exchange_to_user_integral = #{exchangeToUserIntegral}
+            </if>
+            <if test="userIntegral != null and userIntegral != ''">
+                AND nil.user_integral = #{userIntegral}
+            </if>
+            <if test="exchangeStatus != null and exchangeStatus != ''">
+                AND nil.exchange_status = #{exchangeStatus}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND nil.remark like concat('%',#{remark},'%')
+            </if>
+        </where>
+        ORDER BY nil.create_time desc
+    </sql>
+
+    <insert id="addIntegralLog" parameterType="java.util.Map" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into n_integral_log (
+            <include refid="columnList"/>
+        ) values (
+            #{id},
+            #{uid},
+            #{exchangeToUserIntegral},
+            #{userIntegral},
+            #{exchangeStatus},
+            #{remark},
+            #{createTime},
+            #{updateTime}
+        )
+    </insert>
+
+    <delete id="deleteIntegralLog">
+        DELETE FROM n_integral_log WHERE 1=1
+        <if test="id != null and id != ''">
+            AND id = #{id}
+        </if>
+    </delete>
+
+    <update id="updateIntegralLog">
+        update n_integral_log nil
+        <set>
+            <if test="uid != null and uid != ''">
+                nil.uid = #{uid},
+            </if>
+            <if test="exchangeToUserIntegral != null and exchangeToUserIntegral != ''">
+                nil.exchange_to_user_integral = #{exchangeToUserIntegral},
+            </if>
+            <if test="userIntegral != null and userIntegral != ''">
+                nil.user_integral = #{userIntegral},
+            </if>
+            <if test="exchangeStatus != null and exchangeStatus != ''">
+                nil.exchange_status = #{exchangeStatus},
+            </if>
+            <if test="remark != null and remark != ''">
+                nil.remark = #{remark},
+            </if>
+            nil.update_time = CURRENT_TIMESTAMP
+        </set>
+        where 1=1
+        <if test="id != null and id != ''">
+            and nil.id = #{id}
+        </if>
+    </update>
+
+    <select id="getSimpleIntegralLogByCondition" resultType="java.util.Map">
+        SELECT
+            <include refid="TColumnList"/>
+        FROM n_integral_log nil
+            <include refid="queryConditions"/>
+        <if test="start != null and size != null">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getSimpleIntegralLogTotalByCondition" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*) total
+        from n_integral_log nil
+            <include refid="queryConditions"/>
+    </select>
+
+</mapper>

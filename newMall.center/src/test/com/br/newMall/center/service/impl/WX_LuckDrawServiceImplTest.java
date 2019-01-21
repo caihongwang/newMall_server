@@ -68,14 +68,99 @@ public class WX_LuckDrawServiceImplTest {
 //        paramMap.put("size", "1");
 //        getWaitLuckDrawShopByCondition(paramMap);
 
+//        Map<String, Object> paramMap = Maps.newHashMap();
+//        paramMap.put("uid", "1");
+//        paramMap.put("wxOrderId", "24aa84a13c974dc6bfcbd38af00f3b78");
+//        convertIntegral(paramMap);
+
         Map<String, Object> paramMap = Maps.newHashMap();
         paramMap.put("uid", "1");
-        paramMap.put("wxOrderId", "24aa84a13c974dc6bfcbd38af00f3b78");
-        convertIntegral(paramMap);
+        getAllLuckDrawShopByCondition(paramMap);
 
 //        Map<String, Object> paramMap = Maps.newHashMap();
 //        paramMap.put("uid", "1");
 //        convertBalance(paramMap);
+    }
+
+    public ResultDTO getAllLuckDrawShopByCondition(Map<String, Object> paramMap) throws Exception{
+        logger.info("【service】获取参加过抽奖的商家列表-getAllLuckDrawShopByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultDTO resultDTO = new ResultDTO();
+        Map<String, String> resultMap = Maps.newHashMap();
+        String uid = paramMap.get("uid") != null ? paramMap.get("uid").toString() : "";
+        Integer start = paramMap.get("start") != null ? Integer.parseInt(paramMap.get("start").toString()) : 0;
+        Integer size = paramMap.get("size") != null ? Integer.parseInt(paramMap.get("size").toString()) : 10;
+        if(!"".equals(uid)){
+            List<Map<String, Object>> all_allGetLuckDrawShopList = wxLuckDrawDao.getLuckDrawShopByCondition(paramMap);
+            if(all_allGetLuckDrawShopList != null &&
+                    all_allGetLuckDrawShopList.size() > 0){
+                //处理数据
+                Map<String, Object> shopMap = Maps.newHashMap();
+                for (int i = 0; i < all_allGetLuckDrawShopList.size(); i++) {
+                    Map<String, Object> waitGetLuckDrawMap = all_allGetLuckDrawShopList.get(i);
+                    String shopId = waitGetLuckDrawMap.get("shopId").toString();
+                    Double payMoney = waitGetLuckDrawMap.get("payMoney")!=null?Double.parseDouble(waitGetLuckDrawMap.get("payMoney").toString()):0.0;
+                    String luckDrawStatusCode = waitGetLuckDrawMap.get("luckDrawStatusCode")!=null?waitGetLuckDrawMap.get("luckDrawStatusCode").toString():"0";
+                    String luckDrawStatusName = waitGetLuckDrawMap.get("luckDrawStatusName")!=null?waitGetLuckDrawMap.get("luckDrawStatusName").toString():"0";
+                    String luckDrawRule = waitGetLuckDrawMap.get("luckDrawRule").toString();
+                    Map<String, String> luckDrawRuleMap = JSONObject.parseObject(luckDrawRule, Map.class);
+                    Double proportion = luckDrawRuleMap.get("proportion")!=null?Double.parseDouble(luckDrawRuleMap.get("proportion").toString()):1.0;
+                    Double luckDrawMoney = payMoney * proportion;
+                    BigDecimal bg = new BigDecimal(luckDrawMoney);
+                    luckDrawMoney = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                    waitGetLuckDrawMap.put("luckDrawMoney", luckDrawMoney.toString());
+                    waitGetLuckDrawMap.remove("luckDrawRule");
+                    if(shopMap.containsKey(shopId)){
+                        //返现金额
+                        Map<String, Object> temp = (Map<String, Object>)shopMap.get(shopId);
+                        Double luckDrawMoneyTemp = temp.get("luckDrawMoney")!=null?Double.parseDouble(temp.get("luckDrawMoney").toString()):0.0;
+                        luckDrawMoney = luckDrawMoneyTemp + luckDrawMoney;
+                        bg = new BigDecimal(luckDrawMoney);
+                        luckDrawMoney = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                        //支付总额
+                        Double payMoneyTemp = temp.get("payMoney")!=null?Double.parseDouble(temp.get("payMoney").toString()):0.0;
+                        payMoney = payMoneyTemp + payMoney;
+                        bg = new BigDecimal(payMoney);
+                        payMoney = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                        temp.put("payMoney", payMoney.toString());
+                        temp.put("luckDrawMoney", luckDrawMoney.toString());
+                        if("0".equals(luckDrawStatusCode)){     //如果存在待奖励，则全部显示待奖励
+                            temp.put("luckDrawStatusCode", luckDrawStatusCode.toString());
+                            temp.put("luckDrawStatusName", luckDrawStatusName.toString());
+                        }
+                    } else {
+                        shopMap.put(shopId, waitGetLuckDrawMap);
+                    }
+                }
+                //准备数据
+                //商家列表信息
+                List<Map<String, Object>> shopList = new LinkedList<Map<String, Object>>();
+                Set<Map.Entry<String, Object>> entrySet  =  shopMap.entrySet();
+                Iterator<Map.Entry<String, Object>> iterator = entrySet.iterator();
+                while(iterator.hasNext()) {
+                    shopList.add((Map<String, Object>)iterator.next().getValue());
+                }
+                //总数
+                Integer total = shopList.size();
+                if((start+size) > shopList.size()){
+                    shopList = shopList.subList(start, shopList.size());
+                } else {
+                    shopList = shopList.subList(start, (start+size));
+                }
+                //整理回传参数
+                resultDTO.setResultList(MapUtil.getStringMapList(shopList));
+                resultDTO.setResultListTotal(total);
+                resultDTO.setCode(NewMallCode.SUCCESS.getNo());
+                resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+            } else {
+                resultDTO.setCode(NewMallCode.LUCKDRAW_LIST_IS_NULL.getNo());
+                resultDTO.setMessage(NewMallCode.LUCKDRAW_LIST_IS_NULL.getMessage());
+            }
+        } else {
+            resultDTO.setCode(NewMallCode.LUCKDRAW_UID_IS_NOT_NULL.getNo());
+            resultDTO.setMessage(NewMallCode.LUCKDRAW_UID_IS_NOT_NULL.getMessage());
+        }
+        logger.info("【service】获取参加过抽奖的商家列表-getAllLuckDrawShopByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        return resultDTO;
     }
 
     public ResultMapDTO convertBalance(Map<String, Object> paramMap) throws Exception{

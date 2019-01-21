@@ -5,6 +5,7 @@ import com.br.newMall.api.code.NewMallCode;
 import com.br.newMall.api.dto.BoolDTO;
 import com.br.newMall.api.dto.ResultDTO;
 import com.br.newMall.api.dto.ResultMapDTO;
+import com.br.newMall.center.service.WX_IntegralLogService;
 import com.br.newMall.center.service.WX_LuckDrawService;
 import com.br.newMall.center.service.WX_DicService;
 import com.br.newMall.center.utils.MapUtil;
@@ -46,6 +47,9 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
 
     @Autowired
     private WX_UserDao wxUserDao;
+
+    @Autowired
+    private WX_IntegralLogService wxIntegralLogService;
 
     /**
      * 获取抽奖的产品列表
@@ -868,13 +872,26 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                     userParamMap.put("id", uid);
                     userParamMap.put("integral", newIntegral);
                     updateNum = wxUserDao.updateUser(userParamMap);
+                    String exchangeStatus = "0";
                     if (updateNum != null && updateNum > 0) {
+                        exchangeStatus = "1";
                         resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
                         resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
                     } else {
+                        exchangeStatus = "0";
                         resultMapDTO.setCode(NewMallCode.LUCKDRAW_UPDATE_USER_INEGRAL_IS_FAILED.getNo());
                         resultMapDTO.setMessage(NewMallCode.LUCKDRAW_UPDATE_USER_INEGRAL_IS_FAILED.getMessage());
                     }
+
+                    //插入兑换积分日志
+                    Map<String, Object> integralLog = Maps.newHashMap();
+                    integralLog.put("uid", uid);
+                    integralLog.put("exchangeToUserIntegral", orderPayMoney);
+                    integralLog.put("userIntegral", newIntegral);
+                    integralLog.put("exchangeStatus", exchangeStatus);
+                    integralLog.put("remark", "用户兑换积分：" + orderPayMoney + "个，当前用户积分总数：" + newIntegral + "个.");
+                    wxIntegralLogService.addIntegralLog(integralLog);
+
                 } else {
                     resultMapDTO.setCode(NewMallCode.LUCKDRAW_UPDATE_STATUS_IS_FAILED.getNo());
                     resultMapDTO.setMessage(NewMallCode.LUCKDRAW_UPDATE_STATUS_IS_FAILED.getMessage());

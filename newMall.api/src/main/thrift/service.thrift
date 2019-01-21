@@ -298,4 +298,26 @@ service WX_CashLogHandler {
     dto.ResultDTO getCashFeeList(1:int tid, 2:map<string, string> paramMap)
 }
 
+service WX_IntegralLogHandler {
+
+    dto.BoolDTO addIntegralLog(1:int tid, 2:map<string, string> paramMap),
+
+    dto.BoolDTO deleteIntegralLog(1:int tid, 2:map<string, string> paramMap),
+
+    dto.BoolDTO updateIntegralLog(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultDTO getSimpleIntegralLogByCondition(1:int tid, 2:map<string, string> paramMap)
+}
+
+service WX_BalanceLogHandler {
+
+    dto.BoolDTO addBalanceLog(1:int tid, 2:map<string, string> paramMap),
+
+    dto.BoolDTO deleteBalanceLog(1:int tid, 2:map<string, string> paramMap),
+
+    dto.BoolDTO updateBalanceLog(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultDTO getSimpleBalanceLogByCondition(1:int tid, 2:map<string, string> paramMap)
+}
+
 
