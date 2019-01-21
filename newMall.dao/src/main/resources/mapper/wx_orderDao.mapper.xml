@@ -230,6 +230,7 @@
             no.pay_money as "payMoney",
             no.use_balance_monney as "useBalanceMonney",
             no.use_integral_num as "useIntegralNum",
+            no.express_name as "expressName",
             no.express_number as "expressNumber",
             no.wx_order_id as "wxOrderId",
             date_format(no.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
