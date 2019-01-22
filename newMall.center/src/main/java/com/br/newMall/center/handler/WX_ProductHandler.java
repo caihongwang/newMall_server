@@ -163,4 +163,66 @@ public class WX_ProductHandler implements com.br.newMall.api.service.WX_ProductH
         logger.info("【hanlder】获取单一的商品-getSimpleProductByCondition,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
         return resultDTO;
     }
+
+    /**
+     * 获取商品列表
+     * @param tid
+     * @param paramMap
+     * @return
+     * @throws TException
+     */
+    @Override
+    public ResultDTO getProductList(int tid, Map<String, String> paramMap) throws TException {
+        logger.info("【hanlder】获取商品列表-getProductList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultDTO resultDTO = new ResultDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        if (paramMap.size() > 0) {
+            try {
+                resultDTO = wxProductService.getProductList(objectParamMap);
+            } catch (Exception e) {
+                logger.error("【hanlder】获取商品列表-getProductList is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                List<Map<String, String>> resultList = Lists.newArrayList();
+                resultDTO.setResultListTotal(0);
+                resultDTO.setResultList(resultList);
+                resultDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                resultDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
+            }
+        } else {
+            resultDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
+            resultDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
+        }
+        logger.info("【hanlder】获取商品列表-getProductList,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        return resultDTO;
+    }
+
+    /**
+     * 获取商品详情
+     * @param tid
+     * @param paramMap
+     * @return
+     * @throws TException
+     */
+    @Override
+    public ResultMapDTO getProductDetail(int tid, Map<String, String> paramMap) throws TException {
+        logger.info("【hanlder】获取商品详情-getProductDetail,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        if (paramMap.size() > 0) {
+            try {
+                resultMapDTO = wxProductService.getProductDetail(objectParamMap);
+            } catch (Exception e) {
+                logger.error("【hanlder】获取商品详情-getProductDetail is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                Map<String, String> resultMap = Maps.newHashMap();
+                resultMapDTO.setResultListTotal(0);
+                resultMapDTO.setResultMap(resultMap);
+                resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
+            }
+        } else {
+            resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
+            resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
+        }
+        logger.info("【hanlder】获取商品详情-getProductDetail,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        return resultMapDTO;
+    }
 }

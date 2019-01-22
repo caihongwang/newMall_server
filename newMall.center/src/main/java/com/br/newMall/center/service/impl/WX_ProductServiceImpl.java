@@ -187,4 +187,71 @@ public class WX_ProductServiceImpl implements WX_ProductService {
         return resultDTO;
     }
 
+    /**
+     * 获取商品列表
+     * @param paramMap
+     * @return
+     */
+    @Override
+    public ResultDTO getProductList(Map<String, Object> paramMap) {
+        logger.info("【service】获取商品列表-getProductList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultDTO resultDTO = new ResultDTO();
+        List<Map<String, String>> productStrList = Lists.newArrayList();
+        String category = paramMap.get("category") != null ? paramMap.get("category").toString() : "";
+        if(!"".equals(category)){
+            paramMap.put("paramMap", "recommend");
+        }
+        List<Map<String, Object>> productList = wxProductDao.getSimpleProductByCondition(paramMap);
+        if (productList != null && productList.size() > 0) {
+            productStrList = MapUtil.getStringMapList(productList);
+            Integer total = wxProductDao.getSimpleProductTotalByCondition(paramMap);
+            resultDTO.setResultListTotal(total);
+            resultDTO.setResultList(productStrList);
+            resultDTO.setCode(NewMallCode.SUCCESS.getNo());
+            resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+        } else {
+            List<Map<String, String>> resultList = Lists.newArrayList();
+            resultDTO.setResultListTotal(0);
+            resultDTO.setResultList(resultList);
+            resultDTO.setCode(NewMallCode.PRODUCT_LIST_IS_NULL.getNo());
+            resultDTO.setMessage(NewMallCode.PRODUCT_LIST_IS_NULL.getMessage());
+        }
+        logger.info("【service】获取商品列表-getProductList,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        return resultDTO;
+    }
+
+    /**
+     * 获取商品详情
+     * @param paramMap
+     * @return
+     */
+    @Override
+    public ResultMapDTO getProductDetail(Map<String, Object> paramMap) {
+        logger.info("【service】获取商品详情-getProductDetail,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        List<Map<String, String>> productStrList = Lists.newArrayList();
+        String productId = paramMap.get("productId") != null ? paramMap.get("productId").toString() : "";
+        if(!"".equals(productId)){
+            paramMap.clear();
+            paramMap.put("id", productId);
+            List<Map<String, Object>> productList = wxProductDao.getSimpleProductByCondition(paramMap);
+            if (productList != null && productList.size() > 0) {
+                productStrList = MapUtil.getStringMapList(productList);
+                resultMapDTO.setResultMap(productStrList.get(0));
+                resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
+                resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+            } else {
+                Map<String, String> resultMap = Maps.newHashMap();
+                resultMapDTO.setResultMap(resultMap);
+                resultMapDTO.setCode(NewMallCode.PRODUCT_IS_NOT_EXIST.getNo());
+                resultMapDTO.setMessage(NewMallCode.PRODUCT_IS_NOT_EXIST.getMessage());
+            }
+        } else {
+            resultMapDTO.setCode(NewMallCode.PRODUCT_ID_IS_NOT_NULL.getNo());
+            resultMapDTO.setMessage(NewMallCode.PRODUCT_ID_IS_NOT_NULL.getMessage());
+        }
+        logger.info("【service】获取商品详情-getProductDetail,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        return resultMapDTO;
+    }
+
 }

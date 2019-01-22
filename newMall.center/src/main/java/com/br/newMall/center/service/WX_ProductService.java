@@ -17,6 +17,16 @@ public interface WX_ProductService {
     ResultDTO getProductTypeList(Map<String, Object> paramMap);
 
     /**
+     * 获取商品详情
+     */
+    ResultMapDTO getProductDetail(Map<String, Object> paramMap);
+
+    /**
+     * 获取商品列表
+     */
+    ResultDTO getProductList(Map<String, Object> paramMap);
+
+    /**
      * 根据条件查询商品信息
      */
     ResultDTO getSimpleProductByCondition(Map<String, Object> paramMap);

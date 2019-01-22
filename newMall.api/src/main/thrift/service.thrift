@@ -157,7 +157,11 @@ service WX_ProductHandler {
 
     dto.BoolDTO updateProduct(1:int tid, 2:map<string, string> paramMap),
 
-    dto.ResultDTO getSimpleProductByCondition(1:int tid, 2:map<string, string> paramMap)
+    dto.ResultDTO getSimpleProductByCondition(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultDTO getProductList(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultMapDTO getProductDetail(1:int tid, 2:map<string, string> paramMap)
 
 }
 

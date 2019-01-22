@@ -201,4 +201,89 @@ public class WX_ProductController {
         return resultMap;
     }
 
+    /**
+     * 获取商品列表
+     * @param request
+     * @return
+     */
+    @RequestMapping("/getProductList")
+    @ResponseBody
+    public Map<String, Object> getProductList(HttpServletRequest request) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        //获取请求参数能够获取到并解析
+        paramMap = HttpUtil.getRequestParams(request);
+        logger.info("【controller】获取商品列表-getProductList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        String start = paramMap.get("start")!=null?paramMap.get("start").toString():"";
+        String size = paramMap.get("size")!=null?paramMap.get("size").toString():"";
+        if("".equals(start)){
+            paramMap.put("start", "0");
+        } else {
+            try {
+                if(Integer.parseInt(start) < 0){
+                    paramMap.put("start", "0");
+                } else {
+                    paramMap.put("start", start);
+                }
+            } catch (Exception e){
+                paramMap.put("start", "0");
+            }
+        }
+        if("".equals(size)){
+            paramMap.put("size", "10");
+        } else {
+            try {
+                if(Integer.parseInt(size) < 0){
+                    paramMap.put("size", "10");
+                } else {
+                    paramMap.put("size", size);
+                }
+            } catch (Exception e){
+                paramMap.put("size", "0");
+            }
+        }
+        try {
+            ResultDTO resultDTO = wxProductHandler.getProductList(0, paramMap);
+            resultMap.put("recordsFiltered", resultDTO.getResultListTotal());
+            resultMap.put("data", resultDTO.getResultList());
+            resultMap.put("code", resultDTO.getCode());
+            resultMap.put("message", resultDTO.getMessage());
+        } catch (Exception e) {
+            logger.error("【controller】获取商品列表-getProductList is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            resultMap.put("success", false);
+            resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
+            resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
+        }
+        logger.info("【controller】获取商品列表-getProductList,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        return resultMap;
+    }
+
+    /**
+     * 获取商品详情
+     * @param request
+     * @return
+     */
+    @RequestMapping("/getProductDetail")
+    @ResponseBody
+    public Map<String, Object> getProductDetail(HttpServletRequest request) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        //获取请求参数能够获取到并解析
+        paramMap = HttpUtil.getRequestParams(request);
+        logger.info("【controller】获取商品详情-getProductDetail,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        try {
+            ResultMapDTO resultMapDTO = wxProductHandler.getProductDetail(0, paramMap);
+            resultMap.put("data", resultMapDTO.getResultMap());
+            resultMap.put("code", resultMapDTO.getCode());
+            resultMap.put("message", resultMapDTO.getMessage());
+        } catch (Exception e) {
+            logger.error("【controller】获取商品详情-getProductDetail is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            resultMap.put("success", false);
+            resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
+            resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
+        }
+        logger.info("【controller】获取商品详情-getProductDetail,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        return resultMap;
+    }
+
 }
