@@ -253,6 +253,7 @@
             <if test="expressNumber == 'MUST_HAVE_EXPRESSNUMBER'">
                 and express_number != "" and express_number IS NOT NULL
             </if>
+            ORDER by no.create_time desc
         <if test="start != null and size != null">
             LIMIT ${start},${size}
         </if>
