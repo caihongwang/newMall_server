@@ -76,6 +76,8 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         resultMap.put("isLuckDrawFlag", false); //默认不允许抽奖
         //用户uid
         String uid = paramMap.get("uid") != null ? paramMap.get("uid").toString() : "";       //商品ID
+        //用于抵扣的积分
+        String payIntegralStr = paramMap.get("payIntegral") != null ? paramMap.get("payIntegral").toString() : "0";
         //用于抵扣的余额
         String payBalanceStr = paramMap.get("payBalance") != null ? paramMap.get("payBalance").toString() : "0";
         //商品ID
@@ -86,6 +88,8 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         String addressId = paramMap.get("addressId") != null ? paramMap.get("addressId").toString() : "";       //地址ID
         //是否使用余额抵扣标志
         Boolean useBalanceFlag = paramMap.get("useBalanceFlag") != null ? Boolean.parseBoolean(paramMap.get("useBalanceFlag").toString()) : false;
+        //是否使用积分抵扣标志
+        Boolean useIntegralFlag = paramMap.get("useIntegralFlag") != null ? Boolean.parseBoolean(paramMap.get("useIntegralFlag").toString()) : false;
         //生成的随机字符串,微信用于校验
         String nonce_str = WXPayUtil.generateUUID();
         //商品名称
@@ -117,78 +121,86 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                 //获取用户余额
                 String userBalanceStr = userList.get(0).get("balance")!=null?userList.get(0).get("balance").toString():"0";
                 Double userBalance = Double.parseDouble(userBalanceStr);
-                //获取商品所需积分
-                String productIntegralStr = orderList.get(0).get("integral")!=null?orderList.get(0).get("integral").toString():"0";
-                Double productIntegral = Double.parseDouble(productIntegralStr);
-                //获取商品所需金额
-                String priceStr = orderList.get(0).get("price")!=null?orderList.get(0).get("price").toString():"0";
-                Double price = Double.parseDouble(priceStr);
-                //获取商品的库存
+                //获取商品的现有库存
                 String stockStr = orderList.get(0).get("stock")!=null?orderList.get(0).get("stock").toString():"0";
                 Double stock = Double.parseDouble(stockStr);
                 //用户即将购买的商品数量
                 Double productNum = Double.parseDouble(productNumStr);
-                //用户即将抵扣的月数量
+                //获取商品所需单价积分
+                String productIntegralStr = orderList.get(0).get("integral")!=null?orderList.get(0).get("integral").toString():"0";
+                Double productIntegral = Double.parseDouble(productIntegralStr);
+                //获取商品所需单价金额
+                String productPriceStr = orderList.get(0).get("price")!=null?orderList.get(0).get("price").toString():"0";
+                Double productPrice = Double.parseDouble(productPriceStr);
+                //用户即将抵扣的余额
                 Double payBalance = Double.parseDouble(payBalanceStr);
+                //用户即将抵扣的积分
+                Double payIntegral = Double.parseDouble(payIntegralStr);
                 if(stock >= productNum){
-                    price = price * productNum;     //总价=单价*数量
-                    productIntegral = productIntegral * productNum;//总积分=单积分*数量
-                    if(userIntegral >= productIntegral){//用户的积分必须大于购买商品的总积分
-                        Double actualPayMoney = 0.0;    //实际支付金额
-                        Double newUserBalance = 0.0;    //用户最新余额
-                        Double newUserIntegral = 0.0;   //用户最新积分
-                        Double allPayAmount = price;    //总支付金额
-                        Double newStock = stock;        //商品所剩的库存
-
-                        //购买后，用户所剩积分
-                        newUserIntegral = userIntegral - productIntegral;
+                    //所需支付的总金额 和 所需支付的总积分
+                    Double allProductPrice = productPrice * productNum;
+                    Double allProductIntegral = productIntegral * productNum;
+                    payIntegral = allProductIntegral;       //用户即将抵扣的积分 以后端服务计算出来的积分为准
+                    if(userIntegral >= allProductIntegral){//用户的积分必须大于购买商品的总积分
+                        //实际支付金额
+                        Double actualPayMoney = allProductPrice;
+                        //用户最新余额
+                        Double newUserBalance = userBalance;
+                        //用户最新积分
+                        Double newUserIntegral = userIntegral - allProductIntegral;
+                        //总支付金额
+                        Double allPayAmount = allProductPrice;
                         //购买后，商品所剩的库存
-                        newStock = stock - productNum;
-
+                        Double newStock = stock - productNum;
                         if(useBalanceFlag){     //使用余额进行支付
-                            if(userBalance >= payBalance){//用户的余额大于购买总额，才可以进行抵扣
-                                actualPayMoney = price - payBalance;
-                                newUserBalance = userBalance - price;
-                            } else {                 //用户余额不够，则不扣余额，全额支付
-                                actualPayMoney = price;
+                            if(userBalance >= payBalance){  //用户的余额大于用户即将抵扣的余额，才可以进行抵扣
+                                actualPayMoney = allProductPrice - payBalance;
+                                newUserBalance = userBalance - payBalance;
+                                payBalance = payBalance;    //使用余额抵扣
+                            } else {                        //用户余额不够，则不扣余额，全额支付
+                                actualPayMoney = allProductPrice;
                                 newUserBalance = userBalance;
+                                payBalance = 0.0;           //未使用余额抵扣
                             }
                         } else {               //不使用余额进行支付，则全额支付
-                            actualPayMoney = price;
+                            actualPayMoney = allProductPrice;
                             newUserBalance = userBalance;
+                            payBalance = 0.0;               //未使用余额抵扣
                         }
-
                         //用于购买商品更新用户的积分和余额
                         Map<String, String> attachMap = Maps.newHashMap();
                         attachMap.put("integral", NumberUtil.getPointTowNumber(newUserIntegral).toString());
                         attachMap.put("balance", NumberUtil.getPointTowNumber(newUserBalance).toString());
-                        attachMap.put("stock", NumberUtil.getPointTowNumber(stock).toString());
+                        attachMap.put("stock", NumberUtil.getPointTowNumber(newStock).toString());
                         attachMap.put("productId", productId);
 
                         //判断是否需要付钱
                         boolean isNeedPay = true;
-                        if(actualPayMoney > 0){
+                        if(actualPayMoney > 0){     //需要支付现金
                             isNeedPay = true;
                             orderStatus = "0";
-                        } else {
+                        } else {                    //余额已抵扣，不需要载支付现金
                             isNeedPay = false;
                             orderStatus = "1";
                         }
-                        if(isNeedPay){
-                            //准备获取支付相关的验签等数据
-                            actualPayMoney = NumberUtil.getPointTowNumber(actualPayMoney);
-                            String total_fee = ((int) (actualPayMoney * 100)) + "";                           //支付金额，单位：分，这边需要转成字符串类型，否则后面的签名会失败，默认付款1元
-                            logger.info(
+                        logger.info(
                                 " 用户 uid : {}", uid,
                                 " , 购买商品 productId : {}", productId,
                                 " , 消费总额 : {}", allPayAmount,
                                 " , 实际支付 : {}", actualPayMoney,
-                                " , 积分消耗 : {}", productIntegral,
-                                " , 是否使用余额抵扣 : {}", useBalanceFlag, " , 抵扣余额 : {}", useBalanceFlag?NumberUtil.getPointTowNumber(payBalance):"0.0"
-                            );
+                                " , 积分消耗 : {}", allProductIntegral,
+                                " , 是否使用余额抵扣 : {}", useBalanceFlag,
+                                " , 抵扣余额 : {}", useBalanceFlag?NumberUtil.getPointTowNumber(payBalance):"0.0",
+                                " , 是否使用积分抵扣 : {}", useIntegralFlag,
+                                " , 抵扣积分 : {}", useIntegralFlag?NumberUtil.getPointTowNumber(payIntegral):"0.0"
+                        );
+                        if(isNeedPay){
+                            //准备获取支付相关的验签等数据
+                            actualPayMoney = NumberUtil.getPointTowNumber(actualPayMoney);
+                            String totalMoney = ((int) (actualPayMoney * 100)) + "";                           //支付金额，单位：分，这边需要转成字符串类型，否则后面的签名会失败，默认付款1元
                             resultMap.putAll(WX_PublicNumberUtil.unifiedOrderForMiniProgram(
                                     nonce_str, body, out_trade_no,
-                                    total_fee, spbillCreateIp, NewMallCode.WX_PAY_NOTIFY_URL_wxPayNotifyForPurchaseProductInMiniProgram,
+                                    totalMoney, spbillCreateIp, NewMallCode.WX_PAY_NOTIFY_URL_wxPayNotifyForPurchaseProductInMiniProgram,
                                     openId, JSONObject.toJSONString(attachMap)
                             ));
                             if(resultMap.get("code").toString().equals((NewMallCode.SUCCESS.getNo()+""))){
@@ -203,7 +215,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                                 orderMap.put("allPayAmount", allPayAmount);
                                 orderMap.put("payMoney", actualPayMoney);
                                 orderMap.put("useBalanceMonney", useBalanceFlag?NumberUtil.getPointTowNumber(payBalance):"0.0");
-                                orderMap.put("useIntegralNum", productIntegral);
+                                orderMap.put("useIntegralNum",  useIntegralFlag?NumberUtil.getPointTowNumber(payIntegral):"0.0");
                                 orderMap.put("status", orderStatus);                //订单状态: 0是待支付，1是已支付
                                 orderMap.put("createTime", TimestampUtil.getTimestamp());
                                 orderMap.put("updateTime", TimestampUtil.getTimestamp());
@@ -228,7 +240,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                             orderMap.put("allPayAmount", allPayAmount);
                             orderMap.put("payMoney", actualPayMoney);
                             orderMap.put("useBalanceMonney", useBalanceFlag?NumberUtil.getPointTowNumber(payBalance):"0.0");
-                            orderMap.put("useIntegralNum", productIntegral);
+                            orderMap.put("useIntegralNum", useIntegralFlag?NumberUtil.getPointTowNumber(payIntegral):"0.0");
                             orderMap.put("status", orderStatus);                //订单状态: 0是待支付，1是已支付
                             orderMap.put("createTime", TimestampUtil.getTimestamp());
                             orderMap.put("updateTime", TimestampUtil.getTimestamp());
