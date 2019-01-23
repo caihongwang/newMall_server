@@ -40,7 +40,6 @@
             <tx:method name="insert*" propagation="REQUIRED"/>
             <tx:method name="drop*" propagation="REQUIRED"/>
 
-
             <tx:method name="login" propagation="REQUIRED"/>
             <tx:method name="getCheckVerificationCode" propagation="REQUIRED"/>
             <tx:method name="getOilStationList" propagation="REQUIRED"/>
@@ -53,7 +52,8 @@
             <tx:method name="wxPay*" propagation="REQUIRED"/>
             <tx:method name="confirm*" propagation="REQUIRED"/>
             <tx:method name="check*" propagation="REQUIRED"/>
-
+            <tx:method name="purchase*" propagation="REQUIRED"/>
+            <tx:method name="wxPayNotify*" propagation="REQUIRED"/>
 
             <tx:method name="*" read-only="true"/>
         </tx:attributes>
