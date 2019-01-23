@@ -51,7 +51,7 @@ public class WX_OrderController {
         paramMap.put("spbillCreateIp", HttpUtil.getIpAddr(request));
         logger.info("【controller】购买商品-purchaseProductInMiniProgram,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
-            ResultMapDTO resultMapDTO = wxOrderHandler.payTheBillInMiniProgram(0, paramMap);
+            ResultMapDTO resultMapDTO = wxOrderHandler.purchaseProductInMiniProgram(0, paramMap);
             resultMap.put("recordsFiltered", resultMapDTO.getResultListTotal());
             resultMap.put("data", resultMapDTO.getResultMap());
             resultMap.put("code", resultMapDTO.getCode());
