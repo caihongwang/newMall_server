@@ -91,7 +91,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         //是否使用积分抵扣标志
         Boolean useIntegralFlag = paramMap.get("useIntegralFlag") != null ? Boolean.parseBoolean(paramMap.get("useIntegralFlag").toString()) : false;
         //交易时的商品详情
-        String productDetailJson = paramMap.get("productDetail") != null ? paramMap.get("productDetail").toString() : "";
+        String transactionProductDetailJson = paramMap.get("transactionProductDetail") != null ? paramMap.get("transactionProductDetail").toString() : "";
         //生成的随机字符串,微信用于校验
         String nonce_str = WXPayUtil.generateUUID();
         //商品名称
@@ -213,6 +213,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                                 orderMap.put("orderType", "purchaseProduct");   //订单类型：买单，payTheBill；购买商品：purchaseProduct
                                 orderMap.put("productId", productId);
                                 orderMap.put("productNum", productNumStr);
+                                orderMap.put("transactionProductDetail", transactionProductDetailJson);
                                 orderMap.put("addressId", addressId);
                                 orderMap.put("allPayAmount", allPayAmount);
                                 orderMap.put("payMoney", actualPayMoney);
@@ -238,6 +239,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                             orderMap.put("orderType", "purchaseProduct");   //订单类型：买单，payTheBill；购买商品：purchaseProduct
                             orderMap.put("productId", productId);
                             orderMap.put("productNum", productNumStr);
+                            orderMap.put("transactionProductDetail", transactionProductDetailJson);
                             orderMap.put("addressId", addressId);
                             orderMap.put("allPayAmount", allPayAmount);
                             orderMap.put("payMoney", actualPayMoney);

@@ -10,6 +10,7 @@
         order_type,
         product_id,
         product_num,
+        transaction_product_detail,
         address_id,
         express_number,
         shop_id,
@@ -30,6 +31,7 @@
         no.order_type as "orderType",
         no.product_id as "productId",
         no.product_num as "productNum",
+        no.transaction_product_detail as "transactionProductDetail",
         no.address_id as "addressId",
         no.express_number as "expressNumber",
         no.shop_id as "shopId",
@@ -62,6 +64,9 @@
             </if>
             <if test="productNum != null and productNum != ''">
                 AND no.product_num = #{productNum}
+            </if>
+            <if test="transactionProductDetail != null and transactionProductDetail != ''">
+                AND no.transaction_product_detail = #{transactionProductDetail}
             </if>
             <if test="addressId != null and addressId != ''">
                 AND no.address_id = #{addressId}
@@ -105,6 +110,7 @@
             #{orderType},
             #{productId},
             #{productNum},
+            #{transactionProductDetail},
             #{addressId},
             #{expressNumber},
             #{shopId},
@@ -137,6 +143,9 @@
             </if>
             <if test="productNum != null and productNum != ''">
                no.product_num = #{productNum},
+            </if>
+            <if test="transactionProductDetail != null and transactionProductDetail != ''">
+               no.transaction_product_detail = #{transactionProductDetail},
             </if>
             <if test="addressId != null and addressId != ''">
                no.address_id = #{addressId},
@@ -200,6 +209,7 @@
             np.head_img_url as "productHeadImgUrl",
             np.price as "productPrice",
             no.product_num as "productNum",
+            no.transaction_product_detail as "transactionProductDetail",
             no.pay_money as "payMoney",
             no.express_number as "expressNumber",
             os.dic_name as "orderStatus",
@@ -236,6 +246,7 @@
             np.price as "productPrice",
             no.id as "orderId",
             no.product_num as "productNum",
+            no.transaction_product_detail as "transactionProductDetail",
             no.all_pay_amount as "allPayAmount",
             no.pay_money as "payMoney",
             no.use_balance_monney as "useBalanceMonney",
