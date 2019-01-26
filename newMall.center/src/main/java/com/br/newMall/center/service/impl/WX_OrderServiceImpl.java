@@ -90,6 +90,8 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         Boolean useBalanceFlag = paramMap.get("useBalanceFlag") != null ? Boolean.parseBoolean(paramMap.get("useBalanceFlag").toString()) : false;
         //是否使用积分抵扣标志
         Boolean useIntegralFlag = paramMap.get("useIntegralFlag") != null ? Boolean.parseBoolean(paramMap.get("useIntegralFlag").toString()) : false;
+        //交易时的商品详情
+        String productDetailJson = paramMap.get("productDetail") != null ? paramMap.get("productDetail").toString() : "";
         //生成的随机字符串,微信用于校验
         String nonce_str = WXPayUtil.generateUUID();
         //商品名称

@@ -17,6 +17,7 @@
         pay_money,
         use_balance_monney,
         use_integral_num,
+        remark,
         status,
         create_time,
         update_time
@@ -36,6 +37,7 @@
         no.pay_money as "payMoney",
         no.use_balance_monney as "useBalanceMonney",
         no.use_integral_num as "useIntegralNum",
+        no.remark as "remark",
         no.status as "status",
         date_format(no.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
         date_format(no.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
@@ -82,6 +84,9 @@
             <if test="useIntegralNum != null and useIntegralNum != ''">
                 AND no.use_integral_num = #{useIntegralNum}
             </if>
+            <if test="remark != null and remark != ''">
+                AND no.remark = #{remark}
+            </if>
             <if test="status != null and status != ''">
                 AND no.status = #{status}
             </if>
@@ -107,6 +112,7 @@
             #{payMoney},
             #{useBalanceMonney},
             #{useIntegralNum},
+            #{remark},
             #{status},
             #{createTime},
             #{updateTime}
@@ -153,6 +159,9 @@
             <if test="useIntegralNum != null and useIntegralNum != ''">
                no.use_integral_num = #{useIntegralNum},
             </if>
+            <if test="remark != null and remark != ''">
+               no.remark = #{remark},
+            </if>
             <if test="status != null and status != ''">
                no.status = #{status},
             </if>
@@ -193,7 +202,8 @@
             no.product_num as "productNum",
             no.pay_money as "payMoney",
             no.express_number as "expressNumber",
-            os.dic_name as "orderStatus"
+            os.dic_name as "orderStatus",
+            no.remark as "remark"
         from n_order no
             INNER JOIN n_dic os on no.status=os.dic_code and os.dic_type="orderStatus"
             INNER JOIN n_product np on no.product_id=np.id
@@ -235,6 +245,7 @@
             no.wx_order_id as "wxOrderId",
             date_format(no.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
             date_format(no.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime",
+            no.remark as "remark",
             os.dic_code as "orderStatusCode",
             os.dic_name as "orderStatusName"
         from n_order no
