@@ -88,66 +88,80 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
         String luckDrawCode = "";
         if (!"".equals(uid) && !"".equals(wxOrderId)) {
             Map<String, Object> orderMap = Maps.newHashMap();
+            orderMap.put("uid", uid);
             orderMap.put("wxOrderId", wxOrderId);
             List<Map<String, Object>> orderList = wxOrderDao.getSimpleOrderByCondition(orderMap);
             if(orderList != null && orderList.size() > 0){
                 String orderStatus = orderList.get(0).get("status").toString();
                 if("1".equals(orderStatus)){            //订单状态: 0是待支付，1是已支付
-                    //获取所有抽奖产品，并按照起概率来决定哪一个中奖
-                    Map<String, Object> LuckDrawProductParamMap = Maps.newHashMap();
-                    LuckDrawProductParamMap.put("dicType", "luckDraw");
-                    List<Map<String, String>> luckDrawProductList = getLuckDrawProductList(LuckDrawProductParamMap).getResultList();
-                    if(luckDrawProductList != null && luckDrawProductList.size() > 0){
-                        //根据抽奖概率选出抽到的奖品
-                        Double currentProbability = Math.random()*100;                 //当前openId对应的微信用户的中间概率
-                        for (Map<String, String> luckDrawProductMap: luckDrawProductList) {
-                            String probabilityMinStr = luckDrawProductMap.get("probabilityMin")!=null?luckDrawProductMap.get("probabilityMin").toString():"0%";
-                            String[] probabilityMinArr = probabilityMinStr.split("%");
-                            String probabilityMaxStr = luckDrawProductMap.get("probabilityMax")!=null?luckDrawProductMap.get("probabilityMax").toString():"0%";
-                            String[] probabilityMaxArr = probabilityMaxStr.split("%");
-                            if(probabilityMinArr.length >= 1 && probabilityMaxArr.length >= 1){
-                                Double probabilityMinNum = Double.parseDouble(probabilityMinArr[0]);
-                                Double probabilityMaxNum = Double.parseDouble(probabilityMaxArr[0]);
-                                if(currentProbability > probabilityMinNum
-                                        && currentProbability <= probabilityMaxNum){
-                                    luckDrawCode = luckDrawProductMap.get("luckDrawCode");
-                                    resultMap.putAll(luckDrawProductMap);
-                                    resultMap.remove("probabilityMin");
-                                    resultMap.remove("probabilityMax");
-                                    logger.info("当前微信用户 uid = " + uid +
-                                            " 在交易完订单 wxOrderId = " + wxOrderId +
-                                            " 抽到的奖品 luckDrawName = "+ luckDrawProductMap.get("luckDrawName") );
-                                    break;
+                    //检测当前用户的订单号是否已经抽过奖
+                    Map<String, Object> LuckDrawMap = Maps.newHashMap();
+                    LuckDrawMap.put("uid", uid);
+                    LuckDrawMap.put("wxOrderId", wxOrderId);
+                    List<Map<String, Object>> currentUserLuckDrawList = wxLuckDrawDao.getSimpleLuckDrawByCondition(LuckDrawMap);
+                    if(currentUserLuckDrawList == null
+                            || currentUserLuckDrawList.size() <= 0){
+                        //获取所有抽奖产品，并按照起概率来决定哪一个中奖
+                        Map<String, Object> LuckDrawProductParamMap = Maps.newHashMap();
+                        LuckDrawProductParamMap.put("dicType", "luckDraw");
+                        List<Map<String, String>> luckDrawProductList = getLuckDrawProductList(LuckDrawProductParamMap).getResultList();
+                        if(luckDrawProductList != null && luckDrawProductList.size() > 0){
+                            //根据抽奖概率选出抽到的奖品
+                            Double currentProbability = Math.random()*100;                 //当前openId对应的微信用户的中间概率
+                            for (Map<String, String> luckDrawProductMap: luckDrawProductList) {
+                                String probabilityMinStr = luckDrawProductMap.get("probabilityMin")!=null?luckDrawProductMap.get("probabilityMin").toString():"0%";
+                                String[] probabilityMinArr = probabilityMinStr.split("%");
+                                String probabilityMaxStr = luckDrawProductMap.get("probabilityMax")!=null?luckDrawProductMap.get("probabilityMax").toString():"0%";
+                                String[] probabilityMaxArr = probabilityMaxStr.split("%");
+                                if(probabilityMinArr.length >= 1 && probabilityMaxArr.length >= 1){
+                                    Double probabilityMinNum = Double.parseDouble(probabilityMinArr[0]);
+                                    Double probabilityMaxNum = Double.parseDouble(probabilityMaxArr[0]);
+                                    if(currentProbability > probabilityMinNum
+                                            && currentProbability <= probabilityMaxNum){
+                                        luckDrawCode = luckDrawProductMap.get("luckDrawCode");
+                                        resultMap.putAll(luckDrawProductMap);
+                                        resultMap.remove("probabilityMin");
+                                        resultMap.remove("probabilityMax");
+                                        logger.info("当前微信用户 uid = " + uid +
+                                                " 在交易完订单 wxOrderId = " + wxOrderId +
+                                                " 抽到的奖品 luckDrawName = "+ luckDrawProductMap.get("luckDrawName") );
+                                        break;
+                                    }
                                 }
                             }
-                        }
-                        if(!"".equals(luckDrawCode)){
-                            paramMap.put("luckDrawCode", luckDrawCode);
-                            paramMap.put("status", "0");        //抽奖状态，0是未发放，1是已发放，2是已删除
-                            try{
-                                addNum = wxLuckDrawDao.addLuckDraw(paramMap);
-                                if (addNum != null && addNum > 0) {
-                                    resultMapDTO.setResultMap(resultMap);
-                                    resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
-                                    resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
-                                } else {
-                                    resultMapDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
-                                    resultMapDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
+                            if(!"".equals(luckDrawCode)){
+                                paramMap.put("luckDrawCode", luckDrawCode);
+                                paramMap.put("status", "0");        //抽奖状态，0是未发放，1是已发放，2是已删除
+                                try{
+                                    addNum = wxLuckDrawDao.addLuckDraw(paramMap);
+                                    if (addNum != null && addNum > 0) {
+                                        resultMapDTO.setResultMap(resultMap);
+                                        resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
+                                        resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+                                    } else {
+                                        resultMapDTO.setCode(NewMallCode.NO_DATA_CHANGE.getNo());
+                                        resultMapDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
+                                    }
+                                } catch (Exception e) {
+                                    logger.info("当前用户 uid = " + uid +
+                                            " , 完成微信订单 wxOrderId = " + wxOrderId +
+                                            "后，已抽过奖。如想再次抽奖，请再交易一笔订单。此异常可忽略.");
+                                    resultMapDTO.setCode(NewMallCode.LUCKDRAW_GETPRIZE_HAS_GETED.getNo());
+                                    resultMapDTO.setMessage(NewMallCode.LUCKDRAW_GETPRIZE_HAS_GETED.getMessage());
                                 }
-                            } catch (Exception e) {
-                                logger.info("当前用户 uid = " + uid +
-                                        " , 完成微信订单 wxOrderId = " + wxOrderId +
-                                        "后，已抽过奖。如想再次抽奖，请再交易一笔订单。此异常可忽略.");
-                                resultMapDTO.setCode(NewMallCode.LUCKDRAW_GETPRIZE_HAS_GETED.getNo());
-                                resultMapDTO.setMessage(NewMallCode.LUCKDRAW_GETPRIZE_HAS_GETED.getMessage());
+                            } else {
+                                resultMapDTO.setCode(NewMallCode.LUCKDRAW_GETPRIZE_IS_FAILED.getNo());
+                                resultMapDTO.setMessage(NewMallCode.LUCKDRAW_GETPRIZE_IS_FAILED.getMessage());
                             }
                         } else {
-                            resultMapDTO.setCode(NewMallCode.LUCKDRAW_GETPRIZE_IS_FAILED.getNo());
-                            resultMapDTO.setMessage(NewMallCode.LUCKDRAW_GETPRIZE_IS_FAILED.getMessage());
+                            resultMapDTO.setCode(NewMallCode.LUCKDRAW_PRODUCT_IS_NULL.getNo());
+                            resultMapDTO.setMessage(NewMallCode.LUCKDRAW_PRODUCT_IS_NULL.getMessage());
                         }
                     } else {
-                        resultMapDTO.setCode(NewMallCode.LUCKDRAW_PRODUCT_IS_NULL.getNo());
-                        resultMapDTO.setMessage(NewMallCode.LUCKDRAW_PRODUCT_IS_NULL.getMessage());
+                        Map<String, Object> currentUserLuckDraw = currentUserLuckDrawList.get(0);
+                        resultMapDTO.setResultMap(MapUtil.getStringMap(currentUserLuckDraw));
+                        resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
+                        resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
                     }
                 } else {
                     resultMapDTO.setCode(NewMallCode.LUCKDRAW_ORDER_IS_NOT_PAYED.getNo());
