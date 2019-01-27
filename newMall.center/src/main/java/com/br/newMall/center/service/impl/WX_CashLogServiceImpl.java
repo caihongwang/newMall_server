@@ -9,6 +9,7 @@ import com.br.newMall.center.service.WX_CashLogService;
 import com.br.newMall.center.service.WX_DicService;
 import com.br.newMall.center.service.WX_RedPacketService;
 import com.br.newMall.center.utils.MapUtil;
+import com.br.newMall.center.utils.NumberUtil;
 import com.br.newMall.dao.WX_CashLogDao;
 import com.br.newMall.dao.WX_UserDao;
 import com.google.common.collect.Lists;
@@ -217,7 +218,7 @@ public class WX_CashLogServiceImpl implements WX_CashLogService {
                     Double proportion = Double.parseDouble(proportionStr);
                     Double cashMoneyLowerLimit = Double.parseDouble(cashMoneyLowerLimitStr);
                     for (Map<String, Object> userMap : userMapList) {
-                        Double cashToWxMoney = 0.0;             //提现金额
+                        Double cashToWxMoney = 0.0;             //提现金 额
                         Double cashFee = 0.0;                   //手续费
                         Double newUserBalance = 0.0;            //新的用户余额
                         //提现金额
@@ -228,12 +229,10 @@ public class WX_CashLogServiceImpl implements WX_CashLogService {
                         Double userBalance = Double.parseDouble(userBalanceStr);
                         if(cashToWxMoney >= cashMoneyLowerLimit){       //提现余额大于等于提现金额下限才可以提现
                             cashFee = cashToWxMoney * proportion;       //服务费
-                            BigDecimal bg = new BigDecimal(cashFee);
-                            cashFee = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                            cashFee = NumberUtil.getPointTowNumber(cashFee);
                             newUserBalance = userBalance - (cashToWxMoney + cashFee);  //扣除 提现金额和新的服务费 的新用户余额
                             if(newUserBalance >= 0){      //用户余额大于等于提现金额下限才可以提现
-                                bg = new BigDecimal(cashToWxMoney);
-                                cashToWxMoney = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                                cashToWxMoney = NumberUtil.getPointTowNumber(cashToWxMoney);
                                 //2.整合发送现金红包的参数
                                 Map<String, Object> cashRedPacketParamMap = Maps.newHashMap();
                                 String cashRedPacketTotal = ((int) (cashToWxMoney * 100)) + "";
@@ -244,8 +243,7 @@ public class WX_CashLogServiceImpl implements WX_CashLogService {
                                 cashRedPacketParamMap.put("desc", NewMallCode.WX_MINI_PROGRAM_NAME + "发红包了，快来看看吧.");
                                 resultMapDTO = wxRedPacketService.enterprisePayment(cashRedPacketParamMap);
 
-                                bg = new BigDecimal(newUserBalance);
-                                newUserBalance = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                                newUserBalance = NumberUtil.getPointTowNumber(newUserBalance);
                                 //3.发送成功，将已发送的红包进行记录，并保存.
                                 if (NewMallCode.SUCCESS.getNo() == resultMapDTO.getCode()) {
                                     //更新用户的余额
@@ -297,7 +295,7 @@ public class WX_CashLogServiceImpl implements WX_CashLogService {
         } else {
             //提现的用户uid或者提现金额不能为空
             resultMapDTO.setCode(NewMallCode.CASHLOG_UID_OR_CASHTOWXMONEY_IS_NOT_NULL.getNo());
-            resultMapDTO.setMessage(NewMallCode.CASHLOG_UID_OR_CASHTOWXMONEY_IS_NOT_NULL.getMessage());
+            resultMapDTO.setMessage("提现金额不能为空");
         }
         logger.info("【service】提现用户余额到微信零钱-cashBalanceToWx,请求-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
