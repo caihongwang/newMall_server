@@ -143,9 +143,9 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                                         resultMapDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
                                     }
                                 } catch (Exception e) {
-                                    logger.info("当前用户 uid = " + uid +
-                                            " , 完成微信订单 wxOrderId = " + wxOrderId +
-                                            "后，已抽过奖。如想再次抽奖，请再交易一笔订单。此异常可忽略.");
+                                    logger.error("当前用户 uid = ", uid,
+                                            " , 完成微信订单 wxOrderId = ", wxOrderId,
+                                            "后，已抽过奖。如想再次抽奖，请再交易一笔订单。此异常可忽略. e : ", e);
                                     resultMapDTO.setCode(NewMallCode.LUCKDRAW_GETPRIZE_HAS_GETED.getNo());
                                     resultMapDTO.setMessage(NewMallCode.LUCKDRAW_GETPRIZE_HAS_GETED.getMessage());
                                 }
