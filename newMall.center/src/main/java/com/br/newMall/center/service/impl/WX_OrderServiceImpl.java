@@ -493,6 +493,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                         " , 是否使用余额抵扣 : {}", useBalanceFlag, " , 抵扣余额 : {}", useBalanceFlag?NumberUtil.getPointTowNumber(payBalance):"0.0",
                         " , 是否使用积分抵扣 : {}", useIntegralFlag, " , 抵扣积分 : {}", useIntegralFlag?NumberUtil.getPointTowNumber(payIntegral):"0.0"
                     );
+                    resultMap.put("wxOrderId", out_trade_no);
                     if(isNeedPay){
                         //准备获取支付相关的验签等数据
                         actualPayMoney = NumberUtil.getPointTowNumber(actualPayMoney);
@@ -520,9 +521,12 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                             BoolDTO addOrderBoolDTO = this.addOrder(orderMap);
                             //设置返回值
                             resultMap.put("dealFlag", true);
+                            resultMap.put("isLuckDrawFlag", true); //可以抽奖
                             resultMapDTO.setCode(addOrderBoolDTO.getCode());
                             resultMapDTO.setMessage(addOrderBoolDTO.getMessage());
                         } else {
+                            resultMap.put("dealFlag", false);
+                            resultMap.put("isLuckDrawFlag", false); //不可以抽奖
                             resultMapDTO.setCode(NewMallCode.ORDER_RESPONSE_UNIFIEDORDER_IS_ERROR.getNo());
                             resultMapDTO.setMessage(NewMallCode.ORDER_RESPONSE_UNIFIEDORDER_IS_ERROR.getMessage());
                         }
@@ -549,6 +553,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                         this.wxPayNotifyForPayTheBillInMiniProgram(updateMap);
                         //设置返回值
                         resultMap.put("dealFlag", true);
+                        resultMap.put("isLuckDrawFlag", true); //可以抽奖
                         resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
                         resultMapDTO.setCode(addOrderBoolDTO.getCode());
                         resultMapDTO.setMessage(addOrderBoolDTO.getMessage());

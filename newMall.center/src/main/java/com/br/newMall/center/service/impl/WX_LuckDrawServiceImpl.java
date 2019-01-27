@@ -160,8 +160,8 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                     } else {
                         Map<String, Object> currentUserLuckDraw = currentUserLuckDrawList.get(0);
                         resultMapDTO.setResultMap(MapUtil.getStringMap(currentUserLuckDraw));
-                        resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
-                        resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+                        resultMapDTO.setCode(NewMallCode.LUCKDRAW_GETPRIZE_HAS_GETED.getNo());
+                        resultMapDTO.setMessage(NewMallCode.LUCKDRAW_GETPRIZE_HAS_GETED.getMessage());
                     }
                 } else {
                     resultMapDTO.setCode(NewMallCode.LUCKDRAW_ORDER_IS_NOT_PAYED.getNo());
