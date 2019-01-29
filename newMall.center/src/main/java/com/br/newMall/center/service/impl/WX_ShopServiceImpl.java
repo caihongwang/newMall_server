@@ -351,20 +351,20 @@ public class WX_ShopServiceImpl implements WX_ShopService {
                     }
                     //对营业时间进行计算
                     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-                    Date currentTime = new Date();
-                    Date shopBusinessHoursStartTime = new Date();
-                    Date shopBusinessHoursEndTime = new Date();
                     String shopBusinessHoursStartTimeStr = shopMap.get("shopBusinessHoursStartTime")!=null?shopMap.get("shopBusinessHoursStartTime").toString():"00:00:00";
                     String shopBusinessHoursEndTimeStr = shopMap.get("shopBusinessHoursEndTime")!=null?shopMap.get("shopBusinessHoursEndTime").toString():"23:59:59";
                     try {
-                        shopBusinessHoursStartTime = sdf.parse(shopBusinessHoursStartTimeStr);
-                        shopBusinessHoursEndTime = sdf.parse(shopBusinessHoursEndTimeStr);
+                        Date currentTime = sdf.parse(sdf.format(new Date()));
+                        Date shopBusinessHoursStartTime = sdf.parse(shopBusinessHoursStartTimeStr);
+                        Date shopBusinessHoursEndTime = sdf.parse(shopBusinessHoursEndTimeStr);
                         sdf = new SimpleDateFormat("HH:mm");
                         shopMap.put("shopBusinessHours",
                                 sdf.format(shopBusinessHoursStartTime)
                                         + " - " +
                                         sdf.format(shopBusinessHoursEndTime)
                         );
+                        System.out.println("shopBusinessHoursStartTime.before(currentTime) = " + shopBusinessHoursStartTime.before(currentTime));
+                        System.out.println("shopBusinessHoursEndTime.after(currentTime) = " + shopBusinessHoursEndTime.after(currentTime));
                         if(shopBusinessHoursStartTime.before(currentTime) &&
                                 shopBusinessHoursEndTime.after(currentTime)){
                             shopMap.put("shopBusinessStatus", "营业中");
