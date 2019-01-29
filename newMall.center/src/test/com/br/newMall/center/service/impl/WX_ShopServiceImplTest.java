@@ -20,10 +20,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -82,6 +80,7 @@ public class WX_ShopServiceImplTest {
             List<Map<String, Object>> shopList = wxShopDao.getShopByCondition(paramMap);
             if (shopList != null && shopList.size() > 0) {
                 for (Map<String, Object> shopMap : shopList) {
+                    //对距离进行计算
                     Double endLon = 0.0;
                     Double endLat = 0.0;
                     Double distance = 0.0;
@@ -105,6 +104,33 @@ public class WX_ShopServiceImplTest {
                         shopMap.put("shopDistance", distance.toString());
                     } else {
                         shopMap.put("shopDistance", "未知");
+                    }
+                    //对营业时间进行计算
+                    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                    Date currentTime = new Date();
+                    Date shopBusinessHoursStartTime = new Date();
+                    Date shopBusinessHoursEndTime = new Date();
+                    String shopBusinessHoursStartTimeStr = shopMap.get("shopBusinessHoursStartTime")!=null?shopMap.get("shopBusinessHoursStartTime").toString():"00:00:00";
+                    String shopBusinessHoursEndTimeStr = shopMap.get("shopBusinessHoursEndTime")!=null?shopMap.get("shopBusinessHoursEndTime").toString():"23:59:59";
+                    try {
+                        shopBusinessHoursStartTime = sdf.parse(shopBusinessHoursStartTimeStr);
+                        shopBusinessHoursEndTime = sdf.parse(shopBusinessHoursEndTimeStr);
+                        sdf = new SimpleDateFormat("HH:mm");
+                        shopMap.put("shopBusinessHours",
+                                sdf.format(shopBusinessHoursStartTime)
+                                        + " - " +
+                                        sdf.format(shopBusinessHoursEndTime)
+                        );
+                        if(shopBusinessHoursStartTime.before(currentTime) &&
+                                shopBusinessHoursEndTime.after(currentTime)){
+                            shopMap.put("shopBusinessStatus", "营业中");
+                        } else {
+                            shopMap.put("shopBusinessStatus", "休息中");
+                        }
+                    } catch (Exception e) {
+                        shopMap.put("shopBusinessHours", "00:00 - 23:59");
+                        shopMap.put("shopBusinessStatus", "营业中");
+                        logger.error("当前店家的营业时间有误，默认为全天营业中，e : ", e);
                     }
                 }
                 shopStrList = MapUtil.getStringMapList(shopList);

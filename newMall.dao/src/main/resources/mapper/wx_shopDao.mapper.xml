@@ -14,6 +14,8 @@
         shop_lat,
         shop_head_img_url,
         shop_describe_img_url,
+        shop_business_hours_start_time,
+        shop_business_hours_end_time,
         shop_remark,
         shop_status,
         create_time,
@@ -31,6 +33,8 @@
         ns.shop_lat as "shopLat",
         ns.shop_head_img_url as "shopHeadImgUrl",
         ns.shop_describe_img_url as "shopDescribeImgUrl",
+        date_format(ns.shop_business_hours_start_time, '%H:%i:%s') as "shopBusinessHoursStartTime",
+        date_format(ns.shop_business_hours_end_time, '%H:%i:%s') as "shopBusinessHoursEndTime",
         ns.shop_remark as "shopRemark",
         ns.shop_status as "shopStatus",
         date_format(ns.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
@@ -72,6 +76,12 @@
             <if test="shopDescribeImgUrl != null and shopDescribeImgUrl != ''">
                 AND ns.shop_describe_img_url = #{shopDescribeImgUrl}
             </if>
+            <if test="shopBusinessHoursStartTime != null and shopBusinessHoursStartTime != ''">
+                AND ns.shop_business_hours_start_time = #{shopBusinessHoursStartTime}
+            </if>
+            <if test="shopBusinessHoursEndTime != null and shopBusinessHoursEndTime != ''">
+                AND ns.shop_business_hours_end_time = #{shopBusinessHoursEndTime}
+            </if>
             <if test="shopRemark != null and shopRemark != ''">
                 AND ns.shop_remark like concat('%',#{shopRemark},'%')
             </if>
@@ -101,6 +111,8 @@
             #{shopLat},
             #{shopHeadImgUrl},
             #{shopDescribeImgUrl},
+            #{shopBusinessHoursStartTime},
+            #{shopBusinessHoursEndTime},
             #{shopRemark},
             #{shopStatus},
             #{createTime},
@@ -148,6 +160,12 @@
             <if test="shopDescribeImgUrl != null and shopDescribeImgUrl != ''">
                ns.shop_describe_img_url = #{shopDescribeImgUrl},
             </if>
+            <if test="shopBusinessHoursStartTime != null and shopBusinessHoursStartTime != ''">
+               ns.shop_business_hours_start_time = #{shopBusinessHoursStartTime},
+            </if>
+            <if test="shopBusinessHoursEndTime != null and shopBusinessHoursEndTime != ''">
+               ns.shop_business_hours_end_time = #{shopBusinessHoursEndTime},
+            </if>
             <if test="shopRemark != null and shopRemark != ''">
                ns.shop_remark = #{shopRemark},
             </if>
@@ -194,6 +212,8 @@
             ns.shop_lat as "shopLat",
             ns.shop_head_img_url as "shopHeadImgUrl",
             ns.shop_describe_img_url as "shopDescribeImgUrl",
+            date_format(ns.shop_business_hours_start_time, '%H:%i:%s') as "shopBusinessHoursStartTime",
+            date_format(ns.shop_business_hours_end_time, '%H:%i:%s') as "shopBusinessHoursEndTime",
             ns.shop_remark as "shopRemark",
             ns.shop_status as "shopStatus",
             date_format(ns.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
