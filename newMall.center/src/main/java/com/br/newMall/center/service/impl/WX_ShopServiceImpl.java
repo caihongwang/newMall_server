@@ -478,29 +478,26 @@ public class WX_ShopServiceImpl implements WX_ShopService {
             if(shopList != null && shopList.size() > 0){
                 shopId = shopList.get(0).get("shopId").toString();
                 shopTitle = shopList.get(0).get("shopTitle").toString();
-            }
-            if(!"".equals(shopTitle)){
                 shopMiniProgramCodePath = shopMiniProgramCodePath + "/" + shopTitle + "/";
-            } else if(!"".equals(nickName)){
-                shopMiniProgramCodePath = shopMiniProgramCodePath + "/" + nickName + "/";
-            } else if(!"".equals(uid)){
-                shopMiniProgramCodePath = shopMiniProgramCodePath + "/" + uid + "/";
-            }
-            if(!"".equals(shopId)){
-                String scene = "shopId=" + shopId + "&shopTitle=" + shopTitle;
-                resultMap = WX_PublicNumberUtil.getShopMiniProgramCode(
-                        NewMallCode.WX_MINI_PROGRAM_APPID,
-                        NewMallCode.WX_MINI_PROGRAM_SECRET,
-                        page,
-                        scene,
-                        shopMiniProgramCodePath);
-                if(resultMap != null && resultMap.size() > 0){
-                    resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
-                    resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
-                    resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+                if(!"".equals(shopId)){
+                    String scene = "shopId=" + shopId + "&shopTitle=" + shopTitle;
+                    resultMap = WX_PublicNumberUtil.getShopMiniProgramCode(
+                            NewMallCode.WX_MINI_PROGRAM_APPID,
+                            NewMallCode.WX_MINI_PROGRAM_SECRET,
+                            page,
+                            scene,
+                            shopMiniProgramCodePath);
+                    if(resultMap != null && resultMap.size() > 0){
+                        resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
+                        resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
+                        resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+                    } else {
+                        resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                        resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
+                    }
                 } else {
-                    resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
-                    resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
+                    resultMapDTO.setCode(NewMallCode.SHOP_UID_NICKNAME_SHOPTITLE_IS_NOT_EXIST_SHOP.getNo());
+                    resultMapDTO.setMessage(NewMallCode.SHOP_UID_NICKNAME_SHOPTITLE_IS_NOT_EXIST_SHOP.getMessage());
                 }
             } else {
                 resultMapDTO.setCode(NewMallCode.SHOP_UID_NICKNAME_SHOPTITLE_IS_NOT_EXIST_SHOP.getNo());

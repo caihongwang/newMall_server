@@ -52,18 +52,75 @@ public class WX_ShopServiceImplTest {
 //        paramMap.put("orderSortType", "shopOrderAmount");
 //        getSimpleShopByCondition(paramMap);
 
-        Map<String, Object> paramMap = Maps.newHashMap();
-//        paramMap.put("uid", "1");
-        paramMap.put("currentLon", "116");
-        paramMap.put("currentLat", "39");
-        paramMap.put("dis", "1000");
-        paramMap.put("orderSortType", "shopOrderAmount");
-        getShopByCondition(paramMap);
-
 //        Map<String, Object> paramMap = Maps.newHashMap();
-//        paramMap.put("uid", "1");
+////        paramMap.put("uid", "1");
+//        paramMap.put("currentLon", "116");
+//        paramMap.put("currentLat", "39");
+//        paramMap.put("dis", "1000");
+//        paramMap.put("orderSortType", "shopOrderAmount");
+//        getShopByCondition(paramMap);
+
+        Map<String, Object> paramMap = Maps.newHashMap();
+        paramMap.put("uid", "1");
 //        paramMap.put("page", "pages/tabBar/todayOilPrice/todayOilPrice");
-//        getShopMiniProgramCode(paramMap);
+        paramMap.put("page", "/pages/cardFile/shopInformation/shopInformation");
+        getShopMiniProgramCode(paramMap);
+    }
+
+    /**
+     * 根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码
+     * @return
+     */
+    public ResultMapDTO getShopMiniProgramCode(Map<String, Object> paramMap) {
+        logger.info("【service】根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getShopMiniProgramCode,响应-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        Map<String, Object> resultMap = Maps.newHashMap();
+        String page = paramMap.get("page")!=null?paramMap.get("page").toString():"";
+        String uid = paramMap.get("uid")!=null?paramMap.get("uid").toString():"";
+        String nickName = paramMap.get("nickName")!=null?paramMap.get("nickName").toString():"";
+        String shopTitle = paramMap.get("shopTitle")!=null?paramMap.get("shopTitle").toString():"";
+        if ( (!"".equals(uid) || !"".equals(nickName) || !"".equals(shopTitle))
+                && !"".equals(page) && !"".equals(shopMiniProgramCodePath)) {
+            String shopId = "";
+            Map<String, Object> shopMap = Maps.newHashMap();
+            shopMap.put("shopTitle", shopTitle);
+            shopMap.put("nickName", nickName);
+            shopMap.put("uid", uid);
+            List<Map<String, Object>> shopList = wxShopDao.getShopByCondition(shopMap);
+            if(shopList != null && shopList.size() > 0){
+                shopId = shopList.get(0).get("shopId").toString();
+                shopTitle = shopList.get(0).get("shopTitle").toString();
+                shopMiniProgramCodePath = shopMiniProgramCodePath + "/" + shopTitle + "/";
+                if(!"".equals(shopId)){
+                    String scene = "shopId=" + shopId + "&shopTitle=" + shopTitle;
+                    resultMap = WX_PublicNumberUtil.getShopMiniProgramCode(
+                            NewMallCode.WX_MINI_PROGRAM_APPID,
+                            NewMallCode.WX_MINI_PROGRAM_SECRET,
+                            page,
+                            scene,
+                            shopMiniProgramCodePath);
+                    if(resultMap != null && resultMap.size() > 0){
+                        resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
+                        resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
+                        resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+                    } else {
+                        resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                        resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
+                    }
+                } else {
+                    resultMapDTO.setCode(NewMallCode.SHOP_UID_NICKNAME_SHOPTITLE_IS_NOT_EXIST_SHOP.getNo());
+                    resultMapDTO.setMessage(NewMallCode.SHOP_UID_NICKNAME_SHOPTITLE_IS_NOT_EXIST_SHOP.getMessage());
+                }
+            } else {
+                resultMapDTO.setCode(NewMallCode.SHOP_UID_NICKNAME_SHOPTITLE_IS_NOT_EXIST_SHOP.getNo());
+                resultMapDTO.setMessage(NewMallCode.SHOP_UID_NICKNAME_SHOPTITLE_IS_NOT_EXIST_SHOP.getMessage());
+            }
+        } else {
+            resultMapDTO.setCode(NewMallCode.SHOP_UID_NICKNAME_SHOPTITLE_PAGE_SCENE_FILEPATH_IS_NOT_NULL.getNo());
+            resultMapDTO.setMessage(NewMallCode.SHOP_UID_NICKNAME_SHOPTITLE_PAGE_SCENE_FILEPATH_IS_NOT_NULL.getMessage());
+        }
+        logger.info("【service】根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getShopMiniProgramCode,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        return resultMapDTO;
     }
 
     public ResultDTO getShopByCondition(Map<String, Object> paramMap) {
@@ -329,58 +386,5 @@ public class WX_ShopServiceImplTest {
         return resultDTO;
     }
 
-    public ResultMapDTO getShopMiniProgramCode(Map<String, Object> paramMap) {
-        logger.info("【service】根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getShopMiniProgramCode,响应-paramMap = {}", JSONObject.toJSONString(paramMap));
-        ResultMapDTO resultMapDTO = new ResultMapDTO();
-        Map<String, Object> resultMap = Maps.newHashMap();
-        String page = paramMap.get("page")!=null?paramMap.get("page").toString():"";
-        String uid = paramMap.get("uid")!=null?paramMap.get("uid").toString():"";
-        String nickName = paramMap.get("nickName")!=null?paramMap.get("nickName").toString():"";
-        String shopTitle = paramMap.get("shopTitle")!=null?paramMap.get("shopTitle").toString():"";
-        if ( (!"".equals(uid) || !"".equals(nickName) || !"".equals(shopTitle))
-                && !"".equals(page) && !"".equals(shopMiniProgramCodePath)) {
-            String shopId = "";
-            Map<String, Object> shopMap = Maps.newHashMap();
-            shopMap.put("shopTitle", shopTitle);
-            shopMap.put("nickName", nickName);
-            shopMap.put("uid", uid);
-            List<Map<String, Object>> shopList = wxShopDao.getShopByCondition(shopMap);
-            if(shopList != null && shopList.size() > 0){
-                shopId = shopList.get(0).get("shopId").toString();
-            }
-            if(!"".equals(shopTitle)){
-                shopMiniProgramCodePath = shopMiniProgramCodePath + "/" + shopTitle + "/";
-            } else if(!"".equals(nickName)){
-                shopMiniProgramCodePath = shopMiniProgramCodePath + "/" + nickName + "/";
-            } else if(!"".equals(uid)){
-                shopMiniProgramCodePath = shopMiniProgramCodePath + "/" + uid + "/";
-            }
-            if(!"".equals(shopId)){
-                String scene = "shopId=" + shopId;
-                resultMap = WX_PublicNumberUtil.getShopMiniProgramCode(
-                        NewMallCode.WX_MINI_PROGRAM_APPID,
-                        NewMallCode.WX_MINI_PROGRAM_SECRET,
-                        page,
-                        scene,
-                        shopMiniProgramCodePath);
-                if(resultMap != null && resultMap.size() > 0){
-                    resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
-                    resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
-                    resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
-                } else {
-                    resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
-                    resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
-                }
-            } else {
-                resultMapDTO.setCode(NewMallCode.SHOP_UID_NICKNAME_SHOPTITLE_IS_NOT_EXIST_SHOP.getNo());
-                resultMapDTO.setMessage(NewMallCode.SHOP_UID_NICKNAME_SHOPTITLE_IS_NOT_EXIST_SHOP.getMessage());
-            }
-        } else {
-            resultMapDTO.setCode(NewMallCode.SHOP_UID_NICKNAME_SHOPTITLE_PAGE_SCENE_FILEPATH_IS_NOT_NULL.getNo());
-            resultMapDTO.setMessage(NewMallCode.SHOP_UID_NICKNAME_SHOPTITLE_PAGE_SCENE_FILEPATH_IS_NOT_NULL.getMessage());
-        }
-        logger.info("【service】根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getShopMiniProgramCode,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
-        return resultMapDTO;
-    }
 
 }
