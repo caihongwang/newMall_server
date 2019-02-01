@@ -5,6 +5,7 @@ import com.br.newMall.api.code.NewMallCode;
 import com.br.newMall.api.dto.BoolDTO;
 import com.br.newMall.api.dto.ResultDTO;
 import com.br.newMall.api.dto.ResultMapDTO;
+import com.br.newMall.center.service.WX_BalanceLogService;
 import com.br.newMall.center.service.WX_IntegralLogService;
 import com.br.newMall.center.service.WX_LuckDrawService;
 import com.br.newMall.center.service.WX_DicService;
@@ -50,6 +51,9 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
 
     @Autowired
     private WX_IntegralLogService wxIntegralLogService;
+
+    @Autowired
+    private WX_BalanceLogService wxBalanceLogService;
 
     /**
      * 获取抽奖的产品列表
@@ -986,7 +990,7 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                                 Map<String, Object> luckDrawParamMap = Maps.newHashMap();
                                 luckDrawParamMap.put("status", "1");    //抽奖状态，0是未发放，1是已发放，2是已删除
                                 luckDrawParamMap.put("wxOrderId", wxOrderId);
-                                luckDrawParamMap.put("remark", "奖励到用户余额：" + cashBackMoney + "元，当前用户余额总数：" + newBalance + "元.");
+                                luckDrawParamMap.put("remark", "奖励到用户余额：" + cashBackMoney + "元，现用户总余额：" + newBalance + "元.");
                                 updateNum = wxLuckDrawDao.updateLuckDraw(luckDrawParamMap);
                                 if (updateNum != null && updateNum > 0) {
                                     //更新 用户积分 为 原积分数量+订单交易总金额
@@ -995,11 +999,13 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                                     userMap.put("id", uid);
                                     userMap.put("balance", newBalance);
                                     updateNum = wxUserDao.updateUser(userMap);
+                                    String cashbackStatus = "0";
                                     if (updateNum != null && updateNum > 0) {
                                         logger.info("当前用户 uid = " + uid +
                                                 " ，订单金额 payMoney = " + payMoneyStr +
                                                 " ，返现比例 proportion = "+ proportionStr +
                                                 " 奖励返现成功，快去设置自动提现吧.");
+                                        cashbackStatus = "1";
                                         resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
                                         resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
                                     } else {
@@ -1007,9 +1013,17 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                                                 " ，订单金额 payMoney = " + payMoneyStr +
                                                 " ，返现比例 proportion = "+ proportionStr +
                                                 " 转换积分时更新用户余额失败，请联系管理员.");
+                                        cashbackStatus = "0";
                                         resultMapDTO.setCode(NewMallCode.LUCKDRAW_UPDATE_USER_BANLANCE_IS_FAILED.getNo());
                                         resultMapDTO.setMessage(NewMallCode.LUCKDRAW_UPDATE_USER_BANLANCE_IS_FAILED.getMessage());
                                     }
+                                    Map<String, Object> balanceLogMap = Maps.newHashMap();
+                                    balanceLogMap.put("uid", uid);
+                                    balanceLogMap.put("cashbackToUserBalance", cashBackMoney);
+                                    balanceLogMap.put("userBalance", newBalance);
+                                    balanceLogMap.put("cashbackStatus", cashbackStatus);
+                                    balanceLogMap.put("remark", "奖励到用户余额：" + cashBackMoney + "元，现用户总余额：" + newBalance + "元.");
+                                    wxBalanceLogService.addBalanceLog(balanceLogMap);
                                 } else {
                                     logger.info("当前用户 uid = " + uid +
                                             " ，订单金额 payMoney = " + payMoneyStr +

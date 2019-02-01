@@ -733,7 +733,7 @@
     </column>
     <column id="146" parent="21" name="shop_status">
       <Position>14</Position>
-      <Comment>店铺表_状态，0是带签约，1是已签约</Comment>
+      <Comment>店铺表_状态，0是待签约，1是已签约</Comment>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>

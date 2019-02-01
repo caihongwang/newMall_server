@@ -391,6 +391,8 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         String payBalanceStr = paramMap.get("payBalance") != null ? paramMap.get("payBalance").toString() : "0";
         //付款用户的uid
         String uid = paramMap.get("uid") != null ? paramMap.get("uid").toString() : "";
+        //收钱商家的店铺名称
+        String shopTitle = paramMap.get("shopTitle") != null ? paramMap.get("shopTitle").toString() : "";
         //收钱商家的店铺id
         String shopId = paramMap.get("shopId") != null ? paramMap.get("shopId").toString() : "";
         //是否使用积分抵扣标志
@@ -401,6 +403,9 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         String nonce_str = WXPayUtil.generateUUID();
         //商品名称
         String body = "向商家付款";
+        if(!"".equals(shopTitle)){
+            body = "向 " + shopTitle + " 商家付款买单";
+        }
         //统一订单编号,即微信订单号
         String out_trade_no = WXPayUtil.generateUUID();
         //发起支付的IP地址
@@ -470,7 +475,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                         newUserIntegral = userIntegral;
                         newUserBalance = userBalance;
                     }
-                    //用于购买商品更新付款用户的积分和余额,同事将店铺ID传递过去，便于给店铺的商家打钱
+                    //用于购买商品更新付款用户的积分和余额,同时将店铺ID传递过去，便于给店铺的商家打钱
                     Map<String, String> attachMap = Maps.newHashMap();
                     attachMap.put("shopId", shopId);        //用于给店家打钱
                     attachMap.put("balance", NumberUtil.getPointTowNumber(newUserBalance).toString());
@@ -636,7 +641,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                                     if(dicResultDTO != null &&
                                             dicResultDTO.getResultList() != null &&
                                             dicResultDTO.getResultList().size() > 0){
-                                        String shopDiscountStr = dicResultDTO.getResultList().get(0).get("platformDiscount");
+                                        String shopDiscountStr = dicResultDTO.getResultList().get(0).get("shopDiscount");
                                         try {
                                             Double shopDiscount = Double.parseDouble(shopDiscountStr);
                                             Double payMoney = Double.parseDouble(payMoneyStr);
