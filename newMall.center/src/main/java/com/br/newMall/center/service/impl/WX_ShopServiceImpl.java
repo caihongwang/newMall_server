@@ -478,9 +478,9 @@ public class WX_ShopServiceImpl implements WX_ShopService {
             if(shopList != null && shopList.size() > 0){
                 shopId = shopList.get(0).get("shopId").toString();
                 shopTitle = shopList.get(0).get("shopTitle").toString();
-                shopMiniProgramCodePath = shopMiniProgramCodePath + "/" + shopTitle + "/";
+                shopMiniProgramCodePath = shopMiniProgramCodePath + shopTitle + "/";
                 if(!"".equals(shopId)){
-                    String scene = "shopId=" + shopId + "&shopTitle=" + shopTitle;
+                    String scene = "shopId=" + shopId;
                     resultMap = WX_PublicNumberUtil.getShopMiniProgramCode(
                             NewMallCode.WX_MINI_PROGRAM_APPID,
                             NewMallCode.WX_MINI_PROGRAM_SECRET,

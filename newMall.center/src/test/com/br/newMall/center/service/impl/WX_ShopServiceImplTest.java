@@ -63,7 +63,7 @@ public class WX_ShopServiceImplTest {
         Map<String, Object> paramMap = Maps.newHashMap();
         paramMap.put("uid", "1");
 //        paramMap.put("page", "pages/tabBar/todayOilPrice/todayOilPrice");
-        paramMap.put("page", "/pages/cardFile/shopInformation/shopInformation");
+        paramMap.put("page", "pages/cardFile/shopInformation/shopInformation");
         getShopMiniProgramCode(paramMap);
     }
 
@@ -90,9 +90,10 @@ public class WX_ShopServiceImplTest {
             if(shopList != null && shopList.size() > 0){
                 shopId = shopList.get(0).get("shopId").toString();
                 shopTitle = shopList.get(0).get("shopTitle").toString();
-                shopMiniProgramCodePath = shopMiniProgramCodePath + "/" + shopTitle + "/";
+                shopMiniProgramCodePath = shopMiniProgramCodePath + shopTitle + "/";
                 if(!"".equals(shopId)){
-                    String scene = "shopId=" + shopId + "&shopTitle=" + shopTitle;
+//                    String scene = "shopId=" + shopId + "&shopTitle=" + shopTitle;
+                    String scene = "shopId=" + shopId;
                     resultMap = WX_PublicNumberUtil.getShopMiniProgramCode(
                             NewMallCode.WX_MINI_PROGRAM_APPID,
                             NewMallCode.WX_MINI_PROGRAM_SECRET,
