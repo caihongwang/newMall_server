@@ -203,15 +203,15 @@ public class WX_ShopHandler implements com.br.newMall.api.service.WX_ShopHandler
      * @throws TException
      */
     @Override
-    public ResultMapDTO getMiniProgramCode(int tid, Map<String, String> paramMap) throws TException {
-        logger.info("【hanlder】根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getMiniProgramCode,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+    public ResultMapDTO getShopMiniProgramCode(int tid, Map<String, String> paramMap) throws TException {
+        logger.info("【hanlder】根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getShopMiniProgramCode,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
         if (paramMap.size() > 0) {
             try {
-                resultMapDTO = wxShopService.getMiniProgramCode(objectParamMap);
+                resultMapDTO = wxShopService.getShopMiniProgramCode(objectParamMap);
             } catch (Exception e) {
-                logger.error("【hanlder】根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getMiniProgramCode is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                logger.error("【hanlder】根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getShopMiniProgramCode is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
                 resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
                 resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
             }
@@ -219,7 +219,7 @@ public class WX_ShopHandler implements com.br.newMall.api.service.WX_ShopHandler
             resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
         }
-        logger.info("【hanlder】根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getMiniProgramCode,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        logger.info("【hanlder】根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getShopMiniProgramCode,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
     }
 

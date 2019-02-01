@@ -459,8 +459,8 @@ public class WX_ShopServiceImpl implements WX_ShopService {
      * @return
      */
     @Override
-    public ResultMapDTO getMiniProgramCode(Map<String, Object> paramMap) {
-        logger.info("【service】根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getMiniProgramCode,响应-paramMap = {}", JSONObject.toJSONString(paramMap));
+    public ResultMapDTO getShopMiniProgramCode(Map<String, Object> paramMap) {
+        logger.info("【service】根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getShopMiniProgramCode,响应-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> resultMap = Maps.newHashMap();
         String page = paramMap.get("page")!=null?paramMap.get("page").toString():"";
@@ -477,6 +477,7 @@ public class WX_ShopServiceImpl implements WX_ShopService {
             List<Map<String, Object>> shopList = wxShopDao.getShopByCondition(shopMap);
             if(shopList != null && shopList.size() > 0){
                 shopId = shopList.get(0).get("shopId").toString();
+                shopTitle = shopList.get(0).get("shopTitle").toString();
             }
             if(!"".equals(shopTitle)){
                 shopMiniProgramCodePath = shopMiniProgramCodePath + "/" + shopTitle + "/";
@@ -486,8 +487,8 @@ public class WX_ShopServiceImpl implements WX_ShopService {
                 shopMiniProgramCodePath = shopMiniProgramCodePath + "/" + uid + "/";
             }
             if(!"".equals(shopId)){
-                String scene = "shopId=" + shopId;
-                resultMap = WX_PublicNumberUtil.getMiniProgramCode(
+                String scene = "shopId=" + shopId + "&shopTitle=" + shopTitle;
+                resultMap = WX_PublicNumberUtil.getShopMiniProgramCode(
                         NewMallCode.WX_MINI_PROGRAM_APPID,
                         NewMallCode.WX_MINI_PROGRAM_SECRET,
                         page,
@@ -509,7 +510,7 @@ public class WX_ShopServiceImpl implements WX_ShopService {
             resultMapDTO.setCode(NewMallCode.SHOP_UID_NICKNAME_SHOPTITLE_PAGE_SCENE_FILEPATH_IS_NOT_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.SHOP_UID_NICKNAME_SHOPTITLE_PAGE_SCENE_FILEPATH_IS_NOT_NULL.getMessage());
         }
-        logger.info("【service】根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getMiniProgramCode,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        logger.info("【service】根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getShopMiniProgramCode,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
     }
 

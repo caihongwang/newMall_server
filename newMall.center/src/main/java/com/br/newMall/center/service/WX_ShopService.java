@@ -22,7 +22,7 @@ public interface WX_ShopService {
     /**
      * 根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序吗
      */
-    ResultMapDTO getMiniProgramCode(Map<String, Object> paramMap);
+    ResultMapDTO getShopMiniProgramCode(Map<String, Object> paramMap);
 
 
     /**

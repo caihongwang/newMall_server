@@ -263,27 +263,27 @@ public class WX_ShopController {
      * @param request
      * @return
      */
-    @RequestMapping("/getMiniProgramCode")
+    @RequestMapping("/getShopMiniProgramCode")
     @ResponseBody
-    public Map<String, Object> getMiniProgramCode(HttpServletRequest request) {
+    public Map<String, Object> getShopMiniProgramCode(HttpServletRequest request) {
         Map<String, String> paramMap = new HashMap<String, String>();
         Map<String, Object> resultMap = new HashMap<String, Object>();
         //获取请求参数能够获取到并解析
         paramMap = HttpUtil.getRequestParams(request);
-        logger.info("【controller】根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getMiniProgramCode,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        logger.info("【controller】根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getShopMiniProgramCode,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
-            ResultMapDTO resultMapDTO = wxShopHandler.getMiniProgramCode(0, paramMap);
+            ResultMapDTO resultMapDTO = wxShopHandler.getShopMiniProgramCode(0, paramMap);
             resultMap.put("recordsFiltered", resultMapDTO.getResultMapSize());
             resultMap.put("data", resultMapDTO.getResultMap());
             resultMap.put("code", resultMapDTO.getCode());
             resultMap.put("message", resultMapDTO.getMessage());
         } catch (Exception e) {
-            logger.error("【controller】根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getMiniProgramCode is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+            logger.error("【controller】根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getShopMiniProgramCode is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
             resultMap.put("success", false);
             resultMap.put("code", NewMallCode.SERVER_INNER_ERROR.getNo());
             resultMap.put("message", NewMallCode.SERVER_INNER_ERROR.getMessage());
         }
-        logger.info("【controller】根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getMiniProgramCode,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
+        logger.info("【controller】根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getShopMiniProgramCode,响应-resultMap = {}", JSONObject.toJSONString(resultMap));
         return resultMap;
     }
 

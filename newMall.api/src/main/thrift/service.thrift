@@ -269,7 +269,7 @@ service WX_ShopHandler {
 
     dto.ResultDTO getShopByCondition(1:int tid, 2:map<string, string> paramMap),
 
-    dto.ResultMapDTO getMiniProgramCode(1:int tid, 2:map<string, string> paramMap)
+    dto.ResultMapDTO getShopMiniProgramCode(1:int tid, 2:map<string, string> paramMap)
 
 }
 

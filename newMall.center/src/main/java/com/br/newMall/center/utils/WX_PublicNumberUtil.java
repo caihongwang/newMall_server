@@ -501,7 +501,7 @@ public class WX_PublicNumberUtil {
         return resultMap;
     }
 
-    public static Map<String, Object> getMiniProgramCode(String appId, String secret,
+    public static Map<String, Object> getShopMiniProgramCode(String appId, String secret,
                    String page, String scene, String shopMiniProgramCodePath) {
         HttpsUtil httpsUtil = new HttpsUtil();
         Map<String, String> paramMap = Maps.newHashMap();

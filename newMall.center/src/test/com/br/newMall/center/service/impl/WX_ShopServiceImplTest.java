@@ -63,7 +63,7 @@ public class WX_ShopServiceImplTest {
 //        Map<String, Object> paramMap = Maps.newHashMap();
 //        paramMap.put("uid", "1");
 //        paramMap.put("page", "pages/tabBar/todayOilPrice/todayOilPrice");
-//        getMiniProgramCode(paramMap);
+//        getShopMiniProgramCode(paramMap);
     }
 
     public ResultDTO getShopByCondition(Map<String, Object> paramMap) {
@@ -329,8 +329,8 @@ public class WX_ShopServiceImplTest {
         return resultDTO;
     }
 
-    public ResultMapDTO getMiniProgramCode(Map<String, Object> paramMap) {
-        logger.info("【service】根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getMiniProgramCode,响应-paramMap = {}", JSONObject.toJSONString(paramMap));
+    public ResultMapDTO getShopMiniProgramCode(Map<String, Object> paramMap) {
+        logger.info("【service】根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getShopMiniProgramCode,响应-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> resultMap = Maps.newHashMap();
         String page = paramMap.get("page")!=null?paramMap.get("page").toString():"";
@@ -357,7 +357,7 @@ public class WX_ShopServiceImplTest {
             }
             if(!"".equals(shopId)){
                 String scene = "shopId=" + shopId;
-                resultMap = WX_PublicNumberUtil.getMiniProgramCode(
+                resultMap = WX_PublicNumberUtil.getShopMiniProgramCode(
                         NewMallCode.WX_MINI_PROGRAM_APPID,
                         NewMallCode.WX_MINI_PROGRAM_SECRET,
                         page,
@@ -379,7 +379,7 @@ public class WX_ShopServiceImplTest {
             resultMapDTO.setCode(NewMallCode.SHOP_UID_NICKNAME_SHOPTITLE_PAGE_SCENE_FILEPATH_IS_NOT_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.SHOP_UID_NICKNAME_SHOPTITLE_PAGE_SCENE_FILEPATH_IS_NOT_NULL.getMessage());
         }
-        logger.info("【service】根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getMiniProgramCode,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        logger.info("【service】根据用户uid或者微信昵称或者店铺昵称创建其店铺的小程序码-getShopMiniProgramCode,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
     }
 
