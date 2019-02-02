@@ -445,6 +445,27 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                     if(useIntegralFlag){     //使用积分进行抵扣支付(优先使用积分抵扣)
                         if(userIntegral > 0){//用户的积分大于0，才可以进行抵扣
                             if(userIntegral >= payIntegral){
+                                //判断 准备抵扣的积分是否 超过最高可抵扣的 积分量
+                                Double integralDeductionNum = 0.2;
+                                Map<String, Object> dicParamMap = Maps.newHashMap();
+                                dicParamMap.put("dicType", "deduction");
+                                dicParamMap.put("dicCode", "integralDeduction");
+                                ResultDTO dicResultDTO = wxDicService.getSimpleDicByCondition(dicParamMap);
+                                if(dicResultDTO != null && dicResultDTO.getResultList() != null
+                                        && dicResultDTO.getResultList().size() > 0){
+                                    Map<String, String> dicMap = dicResultDTO.getResultList().get(0);
+                                    String deductionNumStr = dicMap.get("deductionNum");
+                                    integralDeductionNum = Double.parseDouble(deductionNumStr);
+                                    integralDeductionNum = NumberUtil.getPointTowNumber(integralDeductionNum);
+                                } else {
+                                    integralDeductionNum = 0.2;
+                                }
+                                Double integralDeductionMoney = payMoney * integralDeductionNum;
+                                if(payIntegral > integralDeductionMoney){
+                                    logger.warn("可能遭受外部链接攻击，准备抵扣的积分是 " + payIntegral + " 个，但是最高可抵扣的积分是 " + integralDeductionMoney + " 个.");
+                                    logger.warn("已按照最高可抵扣积分进行抵扣，不会被薅羊毛了.");
+                                    payIntegral = integralDeductionMoney;
+                                }
                                 actualPayMoney = payMoney - payIntegral;
                                 newUserIntegral = userIntegral - payIntegral;
                             } else {         //用户积分不够，则不扣积分，全额支付
@@ -459,6 +480,27 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                     } else if(useBalanceFlag){//使用余额进行抵扣支付
                         if(userBalance > 0){//用户的余额大于0，才可以进行抵扣
                             if(userBalance >= payBalance){
+                                //判断 准备抵扣的积分是否 超过最高可抵扣的 积分量
+                                Double balanceDeductionNum = 0.2;
+                                Map<String, Object> dicParamMap = Maps.newHashMap();
+                                dicParamMap.put("dicType", "deduction");
+                                dicParamMap.put("dicCode", "balanceDeduction");
+                                ResultDTO dicResultDTO = wxDicService.getSimpleDicByCondition(dicParamMap);
+                                if(dicResultDTO != null && dicResultDTO.getResultList() != null
+                                        && dicResultDTO.getResultList().size() > 0){
+                                    Map<String, String> dicMap = dicResultDTO.getResultList().get(0);
+                                    String deductionNumStr = dicMap.get("deductionNum");
+                                    balanceDeductionNum = Double.parseDouble(deductionNumStr);
+                                    balanceDeductionNum = NumberUtil.getPointTowNumber(balanceDeductionNum);
+                                } else {
+                                    balanceDeductionNum = 0.2;
+                                }
+                                Double balanceDeductionMoney = payMoney * balanceDeductionNum;
+                                if(payBalance > balanceDeductionMoney){
+                                    logger.warn("可能遭受外部链接攻击，准备抵扣的余额是 " + payBalance + " 元，但是最高可抵扣的余额是 " + balanceDeductionMoney + " 元.");
+                                    logger.warn("已按照最高可抵扣余额进行抵扣，不会被薅羊毛了.");
+                                    payBalance = balanceDeductionMoney;
+                                }
                                 actualPayMoney = payMoney - payBalance;
                                 newUserBalance = userBalance - payBalance;
                             } else {        //用户余额不够，则不扣余额，全额支付
@@ -491,12 +533,12 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                         orderStatus = "1";      //订单状态: 0是待支付，1是已支付
                     }
                     logger.info(
-                        " 用户 uid : {}", uid,
-                        " , 在店铺 shopId : {}", shopId,
-                        " , 消费总额 : {}", allPayAmount,
-                        " , 实际支付 : {}", actualPayMoney,
-                        " , 是否使用余额抵扣 : {}", useBalanceFlag, " , 抵扣余额 : {}", useBalanceFlag?NumberUtil.getPointTowNumber(payBalance):"0.0",
-                        " , 是否使用积分抵扣 : {}", useIntegralFlag, " , 抵扣积分 : {}", useIntegralFlag?NumberUtil.getPointTowNumber(payIntegral):"0.0"
+                            " 用户 uid : {}", uid,
+                            " , 在店铺 shopId : {}", shopId,
+                            " , 消费总额 : {}", allPayAmount,
+                            " , 实际支付 : {}", actualPayMoney,
+                            " , 是否使用余额抵扣 : {}", useBalanceFlag, " , 抵扣余额 : {}", useBalanceFlag?NumberUtil.getPointTowNumber(payBalance):"0.0",
+                            " , 是否使用积分抵扣 : {}", useIntegralFlag, " , 抵扣积分 : {}", useIntegralFlag?NumberUtil.getPointTowNumber(payIntegral):"0.0"
                     );
                     resultMap.put("wxOrderId", out_trade_no);
                     if(isNeedPay){

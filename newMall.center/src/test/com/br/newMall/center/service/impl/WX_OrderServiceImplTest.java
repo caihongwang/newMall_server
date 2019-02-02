@@ -65,16 +65,16 @@ public class WX_OrderServiceImplTest {
     @Test
     public void TEST() throws Exception {
 
-//        Map<String, Object> paramMap = Maps.newHashMap();
-//        paramMap.put("uid", "2");
-//        paramMap.put("shopId", "1");
-//        paramMap.put("payMoney", "0.02");
-//        paramMap.put("payIntegral", "0");
-//        paramMap.put("payBalance", "0.01");
-//        paramMap.put("useBalanceFlag", "true");
-//        paramMap.put("useIntegralFlag", "false");
-//        paramMap.put("spbillCreateIp", "https://www.91caihongwang.com");
-//        this.payTheBillInMiniProgram(paramMap);
+        Map<String, Object> paramMap = Maps.newHashMap();
+        paramMap.put("uid", "1");
+        paramMap.put("shopId", "1");
+        paramMap.put("payMoney", "5");
+        paramMap.put("payIntegral", "2");
+        paramMap.put("payBalance", "2");
+        paramMap.put("useBalanceFlag", "true");
+        paramMap.put("useIntegralFlag", "true");
+        paramMap.put("spbillCreateIp", "https://www.91caihongwang.com");
+        this.payTheBillInMiniProgram(paramMap);
 
 //        Map<String, Object> paramMap = Maps.newHashMap();
 //        paramMap.put("uid", "1");
@@ -100,19 +100,19 @@ public class WX_OrderServiceImplTest {
 //        paramMap.put("orderId", "9");
 //        confirmReceiptGoodsOrder(paramMap);
 
-        Map<String, Object> paramMap = Maps.newHashMap();
-        paramMap.put("uid", "1");
-
-        paramMap.put("productId", "1");
-        paramMap.put("productNum", "2");
-        paramMap.put("addressId", "1");
-
-        paramMap.put("useBalanceFlag", "true");
-        paramMap.put("payBalance", "5.00");
-        paramMap.put("useIntegralFlag", "true");
-        paramMap.put("payIntegral", "11.11");
-        paramMap.put("spbillCreateIp", "https://www.91caihongwang.com");
-        this.purchaseProductInMiniProgram(paramMap);
+//        Map<String, Object> paramMap = Maps.newHashMap();
+//        paramMap.put("uid", "1");
+//
+//        paramMap.put("productId", "1");
+//        paramMap.put("productNum", "2");
+//        paramMap.put("addressId", "1");
+//
+//        paramMap.put("useBalanceFlag", "true");
+//        paramMap.put("payBalance", "5.00");
+//        paramMap.put("useIntegralFlag", "true");
+//        paramMap.put("payIntegral", "11.11");
+//        paramMap.put("spbillCreateIp", "https://www.91caihongwang.com");
+//        this.purchaseProductInMiniProgram(paramMap);
     }
 
     /**
@@ -558,6 +558,8 @@ public class WX_OrderServiceImplTest {
         logger.info("【service】买单-payTheBillInMiniProgram,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> resultMap = Maps.newHashMap();
+        resultMap.put("dealFlag", false);       //默认交易状态为失败
+        resultMap.put("isLuckDrawFlag", false); //默认不允许抽奖
         //支付的金额
         String payMoneyStr = paramMap.get("payMoney") != null ? paramMap.get("payMoney").toString() : "0";
         //用于抵扣的积分
@@ -566,6 +568,8 @@ public class WX_OrderServiceImplTest {
         String payBalanceStr = paramMap.get("payBalance") != null ? paramMap.get("payBalance").toString() : "0";
         //付款用户的uid
         String uid = paramMap.get("uid") != null ? paramMap.get("uid").toString() : "";
+        //收钱商家的店铺名称
+        String shopTitle = paramMap.get("shopTitle") != null ? paramMap.get("shopTitle").toString() : "";
         //收钱商家的店铺id
         String shopId = paramMap.get("shopId") != null ? paramMap.get("shopId").toString() : "";
         //是否使用积分抵扣标志
@@ -576,6 +580,9 @@ public class WX_OrderServiceImplTest {
         String nonce_str = WXPayUtil.generateUUID();
         //商品名称
         String body = "向商家付款";
+        if(!"".equals(shopTitle)){
+            body = "向 " + shopTitle + " 商家付款买单";
+        }
         //统一订单编号,即微信订单号
         String out_trade_no = WXPayUtil.generateUUID();
         //发起支付的IP地址
@@ -615,6 +622,27 @@ public class WX_OrderServiceImplTest {
                     if(useIntegralFlag){     //使用积分进行抵扣支付(优先使用积分抵扣)
                         if(userIntegral > 0){//用户的积分大于0，才可以进行抵扣
                             if(userIntegral >= payIntegral){
+                                //判断 准备抵扣的积分是否 超过最高可抵扣的 积分量
+                                Double integralDeductionNum = 0.2;
+                                Map<String, Object> dicParamMap = Maps.newHashMap();
+                                dicParamMap.put("dicType", "deduction");
+                                dicParamMap.put("dicCode", "integralDeduction");
+                                ResultDTO dicResultDTO = wxDicService.getSimpleDicByCondition(dicParamMap);
+                                if(dicResultDTO != null && dicResultDTO.getResultList() != null
+                                        && dicResultDTO.getResultList().size() > 0){
+                                    Map<String, String> dicMap = dicResultDTO.getResultList().get(0);
+                                    String deductionNumStr = dicMap.get("deductionNum");
+                                    integralDeductionNum = Double.parseDouble(deductionNumStr);
+                                    integralDeductionNum = NumberUtil.getPointTowNumber(integralDeductionNum);
+                                } else {
+                                    integralDeductionNum = 0.2;
+                                }
+                                Double integralDeductionMoney = payMoney * integralDeductionNum;
+                                if(payIntegral > integralDeductionMoney){
+                                    logger.warn("可能遭受外部链接攻击，准备抵扣的积分是 " + payIntegral + " 个，但是最高可抵扣的积分是 " + integralDeductionMoney + " 个.");
+                                    logger.warn("已按照最高可抵扣积分进行抵扣，不会被薅羊毛了.");
+                                    payIntegral = integralDeductionMoney;
+                                }
                                 actualPayMoney = payMoney - payIntegral;
                                 newUserIntegral = userIntegral - payIntegral;
                             } else {         //用户积分不够，则不扣积分，全额支付
@@ -629,6 +657,27 @@ public class WX_OrderServiceImplTest {
                     } else if(useBalanceFlag){//使用余额进行抵扣支付
                         if(userBalance > 0){//用户的余额大于0，才可以进行抵扣
                             if(userBalance >= payBalance){
+                                //判断 准备抵扣的积分是否 超过最高可抵扣的 积分量
+                                Double balanceDeductionNum = 0.2;
+                                Map<String, Object> dicParamMap = Maps.newHashMap();
+                                dicParamMap.put("dicType", "deduction");
+                                dicParamMap.put("dicCode", "balanceDeduction");
+                                ResultDTO dicResultDTO = wxDicService.getSimpleDicByCondition(dicParamMap);
+                                if(dicResultDTO != null && dicResultDTO.getResultList() != null
+                                        && dicResultDTO.getResultList().size() > 0){
+                                    Map<String, String> dicMap = dicResultDTO.getResultList().get(0);
+                                    String deductionNumStr = dicMap.get("deductionNum");
+                                    balanceDeductionNum = Double.parseDouble(deductionNumStr);
+                                    balanceDeductionNum = NumberUtil.getPointTowNumber(balanceDeductionNum);
+                                } else {
+                                    balanceDeductionNum = 0.2;
+                                }
+                                Double balanceDeductionMoney = payMoney * balanceDeductionNum;
+                                if(payBalance > balanceDeductionMoney){
+                                    logger.warn("可能遭受外部链接攻击，准备抵扣的余额是 " + payBalance + " 元，但是最高可抵扣的余额是 " + balanceDeductionMoney + " 元.");
+                                    logger.warn("已按照最高可抵扣余额进行抵扣，不会被薅羊毛了.");
+                                    payBalance = balanceDeductionMoney;
+                                }
                                 actualPayMoney = payMoney - payBalance;
                                 newUserBalance = userBalance - payBalance;
                             } else {        //用户余额不够，则不扣余额，全额支付
@@ -645,7 +694,7 @@ public class WX_OrderServiceImplTest {
                         newUserIntegral = userIntegral;
                         newUserBalance = userBalance;
                     }
-                    //用于购买商品更新付款用户的积分和余额,同事将店铺ID传递过去，便于给店铺的商家打钱
+                    //用于购买商品更新付款用户的积分和余额,同时将店铺ID传递过去，便于给店铺的商家打钱
                     Map<String, String> attachMap = Maps.newHashMap();
                     attachMap.put("shopId", shopId);        //用于给店家打钱
                     attachMap.put("balance", NumberUtil.getPointTowNumber(newUserBalance).toString());
@@ -668,17 +717,17 @@ public class WX_OrderServiceImplTest {
                             " , 是否使用余额抵扣 : {}", useBalanceFlag, " , 抵扣余额 : {}", useBalanceFlag?NumberUtil.getPointTowNumber(payBalance):"0.0",
                             " , 是否使用积分抵扣 : {}", useIntegralFlag, " , 抵扣积分 : {}", useIntegralFlag?NumberUtil.getPointTowNumber(payIntegral):"0.0"
                     );
+                    resultMap.put("wxOrderId", out_trade_no);
                     if(isNeedPay){
                         //准备获取支付相关的验签等数据
                         actualPayMoney = NumberUtil.getPointTowNumber(actualPayMoney);
                         String total_fee = ((int) (actualPayMoney * 100)) + "";                           //支付金额，单位：分，这边需要转成字符串类型，否则后面的签名会失败，默认付款1元
                         logger.info("支付费用(转化前) payMoney = {}" + actualPayMoney + ", 支付费用(转化后) total_fee = {}" + total_fee);
-//                        resultMap = WX_PublicNumberUtil.unifiedOrderForMiniProgram(
-//                                nonce_str, body, out_trade_no,
-//                                total_fee, spbillCreateIp, NewMallCode.WX_PAY_NOTIFY_URL_wxPayNotifyForPayTheBillInMiniProgram,
-//                                openId, JSONObject.toJSONString(attachMap)
-//                        );
-                        resultMap.put("code", NewMallCode.SUCCESS.getNo());
+                        resultMap.putAll(WX_PublicNumberUtil.unifiedOrderForMiniProgram(
+                                nonce_str, body, out_trade_no,
+                                total_fee, spbillCreateIp, NewMallCode.WX_PAY_NOTIFY_URL_wxPayNotifyForPayTheBillInMiniProgram,
+                                openId, JSONObject.toJSONString(attachMap)
+                        ));
                         if(resultMap.get("code").toString().equals((NewMallCode.SUCCESS.getNo()+""))){
                             //创建订单，状态设为待支付
                             Map<String, Object> orderMap = Maps.newHashMap();
@@ -694,10 +743,14 @@ public class WX_OrderServiceImplTest {
                             orderMap.put("createTime", TimestampUtil.getTimestamp());
                             orderMap.put("updateTime", TimestampUtil.getTimestamp());
                             BoolDTO addOrderBoolDTO = this.addOrder(orderMap);
-                            resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
+                            //设置返回值
+                            resultMap.put("dealFlag", true);
+                            resultMap.put("isLuckDrawFlag", true); //可以抽奖
                             resultMapDTO.setCode(addOrderBoolDTO.getCode());
                             resultMapDTO.setMessage(addOrderBoolDTO.getMessage());
                         } else {
+                            resultMap.put("dealFlag", false);
+                            resultMap.put("isLuckDrawFlag", false); //不可以抽奖
                             resultMapDTO.setCode(NewMallCode.ORDER_RESPONSE_UNIFIEDORDER_IS_ERROR.getNo());
                             resultMapDTO.setMessage(NewMallCode.ORDER_RESPONSE_UNIFIEDORDER_IS_ERROR.getMessage());
                         }
@@ -723,13 +776,11 @@ public class WX_OrderServiceImplTest {
                         updateMap.put("attach", JSONObject.toJSONString(attachMap));
                         this.wxPayNotifyForPayTheBillInMiniProgram(updateMap);
                         //设置返回值
+                        resultMap.put("dealFlag", true);
+                        resultMap.put("isLuckDrawFlag", true); //可以抽奖
                         resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
                         resultMapDTO.setCode(addOrderBoolDTO.getCode());
                         resultMapDTO.setMessage(addOrderBoolDTO.getMessage());
-                    }
-                    //只要使用余额或者积分进行支付均布允许进行抽奖
-                    if(useBalanceFlag || useIntegralFlag){
-                        resultMap.put("isLuckDrawFlag", false);
                     }
                 } else {
                     resultMapDTO.setCode(NewMallCode.USER_IS_NULL.getNo());
@@ -740,6 +791,14 @@ public class WX_OrderServiceImplTest {
             resultMapDTO.setCode(NewMallCode.ORDER_UID_SHOPID_SPBILLCREATEIP_IS_NOT_NULL.getNo());
             resultMapDTO.setMessage(NewMallCode.ORDER_UID_SHOPID_SPBILLCREATEIP_IS_NOT_NULL.getMessage());
         }
+
+        //只要使用余额或者积分进行支付均布允许进行抽奖
+        if(useBalanceFlag || useIntegralFlag){
+            resultMap.put("isLuckDrawFlag", false);
+        } else {
+            resultMap.put("isLuckDrawFlag", true);
+        }
+        resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
         logger.info("【service】买单-payTheBillInMiniProgram,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
     }
