@@ -287,6 +287,23 @@ public class WX_UserServiceImpl implements WX_UserService {
             } else {
                 resultMap.put("allLeagueTotal", "0");
             }
+            //获取 积分或者余额可抵扣的情况
+            Map<String, Object> dicParamMap = Maps.newHashMap();
+            dicParamMap.put("dicType", "deduction");
+            ResultDTO dicResultDTO = wxDicService.getSimpleDicByCondition(dicParamMap);
+            if(dicResultDTO != null && dicResultDTO.getResultList() != null
+                    && dicResultDTO.getResultList().size() > 0){
+                for(Map<String, String> dicMap : dicResultDTO.getResultList()){
+                    if("integralDeduction".equals(dicMap.get("deductionCode"))){
+                        resultMap.put("integralDeductionNum", dicMap.get("deductionNum"));
+                    } else if("balanceDeduction".equals(dicMap.get("deductionCode"))){
+                        resultMap.put("balanceDeductionNum", dicMap.get("deductionNum"));
+                    }
+                }
+            } else {
+                resultMap.put("integralDeductionNum", "0.2");
+                resultMap.put("balanceDeductionNum", "0.2");
+            }
             resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
             resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
             resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
