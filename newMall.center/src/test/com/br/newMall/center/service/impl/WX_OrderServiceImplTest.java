@@ -72,7 +72,7 @@ public class WX_OrderServiceImplTest {
         paramMap.put("payIntegral", "2");
         paramMap.put("payBalance", "2");
         paramMap.put("useBalanceFlag", "true");
-        paramMap.put("useIntegralFlag", "true");
+        paramMap.put("useIntegralFlag", "false");
         paramMap.put("spbillCreateIp", "https://www.91caihongwang.com");
         this.payTheBillInMiniProgram(paramMap);
 
