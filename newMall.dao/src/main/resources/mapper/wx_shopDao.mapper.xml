@@ -167,7 +167,7 @@
                ns.shop_describe_img_url = #{shopDescribeImgUrl},
             </if>
             <if test="shopMinimum != null and shopMinimum != ''">
-                ns.shop_minimum = #{shopMinimum},
+               ns.shop_minimum = #{shopMinimum},
             </if>
             <if test="shopBusinessHoursStartTime != null and shopBusinessHoursStartTime != ''">
                ns.shop_business_hours_start_time = #{shopBusinessHoursStartTime},
@@ -221,7 +221,7 @@
             ns.shop_lat as "shopLat",
             ns.shop_head_img_url as "shopHeadImgUrl",
             ns.shop_describe_img_url as "shopDescribeImgUrl",
-            ns.shop_minimum as #{shopMinimum},
+            ns.shop_minimum as "shopMinimum",
             date_format(ns.shop_business_hours_start_time, '%H:%i:%s') as "shopBusinessHoursStartTime",
             date_format(ns.shop_business_hours_end_time, '%H:%i:%s') as "shopBusinessHoursEndTime",
             ns.shop_remark as "shopRemark",
