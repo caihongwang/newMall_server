@@ -14,6 +14,7 @@
         shop_lat,
         shop_head_img_url,
         shop_describe_img_url,
+        shop_minimum,
         shop_business_hours_start_time,
         shop_business_hours_end_time,
         shop_remark,
@@ -33,6 +34,7 @@
         ns.shop_lat as "shopLat",
         ns.shop_head_img_url as "shopHeadImgUrl",
         ns.shop_describe_img_url as "shopDescribeImgUrl",
+        ns.shop_minimum as "shopMinimum",
         date_format(ns.shop_business_hours_start_time, '%H:%i:%s') as "shopBusinessHoursStartTime",
         date_format(ns.shop_business_hours_end_time, '%H:%i:%s') as "shopBusinessHoursEndTime",
         ns.shop_remark as "shopRemark",
@@ -76,6 +78,9 @@
             <if test="shopDescribeImgUrl != null and shopDescribeImgUrl != ''">
                 AND ns.shop_describe_img_url = #{shopDescribeImgUrl}
             </if>
+            <if test="shopMinimum != null and shopMinimum != ''">
+                AND ns.shop_minimum = #{shopMinimum}
+            </if>
             <if test="shopBusinessHoursStartTime != null and shopBusinessHoursStartTime != ''">
                 AND ns.shop_business_hours_start_time = #{shopBusinessHoursStartTime}
             </if>
@@ -111,6 +116,7 @@
             #{shopLat},
             #{shopHeadImgUrl},
             #{shopDescribeImgUrl},
+            #{shopMinimum},
             #{shopBusinessHoursStartTime},
             #{shopBusinessHoursEndTime},
             #{shopRemark},
@@ -159,6 +165,9 @@
             </if>
             <if test="shopDescribeImgUrl != null and shopDescribeImgUrl != ''">
                ns.shop_describe_img_url = #{shopDescribeImgUrl},
+            </if>
+            <if test="shopMinimum != null and shopMinimum != ''">
+                ns.shop_minimum = #{shopMinimum},
             </if>
             <if test="shopBusinessHoursStartTime != null and shopBusinessHoursStartTime != ''">
                ns.shop_business_hours_start_time = #{shopBusinessHoursStartTime},
@@ -212,6 +221,7 @@
             ns.shop_lat as "shopLat",
             ns.shop_head_img_url as "shopHeadImgUrl",
             ns.shop_describe_img_url as "shopDescribeImgUrl",
+            ns.shop_minimum as #{shopMinimum},
             date_format(ns.shop_business_hours_start_time, '%H:%i:%s') as "shopBusinessHoursStartTime",
             date_format(ns.shop_business_hours_end_time, '%H:%i:%s') as "shopBusinessHoursEndTime",
             ns.shop_remark as "shopRemark",
