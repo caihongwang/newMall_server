@@ -84,6 +84,8 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         String productId = paramMap.get("productId") != null ? paramMap.get("productId").toString() : "";       //商品ID
         //商品数量
         String productNumStr = paramMap.get("productNum") != null ? paramMap.get("productNum").toString() : "";       //商品数量
+        //商品价格
+        String productPriceStr = paramMap.get("productPrice") != null ? paramMap.get("productPrice").toString() : "";       //商品价格
         //地址ID
         String addressId = paramMap.get("addressId") != null ? paramMap.get("addressId").toString() : "";       //地址ID
         //是否使用余额抵扣标志
@@ -112,9 +114,9 @@ public class WX_OrderServiceImpl implements WX_OrderService {
             //通过productId获取商品信息
             Map<String, Object> productMap = Maps.newHashMap();
             productMap.put("id", productId);
-            List<Map<String, Object>> orderList = wxProductDao.getSimpleProductByCondition(productMap);
+            List<Map<String, Object>> productList = wxProductDao.getSimpleProductByCondition(productMap);
             if(userList != null && userList.size() > 0
-                    && orderList != null && orderList.size() > 0){
+                    && productList != null && productList.size() > 0){
                 //获取用户openId
                 String openId = userList.get(0).get("openId").toString();
                 //获取用户积分
@@ -124,15 +126,17 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                 String userBalanceStr = userList.get(0).get("balance")!=null?userList.get(0).get("balance").toString():"0";
                 Double userBalance = Double.parseDouble(userBalanceStr);
                 //获取商品的现有库存
-                String stockStr = orderList.get(0).get("stock")!=null?orderList.get(0).get("stock").toString():"0";
+                String stockStr = productList.get(0).get("stock")!=null?productList.get(0).get("stock").toString():"0";
                 Double stock = Double.parseDouble(stockStr);
                 //用户即将购买的商品数量
                 Double productNum = Double.parseDouble(productNumStr);
                 //获取商品所需单价积分
-                String productIntegralStr = orderList.get(0).get("integral")!=null?orderList.get(0).get("integral").toString():"0";
+                String productIntegralStr = productList.get(0).get("integral")!=null?productList.get(0).get("integral").toString():"0";
                 Double productIntegral = Double.parseDouble(productIntegralStr);
                 //获取商品所需单价金额
-                String productPriceStr = orderList.get(0).get("price")!=null?orderList.get(0).get("price").toString():"0";
+                if("".equals(productPriceStr)){     //当是在订单列表中进行支付时，productPriceStr存在值.
+                    productPriceStr = productList.get(0).get("price")!=null?productList.get(0).get("price").toString():"0";
+                }
                 Double productPrice = Double.parseDouble(productPriceStr);
                 //用户即将抵扣的余额
                 Double payBalance = Double.parseDouble(payBalanceStr);

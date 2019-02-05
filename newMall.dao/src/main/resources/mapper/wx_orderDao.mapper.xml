@@ -245,6 +245,7 @@
             np.head_img_url as "productHeadImgUrl",
             np.price as "productPrice",
             no.id as "orderId",
+            no.address_id as "addressId",
             no.product_num as "productNum",
             no.transaction_product_detail as "transactionProductDetail",
             no.all_pay_amount as "allPayAmount",
