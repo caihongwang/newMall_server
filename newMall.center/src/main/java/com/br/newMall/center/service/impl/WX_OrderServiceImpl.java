@@ -86,6 +86,8 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         String productNumStr = paramMap.get("productNum") != null ? paramMap.get("productNum").toString() : "";       //商品数量
         //商品价格
         String productPriceStr = paramMap.get("productPrice") != null ? paramMap.get("productPrice").toString() : "";       //商品价格
+        //商品价格
+        String productIntegralStr = paramMap.get("productIntegral") != null ? paramMap.get("productIntegral").toString() : "";       //商品价格
         //地址ID
         String addressId = paramMap.get("addressId") != null ? paramMap.get("addressId").toString() : "";       //地址ID
         //是否使用余额抵扣标志
@@ -131,7 +133,9 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                 //用户即将购买的商品数量
                 Double productNum = Double.parseDouble(productNumStr);
                 //获取商品所需单价积分
-                String productIntegralStr = productList.get(0).get("integral")!=null?productList.get(0).get("integral").toString():"0";
+                if("".equals(productIntegralStr)){     //当是在订单列表中进行支付时，productPriceStr存在值.
+                    productIntegralStr = productList.get(0).get("integral")!=null?productList.get(0).get("integral").toString():"0";
+                }
                 Double productIntegral = Double.parseDouble(productIntegralStr);
                 //获取商品所需单价金额
                 if("".equals(productPriceStr)){     //当是在订单列表中进行支付时，productPriceStr存在值.
