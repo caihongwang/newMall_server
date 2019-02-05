@@ -262,6 +262,8 @@ public class WX_CashLogServiceImpl implements WX_CashLogService {
                                             "元，现用户余额："+newUserBalance+"元.");
                                     cashLogMap.put("status", "1");
                                     wxCashLogDao.addCashLog(cashLogMap);
+
+                                    resultMap.put("userBalance", newUserBalance.toString());
                                 } else {
                                     //将抽奖记录表的状态变更为已发放
                                     Map<String, Object> cashLogMap = Maps.newHashMap();
@@ -274,7 +276,10 @@ public class WX_CashLogServiceImpl implements WX_CashLogService {
                                             "元，原用户余额："+userBalance+"元.详情："+resultMapDTO.getMessage()+".");
                                     cashLogMap.put("status", "0");
                                     wxCashLogDao.addCashLog(cashLogMap);
+
+                                    resultMap.put("userBalance", userBalance.toString());
                                 }
+                                resultMapDTO.setResultMap(resultMap);
                             } else {
                                 resultMapDTO.setCode(NewMallCode.CASHLOG_USERBALANCE_MUST_BE_MORE_CASHTOWXMONEY.getNo());
                                 resultMapDTO.setMessage(NewMallCode.CASHLOG_USERBALANCE_MUST_BE_MORE_CASHTOWXMONEY.getMessage());
