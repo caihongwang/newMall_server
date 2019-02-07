@@ -94,7 +94,6 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
             Map<String, Object> orderMap = Maps.newHashMap();
             orderMap.put("uid", uid);
             orderMap.put("wxOrderId", wxOrderId);
-            orderMap.put("status", "0,1");
             List<Map<String, Object>> orderList = wxOrderDao.getSimpleOrderByCondition(orderMap);
             if(orderList != null && orderList.size() > 0){
                 String orderStatus = orderList.get(0).get("status").toString();
@@ -103,6 +102,7 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                     Map<String, Object> LuckDrawMap = Maps.newHashMap();
                     LuckDrawMap.put("uid", uid);
                     LuckDrawMap.put("wxOrderId", wxOrderId);
+                    LuckDrawMap.put("status", "0,1");
                     List<Map<String, Object>> currentUserLuckDrawList = wxLuckDrawDao.getSimpleLuckDrawByCondition(LuckDrawMap);
                     if(currentUserLuckDrawList == null
                             || currentUserLuckDrawList.size() <= 0){
