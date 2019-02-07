@@ -43,7 +43,7 @@
                 AND nld.remark like concat('%',#{dicRemark},'%')
             </if>
             <if test="status != null and status != ''">
-                AND nld.status = #{status}
+                AND nld.status in (${status})
             </if>
         </where>
         ORDER BY nld.create_time desc
@@ -69,6 +69,9 @@
         update n_luck_draw nld set nld.status=2  WHERE 1=1
         <if test="id != null and id != ''">
             AND nld.id = #{id}
+        </if>
+        <if test="wxOrderId != null and wxOrderId != ''">
+            and nld.wx_order_id = #{wxOrderId}
         </if>
     </delete>
 
@@ -136,7 +139,7 @@
             INNER JOIN n_dic nd on nld.luck_draw_code = dic_code
         where 1=1
             <if test="status != null and status != ''">
-                and nld.status = #{status}
+                and nld.status in (${status})
             </if>
             <if test="uid != null and uid != ''">
                 and nld.uid = #{uid}
@@ -185,7 +188,7 @@
             INNER JOIN n_shop ns ON ns.id=no.shop_id
         where 1=1
             <if test="status != null and status != ''">
-                and nld.status=#{status}
+                and nld.status in (${status})
             </if>
             <if test="shopId != null and shopId != ''">
                 and no.shop_id=#{shopId}
@@ -204,7 +207,7 @@
             INNER JOIN n_shop ns ON ns.id=no.shop_id
         where 1=1
             <if test="status != null and status != ''">
-                and nld.status=#{status}
+                and nld.status in (${status})
             </if>
             <if test="shopId != null and shopId != ''">
                 and ns.id=#{shopId}
@@ -234,7 +237,7 @@
             INNER JOIN n_shop ns ON ns.id=no.shop_id
         where 1=1
             <if test="status != null and status != ''">
-                and nld.status=#{status}
+                and nld.status in (${status})
             </if>
             <if test="uid != null and uid != ''">
                 and nld.uid=#{uid}
@@ -253,7 +256,7 @@
             INNER JOIN n_shop ns ON ns.id=no.shop_id
         where 1=1
             <if test="status != null and status != ''">
-                and nld.status=#{status}
+                and nld.status in (${status})
             </if>
             <if test="uid != null and uid != ''">
                 and nld.uid=#{uid}

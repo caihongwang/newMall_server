@@ -94,6 +94,7 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
             Map<String, Object> orderMap = Maps.newHashMap();
             orderMap.put("uid", uid);
             orderMap.put("wxOrderId", wxOrderId);
+            orderMap.put("status", "0,1");
             List<Map<String, Object>> orderList = wxOrderDao.getSimpleOrderByCondition(orderMap);
             if(orderList != null && orderList.size() > 0){
                 String orderStatus = orderList.get(0).get("status").toString();
@@ -287,7 +288,8 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
         Integer deleteNum = 0;
         BoolDTO boolDTO = new BoolDTO();
         String id = paramMap.get("id") != null ? paramMap.get("id").toString() : "";
-        if (!"".equals(id)) {
+        String wxOrderId = paramMap.get("wxOrderId") != null ? paramMap.get("wxOrderId").toString() : "";
+        if (!"".equals(id) || !"".equals(wxOrderId)) {
             deleteNum = wxLuckDrawDao.deleteLuckDraw(paramMap);
             if (deleteNum != null && deleteNum > 0) {
                 boolDTO.setCode(NewMallCode.SUCCESS.getNo());
@@ -534,6 +536,7 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
         String shopId = paramMap.get("shopId") != null ? paramMap.get("shopId").toString() : "";
         Integer start = paramMap.get("start") != null ? Integer.parseInt(paramMap.get("start").toString()) : 0;
         Integer size = paramMap.get("size") != null ? Integer.parseInt(paramMap.get("size").toString()) : 10;
+        paramMap.put("status", "0,1");        //抽奖状态，0是未发放，1是已发放，2是已删除
         if(!"".equals(shopId) && !"".equals(uid)){
             List<Map<String, Object>> my_allGetLuckDrawRankList = Lists.newArrayList();
             List<Map<String, Object>> all_allGetLuckDrawRankList = wxLuckDrawDao.getLuckDrawRankByCondition(paramMap);
@@ -777,6 +780,7 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
         String uid = paramMap.get("uid") != null ? paramMap.get("uid").toString() : "";
         Integer start = paramMap.get("start") != null ? Integer.parseInt(paramMap.get("start").toString()) : 0;
         Integer size = paramMap.get("size") != null ? Integer.parseInt(paramMap.get("size").toString()) : 10;
+        paramMap.put("status", "0,1");        //抽奖状态，0是未发放，1是已发放，2是已删除
         if(!"".equals(uid)){
             List<Map<String, Object>> all_allGetLuckDrawShopList = wxLuckDrawDao.getLuckDrawShopByCondition(paramMap);
             if(all_allGetLuckDrawShopList != null &&
