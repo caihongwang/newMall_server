@@ -297,8 +297,8 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                 boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
             }
         } else {
-            boolDTO.setCode(NewMallCode.LUCKDRAW_ID_IS_NOT_NULL.getNo());
-            boolDTO.setMessage(NewMallCode.LUCKDRAW_ID_IS_NOT_NULL.getMessage());
+            boolDTO.setCode(NewMallCode.LUCKDRAW_ID_OR_WXORDERID_IS_NOT_NULL.getNo());
+            boolDTO.setMessage(NewMallCode.LUCKDRAW_ID_OR_WXORDERID_IS_NOT_NULL.getMessage());
         }
         logger.info("【service】删除抽奖信息-deleteLuckDraw,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
@@ -315,7 +315,8 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
         Integer updateNum = 0;
         BoolDTO boolDTO = new BoolDTO();
         String id = paramMap.get("id") != null ? paramMap.get("id").toString() : "";
-        if (!"".equals(id)) {
+        String wxOrderId = paramMap.get("wxOrderId") != null ? paramMap.get("wxOrderId").toString() : "";
+        if (!"".equals(id) || !"".equals(wxOrderId)) {
             updateNum = wxLuckDrawDao.updateLuckDraw(paramMap);
             if (updateNum != null && updateNum > 0) {
                 boolDTO.setCode(NewMallCode.SUCCESS.getNo());
@@ -325,8 +326,8 @@ public class WX_LuckDrawServiceImpl implements WX_LuckDrawService {
                 boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
             }
         } else {
-            boolDTO.setCode(NewMallCode.LUCKDRAW_ID_IS_NOT_NULL.getNo());
-            boolDTO.setMessage(NewMallCode.LUCKDRAW_ID_IS_NOT_NULL.getMessage());
+            boolDTO.setCode(NewMallCode.LUCKDRAW_ID_OR_WXORDERID_IS_NOT_NULL.getNo());
+            boolDTO.setMessage(NewMallCode.LUCKDRAW_ID_OR_WXORDERID_IS_NOT_NULL.getMessage());
         }
         logger.info("【service】修改抽奖信息-updateLuckDraw,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
