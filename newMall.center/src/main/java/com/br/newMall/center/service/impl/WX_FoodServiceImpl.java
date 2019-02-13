@@ -193,8 +193,9 @@ public class WX_FoodServiceImpl implements WX_FoodService {
                         if(!resultMap.containsKey(foodTypeTitle)){
                             menuList.add(foodMap);
                         } else {
-                            Map<String, Object> tempMap = resultMap.get(foodTypeTitle) != null ?
-                                    (Map<String, Object>)resultMap.get(foodTypeTitle) : Maps.newHashMap();
+                            String tempMapStr = resultMap.get(foodTypeTitle) != null ?
+                                    resultMap.get(foodTypeTitle).toString() : "";
+                            Map<String, Object> tempMap = JSONObject.parseObject(tempMapStr, Map.class);
                             String menuListStr = tempMap.get("menuList") != null ?
                                     tempMap.get("menuList").toString() : "";
                             menuList = JSONObject.parseObject(menuListStr, List.class);
@@ -205,8 +206,9 @@ public class WX_FoodServiceImpl implements WX_FoodService {
                         tempMap.put("menuList", menuList);
                         resultMap.put(foodTypeTitle, JSONObject.toJSONString(tempMap));
                     } else {
-                        Map<String, Object> tempMap = resultMap.get("其他") != null ?
-                                (Map<String, Object>)resultMap.get("其他") : Maps.newHashMap();
+                        String tempMapStr = resultMap.get("其他") != null ?
+                                resultMap.get("其他").toString() : "";
+                        Map<String, Object> tempMap = JSONObject.parseObject(tempMapStr, Map.class);
                         String menuListStr = tempMap.get("menuList") != null ?
                                 tempMap.get("menuList").toString() : "";
                         menuList = JSONObject.parseObject(menuListStr, List.class);
