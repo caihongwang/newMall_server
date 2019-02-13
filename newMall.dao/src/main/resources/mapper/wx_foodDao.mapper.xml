@@ -8,6 +8,7 @@
         shop_id,
         food_type_title,
         food_title,
+        food_degist,
         food_price,
         food_head_img_url,
         food_describe_img_url,
@@ -23,6 +24,7 @@
         nf.shop_id as "shopId",
         nf.food_type_title as "foodTypeTitle",
         nf.food_title as "foodTitle",
+        nf.food_degist as "foodDegist",
         nf.food_price as "foodPrice",
         nf.food_head_img_url as "foodHeadImgUrl",
         nf.food_describe_img_url as "foodDescribeImgUrl",
@@ -46,6 +48,9 @@
             </if>
             <if test="foodTitle != null and foodTitle != ''">
                 AND nf.food_title like concat('%',#{foodTitle},'%')
+            </if>
+            <if test="foodDegist != null and foodDegist != ''">
+                AND nf.food_degist like concat('%',#{foodDegist},'%')
             </if>
             <if test="foodPrice != null and foodPrice != ''">
                 AND nf.food_price = #{foodPrice}
@@ -75,6 +80,7 @@
         #{shopId},
         #{foodTypeTitle},
         #{foodTitle},
+        #{foodDegist},
         #{foodPrice},
         #{foodHeadImgUrl},
         #{foodDescribeImgUrl},
@@ -107,6 +113,9 @@
             </if>
             <if test="foodTitle != null and foodTitle != ''">
                 nf.food_title = #{foodTitle},
+            </if>
+            <if test="foodDegist != null and foodDegist != ''">
+                nf.food_degist = #{foodDegist},
             </if>
             <if test="foodPrice != null and foodPrice != ''">
                 nf.food_price = #{foodPrice},
