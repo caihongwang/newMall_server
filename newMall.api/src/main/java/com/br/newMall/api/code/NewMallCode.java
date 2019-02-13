@@ -209,7 +209,13 @@ public class NewMallCode {
     public static NewMallCode INTEGRALLOG_UID_IS_NOT_NULL = new NewMallCode(230003, "积分日志的用户UID不能为空");
     public static NewMallCode INTEGRALLOG_UID_OR_CASHTOWXMONEY_IS_NOT_NULL = new NewMallCode(230004, "积分的用户uid或者积分金额不能为空");
 
-
+    //食物
+    public static NewMallCode FOOD_EXIST = new NewMallCode(240001, "字典已经存在，请修改。");
+    public static NewMallCode FOOD_SHOPID_FOODTYPETITLE_FOODTITLE_FOODPRICE_FOODHEADIMGURL_FOODDESCRIBEIMGURL_FOODOPTIONS_IS_NOT_NULL = new NewMallCode(240002, "食物的店铺ID 或者 食物类型名称 或者 食物名称 或者 食物价格 或者 食物简介图 或者 食物详情图 或者 食物选项不能为空");
+    public static NewMallCode FOOD_ID_IS_NOT_NULL = new NewMallCode(240003, "食物的ID不能为空");
+    public static NewMallCode FOOD_ID_OR_SHOPID_IS_NOT_NULL = new NewMallCode(240004, "食物的ID或者店铺ID不能为空");
+    public static NewMallCode FOOD_LIST_IS_NULL = new NewMallCode(0, "当前字典没有数据.");
+    public static NewMallCode FOOD_SHOPID_IS_NOT_NULL = new NewMallCode(240005, "食物的店铺ID不能为空");
 
 
 

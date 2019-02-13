@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.br.newMall.dao.WX_FoodDao">
+
+    <sql id="columnList">    <!-- 字段 -->
+        id,
+        shop_id,
+        food_type_title,
+        food_title,
+        food_price,
+        food_head_img_url,
+        food_describe_img_url,
+        food_options,
+        remark,
+        status,
+        create_time,
+        update_time
+    </sql>
+
+    <sql id="TColumnList">    <!-- 带表别名的字段 -->
+        nf.id as "id",
+        nf.shop_id as "shopId",
+        nf.food_type_title as "foodTypeTitle",
+        nf.food_title as "foodTitle",
+        nf.food_price as "foodPrice",
+        nf.food_head_img_url as "foodHeadImgUrl",
+        nf.food_describe_img_url as "foodDescribeImgUrl",
+        nf.food_options as "foodOptions",
+        nf.remark as "remark",
+        nf.status as "status",
+        date_format(nf.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
+        date_format(nf.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime"
+    </sql>
+
+    <sql id="queryConditions"><!-- 查询条件 -->
+        <where>nf.status='0'
+            <if test="id != null and id != ''">
+                AND nf.id = #{id}
+            </if>
+            <if test="shopId != null and shopId != ''">
+                AND nf.shop_id = #{shopId}
+            </if>
+            <if test="foodTypeTitle != null and foodTypeTitle != ''">
+                AND nf.food_type_title = #{foodTypeTitle}
+            </if>
+            <if test="foodTitle != null and foodTitle != ''">
+                AND nf.food_title like concat('%',#{foodTitle},'%')
+            </if>
+            <if test="foodPrice != null and foodPrice != ''">
+                AND nf.food_price = #{foodPrice}
+            </if>
+            <if test="foodHeadImgUrl != null and foodHeadImgUrl != ''">
+                AND nf.food_head_img_url = #{foodHeadImgUrl}
+            </if>
+            <if test="foodDescribeImgUrl != null and foodDescribeImgUrl != ''">
+                AND nf.food_describe_img_url = #{foodDescribeImgUrl}
+            </if>
+            <if test="foodOptions != null and foodOptions != ''">
+                AND nf.food_options = #{foodOptions}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND nf.remark like concat('%',#{remark},'%')
+            </if>
+        </where>
+        ORDER BY nf.create_time desc
+    </sql>
+
+    <insert id="addFood" parameterType="java.util.Map" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into n_food (
+        <include refid="columnList"/>
+        ) values (
+        #{id},
+        #{shopId},
+        #{foodTypeTitle},
+        #{foodTitle},
+        #{foodPrice},
+        #{foodHeadImgUrl},
+        #{foodDescribeImgUrl},
+        #{foodOptions},
+        #{remark},
+        #{status},
+        #{createTime},
+        #{updateTime}
+        )
+    </insert>
+
+    <delete id="deleteFood">
+        update n_food nf set nf.status=1 WHERE 1=1
+        <if test="id != null and id != ''">
+            AND id = #{id}
+        </if>
+        <if test="shopId != null and shopId != ''">
+            AND shop_id = #{shopId}
+        </if>
+    </delete>
+
+    <update id="updateFood">
+        update n_food nf
+        <set>
+            <if test="shopId != null and shopId != ''">
+                nf.shop_id = #{shopId},
+            </if>
+            <if test="foodTypeTitle != null and foodTypeTitle != ''">
+                nf.food_type_title = #{foodTypeTitle},
+            </if>
+            <if test="foodTitle != null and foodTitle != ''">
+                nf.food_title = #{foodTitle},
+            </if>
+            <if test="foodPrice != null and foodPrice != ''">
+                nf.food_price = #{foodPrice},
+            </if>
+            <if test="foodHeadImgUrl != null and foodHeadImgUrl != ''">
+                nf.food_head_img_url = #{foodHeadImgUrl},
+            </if>
+            <if test="foodDescribeImgUrl != null and foodDescribeImgUrl != ''">
+                nf.food_describe_img_url = #{foodDescribeImgUrl},
+            </if>
+            <if test="foodOptions != null and foodOptions != ''">
+                nf.food_options = #{foodOptions},
+            </if>
+            <if test="remark != null and remark != ''">
+                nf.remark = #{remark},
+            </if>
+            <if test="status != null and status != ''">
+                nf.status = #{status},
+            </if>
+            nf.update_time = CURRENT_TIMESTAMP
+        </set>
+        where 1=1
+        <if test="id != null and id != ''">
+            and nf.id = #{id}
+        </if>
+        <if test="shopId != null and shopId != ''">
+            and nf.shop_id = #{shopId}
+        </if>
+    </update>
+
+    <select id="getSimpleFoodByCondition" resultType="java.util.Map">
+        SELECT
+        <include refid="TColumnList"/>
+        FROM n_food nf
+        <include refid="queryConditions"/>
+    </select>
+
+    <select id="getSimpleFoodTotalByCondition" resultType="java.lang.Integer">
+        SELECT
+        COUNT(*) total
+        from n_food nf
+        <include refid="queryConditions"/>
+    </select>
+
+    <select id="getMenuByCondition" resultType="java.util.Map">
+        SELECT
+            <include refid="TColumnList"/>
+            ,nc.foodNum
+        FROM n_food nf
+            LEFT JOIN (
+                SELECT
+                    nf1.id,
+                    ifnull(sum(JSON_EXTRACT(JSON_EXTRACT(no.foods_num,
+                    CONCAT("$.foodId_is_",
+                    nf1.id)),
+                    "$.foodNum")), 0) AS "foodNum"
+                FROM n_food nf1
+                JOIN n_order no
+                WHERE nf1.shop_id = #{shopId} AND no.foods_num IS NOT NULL
+                GROUP BY nf1.id
+            ) nc ON nf.id = nc.id
+        <include refid="queryConditions"/>
+    </select>
+
+    <select id="getMenuTotalByCondition" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*) total
+        FROM n_food nf
+            LEFT JOIN (
+                SELECT
+                    nf1.id,
+                    ifnull(sum(JSON_EXTRACT(JSON_EXTRACT(no.foods_num,
+                    CONCAT("$.foodId_is_",
+                    nf1.id)),
+                    "$.foodNum")), 0) AS "foodNum"
+                FROM n_food nf1
+                JOIN n_order no
+                WHERE nf1.shop_id = #{shopId} AND no.foods_num IS NOT NULL
+                GROUP BY nf1.id
+            ) nc ON nf.id = nc.id
+        <include refid="queryConditions"/>
+    </select>
+
+</mapper>

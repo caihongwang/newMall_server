@@ -324,4 +324,16 @@ service WX_BalanceLogHandler {
     dto.ResultDTO getSimpleBalanceLogByCondition(1:int tid, 2:map<string, string> paramMap)
 }
 
+service WX_FoodHandler {
 
+    dto.BoolDTO addFood(1:int tid, 2:map<string, string> paramMap),
+
+    dto.BoolDTO deleteFood(1:int tid, 2:map<string, string> paramMap),
+
+    dto.BoolDTO updateFood(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultDTO getSimpleFoodByCondition(1:int tid, 2:map<string, string> paramMap),
+
+    dto.ResultMapDTO getMenuByCondition(1:int tid, 2:map<string, string> paramMap)
+
+}
