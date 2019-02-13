@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -162,6 +163,10 @@ public class WX_FoodController {
                 String value = data.getValue();
                 Map<String, Object> tempMap = Maps.newHashMap();
                 tempMap = JSONObject.parseObject(value, Map.class);
+//                String menuListStr = tempMap.get("menuList") != null ?
+//                        tempMap.get("menuList").toString() : "";
+//                List<Map<String, Object>> menuList = JSONObject.parseObject(menuListStr, List.class);
+//                tempMap.put("menuList", menuList);
                 dataMap.put(key, tempMap);
             }
             resultMap.put("recordsFiltered", resultMapDTO.getResultListTotal());
