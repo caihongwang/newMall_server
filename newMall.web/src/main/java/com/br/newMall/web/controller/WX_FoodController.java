@@ -7,6 +7,7 @@ import com.br.newMall.api.dto.ResultDTO;
 import com.br.newMall.api.dto.ResultMapDTO;
 import com.br.newMall.api.service.WX_FoodHandler;
 import com.br.newMall.web.utils.HttpUtil;
+import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -154,8 +155,17 @@ public class WX_FoodController {
         logger.info("【controller】获取菜单食物列表-getMenuByCondition,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         try {
             ResultMapDTO resultMapDTO = wxFoodHandler.getMenuByCondition(0, paramMap);
+            Map<String, Object> dataMap = Maps.newHashMap();
+            Map<String, String> resultStrMap = resultMapDTO.getResultMap();
+            for (Map.Entry<String, String> data : resultStrMap.entrySet()) {
+                String key = data.getKey();
+                String value = data.getValue();
+                Map<String, Object> tempMap = Maps.newHashMap();
+                tempMap = JSONObject.parseObject(value, Map.class);
+                dataMap.put(key, tempMap);
+            }
             resultMap.put("recordsFiltered", resultMapDTO.getResultListTotal());
-            resultMap.put("data", resultMapDTO.getResultMap());
+            resultMap.put("data", dataMap);
             resultMap.put("code", resultMapDTO.getCode());
             resultMap.put("message", resultMapDTO.getMessage());
         } catch (Exception e) {

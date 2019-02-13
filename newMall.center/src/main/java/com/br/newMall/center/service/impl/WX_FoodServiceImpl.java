@@ -186,25 +186,34 @@ public class WX_FoodServiceImpl implements WX_FoodService {
             List<Map<String, Object>> foodList = wxFoodDao.getMenuByCondition(paramMap);
             if (foodList != null && foodList.size() > 0) {
                 for (Map<String, Object> foodMap : foodList) {
-                    List<Map<String, Object>> foodTypeTitleList = Lists.newArrayList();
-                    foodTypeTitleList.clear();
+                    List<Map<String, Object>> menuList = Lists.newArrayList();
+                    menuList.clear();
                     String foodTypeTitle = foodMap.get("foodTypeTitle")!=null?foodMap.get("foodTypeTitle").toString():"";
                     if(!"".equals(foodTypeTitle)){
                         if(!resultMap.containsKey(foodTypeTitle)){
-                            foodTypeTitleList.add(foodMap);
+                            menuList.add(foodMap);
                         } else {
-                            String foodTypeTitleListStr = resultMap.get(foodTypeTitle) != null ?
-                                    resultMap.get(foodTypeTitle).toString() : "";
-                            foodTypeTitleList = JSONObject.parseObject(foodTypeTitleListStr, List.class);
-                            foodTypeTitleList.add(foodMap);
+                            Map<String, String> tempMap = resultMap.get(foodTypeTitle) != null ?
+                                    (Map<String, String>)resultMap.get(foodTypeTitle) : Maps.newHashMap();
+                            String menuListStr = tempMap.get("menuList") != null ?
+                                    tempMap.get("menuList").toString() : "";
+                            menuList = JSONObject.parseObject(menuListStr, List.class);
+                            menuList.add(foodMap);
                         }
-                        resultMap.put(foodTypeTitle, JSONObject.toJSONString(foodTypeTitleList));
+                        Map<String, String> tempMap = Maps.newHashMap();
+                        tempMap.put("foodTypeTitle", foodTypeTitle);
+                        tempMap.put("menuList", JSONObject.toJSONString(menuList));
+                        resultMap.put(foodTypeTitle, tempMap);
                     } else {
-                        String foodTypeTitleListStr = resultMap.get("其他") != null ?
-                                resultMap.get("其他").toString() : "";
-                        foodTypeTitleList = JSONObject.parseObject(foodTypeTitleListStr, List.class);
-                        foodTypeTitleList.add(foodMap);
-                        resultMap.put(foodTypeTitle, JSONObject.toJSONString(foodTypeTitleList));
+                        Map<String, String> tempMap = resultMap.get("其他") != null ?
+                                (Map<String, String>)resultMap.get("其他") : Maps.newHashMap();
+                        String menuListStr = tempMap.get("menuList") != null ?
+                                tempMap.get("menuList").toString() : "";
+                        menuList = JSONObject.parseObject(menuListStr, List.class);
+                        menuList.add(foodMap);
+                        tempMap.put("foodTypeTitle", "其他");
+                        tempMap.put("menuList", JSONObject.toJSONString(menuList));
+                        resultMap.put("其他", tempMap);
                     }
                 }
                 Integer total = wxFoodDao.getMenuTotalByCondition(paramMap);
