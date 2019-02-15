@@ -212,6 +212,7 @@
             nu.open_id as "shopOpenId",
             nu.shop_id as "shopId",
             ifnull(non.shopOrderAmount, 0) as "shopOrderAmount",
+            ifnull(nmf.shopMenuTotal, 0) as "shopMenuTotal",
             ns.shop_discount_id as "shopDiscountId",
             ns.shop_title as "shopTitle",
             ns.shop_degist as "shopDegist",
@@ -236,6 +237,12 @@
                     where no.status=1 and no.order_type="payTheBill"
                     and no.shop_id IS NOT NULL and no.shop_id != ""
                     GROUP BY no.shop_id) non ON non.shop_id=ns.id
+        LEFT JOIN (SELECT
+                        shop_id as "shopId",
+                        sum(shop_id) as "shopMenuTotal"
+                    from n_food nf
+                    where shop_id=#{shopId}
+                ) nmf ON nmf.shopId=ns.id
             <include refid="queryConditions"/>
         <if test="start != null and size != null">
             LIMIT ${start},${size}
@@ -253,6 +260,12 @@
                     where no.status=1 and no.order_type="payTheBill"
                     and no.shop_id IS NOT NULL and no.shop_id != ""
                     GROUP BY no.shop_id) non ON non.shop_id=ns.id
+        LEFT JOIN (SELECT
+                        shop_id as "shopId",
+                        sum(shop_id) as "shopMenuTotal"
+                    from n_food nf
+                    where shop_id=#{shopId}
+                    ) nmf ON nmf.shopId=ns.id
             <include refid="queryConditions"/>
     </select>
 
