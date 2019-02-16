@@ -1196,4 +1196,143 @@ public class WX_OrderServiceImpl implements WX_OrderService {
     }
 
 
+    /**
+     * 获取所有的点餐订单
+     * @param paramMap
+     * @return
+     */
+    @Override
+    public ResultDTO getAllFoodsOrder(Map<String, Object> paramMap) {
+        logger.info("【service】获取所有的点餐订单-getAllFoodsOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultDTO resultDTO = new ResultDTO();
+        List<Map<String, String>> orderStrList = Lists.newArrayList();
+        String uid = paramMap.get("uid")!=null?paramMap.get("uid").toString():"";
+        if(!"".equals(uid)){
+            List<Map<String, Object>> foodsOrderList = wxOrderDao.getFoodsOrderByCondition(paramMap);
+            if (foodsOrderList != null && foodsOrderList.size() > 0) {
+                orderStrList = MapUtil.getStringMapList(foodsOrderList);
+                Integer total = wxOrderDao.getFoodsOrderTotalByCondition(paramMap);
+                resultDTO.setResultListTotal(total);
+                resultDTO.setResultList(orderStrList);
+                resultDTO.setCode(NewMallCode.SUCCESS.getNo());
+                resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+            } else {
+                List<Map<String, String>> resultList = Lists.newArrayList();
+                resultDTO.setResultListTotal(0);
+                resultDTO.setResultList(resultList);
+                resultDTO.setCode(NewMallCode.ORDER_LIST_IS_NULL.getNo());
+                resultDTO.setMessage(NewMallCode.ORDER_LIST_IS_NULL.getMessage());
+            }
+        } else {
+            resultDTO.setCode(NewMallCode.ORDER_UID_IS_NOT_NULL.getNo());
+            resultDTO.setMessage(NewMallCode.ORDER_UID_IS_NOT_NULL.getMessage());
+        }
+        logger.info("【service】获取所有的点餐订单-getAllFoodsOrder,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        return resultDTO;
+    }
+
+    /**
+     * 获取待支付的点餐订单
+     * @param paramMap
+     * @return
+     */
+    @Override
+    public ResultDTO getWaitPayFoodsOrder(Map<String, Object> paramMap) {
+        logger.info("【service】获取待支付的点餐订单-getWaitPayFoodsOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultDTO resultDTO = new ResultDTO();
+        List<Map<String, String>> orderStrList = Lists.newArrayList();
+        String uid = paramMap.get("uid")!=null?paramMap.get("uid").toString():"";
+        if(!"".equals(uid)){
+            paramMap.put("status", "0");        //待支付
+            List<Map<String, Object>> foodsOrderList = wxOrderDao.getFoodsOrderByCondition(paramMap);
+            if (foodsOrderList != null && foodsOrderList.size() > 0) {
+                orderStrList = MapUtil.getStringMapList(foodsOrderList);
+                Integer total = wxOrderDao.getFoodsOrderTotalByCondition(paramMap);
+                resultDTO.setResultListTotal(total);
+                resultDTO.setResultList(orderStrList);
+                resultDTO.setCode(NewMallCode.SUCCESS.getNo());
+                resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+            } else {
+                List<Map<String, String>> resultList = Lists.newArrayList();
+                resultDTO.setResultListTotal(0);
+                resultDTO.setResultList(resultList);
+                resultDTO.setCode(NewMallCode.ORDER_LIST_IS_NULL.getNo());
+                resultDTO.setMessage(NewMallCode.ORDER_LIST_IS_NULL.getMessage());
+            }
+        } else {
+            resultDTO.setCode(NewMallCode.ORDER_UID_IS_NOT_NULL.getNo());
+            resultDTO.setMessage(NewMallCode.ORDER_UID_IS_NOT_NULL.getMessage());
+        }
+        logger.info("【service】获取待支付的点餐订单-getWaitPayFoodsOrder,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        return resultDTO;
+    }
+
+    /**
+     * 获取已支付的点餐订单
+     * @param paramMap
+     * @return
+     */
+    @Override
+    public ResultDTO getAlreadyPayFoodsOrder(Map<String, Object> paramMap) {
+        logger.info("【service】获取已支付的点餐订单-getAlreadyPayFoodsOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultDTO resultDTO = new ResultDTO();
+        List<Map<String, String>> orderStrList = Lists.newArrayList();
+        String uid = paramMap.get("uid")!=null?paramMap.get("uid").toString():"";
+        if(!"".equals(uid)){
+            paramMap.put("status", "1");        //已支付
+            List<Map<String, Object>> foodsOrderList = wxOrderDao.getFoodsOrderByCondition(paramMap);
+            if (foodsOrderList != null && foodsOrderList.size() > 0) {
+                orderStrList = MapUtil.getStringMapList(foodsOrderList);
+                Integer total = wxOrderDao.getFoodsOrderTotalByCondition(paramMap);
+                resultDTO.setResultListTotal(total);
+                resultDTO.setResultList(orderStrList);
+                resultDTO.setCode(NewMallCode.SUCCESS.getNo());
+                resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+            } else {
+                List<Map<String, String>> resultList = Lists.newArrayList();
+                resultDTO.setResultListTotal(0);
+                resultDTO.setResultList(resultList);
+                resultDTO.setCode(NewMallCode.ORDER_LIST_IS_NULL.getNo());
+                resultDTO.setMessage(NewMallCode.ORDER_LIST_IS_NULL.getMessage());
+            }
+        } else {
+            resultDTO.setCode(NewMallCode.ORDER_UID_IS_NOT_NULL.getNo());
+            resultDTO.setMessage(NewMallCode.ORDER_UID_IS_NOT_NULL.getMessage());
+        }
+        logger.info("【service】获取已支付的点餐订单-getAlreadyPayFoodsOrder,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        return resultDTO;
+    }
+
+    /**
+     * 获取点餐订单详情
+     * @param paramMap
+     * @return
+     */
+    @Override
+    public ResultMapDTO getFoodsOrderDetailById(Map<String, Object> paramMap) {
+        logger.info("【service】获取点餐订单详情-getFoodsOrderDetailById,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        Map<String, Object> resultMap = Maps.newHashMap();
+        String orderId = paramMap.get("orderId")!=null?paramMap.get("orderId").toString():"";
+        if(!"".equals(orderId)){
+            Map<String, Object> orderMap = Maps.newHashMap();
+            orderMap.put("id", orderId);        //订单ID
+            List<Map<String, Object>> orderList = wxOrderDao.getFoodsOrderByCondition(orderMap);
+            if(orderList != null && orderList.size() > 0){
+                resultMap.putAll(orderList.get(0));
+                resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
+                resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+            } else {
+                resultMapDTO.setCode(NewMallCode.ORDER_ID_IS_NOT_EXIST.getNo());
+                resultMapDTO.setMessage(NewMallCode.ORDER_ID_IS_NOT_EXIST.getMessage());
+            }
+        } else {
+            resultMapDTO.setCode(NewMallCode.ORDER_ID_IS_NOT_NULL.getNo());
+            resultMapDTO.setMessage(NewMallCode.ORDER_ID_IS_NOT_NULL.getMessage());
+        }
+        resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
+        logger.info("【service】获取点餐订单详情-getGoodsOrderDetailById,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        return resultMapDTO;
+    }
+
 }

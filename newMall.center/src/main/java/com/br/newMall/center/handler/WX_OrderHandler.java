@@ -497,4 +497,128 @@ public class WX_OrderHandler implements com.br.newMall.api.service.WX_OrderHandl
         logger.info("【hanlder】获取商品订单详情-getGoodsOrderDetailById,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
         return resultMapDTO;
     }
+
+    /**
+     * 获取所有的点餐订单
+     * @param tid
+     * @param paramMap
+     * @return
+     * @throws TException
+     */
+    @Override
+    public ResultDTO getAllFoodsOrder(int tid, Map<String, String> paramMap) throws TException {
+        logger.info("【hanlder】获取所有的点餐订单-getAllPayFoodsOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultDTO resultDTO = new ResultDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        if (paramMap.size() > 0) {
+            try {
+                resultDTO = wxOrderService.getAllFoodsOrder(objectParamMap);
+            } catch (Exception e) {
+                logger.error("【hanlder】获取所有的点餐订单-getAllPayFoodsOrder is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                List<Map<String, String>> resultList = Lists.newArrayList();
+                resultDTO.setResultListTotal(0);
+                resultDTO.setResultList(resultList);
+                resultDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                resultDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
+            }
+        } else {
+            resultDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
+            resultDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
+        }
+        logger.info("【hanlder】获取所有的点餐订单-getAllPayFoodsOrder,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        return resultDTO;
+    }
+
+    /**
+     * 获取待支付的点餐订单
+     * @param tid
+     * @param paramMap
+     * @return
+     * @throws TException
+     */
+    @Override
+    public ResultDTO getWaitPayFoodsOrder(int tid, Map<String, String> paramMap) throws TException {
+        logger.info("【hanlder】获取待支付的点餐订单-getWaitPayFoodsOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultDTO resultDTO = new ResultDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        if (paramMap.size() > 0) {
+            try {
+                resultDTO = wxOrderService.getWaitPayFoodsOrder(objectParamMap);
+            } catch (Exception e) {
+                logger.error("【hanlder】获取待支付的点餐订单-getWaitPayFoodsOrder is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                List<Map<String, String>> resultList = Lists.newArrayList();
+                resultDTO.setResultListTotal(0);
+                resultDTO.setResultList(resultList);
+                resultDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                resultDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
+            }
+        } else {
+            resultDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
+            resultDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
+        }
+        logger.info("【hanlder】获取待支付的点餐订单-getWaitPayFoodsOrder,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        return resultDTO;
+    }
+
+    /**
+     * 获取已支付的点餐订单
+     * @param tid
+     * @param paramMap
+     * @return
+     * @throws TException
+     */
+    @Override
+    public ResultDTO getAlreadyPayFoodsOrder(int tid, Map<String, String> paramMap) throws TException {
+        logger.info("【hanlder】获取已支付的点餐订单-getAlreadyPayFoodsOrder,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultDTO resultDTO = new ResultDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        if (paramMap.size() > 0) {
+            try {
+                resultDTO = wxOrderService.getAlreadyPayFoodsOrder(objectParamMap);
+            } catch (Exception e) {
+                logger.error("【hanlder】获取已支付的点餐订单-getAlreadyPayFoodsOrder is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                List<Map<String, String>> resultList = Lists.newArrayList();
+                resultDTO.setResultListTotal(0);
+                resultDTO.setResultList(resultList);
+                resultDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                resultDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
+            }
+        } else {
+            resultDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
+            resultDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
+        }
+        logger.info("【hanlder】获取已支付的点餐订单-getAlreadyPayFoodsOrder,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        return resultDTO;
+    }
+
+    /**
+     * 获取点餐订单详情
+     * @param tid
+     * @param paramMap
+     * @return
+     * @throws TException
+     */
+    @Override
+    public ResultMapDTO getFoodsOrderDetailById(int tid, Map<String, String> paramMap) throws TException {
+        logger.info("【hanlder】获取点餐订单详情-getFoodsOrderDetailById,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        if (paramMap.size() > 0) {
+            try {
+                resultMapDTO = wxOrderService.getFoodsOrderDetailById(objectParamMap);
+            } catch (Exception e) {
+                logger.error("【hanlder】获取点餐订单详情-getFoodsOrderDetailById is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                Map<String, String> resultMap = Maps.newHashMap();
+                resultMapDTO.setResultListTotal(0);
+                resultMapDTO.setResultMap(resultMap);
+                resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
+            }
+        } else {
+            resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
+            resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
+        }
+        logger.info("【hanlder】获取点餐订单详情-getFoodsOrderDetailById,响应-resultMapDTO = {}", JSONObject.toJSONString(resultMapDTO));
+        return resultMapDTO;
+    }
 }

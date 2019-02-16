@@ -10,6 +10,16 @@ import java.util.Map;
 public interface WX_OrderDao {
 
     /**
+     * 获取当前用户的点餐订单信息
+     */
+    List<Map<String, Object>> getFoodsOrderByCondition(Map<String, Object> paramMap);
+
+    /**
+     * 获取当前用户的点餐订单信息总数
+     */
+    Integer getFoodsOrderTotalByCondition(Map<String, Object> paramMap);
+
+    /**
      * 获取当前用户的商品订单信息
      */
     List<Map<String, Object>> getGoodsOrderByCondition(Map<String, Object> paramMap);

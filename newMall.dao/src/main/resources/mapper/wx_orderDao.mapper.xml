@@ -322,6 +322,76 @@
             <if test="status != null and status != ''">
                 and no.status = #{status}
             </if>
+            <if test="expressNumber == 'MUST_HAVE_EXPRESSNUMBER'">
+                and express_number != "" and express_number IS NOT NULL
+            </if>
+    </select>
+
+    <select id="getFoodsOrderByCondition" resultType="java.util.Map">
+        select
+            nf.id as "foodId",
+            nf.food_title as "foodTitle",
+            nf.food_head_img_url as "foodHeadImgUrl",
+            nf.food_price as "foodPrice",
+            no.id as "orderId",
+            no.foods_id as "foodsId",
+            no.foods_num as "foodsNum",
+            no.transaction_foods_detail as "transactionFoodsDetail",
+            no.all_pay_amount as "allPayAmount",
+            no.pay_money as "payMoney",
+            no.use_balance_monney as "useBalanceMonney",
+            no.use_integral_num as "useIntegralNum",
+            no.wx_order_id as "wxOrderId",
+            date_format(no.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
+            date_format(no.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime",
+            no.remark as "remark",
+            ptb.dic_code as "orderTypeCode",
+            ptb.dic_name as "orderTypeName",
+            os.dic_code as "orderStatusCode",
+            os.dic_name as "orderStatusName"
+        from n_order no
+            INNER JOIN n_dic os on no.status=os.dic_code and os.dic_type="orderStatus"
+            INNER JOIN n_dic ptb on no.order_type=ptb.dic_code and ptb.dic_type="orderType"
+            INNER JOIN n_food nf on nf.id in (no.foods_id)
+        where no.order_type in ('payTheBill', 'payTheBillForMenu')
+            <if test="id != null and id != ''">
+                and no.id = #{id}
+            </if>
+            <if test="uid != null and uid != ''">
+                and no.uid = #{uid}
+            </if>
+            <if test="status != null and status != ''">
+                and no.status = #{status}
+            </if>
+            <if test="expressNumber == 'MUST_HAVE_EXPRESSNUMBER'">
+                and express_number != "" and express_number IS NOT NULL
+            </if>
+            ORDER by no.create_time desc
+        <if test="start != null and size != null">
+            LIMIT ${start},${size}
+        </if>
+    </select>
+
+    <select id="getFoodsOrderTotalByCondition" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*) total
+        from n_order no
+            INNER JOIN n_dic os on no.status=os.dic_code and os.dic_type="orderStatus"
+            INNER JOIN n_dic ptb on no.order_type=ptb.dic_code and ptb.dic_type="orderType"
+            INNER JOIN n_food nf on nf.id in (no.foods_id)
+        where no.order_type in ('payTheBill', 'payTheBillForMenu')
+            <if test="id != null and id != ''">
+                and no.id = #{id}
+            </if>
+            <if test="uid != null and uid != ''">
+                and no.uid = #{uid}
+            </if>
+            <if test="status != null and status != ''">
+                and no.status = #{status}
+            </if>
+            <if test="expressNumber == 'MUST_HAVE_EXPRESSNUMBER'">
+                and express_number != "" and express_number IS NOT NULL
+            </if>
     </select>
 
 </mapper>
