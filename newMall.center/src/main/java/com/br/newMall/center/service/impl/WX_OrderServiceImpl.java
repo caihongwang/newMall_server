@@ -415,7 +415,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
             body = "向 " + shopTitle + " 商家付款买单";
         }
         //支付的金额
-        String foodsId = paramMap.get("foodsId") != null ? paramMap.get("foodsId").toString() : "0";
+        String foodsId = paramMap.get("foodsId") != null ? paramMap.get("foodsId").toString() : "";
         //订单类型
         String orderType = "payTheBill";
         if(!"".equals(foodsId)){
@@ -571,7 +571,14 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                             Map<String, Object> orderMap = Maps.newHashMap();
                             orderMap.put("uid", uid);
                             orderMap.put("wxOrderId", out_trade_no);
-                            orderMap.put("orderType", "payTheBill");   //订单类型：买单，payTheBill；购买商品：purchaseProduct
+                            orderMap.put("orderType", orderType);   //订单类型：买单，payTheBill；购买商品：purchaseProduct
+
+                            //点餐信息
+                            orderMap.put("foodsId", paramMap.get("foodsId"));
+                            orderMap.put("foodsNum", paramMap.get("foodsNum"));
+                            orderMap.put("transactionFoodsDetail", paramMap.get("transactionFoodsDetail"));
+                            orderMap.put("remark", paramMap.get("remark"));
+
                             orderMap.put("shopId", shopId);
                             orderMap.put("allPayAmount", allPayAmount);
                             orderMap.put("payMoney", actualPayMoney);
@@ -597,8 +604,15 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                         Map<String, Object> orderMap = Maps.newHashMap();
                         orderMap.put("uid", uid);
                         orderMap.put("wxOrderId", out_trade_no);
-                        orderMap.put("order_type", "payTheBill");   //订单类型：买单，payTheBill；购买商品：purchaseProduct
+                        orderMap.put("orderType", orderType);   //订单类型：买单，payTheBill；购买商品：purchaseProduct
                         orderMap.put("shopId", shopId);
+
+                        //点餐信息
+                        orderMap.put("foodsId", paramMap.get("foodsId"));
+                        orderMap.put("foodsNum", paramMap.get("foodsNum"));
+                        orderMap.put("transactionFoodsDetail", paramMap.get("transactionFoodsDetail"));
+                        orderMap.put("remark", paramMap.get("remark"));
+
                         orderMap.put("allPayAmount", allPayAmount);
                         orderMap.put("payMoney", actualPayMoney);
                         orderMap.put("useBalanceMonney", useBalanceFlag?NumberUtil.getPointTowNumber(payBalance):"0.0");
