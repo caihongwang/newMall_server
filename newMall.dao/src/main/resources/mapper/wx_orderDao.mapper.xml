@@ -8,6 +8,9 @@
         uid,
         wx_order_id,
         order_type,
+        foods_id,
+        foods_num,
+        transaction_foods_detail,
         product_id,
         product_num,
         transaction_product_detail,
@@ -29,6 +32,9 @@
         no.uid as "uid",
         no.wx_order_id as "wxOrderId",
         no.order_type as "orderType",
+        no.foods_id as "foodsId",
+        no.foods_num as "foodsNum",
+        no.transaction_foods_detail as "transactionFoodsDetail",
         no.product_id as "productId",
         no.product_num as "productNum",
         no.transaction_product_detail as "transactionProductDetail",
@@ -58,6 +64,15 @@
             </if>
             <if test="orderType != null and orderType != ''">
                 AND no.order_type = #{orderType}
+            </if>
+            <if test="foodsId != null and foodsId != ''">
+                AND no.foods_id = #{foodsId}
+            </if>
+            <if test="foodsNum != null and foodsNum != ''">
+                AND no.foods_num = #{foodsNum}
+            </if>
+            <if test="transactionFoodsDetail != null and transactionFoodsDetail != ''">
+                AND no.transaction_foods_detail = #{transactionFoodsDetail}
             </if>
             <if test="productId != null and productId != ''">
                 AND no.product_id = #{productId}
@@ -108,6 +123,9 @@
             #{uid},
             #{wxOrderId},
             #{orderType},
+            #{foodsId},
+            #{foodsNum},
+            #{transactionFoodsDetail},
             #{productId},
             #{productNum},
             #{transactionProductDetail},
@@ -137,6 +155,15 @@
         <set>
             <if test="orderType != null and orderType != ''">
                 no.order_type = #{orderType},
+            </if>
+            <if test="foodsId != null and foodsId != ''">
+                no.foods_id = #{foodsId},
+            </if>
+            <if test="foodsNum != null and foodsNum != ''">
+                no.foods_num = #{foodsNum},
+            </if>
+            <if test="transactionFoodsDetail != null and transactionFoodsDetail != ''">
+                no.transaction_foods_detail = #{transactionFoodsDetail},
             </if>
             <if test="productId != null and productId != ''">
                no.product_id = #{productId},
