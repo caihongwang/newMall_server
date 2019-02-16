@@ -329,6 +329,9 @@
 
     <select id="getFoodsOrderByCondition" resultType="java.util.Map">
         select
+            ns.id as "shopId",
+            ns.shop_title as "shopTitle",
+            ns.shop_head_img_url as "shopHeadImgUrl",
             nf.id as "foodId",
             nf.food_title as "foodTitle",
             nf.food_head_img_url as "foodHeadImgUrl",
