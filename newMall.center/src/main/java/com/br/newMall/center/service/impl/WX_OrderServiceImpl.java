@@ -379,7 +379,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
     }
 
     /**
-     * 买单
+     * 直接买单或者点餐付款
      * @param paramMap
      * @return
      * @throws Exception
@@ -391,7 +391,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         Map<String, Object> resultMap = Maps.newHashMap();
         resultMap.put("dealFlag", false);       //默认交易状态为失败
         resultMap.put("isLuckDrawFlag", false); //默认不允许抽奖
-        //支付的金额
+        //点餐的食物ID
         String payMoneyStr = paramMap.get("payMoney") != null ? paramMap.get("payMoney").toString() : "0";
         //用于抵扣的积分
         String payIntegralStr = paramMap.get("payIntegral") != null ? paramMap.get("payIntegral").toString() : "0";
@@ -413,6 +413,13 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         String body = "向商家付款";
         if(!"".equals(shopTitle)){
             body = "向 " + shopTitle + " 商家付款买单";
+        }
+        //支付的金额
+        String foodsId = paramMap.get("foodsId") != null ? paramMap.get("foodsId").toString() : "0";
+        //订单类型
+        String orderType = "payTheBill";
+        if(!"".equals(foodsId)){
+            orderType = "payTheBillForMenu";
         }
         //统一订单编号,即微信订单号
         String out_trade_no = WXPayUtil.generateUUID();
@@ -635,7 +642,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
     }
 
     /**
-     * 买单成功后的回调通知
+     * 直接买单或者点餐付款成功后的回调通知
      * @param paramMap
      * @return
      */
