@@ -356,7 +356,7 @@
             INNER JOIN n_shop ns on ns.id=no.shop_id
             INNER JOIN n_dic os on no.status=os.dic_code and os.dic_type="orderStatus"
             INNER JOIN n_dic ptb on no.order_type=ptb.dic_code and ptb.dic_type="orderType"
-            INNER JOIN n_food nf on nf.id in (no.foods_id)
+            LEFT JOIN n_food nf on nf.id in (no.foods_id)
         where no.order_type in ('payTheBill', 'payTheBillForMenu')
             <if test="id != null and id != ''">
                 and no.id = #{id}
@@ -383,7 +383,7 @@
             INNER JOIN n_shop ns on ns.id=no.shop_id
             INNER JOIN n_dic os on no.status=os.dic_code and os.dic_type="orderStatus"
             INNER JOIN n_dic ptb on no.order_type=ptb.dic_code and ptb.dic_type="orderType"
-            INNER JOIN n_food nf on nf.id in (no.foods_id)
+            LEFT JOIN n_food nf on nf.id in (no.foods_id)
         where no.order_type in ('payTheBill', 'payTheBillForMenu')
             <if test="id != null and id != ''">
                 and no.id = #{id}
