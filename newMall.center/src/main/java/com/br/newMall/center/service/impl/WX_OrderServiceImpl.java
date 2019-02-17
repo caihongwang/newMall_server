@@ -540,7 +540,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                     attachMap.put("balance", NumberUtil.getPointTowNumber(newUserBalance).toString());
                     attachMap.put("integral", NumberUtil.getPointTowNumber(newUserIntegral).toString());
                     attachMap.put("payMoney", NumberUtil.getPointTowNumber(payMoney).toString());
-                    //判断是否需要付钱
+                    attachMap.put("wxOrderId", wxOrderId);//判断是否需要付钱
                     boolean isNeedPay = true;
                     if(actualPayMoney > 0){     //还需要付钱
                         isNeedPay = true;
@@ -557,10 +557,11 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                             " , 是否使用余额抵扣 : {}", useBalanceFlag, " , 抵扣余额 : {}", useBalanceFlag?NumberUtil.getPointTowNumber(payBalance):"0.0",
                             " , 是否使用积分抵扣 : {}", useIntegralFlag, " , 抵扣积分 : {}", useIntegralFlag?NumberUtil.getPointTowNumber(payIntegral):"0.0"
                     );
+                    //用于支付成功后的抽奖，抽奖是依托于订单号
                     if(!"".equals(wxOrderId)){
-                        resultMap.put("out_trade_no", wxOrderId);
+                        resultMap.put("wxOrderId", wxOrderId);
                     } else {
-                        resultMap.put("out_trade_no", out_trade_no);
+                        resultMap.put("wxOrderId", out_trade_no);
                     }
                     if(isNeedPay){
                         //准备获取支付相关的验签等数据
@@ -691,9 +692,10 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         logger.info("【service】买单成功后的回调通知-wxPayNotifyForPayTheBillInMiniProgram,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Integer updateNum = 0;
         ResultMapDTO resultMapDTO = new ResultMapDTO();
-        String wxOrderId = paramMap.get("out_trade_no") != null ? paramMap.get("out_trade_no").toString() : "";
         String attach = paramMap.get("attach") != null ? paramMap.get("attach").toString() : "";
         String openId = paramMap.get("openid") != null ? paramMap.get("openid").toString() : "";
+        Map<String, String> attachMap = JSONObject.parseObject(attach, Map.class);
+        String wxOrderId = attachMap.get("wxOrderId");
         if (!"".equals(wxOrderId) && !"".equals(attach)
                 && !"".equals(openId)) {
             //修改订单状态为已付款
@@ -709,7 +711,6 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                     orderMap.put("status", "1");            //订单状态: 0是待支付，1是已支付
                     updateNum = wxOrderDao.updateOrder(orderMap);
                     if (updateNum != null && updateNum > 0) {
-                        Map<String, String> attachMap = JSONObject.parseObject(attach, Map.class);
                         String balance = attachMap.get("balance");
                         String integral = attachMap.get("integral");
                         String shopId = attachMap.get("shopId");
