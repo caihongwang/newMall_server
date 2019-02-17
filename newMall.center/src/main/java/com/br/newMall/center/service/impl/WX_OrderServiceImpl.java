@@ -234,12 +234,12 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                                 orderMap.put("createTime", TimestampUtil.getTimestamp());
                                 orderMap.put("updateTime", TimestampUtil.getTimestamp());
                                 if(!"".equals(wxOrderId)){
-                                    resultMap.put("wxOrderId", wxOrderId);
+                                    orderMap.put("wxOrderId", wxOrderId);
                                     BoolDTO updateOrderBoolDTO = this.updateOrder(orderMap);
                                     resultMapDTO.setCode(updateOrderBoolDTO.getCode());
                                     resultMapDTO.setMessage(updateOrderBoolDTO.getMessage());
                                 } else {
-                                    resultMap.put("wxOrderId", out_trade_no);
+                                    orderMap.put("wxOrderId", out_trade_no);
                                     BoolDTO addOrderBoolDTO = this.addOrder(orderMap);
                                     resultMapDTO.setCode(addOrderBoolDTO.getCode());
                                     resultMapDTO.setMessage(addOrderBoolDTO.getMessage());
@@ -267,12 +267,12 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                             orderMap.put("createTime", TimestampUtil.getTimestamp());
                             orderMap.put("updateTime", TimestampUtil.getTimestamp());
                             if(!"".equals(wxOrderId)){
-                                resultMap.put("wxOrderId", wxOrderId);
+                                orderMap.put("wxOrderId", wxOrderId);
                                 BoolDTO updateOrderBoolDTO = this.updateOrder(orderMap);
                                 resultMapDTO.setCode(updateOrderBoolDTO.getCode());
                                 resultMapDTO.setMessage(updateOrderBoolDTO.getMessage());
                             } else {
-                                resultMap.put("wxOrderId", out_trade_no);
+                                orderMap.put("wxOrderId", out_trade_no);
                                 BoolDTO addOrderBoolDTO = this.addOrder(orderMap);
                                 resultMapDTO.setCode(addOrderBoolDTO.getCode());
                                 resultMapDTO.setMessage(addOrderBoolDTO.getMessage());
