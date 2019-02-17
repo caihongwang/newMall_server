@@ -58,6 +58,9 @@ public class WX_UserServiceImpl implements WX_UserService {
     private WX_DicService wxDicService;
 
     @Autowired
+    private WX_AddressDao wxAddressDao;
+
+    @Autowired
     private HttpsUtil httpsUtil;
 
     /**
@@ -303,6 +306,34 @@ public class WX_UserServiceImpl implements WX_UserService {
             } else {
                 resultMap.put("integralDeductionNum", "0.2");
                 resultMap.put("balanceDeductionNum", "0.2");
+            }
+            //获取用户在商家的交易订单数量
+            Integer foodsOrderTotal = wxOrderDao.getFoodsOrderTotalByCondition(paramMap);
+            if(foodsOrderTotal != null){
+                resultMap.put("foodsOrderTotal", foodsOrderTotal.toString());
+            } else {
+                resultMap.put("foodsOrderTotal", "0");
+            }
+            //获取用户在积分商城的交易订单数量
+            Integer goodsOrderTotal = wxOrderDao.getGoodsOrderTotalByCondition(paramMap);
+            if(foodsOrderTotal != null){
+                resultMap.put("goodsOrderTotal", goodsOrderTotal.toString());
+            } else {
+                resultMap.put("goodsOrderTotal", "0");
+            }
+            //获取用的收货地址的数量
+            Integer addressTotal = wxAddressDao.getSimpleAddressTotalByCondition(paramMap);
+            if(addressTotal != null){
+                resultMap.put("addressTotal", addressTotal.toString());
+            } else {
+                resultMap.put("addressTotal", "0");
+            }
+            //获取用的收货地址的数量
+            Integer cashLogTotal = wxCashLogDao.getSimpleCashLogTotalByCondition(paramMap);
+            if(addressTotal != null){
+                resultMap.put("cashLogTotal", cashLogTotal.toString());
+            } else {
+                resultMap.put("cashLogTotal", "0");
             }
             resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
             resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
