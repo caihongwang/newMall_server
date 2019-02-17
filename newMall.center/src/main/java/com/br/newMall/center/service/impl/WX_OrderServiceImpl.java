@@ -187,6 +187,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                         attachMap.put("balance", NumberUtil.getPointTowNumber(newUserBalance).toString());
                         attachMap.put("stock", NumberUtil.getPointTowNumber(newStock).toString());
                         attachMap.put("productId", productId);
+                        attachMap.put("wxOrderId", wxOrderId);
 
                         //判断是否需要付钱
                         boolean isNeedPay = true;
