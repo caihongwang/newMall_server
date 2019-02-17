@@ -391,7 +391,9 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         Map<String, Object> resultMap = Maps.newHashMap();
         resultMap.put("dealFlag", false);       //默认交易状态为失败
         resultMap.put("isLuckDrawFlag", false); //默认不允许抽奖
-        //点餐的食物ID
+        //在点餐历史列表中重新支付
+        String wxOrderId = paramMap.get("wxOrderId") != null ? paramMap.get("wxOrderId").toString() : "";
+        //支付的金额
         String payMoneyStr = paramMap.get("payMoney") != null ? paramMap.get("payMoney").toString() : "0";
         //用于抵扣的积分
         String payIntegralStr = paramMap.get("payIntegral") != null ? paramMap.get("payIntegral").toString() : "0";
@@ -414,7 +416,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         if(!"".equals(shopTitle)){
             body = "向 " + shopTitle + " 商家付款买单";
         }
-        //支付的金额
+        //点餐的食物IDs
         String foodsId = paramMap.get("foodsId") != null ? paramMap.get("foodsId").toString() : "";
         //订单类型
         String orderType = "payTheBill";
@@ -555,7 +557,11 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                             " , 是否使用余额抵扣 : {}", useBalanceFlag, " , 抵扣余额 : {}", useBalanceFlag?NumberUtil.getPointTowNumber(payBalance):"0.0",
                             " , 是否使用积分抵扣 : {}", useIntegralFlag, " , 抵扣积分 : {}", useIntegralFlag?NumberUtil.getPointTowNumber(payIntegral):"0.0"
                     );
-                    resultMap.put("wxOrderId", out_trade_no);
+                    if(!"".equals(wxOrderId)){
+                        resultMap.put("out_trade_no", wxOrderId);
+                    } else {
+                        resultMap.put("out_trade_no", out_trade_no);
+                    }
                     if(isNeedPay){
                         //准备获取支付相关的验签等数据
                         actualPayMoney = NumberUtil.getPointTowNumber(actualPayMoney);
@@ -570,15 +576,12 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                             //创建订单，状态设为待支付
                             Map<String, Object> orderMap = Maps.newHashMap();
                             orderMap.put("uid", uid);
-                            orderMap.put("wxOrderId", out_trade_no);
                             orderMap.put("orderType", orderType);   //订单类型：买单，payTheBill；购买商品：purchaseProduct
-
                             //点餐信息
                             orderMap.put("foodsId", paramMap.get("foodsId"));
                             orderMap.put("foodsNum", paramMap.get("foodsNum"));
                             orderMap.put("transactionFoodsDetail", paramMap.get("transactionFoodsDetail"));
                             orderMap.put("remark", paramMap.get("remark"));
-
                             orderMap.put("shopId", shopId);
                             orderMap.put("allPayAmount", allPayAmount);
                             orderMap.put("payMoney", actualPayMoney);
@@ -587,12 +590,23 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                             orderMap.put("status", orderStatus);                //订单状态: 0是待支付，1是已支付
                             orderMap.put("createTime", TimestampUtil.getTimestamp());
                             orderMap.put("updateTime", TimestampUtil.getTimestamp());
-                            BoolDTO addOrderBoolDTO = this.addOrder(orderMap);
-                            //设置返回值
-                            resultMap.put("dealFlag", true);
-                            resultMap.put("isLuckDrawFlag", true); //可以抽奖
-                            resultMapDTO.setCode(addOrderBoolDTO.getCode());
-                            resultMapDTO.setMessage(addOrderBoolDTO.getMessage());
+                            if(!"".equals(wxOrderId)){
+                                orderMap.put("wxOrderId", wxOrderId);
+                                BoolDTO updateOrderBoolDTO = this.updateOrder(orderMap);
+                                //设置返回值
+                                resultMap.put("dealFlag", true);
+                                resultMap.put("isLuckDrawFlag", true); //可以抽奖
+                                resultMapDTO.setCode(updateOrderBoolDTO.getCode());
+                                resultMapDTO.setMessage(updateOrderBoolDTO.getMessage());
+                            } else {
+                                orderMap.put("wxOrderId", out_trade_no);
+                                BoolDTO addOrderBoolDTO = this.addOrder(orderMap);
+                                //设置返回值
+                                resultMap.put("dealFlag", true);
+                                resultMap.put("isLuckDrawFlag", true); //可以抽奖
+                                resultMapDTO.setCode(addOrderBoolDTO.getCode());
+                                resultMapDTO.setMessage(addOrderBoolDTO.getMessage());
+                            }
                         } else {
                             resultMap.put("dealFlag", false);
                             resultMap.put("isLuckDrawFlag", false); //不可以抽奖
@@ -620,10 +634,24 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                         orderMap.put("status", orderStatus);                //订单状态: 0是待支付，1是已支付
                         orderMap.put("createTime", TimestampUtil.getTimestamp());
                         orderMap.put("updateTime", TimestampUtil.getTimestamp());
-                        BoolDTO addOrderBoolDTO = this.addOrder(orderMap);
+                        if(!"".equals(wxOrderId)){
+                            orderMap.put("wxOrderId", wxOrderId);
+                            BoolDTO updateOrderBoolDTO = this.updateOrder(orderMap);
+                            resultMapDTO.setCode(updateOrderBoolDTO.getCode());
+                            resultMapDTO.setMessage(updateOrderBoolDTO.getMessage());
+                        } else {
+                            orderMap.put("wxOrderId", out_trade_no);
+                            BoolDTO addOrderBoolDTO = this.addOrder(orderMap);
+                            resultMapDTO.setCode(addOrderBoolDTO.getCode());
+                            resultMapDTO.setMessage(addOrderBoolDTO.getMessage());
+                        }
                         //更新用户积分和余额信息
                         Map<String, Object> updateMap = Maps.newHashMap();
-                        updateMap.put("out_trade_no", out_trade_no);
+                        if(!"".equals(wxOrderId)){
+                            orderMap.put("out_trade_no", wxOrderId);
+                        } else {
+                            orderMap.put("out_trade_no", out_trade_no);
+                        }
                         updateMap.put("openId", openId);
                         updateMap.put("attach", JSONObject.toJSONString(attachMap));
                         this.wxPayNotifyForPayTheBillInMiniProgram(updateMap);
@@ -631,8 +659,6 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                         resultMap.put("dealFlag", true);
                         resultMap.put("isLuckDrawFlag", true); //可以抽奖
                         resultMapDTO.setResultMap(MapUtil.getStringMap(resultMap));
-                        resultMapDTO.setCode(addOrderBoolDTO.getCode());
-                        resultMapDTO.setMessage(addOrderBoolDTO.getMessage());
                     }
                 } else {
                     resultMapDTO.setCode(NewMallCode.USER_IS_NULL.getNo());
@@ -854,7 +880,8 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         Integer updateNum = 0;
         BoolDTO boolDTO = new BoolDTO();
         String id = paramMap.get("id") != null ? paramMap.get("id").toString() : "";
-        if (!"".equals(id)) {
+        String wxOrderId = paramMap.get("wxOrderId") != null ? paramMap.get("wxOrderId").toString() : "";
+        if (!"".equals(id) || !"".equals(wxOrderId)) {
             updateNum = wxOrderDao.updateOrder(paramMap);
             if (updateNum != null && updateNum > 0) {
                 boolDTO.setCode(NewMallCode.SUCCESS.getNo());
@@ -864,8 +891,8 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                 boolDTO.setMessage(NewMallCode.NO_DATA_CHANGE.getMessage());
             }
         } else {
-            boolDTO.setCode(NewMallCode.ORDER_ID_IS_NOT_NULL.getNo());
-            boolDTO.setMessage(NewMallCode.ORDER_ID_IS_NOT_NULL.getMessage());
+            boolDTO.setCode(NewMallCode.ORDER_ID_OR_WXORDERID_IS_NOT_NULL.getNo());
+            boolDTO.setMessage(NewMallCode.ORDER_ID_OR_WXORDERID_IS_NOT_NULL.getMessage());
         }
         logger.info("【service】修改订单-updateOrder,响应-boolDTO = {}", JSONObject.toJSONString(boolDTO));
         return boolDTO;
