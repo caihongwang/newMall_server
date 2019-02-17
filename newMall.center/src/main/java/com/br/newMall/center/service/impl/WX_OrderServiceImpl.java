@@ -183,11 +183,15 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                         }
                         //用于购买商品更新用户的积分和余额
                         Map<String, String> attachMap = Maps.newHashMap();
+                        attachMap.put("productId", productId);
                         attachMap.put("integral", NumberUtil.getPointTowNumber(newUserIntegral).toString());
                         attachMap.put("balance", NumberUtil.getPointTowNumber(newUserBalance).toString());
                         attachMap.put("stock", NumberUtil.getPointTowNumber(newStock).toString());
-                        attachMap.put("productId", productId);
-                        attachMap.put("wxOrderId", wxOrderId);
+                        if(!"".equals(wxOrderId)){
+                            attachMap.put("wxOrderId", wxOrderId);
+                        } else {
+                            attachMap.put("wxOrderId", out_trade_no);
+                        }
 
                         //判断是否需要付钱
                         boolean isNeedPay = true;
@@ -562,7 +566,12 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                     attachMap.put("balance", NumberUtil.getPointTowNumber(newUserBalance).toString());
                     attachMap.put("integral", NumberUtil.getPointTowNumber(newUserIntegral).toString());
                     attachMap.put("payMoney", NumberUtil.getPointTowNumber(payMoney).toString());
-                    attachMap.put("wxOrderId", wxOrderId);//判断是否需要付钱
+                    if(!"".equals(wxOrderId)){
+                        attachMap.put("wxOrderId", wxOrderId);
+                    } else {
+                        attachMap.put("wxOrderId", out_trade_no);
+                    }
+                    //判断是否需要付钱
                     boolean isNeedPay = true;
                     if(actualPayMoney > 0){     //还需要付钱
                         isNeedPay = true;
