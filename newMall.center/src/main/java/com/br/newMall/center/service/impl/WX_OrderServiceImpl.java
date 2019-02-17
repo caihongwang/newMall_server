@@ -76,6 +76,8 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         resultMap.put("isLuckDrawFlag", false); //默认不允许抽奖
         //用户uid
         String uid = paramMap.get("uid") != null ? paramMap.get("uid").toString() : "";       //商品ID
+        //微信订单ID
+        String wxOrderId = paramMap.get("wxOrderId") != null ? paramMap.get("wxOrderId").toString() : "";
         //用于抵扣的积分
         String payIntegralStr = paramMap.get("payIntegral") != null ? paramMap.get("payIntegral").toString() : "0";
         //用于抵扣的余额
@@ -99,7 +101,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         //生成的随机字符串,微信用于校验
         String nonce_str = WXPayUtil.generateUUID();
         //商品名称
-        String body = "向平台购买商品";
+        String body = "在平台的积分商城购买商品";
         //统一订单编号,即微信订单号
         String out_trade_no = WXPayUtil.generateUUID();
         //发起支付的IP地址
@@ -127,6 +129,8 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                 //获取用户余额
                 String userBalanceStr = userList.get(0).get("balance")!=null?userList.get(0).get("balance").toString():"0";
                 Double userBalance = Double.parseDouble(userBalanceStr);
+                //商品名称
+                body = body + "【" + productList.get(0).get("title") + "】";
                 //获取商品的现有库存
                 String stockStr = productList.get(0).get("stock")!=null?productList.get(0).get("stock").toString():"0";
                 Double stock = Double.parseDouble(stockStr);
@@ -217,7 +221,6 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                                 //创建订单，状态设为待支付
                                 Map<String, Object> orderMap = Maps.newHashMap();
                                 orderMap.put("uid", uid);
-                                orderMap.put("wxOrderId", out_trade_no);
                                 orderMap.put("orderType", "purchaseProduct");   //订单类型：买单，payTheBill；购买商品：purchaseProduct
                                 orderMap.put("productId", productId);
                                 orderMap.put("productNum", productNumStr);
@@ -230,11 +233,19 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                                 orderMap.put("status", orderStatus);                //订单状态: 0是待支付，1是已支付
                                 orderMap.put("createTime", TimestampUtil.getTimestamp());
                                 orderMap.put("updateTime", TimestampUtil.getTimestamp());
-                                BoolDTO addOrderBoolDTO = this.addOrder(orderMap);
+                                if(!"".equals(wxOrderId)){
+                                    resultMap.put("wxOrderId", wxOrderId);
+                                    BoolDTO updateOrderBoolDTO = this.updateOrder(orderMap);
+                                    resultMapDTO.setCode(updateOrderBoolDTO.getCode());
+                                    resultMapDTO.setMessage(updateOrderBoolDTO.getMessage());
+                                } else {
+                                    resultMap.put("wxOrderId", out_trade_no);
+                                    BoolDTO addOrderBoolDTO = this.addOrder(orderMap);
+                                    resultMapDTO.setCode(addOrderBoolDTO.getCode());
+                                    resultMapDTO.setMessage(addOrderBoolDTO.getMessage());
+                                }
                                 //设置返回值
                                 resultMap.put("dealFlag", true);
-                                resultMapDTO.setCode(addOrderBoolDTO.getCode());
-                                resultMapDTO.setMessage(addOrderBoolDTO.getMessage());
                             } else {
                                 resultMapDTO.setCode(NewMallCode.ORDER_RESPONSE_UNIFIEDORDER_IS_ERROR.getNo());
                                 resultMapDTO.setMessage(NewMallCode.ORDER_RESPONSE_UNIFIEDORDER_IS_ERROR.getMessage());
@@ -243,7 +254,6 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                             //创建订单，状态设为待支付
                             Map<String, Object> orderMap = Maps.newHashMap();
                             orderMap.put("uid", uid);
-                            orderMap.put("wxOrderId", out_trade_no);
                             orderMap.put("orderType", "purchaseProduct");   //订单类型：买单，payTheBill；购买商品：purchaseProduct
                             orderMap.put("productId", productId);
                             orderMap.put("productNum", productNumStr);
@@ -256,17 +266,29 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                             orderMap.put("status", orderStatus);                //订单状态: 0是待支付，1是已支付
                             orderMap.put("createTime", TimestampUtil.getTimestamp());
                             orderMap.put("updateTime", TimestampUtil.getTimestamp());
-                            BoolDTO addOrderBoolDTO = this.addOrder(orderMap);
+                            if(!"".equals(wxOrderId)){
+                                resultMap.put("wxOrderId", wxOrderId);
+                                BoolDTO updateOrderBoolDTO = this.updateOrder(orderMap);
+                                resultMapDTO.setCode(updateOrderBoolDTO.getCode());
+                                resultMapDTO.setMessage(updateOrderBoolDTO.getMessage());
+                            } else {
+                                resultMap.put("wxOrderId", out_trade_no);
+                                BoolDTO addOrderBoolDTO = this.addOrder(orderMap);
+                                resultMapDTO.setCode(addOrderBoolDTO.getCode());
+                                resultMapDTO.setMessage(addOrderBoolDTO.getMessage());
+                            }
+                            //设置返回值
+                            resultMap.put("dealFlag", true);
                             //更新用户积分和余额信息
                             Map<String, Object> updateMap = Maps.newHashMap();
-                            updateMap.put("out_trade_no", out_trade_no);
+                            if(!"".equals(wxOrderId)){
+                                updateMap.put("wxOrderId", wxOrderId);
+                            } else {
+                                updateMap.put("wxOrderId", out_trade_no);
+                            }
                             updateMap.put("openId", openId);
                             updateMap.put("attach", JSONObject.toJSONString(attachMap));
                             this.wxPayNotifyForPurchaseProductInMiniProgram(updateMap);
-                            //设置返回值
-                            resultMap.put("dealFlag", true);
-                            resultMapDTO.setCode(addOrderBoolDTO.getCode());
-                            resultMapDTO.setMessage(addOrderBoolDTO.getMessage());
                         }
                     } else {
                         resultMapDTO.setCode(NewMallCode.ORDER_USER_INTEGRAL_IS_NOT_ENOUGH.getNo());
@@ -301,9 +323,10 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         logger.info("【service】购买商品成功后的回调通知-wxPayNotifyForPurchaseProductInMiniProgram,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
         Integer updateNum = 0;
         ResultMapDTO resultMapDTO = new ResultMapDTO();
-        String wxOrderId = paramMap.get("out_trade_no") != null ? paramMap.get("out_trade_no").toString() : "";
         String attach = paramMap.get("attach") != null ? paramMap.get("attach").toString() : "";
         String openId = paramMap.get("openid") != null ? paramMap.get("openid").toString() : "";
+        Map<String, String> attachMap = JSONObject.parseObject(attach, Map.class);
+        String wxOrderId = attachMap.get("wxOrderId");
         if (!"".equals(wxOrderId) && !"".equals(attach)
                 && !"".equals(openId)) {
             //修改订单状态为已付款
@@ -320,7 +343,6 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                     orderMap.put("status", "1");            //订单状态: 0是待支付，1是已支付
                     updateNum = wxOrderDao.updateOrder(orderMap);
                     if (updateNum != null && updateNum > 0) {
-                        Map<String, String> attachMap = JSONObject.parseObject(attach, Map.class);
                         String integral = attachMap.get("integral");
                         String balance = attachMap.get("balance");
                         String stock = attachMap.get("stock");
@@ -649,9 +671,9 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                         //更新用户积分和余额信息
                         Map<String, Object> updateMap = Maps.newHashMap();
                         if(!"".equals(wxOrderId)){
-                            orderMap.put("out_trade_no", wxOrderId);
+                            updateMap.put("wxOrderId", wxOrderId);
                         } else {
-                            orderMap.put("out_trade_no", out_trade_no);
+                            updateMap.put("wxOrderId", out_trade_no);
                         }
                         updateMap.put("openId", openId);
                         updateMap.put("attach", JSONObject.toJSONString(attachMap));
