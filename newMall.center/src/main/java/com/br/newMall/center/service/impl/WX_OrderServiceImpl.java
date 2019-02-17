@@ -331,7 +331,6 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         if (!"".equals(wxOrderId) && !"".equals(attach)
                 && !"".equals(openId)) {
             //修改订单状态为已付款
-            //修改订单状态为已付款
             Map<String, Object> orderMap = Maps.newHashMap();
             orderMap.put("wxOrderId", wxOrderId);
             //获取订单信息
