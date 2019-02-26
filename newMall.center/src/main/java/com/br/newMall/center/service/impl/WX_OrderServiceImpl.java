@@ -556,8 +556,6 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                     }
                     //用于购买商品更新付款用户的积分和余额,同时将店铺ID传递过去，便于给店铺的商家打钱
                     Map<String, String> attachMap = Maps.newHashMap();
-                    attachMap.put("formId",
-                            paramMap.get("formId")!=null?paramMap.get("formId").toString():"");        //用于给用户和店家发阿松小程序模板消息
                     attachMap.put("shopId", shopId);        //用于给店家打钱
                     attachMap.put("balance", NumberUtil.getPointTowNumber(newUserBalance).toString());
                     attachMap.put("integral", NumberUtil.getPointTowNumber(newUserIntegral).toString());
@@ -610,6 +608,9 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                             orderMap.put("foodsNum", paramMap.get("foodsNum"));
                             orderMap.put("transactionFoodsDetail", paramMap.get("transactionFoodsDetail"));
                             orderMap.put("remark", paramMap.get("remark"));
+
+                            orderMap.put("formId", paramMap.get("formId"));
+
                             orderMap.put("shopId", shopId);
                             orderMap.put("allPayAmount", allPayAmount);
                             orderMap.put("payMoney", actualPayMoney);
@@ -654,6 +655,8 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                         orderMap.put("foodsNum", paramMap.get("foodsNum"));
                         orderMap.put("transactionFoodsDetail", paramMap.get("transactionFoodsDetail"));
                         orderMap.put("remark", paramMap.get("remark"));
+
+                        orderMap.put("formId", paramMap.get("formId"));
 
                         orderMap.put("allPayAmount", allPayAmount);
                         orderMap.put("payMoney", actualPayMoney);
@@ -723,7 +726,6 @@ public class WX_OrderServiceImpl implements WX_OrderService {
         String openId = paramMap.get("openid") != null ? paramMap.get("openid").toString() : "";
         Map<String, String> attachMap = JSONObject.parseObject(attach, Map.class);
         String wxOrderId = attachMap.get("wxOrderId");
-        String formId = attachMap.get("formId");
         if (!"".equals(wxOrderId) && !"".equals(attach)
                 && !"".equals(openId)) {
             //修改订单状态为已付款
@@ -734,6 +736,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
             if(orderList != null && orderList.size() > 0){
                 Map<String, Object> theOrderMap = orderList.get(0);
                 String status = theOrderMap.get("status").toString();
+                String formId = theOrderMap.get("formId").toString();//用于给用户和店家发阿松小程序模板消息
                 if("0".equals(status)){     //只对待支付的订单在付款成功后变更为已支付
                     orderMap.clear();
                     orderMap.put("wxOrderId", wxOrderId);

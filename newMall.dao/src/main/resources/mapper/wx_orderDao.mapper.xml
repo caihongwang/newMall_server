@@ -21,6 +21,7 @@
         pay_money,
         use_balance_monney,
         use_integral_num,
+        form_id,
         remark,
         status,
         create_time,
@@ -45,6 +46,7 @@
         no.pay_money as "payMoney",
         no.use_balance_monney as "useBalanceMonney",
         no.use_integral_num as "useIntegralNum",
+        no.form_id as "formId",
         no.remark as "remark",
         no.status as "status",
         date_format(no.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
@@ -104,6 +106,9 @@
             <if test="useIntegralNum != null and useIntegralNum != ''">
                 AND no.use_integral_num = #{useIntegralNum}
             </if>
+            <if test="formId != null and formId != ''">
+                AND no.form_id = #{formId}
+            </if>
             <if test="remark != null and remark != ''">
                 AND no.remark = #{remark}
             </if>
@@ -136,6 +141,7 @@
             #{payMoney},
             #{useBalanceMonney},
             #{useIntegralNum},
+            #{formId},
             #{remark},
             #{status},
             #{createTime},
@@ -198,6 +204,9 @@
             <if test="remark != null and remark != ''">
                no.remark = #{remark},
             </if>
+            <if test="formId != null and formId != ''">
+               no.form_id = #{formId},
+            </if>
             <if test="status != null and status != ''">
                no.status = #{status},
             </if>
@@ -240,6 +249,7 @@
             no.pay_money as "payMoney",
             no.express_number as "expressNumber",
             os.dic_name as "orderStatus",
+            no.form_id as "formId",
             no.remark as "remark"
         from n_order no
             INNER JOIN n_dic os on no.status=os.dic_code and os.dic_type="orderStatus"
@@ -284,6 +294,7 @@
             no.wx_order_id as "wxOrderId",
             date_format(no.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
             date_format(no.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime",
+            no.form_id as "formId",
             no.remark as "remark",
             os.dic_code as "orderStatusCode",
             os.dic_name as "orderStatusName"
@@ -347,6 +358,7 @@
             no.wx_order_id as "wxOrderId",
             date_format(no.create_time, '%Y-%c-%d %H:%i:%s') as "createTime",
             date_format(no.update_time, '%Y-%c-%d %H:%i:%s') as "updateTime",
+            no.form_id as "formId",
             no.remark as "remark",
             ptb.dic_code as "orderTypeCode",
             ptb.dic_name as "orderTypeName",
