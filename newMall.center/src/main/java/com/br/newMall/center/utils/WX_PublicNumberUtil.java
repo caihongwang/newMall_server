@@ -15,6 +15,8 @@ import com.google.common.collect.Maps;
 import org.apache.commons.io.Charsets;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.util.EntityUtils;
+import org.apache.thrift.TException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -82,6 +84,69 @@ public class WX_PublicNumberUtil {
     //图文，文本的消息发送
     private static String messageSend_uri = "https://api.weixin.qq.com/cgi-bin/message/mass/send?access_token=";
 
+    /**
+     * 发送小程序名片的模板消息
+     *
+     * @param paramMap
+     * @return
+     * @throws TException
+     */
+    public static ResultMapDTO sendTemplateMessageForMiniProgram(Map<String, Object> paramMap) {
+        ResultMapDTO resultMapDTO = new ResultMapDTO();
+        String data = paramMap.get("data") != null ? paramMap.get("data").toString() : "";
+        String form_id = paramMap.get("form_id") != null ? paramMap.get("form_id").toString() : "";
+        String template_id = paramMap.get("template_id") != null ? paramMap.get("template_id").toString() : "";
+        String page = paramMap.get("page") != null ? paramMap.get("page").toString() : "pages/shareOpen/index";
+        String openId = paramMap.get("openId") != null ? paramMap.get("openId").toString() : "";
+        if (!"".equals(data) && !"".equals(form_id)
+                && !"".equals(template_id) && !"".equals(page)) {
+            try {
+                Map<String, Object> resultMap = getAccessToken(NewMallCode.WX_MINI_PROGRAM_APPID, NewMallCode.WX_MINI_PROGRAM_SECRET);
+                if (resultMap.get("access_token") != null
+                        && !"".equals(resultMap.get("access_token").toString())) {
+                    String accessToken = resultMap.get("access_token").toString();
+                    paramMap.put("touser", openId);
+                    //准备发送模板消息
+                    Map<String, String> headers = Maps.newHashMap();
+                    //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
+                    String method = "POST";
+                    //根据API的要求，定义相对应的Content-Type
+                    headers.put("Content-Type", "application/json; charset=UTF-8");
+                    Map<String, String> querys = Maps.newHashMap();
+                    data = data.replace("\\", "");
+                    JSONObject dataJSONObject = JSONObject.parseObject(data);
+                    JSONObject paramJSONObject = new JSONObject();
+                    for (String key : paramMap.keySet()) {
+                        paramJSONObject.put(key, paramMap.get(key));
+                    }
+                    paramJSONObject.put("data", dataJSONObject);
+                    String bodys = paramJSONObject.toJSONString();
+                    String host = "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=" + accessToken;
+                    HttpResponse response = ALiYunHttpUtils.doPost(host, "", method, headers, querys, bodys);
+                    HttpEntity entity = response.getEntity();
+                    String res = EntityUtils.toString(entity, "utf-8");
+                    logger.info("向微信服务器发送请求获取，获取响应的is {}", res);
+                    Map<String, String> resultDataMap = JSONObject.parseObject(res, Map.class);
+                    resultMapDTO.setResultMap(resultDataMap);
+                    resultMapDTO.setCode(NewMallCode.SUCCESS.getNo());
+                    resultMapDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+                } else {
+                    resultMapDTO.setCode(NewMallCode.WX_SERVER_INNER_ERROR_FOR_ACCESS_TOKEN.getNo());
+                    resultMapDTO.setMessage(NewMallCode.WX_SERVER_INNER_ERROR_FOR_ACCESS_TOKEN.getMessage());
+                }
+            } catch (Exception e) {
+                resultMapDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                resultMapDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
+                logger.error("在service中发送小程序名片的模板消息-sendTemplateMessageForMiniProgram is error, paramMap : " + paramMap + ", e : " + e);
+            }
+        } else {
+            resultMapDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
+            resultMapDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
+        }
+
+        logger.info("在service中发送小程序名片的模板消息-sendTemplateMessageForMiniProgram,响应-response:" + resultMapDTO);
+        return resultMapDTO;
+    }
 
     /**
      * 统一下单【小程序内】
