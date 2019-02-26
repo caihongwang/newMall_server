@@ -610,7 +610,9 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                             orderMap.put("remark", paramMap.get("remark"));
 
                             orderMap.put("formId", paramMap.get("formId"));
-                            orderMap.put("formId", resultMap.get("package"));
+                            String prepayId = resultMap.get("package").toString();
+                            String[] prepayIdArr = prepayId.split("=");
+                            orderMap.put("formId", prepayIdArr[1]);
 
                             orderMap.put("shopId", shopId);
                             orderMap.put("allPayAmount", allPayAmount);
@@ -658,7 +660,9 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                         orderMap.put("remark", paramMap.get("remark"));
 
                         orderMap.put("formId", paramMap.get("formId"));
-                        orderMap.put("formId", resultMap.get("package"));
+                        String prepayId = resultMap.get("package").toString();
+                        String[] prepayIdArr = prepayId.split("=");
+                        orderMap.put("formId", prepayIdArr[1]);
 
                         orderMap.put("allPayAmount", allPayAmount);
                         orderMap.put("payMoney", actualPayMoney);
