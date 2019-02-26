@@ -735,8 +735,9 @@ public class WX_OrderServiceImpl implements WX_OrderService {
             List<Map<String, Object>> orderList = wxOrderDao.getSimpleOrderByCondition(orderMap);
             if(orderList != null && orderList.size() > 0){
                 Map<String, Object> theOrderMap = orderList.get(0);
+                //用于给用户和店家发阿松小程序模板消息
+                String formId = theOrderMap.get("formId")!=null?theOrderMap.get("formId").toString():"";
                 String status = theOrderMap.get("status").toString();
-                String formId = theOrderMap.get("formId").toString();//用于给用户和店家发阿松小程序模板消息
                 if("0".equals(status)){     //只对待支付的订单在付款成功后变更为已支付
                     orderMap.clear();
                     orderMap.put("wxOrderId", wxOrderId);
@@ -790,7 +791,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                                                 resultMapDTO = wxRedPacketService.enterprisePayment(enterprisePaymentMap);
 
                                                 //在此处向用户发起【订单完成通知】
-                                                if(true){
+                                                if(!"".equals(formId)){
                                                     Map<String, Object> orderCompleteNotify_dataMap = Maps.newHashMap();
                                                     //订单号
                                                     Map<String, Object> keyword_1_Map = Maps.newHashMap();
@@ -804,7 +805,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                                                     orderCompleteNotify_dataMap.put("keyword2", keyword_2_Map);
                                                     //订单金额
                                                     Map<String, Object> keyword_3_Map = Maps.newHashMap();
-                                                    keyword_3_Map.put("value", payMoney);
+                                                    keyword_3_Map.put("value", payMoney.toString());
                                                     keyword_3_Map.put("color", "black");
                                                     orderCompleteNotify_dataMap.put("keyword3", keyword_3_Map);
                                                     //下单时间
@@ -845,8 +846,8 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                                                     String useIntegralNum = theOrderMap.get("useIntegralNum")!=null?theOrderMap.get("useIntegralNum").toString():"0";
                                                     remark = "订单总额：" + allPayAmount + "元" +
                                                             "，实际付款：" + payMoney + "元" +
-                                                            "，使用余额抵扣：" + useBalanceMonney + "元" +
-                                                            "，使用忌口抵扣：" + useIntegralNum + "元";
+                                                            "，余额抵扣：" + useBalanceMonney + "元" +
+                                                            "，积分抵扣：" + useIntegralNum + "元";
                                                     keyword_7_Map.put("value", remark);
                                                     keyword_7_Map.put("color", "black");
                                                     orderCompleteNotify_dataMap.put("keyword7", keyword_7_Map);
@@ -859,10 +860,11 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                                                     orderCompleteNotifyMap.put("page", "pages/my/shopOrder/shopOrder");
                                                     orderCompleteNotifyMap.put("openId", openId);
                                                     WX_PublicNumberUtil.sendTemplateMessageForMiniProgram(orderCompleteNotifyMap);
+                                                    logger.info("【订单完成通知】模板消息已发送...");
                                                 }
-
+                                                Thread.sleep(15000);
                                                 //向商家发起【新订单通知】
-                                                if(true){
+                                                if(!"".equals(formId)){
                                                     Map<String, Object> newOrderNotify_dataMap = Maps.newHashMap();
                                                     //订单号
                                                     Map<String, Object> keyword_1_Map = Maps.newHashMap();
@@ -883,7 +885,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                                                     newOrderNotify_dataMap.put("keyword3", keyword_3_Map);
                                                     //订单金额
                                                     Map<String, Object> keyword_4_Map = Maps.newHashMap();
-                                                    keyword_4_Map.put("value", payMoney);
+                                                    keyword_4_Map.put("value", payMoney.toString());
                                                     keyword_4_Map.put("color", "black");
                                                     newOrderNotify_dataMap.put("keyword4", keyword_4_Map);
                                                     //下单时间
@@ -938,6 +940,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                                                     newOrderNotifyMap.put("page", "pages/my/shopOrder/shopOrder");
                                                     newOrderNotifyMap.put("openId", shopOpenId);
                                                     WX_PublicNumberUtil.sendTemplateMessageForMiniProgram(newOrderNotifyMap);
+                                                    logger.info("【新订单通知】模板消息已发送...");
                                                 }
 
                                             } else {
