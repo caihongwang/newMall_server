@@ -868,7 +868,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                                                     WX_PublicNumberUtil.sendTemplateMessageForMiniProgram(orderCompleteNotifyMap);
                                                     logger.info("【订单完成通知】模板消息已发送...");
                                                 }
-                                                Thread.sleep(5000);
+                                                Thread.sleep(15000);
                                                 //向商家发起【新订单通知】
                                                 if(!"".equals(formId)){
                                                     Map<String, Object> newOrderNotify_dataMap = Maps.newHashMap();
