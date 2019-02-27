@@ -868,7 +868,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                                                     WX_PublicNumberUtil.sendTemplateMessageForMiniProgram(orderCompleteNotifyMap);
                                                     logger.info("【订单完成通知】模板消息已发送...");
                                                 }
-                                                Thread.sleep(15000);
+                                                Thread.sleep(5000);
                                                 //向商家发起【新订单通知】
                                                 if(!"".equals(formId)){
                                                     Map<String, Object> newOrderNotify_dataMap = Maps.newHashMap();
@@ -914,7 +914,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                                                         while(it.hasNext()){
                                                             JSONObject jsonObject = (JSONObject)it.next();
                                                             String foodTitle = (String)jsonObject.get("foodTitle");
-                                                            String foodNum = (String)jsonObject.get("foodNum");
+                                                            Integer foodNum = (Integer)jsonObject.get("foodNum");
                                                             orderContent = orderContent + foodTitle + " " + foodNum + " 份; ";
                                                         }
                                                         orderContent = orderContent.substring(0, orderContent.length() - 1);
