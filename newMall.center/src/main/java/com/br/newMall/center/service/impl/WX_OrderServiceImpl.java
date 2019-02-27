@@ -834,7 +834,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                                                         while(it.hasNext()){
                                                             JSONObject jsonObject = (JSONObject)it.next();
                                                             String foodTitle = (String)jsonObject.get("foodTitle");
-                                                            String foodNum = (String)jsonObject.get("foodNum");
+                                                            Integer foodNum = (Integer)jsonObject.get("foodNum");
                                                             orderContent = orderContent + foodTitle + " " + foodNum + " 份; ";
                                                         }
                                                         orderContent = orderContent.substring(0, orderContent.length() - 1);
