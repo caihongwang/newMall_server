@@ -953,6 +953,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                                                 logger.info("付款用户使用余额进行付全款，不需要向商家进行打钱.");
                                             }
                                         } catch (Exception e) {
+                                            logger.error("店铺与平台之间的折扣值不是数字, e : ", e);
                                             resultMapDTO.setCode(NewMallCode.SHOP_SHOPDISCOUNTID_IS_NOT_NUM.getNo());
                                             resultMapDTO.setMessage(NewMallCode.SHOP_SHOPDISCOUNTID_IS_NOT_NUM.getMessage());
                                         }
