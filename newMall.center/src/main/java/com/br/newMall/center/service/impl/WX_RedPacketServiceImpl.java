@@ -193,7 +193,7 @@ public class WX_RedPacketServiceImpl implements WX_RedPacketService {
                 // 金额 单位：分
                 String amount = paramMap.get("amount") != null ? paramMap.get("amount").toString() : "100";
                 // 企业付款描述信息
-                String desc = paramMap.get("desc") != null ? paramMap.get("desc").toString() : "薅羊毛新口子：蔡老板的公众号撒钱了";
+                String desc = paramMap.get("customDesc") != null ? paramMap.get("customDesc").toString() : paramMap.get("desc").toString();
                 // 请求IP
                 String spbillCreateIp = paramMap.get("spbillCreateIp") != null ? paramMap.get("spbillCreateIp").toString() : "127.0.0.1";
                 // 微信证书路径

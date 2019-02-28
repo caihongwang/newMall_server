@@ -610,9 +610,6 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                             orderMap.put("remark", paramMap.get("remark"));
 
                             orderMap.put("formId", paramMap.get("formId"));
-//                            String prepayId = resultMap.get("package").toString();
-//                            String[] prepayIdArr = prepayId.split("=");
-//                            orderMap.put("formId", prepayIdArr[1]);
 
                             orderMap.put("shopId", shopId);
                             orderMap.put("allPayAmount", allPayAmount);
@@ -660,9 +657,6 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                         orderMap.put("remark", paramMap.get("remark"));
 
                         orderMap.put("formId", paramMap.get("formId"));
-//                        String prepayId = resultMap.get("package").toString();
-//                        String[] prepayIdArr = prepayId.split("=");
-//                        orderMap.put("formId", prepayIdArr[1]);
 
                         orderMap.put("allPayAmount", allPayAmount);
                         orderMap.put("payMoney", actualPayMoney);
@@ -785,90 +779,98 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                                             if(payMoney > 0){
                                                 //获取向商家打款的后两位
                                                 Double shopAmount = shopDiscount * payMoney;
-                                                BigDecimal bg = new BigDecimal(shopAmount);
-                                                shopAmount = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                                                shopAmount = NumberUtil.getPointTowNumber(shopAmount);
+                                                //下单用户名称
+                                                userMap.put("openId", openId);
+                                                List<Map<String, Object>> userList = wxUserDao.getSimpleUserByCondition(userMap);
+                                                String nickName = userList.get(0).get("nickName").toString();
+                                                //订单详情
+                                                String customDesc = "";
+                                                String orderContent = "";
+                                                String transactionFoodsDetailStr = theOrderMap.get("transactionFoodsDetail") != null ? theOrderMap.get("transactionFoodsDetail").toString() : "";
+                                                if (!"".equals(transactionFoodsDetailStr)) {
+                                                    orderContent = "【"+nickName+"】" + "预定点餐 ";
+                                                    JSONArray transactionFoodsDetailArr = JSONObject.parseArray(transactionFoodsDetailStr);
+                                                    Iterator it = transactionFoodsDetailArr.iterator();
+                                                    while(it.hasNext()){
+                                                        JSONObject jsonObject = (JSONObject)it.next();
+                                                        String foodTitle = (String)jsonObject.get("foodTitle");
+                                                        Integer foodNum = (Integer)jsonObject.get("foodNum");
+                                                        orderContent = orderContent + foodTitle + " " + foodNum + " 份; ";
+                                                    }
+                                                    customDesc = orderContent + " 共计 " + shopAmount + " 元";
+                                                    orderContent = orderContent.substring(0, orderContent.length() - 1);
+                                                } else {
+                                                    orderContent = "直接向商家付款";
+                                                    customDesc = "【"+nickName+"】" + "直接付款 " + shopAmount + " 元";
+                                                }
                                                 //准备向商家进行打款
                                                 Map<String, Object> enterprisePaymentMap = Maps.newHashMap();
                                                 enterprisePaymentMap.put("amount", ((int) (shopAmount * 100)) + "");
                                                 enterprisePaymentMap.put("openId", shopOpenId);
                                                 enterprisePaymentMap.put("reUserName", NewMallCode.WX_MINI_PROGRAM_NAME);
                                                 enterprisePaymentMap.put("wxPublicNumGhId", "gh_417c90af3488");
-                                                enterprisePaymentMap.put("desc", NewMallCode.WX_MINI_PROGRAM_NAME + "发红包了，快来看看吧.");
+                                                enterprisePaymentMap.put("customDesc", customDesc);
                                                 resultMapDTO = wxRedPacketService.enterprisePayment(enterprisePaymentMap);
 
-//                                                //在此处向用户发起【订单完成通知】
-//                                                if(!"".equals(formId)){
-//                                                    Map<String, Object> orderCompleteNotify_dataMap = Maps.newHashMap();
-//                                                    //订单号
-//                                                    Map<String, Object> keyword_1_Map = Maps.newHashMap();
-//                                                    keyword_1_Map.put("value", wxOrderId);
-//                                                    keyword_1_Map.put("color", "black");
-//                                                    orderCompleteNotify_dataMap.put("keyword1", keyword_1_Map);
-//                                                    //订单类型
-//                                                    Map<String, Object> keyword_2_Map = Maps.newHashMap();
-//                                                    keyword_2_Map.put("value", "商家订单");
-//                                                    keyword_2_Map.put("color", "black");
-//                                                    orderCompleteNotify_dataMap.put("keyword2", keyword_2_Map);
-//                                                    //订单金额
-//                                                    Map<String, Object> keyword_3_Map = Maps.newHashMap();
-//                                                    keyword_3_Map.put("value", payMoney.toString());
-//                                                    keyword_3_Map.put("color", "black");
-//                                                    orderCompleteNotify_dataMap.put("keyword3", keyword_3_Map);
-//                                                    //下单时间
-//                                                    Map<String, Object> keyword_4_Map = Maps.newHashMap();
-//                                                    keyword_4_Map.put("value", theOrderMap.get("createTime"));
-//                                                    keyword_4_Map.put("color", "black");
-//                                                    orderCompleteNotify_dataMap.put("keyword4", keyword_4_Map);
-//                                                    //订单状态
-//                                                    Map<String, Object> keyword_5_Map = Maps.newHashMap();
-//                                                    keyword_5_Map.put("value", "已完成");
-//                                                    keyword_5_Map.put("color", "black");
-//                                                    orderCompleteNotify_dataMap.put("keyword5", keyword_5_Map);
-//                                                    //订单内容
-//                                                    Map<String, Object> keyword_6_Map = Maps.newHashMap();
-//                                                    String orderContent = "";
-//                                                    String transactionFoodsDetailStr = theOrderMap.get("transactionFoodsDetail") != null ? theOrderMap.get("transactionFoodsDetail").toString() : "";
-//                                                    if (!"".equals(transactionFoodsDetailStr)) {
-//                                                        JSONArray transactionFoodsDetailArr = JSONObject.parseArray(transactionFoodsDetailStr);
-//                                                        Iterator it = transactionFoodsDetailArr.iterator();
-//                                                        while(it.hasNext()){
-//                                                            JSONObject jsonObject = (JSONObject)it.next();
-//                                                            String foodTitle = (String)jsonObject.get("foodTitle");
-//                                                            Integer foodNum = (Integer)jsonObject.get("foodNum");
-//                                                            orderContent = orderContent + foodTitle + " " + foodNum + " 份; ";
-//                                                        }
-//                                                        orderContent = orderContent.substring(0, orderContent.length() - 1);
-//                                                    } else {
-//                                                        orderContent = "直接向商家付款";
-//                                                    }
-//                                                    keyword_6_Map.put("value", orderContent);
-//                                                    keyword_6_Map.put("color", "black");
-//                                                    orderCompleteNotify_dataMap.put("keyword6", keyword_6_Map);
-//                                                    //备注
-//                                                    Map<String, Object> keyword_7_Map = Maps.newHashMap();
-//                                                    String remark = "";
-//                                                    String allPayAmount = theOrderMap.get("allPayAmount")!=null?theOrderMap.get("allPayAmount").toString():"0";
-//                                                    String useBalanceMonney = theOrderMap.get("useBalanceMonney")!=null?theOrderMap.get("useBalanceMonney").toString():"0";
-//                                                    String useIntegralNum = theOrderMap.get("useIntegralNum")!=null?theOrderMap.get("useIntegralNum").toString():"0";
-//                                                    remark = "订单总额：" + allPayAmount + "元" +
-//                                                            "，实际付款：" + payMoney + "元" +
-//                                                            "，余额抵扣：" + useBalanceMonney + "元" +
-//                                                            "，积分抵扣：" + useIntegralNum + "元";
-//                                                    keyword_7_Map.put("value", remark);
-//                                                    keyword_7_Map.put("color", "black");
-//                                                    orderCompleteNotify_dataMap.put("keyword7", keyword_7_Map);
-//
-//                                                    //整合参数
-//                                                    Map<String, Object> orderCompleteNotifyMap = Maps.newHashMap();
-//                                                    orderCompleteNotifyMap.put("data", JSONObject.toJSONString(orderCompleteNotify_dataMap));
-//                                                    orderCompleteNotifyMap.put("form_id", formId);
-//                                                    orderCompleteNotifyMap.put("template_id", "XVu4eqWraeaHju9CSl8uD7WkkgIf-g9Bg1jTtfeLhPg");
-//                                                    orderCompleteNotifyMap.put("page", "pages/my/shopOrder/shopOrder");
-//                                                    orderCompleteNotifyMap.put("openId", openId);
-//                                                    WX_PublicNumberUtil.sendTemplateMessageForMiniProgram(orderCompleteNotifyMap);
-//                                                    logger.info("【订单完成通知】模板消息已发送...");
-//                                                }
-//                                                Thread.sleep(15000);
+                                                //在此处向用户发起【订单完成通知】
+                                                if(!"".equals(formId)){
+                                                    Map<String, Object> orderCompleteNotify_dataMap = Maps.newHashMap();
+                                                    //订单号
+                                                    Map<String, Object> keyword_1_Map = Maps.newHashMap();
+                                                    keyword_1_Map.put("value", wxOrderId);
+                                                    keyword_1_Map.put("color", "black");
+                                                    orderCompleteNotify_dataMap.put("keyword1", keyword_1_Map);
+                                                    //订单类型
+                                                    Map<String, Object> keyword_2_Map = Maps.newHashMap();
+                                                    keyword_2_Map.put("value", "商家订单");
+                                                    keyword_2_Map.put("color", "black");
+                                                    orderCompleteNotify_dataMap.put("keyword2", keyword_2_Map);
+                                                    //订单金额
+                                                    Map<String, Object> keyword_3_Map = Maps.newHashMap();
+                                                    keyword_3_Map.put("value", payMoney.toString());
+                                                    keyword_3_Map.put("color", "black");
+                                                    orderCompleteNotify_dataMap.put("keyword3", keyword_3_Map);
+                                                    //下单时间
+                                                    Map<String, Object> keyword_4_Map = Maps.newHashMap();
+                                                    keyword_4_Map.put("value", theOrderMap.get("createTime"));
+                                                    keyword_4_Map.put("color", "black");
+                                                    orderCompleteNotify_dataMap.put("keyword4", keyword_4_Map);
+                                                    //订单状态
+                                                    Map<String, Object> keyword_5_Map = Maps.newHashMap();
+                                                    keyword_5_Map.put("value", "已完成");
+                                                    keyword_5_Map.put("color", "black");
+                                                    orderCompleteNotify_dataMap.put("keyword5", keyword_5_Map);
+                                                    //订单内容
+                                                    Map<String, Object> keyword_6_Map = Maps.newHashMap();
+                                                    keyword_6_Map.put("value", orderContent);
+                                                    keyword_6_Map.put("color", "black");
+                                                    orderCompleteNotify_dataMap.put("keyword6", keyword_6_Map);
+                                                    //备注
+                                                    Map<String, Object> keyword_7_Map = Maps.newHashMap();
+                                                    String remark = "";
+                                                    String allPayAmount = theOrderMap.get("allPayAmount")!=null?theOrderMap.get("allPayAmount").toString():"0";
+                                                    String useBalanceMonney = theOrderMap.get("useBalanceMonney")!=null?theOrderMap.get("useBalanceMonney").toString():"0";
+                                                    String useIntegralNum = theOrderMap.get("useIntegralNum")!=null?theOrderMap.get("useIntegralNum").toString():"0";
+                                                    remark = "订单总额：" + allPayAmount + "元" +
+                                                                "，实际付款：" + payMoney + "元" +
+                                                                    "，余额抵扣：" + useBalanceMonney + "元" +
+                                                                        "，积分抵扣：" + useIntegralNum + "元";
+                                                    keyword_7_Map.put("value", remark);
+                                                    keyword_7_Map.put("color", "black");
+                                                    orderCompleteNotify_dataMap.put("keyword7", keyword_7_Map);
+
+                                                    //整合参数
+                                                    Map<String, Object> orderCompleteNotifyMap = Maps.newHashMap();
+                                                    orderCompleteNotifyMap.put("data", JSONObject.toJSONString(orderCompleteNotify_dataMap));
+                                                    orderCompleteNotifyMap.put("form_id", formId);
+                                                    orderCompleteNotifyMap.put("template_id", "XVu4eqWraeaHju9CSl8uD7WkkgIf-g9Bg1jTtfeLhPg");
+                                                    orderCompleteNotifyMap.put("page", "pages/my/shopOrder/shopOrder");
+                                                    orderCompleteNotifyMap.put("openId", openId);
+                                                    WX_PublicNumberUtil.sendTemplateMessageForMiniProgram(orderCompleteNotifyMap);
+                                                    logger.info("【订单完成通知】模板消息已发送...");
+                                                }
+
                                                 //向商家发起【新订单通知】
                                                 if(!"".equals(formId)){
                                                     Map<String, Object> newOrderNotify_dataMap = Maps.newHashMap();
@@ -879,9 +881,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                                                     newOrderNotify_dataMap.put("keyword1", keyword_1_Map);
                                                     //下单用户
                                                     Map<String, Object> keyword_2_Map = Maps.newHashMap();
-                                                    userMap.put("openId", openId);
-                                                    List<Map<String, Object>> userList = wxUserDao.getSimpleUserByCondition(userMap);
-                                                    keyword_2_Map.put("value", userList.get(0).get("nickName"));
+                                                    keyword_2_Map.put("value", nickName);
                                                     keyword_2_Map.put("color", "black");
                                                     newOrderNotify_dataMap.put("keyword2", keyword_2_Map);
                                                     //订单类型
@@ -906,21 +906,6 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                                                     newOrderNotify_dataMap.put("keyword6", keyword_6_Map);
                                                     //订单详情
                                                     Map<String, Object> keyword_7_Map = Maps.newHashMap();
-                                                    String orderContent = "";
-                                                    String transactionFoodsDetailStr = theOrderMap.get("transactionFoodsDetail") != null ? theOrderMap.get("transactionFoodsDetail").toString() : "";
-                                                    if (!"".equals(transactionFoodsDetailStr)) {
-                                                        JSONArray transactionFoodsDetailArr = JSONObject.parseArray(transactionFoodsDetailStr);
-                                                        Iterator it = transactionFoodsDetailArr.iterator();
-                                                        while(it.hasNext()){
-                                                            JSONObject jsonObject = (JSONObject)it.next();
-                                                            String foodTitle = (String)jsonObject.get("foodTitle");
-                                                            Integer foodNum = (Integer)jsonObject.get("foodNum");
-                                                            orderContent = orderContent + foodTitle + " " + foodNum + " 份; ";
-                                                        }
-                                                        orderContent = orderContent.substring(0, orderContent.length() - 1);
-                                                    } else {
-                                                        orderContent = "直接向商家付款";
-                                                    }
                                                     keyword_7_Map.put("value", orderContent);
                                                     keyword_7_Map.put("color", "black");
                                                     newOrderNotify_dataMap.put("keyword7", keyword_7_Map);
