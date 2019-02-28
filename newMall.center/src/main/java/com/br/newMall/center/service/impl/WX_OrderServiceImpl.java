@@ -799,7 +799,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                                                         Integer foodNum = (Integer)jsonObject.get("foodNum");
                                                         orderContent = orderContent + foodTitle + " " + foodNum + " 份; ";
                                                     }
-                                                    customDesc =  orderContent + orderContent + " 共计：" + shopAmount + " 元";
+                                                    customDesc =  customDesc + orderContent + " 共计：" + shopAmount + " 元";
                                                     orderContent = orderContent.substring(0, orderContent.length() - 1);
                                                 } else {
                                                     orderContent = "直接向商家付款";
