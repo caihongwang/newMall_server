@@ -829,7 +829,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                                                     orderCompleteNotify_dataMap.put("keyword2", keyword_2_Map);
                                                     //订单金额
                                                     Map<String, Object> keyword_3_Map = Maps.newHashMap();
-                                                    keyword_3_Map.put("value", payMoney.toString());
+                                                    keyword_3_Map.put("value", payMoney.toString() + "元");
                                                     keyword_3_Map.put("color", "black");
                                                     orderCompleteNotify_dataMap.put("keyword3", keyword_3_Map);
                                                     //下单时间
@@ -892,7 +892,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                                                     newOrderNotify_dataMap.put("keyword3", keyword_3_Map);
                                                     //订单金额
                                                     Map<String, Object> keyword_4_Map = Maps.newHashMap();
-                                                    keyword_4_Map.put("value", payMoney.toString());
+                                                    keyword_4_Map.put("value", payMoney.toString() + "元");
                                                     keyword_4_Map.put("color", "black");
                                                     newOrderNotify_dataMap.put("keyword4", keyword_4_Map);
                                                     //下单时间
