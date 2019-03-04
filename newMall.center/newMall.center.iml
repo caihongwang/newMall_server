@@ -119,5 +119,6 @@
     <orderEntry type="library" name="Maven: net.sf.ezmorph:ezmorph:1.0.6" level="project" />
     <orderEntry type="library" name="Maven: com.squareup.okhttp3:okhttp:3.6.0" level="project" />
     <orderEntry type="library" name="Maven: com.squareup.okio:okio:1.11.0" level="project" />
+    <orderEntry type="library" name="Maven: org.jsoup:jsoup:1.9.2" level="project" />
   </component>
 </module>
