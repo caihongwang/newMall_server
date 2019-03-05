@@ -29,6 +29,37 @@ public class WX_ProductHandler implements com.br.newMall.api.service.WX_ProductH
     private WX_ProductService wxProductService;
 
     /**
+     * 从企叮咚获取或者更新商品信息
+     * @param tid
+     * @param paramMap
+     * @return
+     * @throws TException
+     */
+    @Override
+    public ResultDTO getOrUpdateProductFrom7Dingdong(int tid, Map<String, String> paramMap) throws TException {
+        logger.info("【hanlder】从企叮咚获取或者更新商品信息-getOrUpdateProductFrom7Dingdong,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultDTO resultDTO = new ResultDTO();
+        Map<String, Object> objectParamMap = MapUtil.getObjectMap(paramMap);
+        if (paramMap.size() > 0) {
+            try {
+                resultDTO = wxProductService.getOrUpdateProductFrom7Dingdong(objectParamMap);
+            } catch (Exception e) {
+                logger.error("【hanlder】从企叮咚获取或者更新商品信息-getOrUpdateProductFrom7Dingdong is error, paramMap : {}", JSONObject.toJSONString(paramMap), " , e : {}", e);
+                List<Map<String, String>> resultList = Lists.newArrayList();
+                resultDTO.setResultListTotal(0);
+                resultDTO.setResultList(resultList);
+                resultDTO.setCode(NewMallCode.SERVER_INNER_ERROR.getNo());
+                resultDTO.setMessage(NewMallCode.SERVER_INNER_ERROR.getMessage());
+            }
+        } else {
+            resultDTO.setCode(NewMallCode.PARAM_IS_NULL.getNo());
+            resultDTO.setMessage(NewMallCode.PARAM_IS_NULL.getMessage());
+        }
+        logger.info("【hanlder】从企叮咚获取或者更新商品信息-getOrUpdateProductFrom7Dingdong,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        return resultDTO;
+    }
+
+    /**
      * 获取商品类型列表
      * @param tid
      * @param paramMap

@@ -27,7 +27,8 @@ public class SpriderFor7DingdongProductUtil {
      * @param paramMap
      */
     public static void get7DingdongProduct(Map<String, Object> paramMap) {
-        String dingGong7ProductPath = "/Users/caihongwang/Desktop/企叮咚商品/";
+        List<String> productSqlList = Lists.newArrayList();
+        String dingGong7ProductPath = "/opt/newMall_tomcat/webapps/resourceOfNewMall/product/企叮咚商品/";
         //获取当前文件夹下的所有文件
         File dingGong7ProductDir = new File(dingGong7ProductPath);
         if (dingGong7ProductDir.isDirectory()) {
@@ -41,9 +42,6 @@ public class SpriderFor7DingdongProductUtil {
                 if (productCategryFile.isDirectory()) {
                     String productCatoryName = productCategryFile.getName();
                     String[] productlist = productCategryFile.list();
-                    if (productlist[i].startsWith(".")){
-                        continue;
-                    }
                     for(String productName : productlist){
                         if (productName.startsWith(".")){
                             continue;
@@ -66,8 +64,27 @@ public class SpriderFor7DingdongProductUtil {
                         List<Map<String, Object>> productList = JSONObject.parseObject(JSONObject.toJSONString(productData), List.class);
                         for(Map<String, Object> productMap : productList){
                             String goodsId = productMap.get("goods_id").toString();
-                            getSimpleProduct(productCatoryName, goodsId);
+                            getSimpleProduct(productCatoryName, goodsId, productSqlList);
                         }
+                    }
+                    //将所有的SQL存放到文件中去
+                    String allProductSqlPath = "/opt/newMall_tomcat/webapps/resourceOfNewMall/product/allProductSql.txt";
+                    try {
+                        // 创建文件对象
+                        File allProductSqlFile = new File(allProductSqlPath);
+                        allProductSqlFile.delete();
+                        allProductSqlFile.createNewFile();
+                        FileWriter fileWriter = new FileWriter(allProductSqlFile);
+                        StringBuffer strBuffer = new StringBuffer();
+                        for (String sql : productSqlList) {
+                            strBuffer.append(sql);
+                        }
+                        // 写文件
+                        fileWriter.write(strBuffer.toString());
+                        // 关闭
+                        fileWriter.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 } else {
                     logger.error(productCategryPath + " , 当前路径不是文件夹.");
@@ -83,12 +100,11 @@ public class SpriderFor7DingdongProductUtil {
      * @param productCatoryName
      * @param goodsId
      */
-    public static void getSimpleProduct(String productCatoryName, String goodsId){
-        List<String> productSqlList = Lists.newArrayList();
+    public static List<String> getSimpleProduct(String productCatoryName, String goodsId, List<String> productSqlList){
         String goodDetailUrl = "http://www.7dingdong.com/goods/addCart?gid="+goodsId;
-        String productPath = "/Users/caihongwang/Desktop/新商城商品/";
+        String productPath = "/opt/newMall_tomcat/webapps/resourceOfNewMall/product/新商城商品/";
         //创建商品类目,并将商品保存在当前类目的路径下
-        productPath = productPath + productCatoryName;
+        productPath = productPath + productCatoryName + "/";
         File productCatoryFile = new File(productPath);
         if(!productCatoryFile.exists() && !productCatoryFile.isDirectory()){
             productCatoryFile.mkdir();
@@ -185,11 +201,11 @@ public class SpriderFor7DingdongProductUtil {
                 break;
             }
         }
-        logger.info("title = " + title);
-        logger.info("integral = " + integral);
-        logger.info("stock = " + stock);
-        logger.info("headImgUrl = " + headImgUrl);
-        logger.info("describeImgUrl = " + describeImgUrl);
+//        logger.info("title = " + title);
+//        logger.info("integral = " + integral);
+//        logger.info("stock = " + stock);
+//        logger.info("headImgUrl = " + headImgUrl);
+//        logger.info("describeImgUrl = " + describeImgUrl);
 
         //整合SQL
         String productSql = "INSERT INTO new_mall.n_product\n" +
@@ -204,28 +220,8 @@ public class SpriderFor7DingdongProductUtil {
                 "  '" + describeImgUrl + "',\n" +
                 "  99999,'" + integral + "', '" + productCatoryName + "', 0, \n" +
                 "  '2019-03-01 22:00:00', '2019-03-01 22:00:00');";
-        logger.info("当前商品SQL： ");
-        logger.info(productSql);
+        logger.info("商品名称【"+title+"】的图片信息和SQL保存成功.");
         productSqlList.add(productSql);
-
-        //将所有的SQL存放到文件中去
-        String allProductSqlPath = "/Users/caihongwang/Desktop/allProductSql.txt";
-        try {
-            // 创建文件对象
-            File allProductSqlFile = new File(allProductSqlPath);
-            allProductSqlFile.delete();
-            allProductSqlFile.createNewFile();
-            FileWriter fileWriter = new FileWriter(allProductSqlFile);
-            StringBuffer strBuffer = new StringBuffer();
-            for (String sql : productSqlList) {
-                strBuffer.append(sql);
-            }
-            // 写文件
-            fileWriter.write(strBuffer.toString());
-            // 关闭
-            fileWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return productSqlList;
     }
 }

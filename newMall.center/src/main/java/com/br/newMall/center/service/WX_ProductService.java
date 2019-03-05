@@ -12,6 +12,11 @@ import java.util.Map;
  */
 public interface WX_ProductService {
     /**
+     * 从企叮咚获取或者更新商品信息
+     */
+    ResultDTO getOrUpdateProductFrom7Dingdong(Map<String, Object> paramMap);
+
+    /**
      * 获取商品类型列表
      */
     ResultDTO getProductTypeList(Map<String, Object> paramMap);

@@ -8,6 +8,7 @@ import com.br.newMall.api.dto.ResultMapDTO;
 import com.br.newMall.center.service.WX_DicService;
 import com.br.newMall.center.service.WX_ProductService;
 import com.br.newMall.center.utils.MapUtil;
+import com.br.newMall.center.utils.SpriderFor7DingdongProductUtil;
 import com.br.newMall.dao.WX_ProductDao;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -33,6 +34,27 @@ public class WX_ProductServiceImpl implements WX_ProductService {
 
     @Autowired
     private WX_DicService wxDicService;
+
+    /**
+     * 从企叮咚获取或者更新商品信息
+     * @param paramMap
+     * @return
+     */
+    @Override
+    public ResultDTO getOrUpdateProductFrom7Dingdong(Map<String, Object> paramMap) {
+        logger.info("【service】从企叮咚获取或者更新商品信息-getProductTypeList,请求-paramMap = {}", JSONObject.toJSONString(paramMap));
+        ResultDTO resultDTO = new ResultDTO();
+        new Thread(){
+            @Override
+            public void run(){
+                SpriderFor7DingdongProductUtil.get7DingdongProduct(paramMap);
+            }
+        }.start();
+        resultDTO.setCode(NewMallCode.SUCCESS.getNo());
+        resultDTO.setMessage(NewMallCode.SUCCESS.getMessage());
+        logger.info("【service】从企叮咚获取或者更新商品信息-getProductTypeList,响应-resultDTO = {}", JSONObject.toJSONString(resultDTO));
+        return resultDTO;
+    }
 
     /**
      * 获取商品类型列表
