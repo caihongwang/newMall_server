@@ -725,7 +725,7 @@
     <column id="147" parent="22" name="stock">
       <Position>5</Position>
       <Comment>商品库存, 默认为0</Comment>
-      <DataType>int(11)|0</DataType>
+      <DataType>varchar(100)|0</DataType>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
     </column>
     <column id="148" parent="22" name="head_img_url">

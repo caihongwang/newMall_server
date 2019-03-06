@@ -162,7 +162,7 @@ public class SpriderFor7DingdongProductUtilTest {
         String stock = "0";
         Elements stockElements = doc.getElementsByTag("em");
         for (Element element : stockElements) {
-            String className = element.attr("class");
+            String className = element.attr("id");
             if ("spec_stockFic".equals(className)) {
                 Node stockNode = element.childNode(0);
                 stock = stockNode.toString();
