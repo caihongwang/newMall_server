@@ -74,7 +74,7 @@ public class SpriderFor7DingdongProductUtil {
                         }
                     }
                     //将所有的SQL存放到文件中去
-                    String allProductSqlPath = "/opt/newMall_tomcat/webapps/resourceOfNewMall/product/allProductSql.txt";
+                    String allProductSqlPath = "/opt/newMall_tomcat/webapps/resourceOfNewMall/product/allProductSql.sql";
                     try {
                         // 创建文件对象
                         File allProductSqlFile = new File(allProductSqlPath);
