@@ -51,6 +51,12 @@ public class SpriderFor7DingdongProductUtilTest {
                 }
                 if (productCategryFile.isDirectory()) {
                     String productCatoryName = productCategryFile.getName();
+                    //删除已有的商品类目,如果存在则删除
+                    String currentPath = "/opt/newMall_tomcat/webapps/resourceOfNewMall/product/";
+                    File productCatoryFile = new File(currentPath + productCatoryName);
+                    if(productCatoryFile.exists()){
+                        boolean deleteFlag = FileUtil.deleteDir(productCatoryFile);
+                    }
                     String[] productlist = productCategryFile.list();
                     for(String productName : productlist){
                         if (productName.startsWith(".")){
@@ -112,7 +118,7 @@ public class SpriderFor7DingdongProductUtilTest {
      */
     public static List<String> getSimpleProduct(String productCatoryName, String goodsId, List<String> productSqlList){
         String goodDetailUrl = "http://www.7dingdong.com/goods/addCart?gid="+goodsId;
-        String productPath = "/opt/newMall_tomcat/webapps/resourceOfNewMall/product/新商城商品/";
+        String productPath = "/opt/newMall_tomcat/webapps/resourceOfNewMall/product/";
         //创建商品类目,并将商品保存在当前类目的路径下
         productPath = productPath + productCatoryName + "/";
         File productCatoryFile = new File(productPath);
