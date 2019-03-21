@@ -77,9 +77,9 @@ public class WX_CustomMenuServiceImpl implements WX_CustomMenuService {
                     "        },\n" +
                     "        {\n" +
                     "            \"type\":\"miniprogram\",\n" +
-                    "            \"name\":\"油价地图\",\n" +
+                    "            \"name\":\"惠生活\",\n" +
                     "            \"url\":\"http://mp.weixin.qq.com\",\n" +
-                    "            \"appid\":\"wx07cf52be1444e4b7\",\n" +
+                    "            \"appid\":\"wx54847eda0638538e\",\n" +
                     "            \"pagepath\":\"pages/tabBar/todayOilPrice/todayOilPrice\"\n" +
                     "        },\n" +
                     "        {\n" +
@@ -171,9 +171,9 @@ public class WX_CustomMenuServiceImpl implements WX_CustomMenuService {
                     "        },\n" +
                     "        {\n" +
                     "            \"type\":\"miniprogram\",\n" +
-                    "            \"name\":\"油价地图\",\n" +
+                    "            \"name\":\"惠生活\",\n" +
                     "            \"url\":\"http://mp.weixin.qq.com\",\n" +
-                    "            \"appid\":\"wx07cf52be1444e4b7\",\n" +
+                    "            \"appid\":\"wx54847eda0638538e\",\n" +
                     "            \"pagepath\":\"pages/tabBar/todayOilPrice/todayOilPrice\"\n" +
                     "        },\n" +
                     "        {\n" +

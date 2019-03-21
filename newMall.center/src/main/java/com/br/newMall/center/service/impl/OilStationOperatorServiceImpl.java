@@ -233,10 +233,10 @@ public class OilStationOperatorServiceImpl implements OilStationOperatorService 
         String id = paramMap.get("id")!=null?paramMap.get("id").toString():"";      //加油站操作ID
         String uid = paramMap.get("uid")!=null?paramMap.get("uid").toString():"";
         if(!"".equals(id) && !"".equals(uid)){
-            //0.检测活动是否还在进行, 获取【油价地图】的【红包活动】信息
+            //0.检测活动是否还在进行, 获取【惠生活】的【红包活动】信息
             Map<String, Object> dicParamMap = Maps.newHashMap();
             dicParamMap.put("dicType", "redPacketActivity");
-            dicParamMap.put("dicCode", "gh_417c90af3488");
+            dicParamMap.put("dicCode", "gh_97b78683d2c9");
             List<Map<String, String>> dicResultMapList = Lists.newArrayList();
             ResultDTO dicResultDTO = wxDicService.getSimpleDicByCondition(dicParamMap);
             if(dicResultDTO != null && dicResultDTO.getResultList() != null && dicResultDTO.getResultList().size() > 0){
@@ -269,7 +269,7 @@ public class OilStationOperatorServiceImpl implements OilStationOperatorService 
                                     redPacketParamMap.put("amount", redPacketTotal);
                                     redPacketParamMap.put("openId", openIdObj.toString());
                                     redPacketParamMap.put("reUserName", NewMallCode.WX_MINI_PROGRAM_NAME);
-                                    redPacketParamMap.put("wxPublicNumGhId", "gh_417c90af3488");
+                                    redPacketParamMap.put("wxPublicNumGhId", "gh_97b78683d2c9");
                                     redPacketParamMap.put("desc", NewMallCode.WX_MINI_PROGRAM_NAME + "发红包了，快来看看吧.");
                                     resultMapDTO = wxRedPacketService.enterprisePayment(redPacketParamMap);
                                     //3.将加油站操作记录表的状态变更为已处理

@@ -241,16 +241,16 @@ public class NewMallCode {
 
 
     //微信小程序
-    public static final String WX_MINI_PROGRAM_NAME = "油价地图";     //小程序名称
-    public static final String WX_MINI_PROGRAM_GH_ID = "gh_417c90af3488";     //小程序原始ID
-    public static final String WX_MINI_PROGRAM_APPID = "wx07cf52be1444e4b7";     //appid
-    public static final String WX_MINI_PROGRAM_SECRET = "d6de12032cfe660253b96d5f2868a06c";    //secret
+    public static final String WX_MINI_PROGRAM_NAME = "惠生活";     //小程序名称
+    public static final String WX_MINI_PROGRAM_GH_ID = "gh_97b78683d2c9";     //小程序原始ID
+    public static final String WX_MINI_PROGRAM_APPID = "wx54847eda0638538e";     //appid
+    public static final String WX_MINI_PROGRAM_SECRET = "c602d2b8fb984603cc82d3747c9bbb64";    //secret
     public static final String WX_MINI_PROGRAM_GRANT_TYPE_FOR_OPENID = "authorization_code";    //grant_type
     public static final String WX_MINI_PROGRAM_GRANT_TYPE_FOR_ACCESS_TOKEN = "client_credential";    //grant_type
 
     //微信公众号
-    public static final String WX_PUBLIC_NUMBER_APPID = "wxf768b49ad0a4630c";                   //appid
-    public static final String WX_PUBLIC_NUMBER_SECRET = "a481dd6bc40c9eec3e57293222e8246f";    //secret
+    public static final String WX_PUBLIC_NUMBER_APPID = "wx0a1c63d07dd19af1";                   //appid
+    public static final String WX_PUBLIC_NUMBER_SECRET = "e24a1be70e14c9f04a1bb5f61e7d82e8";    //secret
 
     //微信自定义信息发送，适用于小程序员和公众号
     public static final String WX_CUSTOM_MESSAGE_HOST = "https://api.weixin.qq.com";     //host
@@ -259,7 +259,6 @@ public class NewMallCode {
 
     //本服务器域名
     public static final String THE_DOMAIN = "https://www.91caihongwang.com/";        // 域名  线上
-
 
     //微信支付
     public static final String WX_PAY_API_SECRET = "Caihongwang52013Caihongwang52014";     //微信支付 api secret

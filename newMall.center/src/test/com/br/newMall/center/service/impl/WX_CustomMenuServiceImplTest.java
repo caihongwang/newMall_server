@@ -36,8 +36,8 @@ public class WX_CustomMenuServiceImplTest {
 
 //        getWxUserInfo(
 //                "o8-g249hJL8mmxq6MGsxIAAz4ZaM",
-//                "wx07cf52be1444e4b7",
-//                "d6de12032cfe660253b96d5f2868a06c");
+//                "wx54847eda0638538e",
+//                "c602d2b8fb984603cc82d3747c9bbb64");
     }
 
     /**
@@ -75,9 +75,9 @@ public class WX_CustomMenuServiceImplTest {
                     "        },\n" +
                     "        {\n" +
                     "            \"type\":\"miniprogram\",\n" +
-                    "            \"name\":\"油价地图\",\n" +
+                    "            \"name\":\"惠生活\",\n" +
                     "            \"url\":\"http://mp.weixin.qq.com\",\n" +
-                    "            \"appid\":\"wx07cf52be1444e4b7\",\n" +
+                    "            \"appid\":\"wx54847eda0638538e\",\n" +
                     "            \"pagepath\":\"pages/tabBar/todayOilPrice/todayOilPrice\"\n" +
                     "        },\n" +
                     "        {\n" +

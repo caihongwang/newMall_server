@@ -114,7 +114,7 @@ public class WX_CashLogServiceImplTest {
                                 cashRedPacketParamMap.put("amount", cashRedPacketTotal);
                                 cashRedPacketParamMap.put("openId", openId);
                                 cashRedPacketParamMap.put("reUserName", NewMallCode.WX_MINI_PROGRAM_NAME);
-                                cashRedPacketParamMap.put("wxPublicNumGhId", "gh_417c90af3488");
+                                cashRedPacketParamMap.put("wxPublicNumGhId", "gh_97b78683d2c9");
                                 cashRedPacketParamMap.put("desc", NewMallCode.WX_MINI_PROGRAM_NAME + "发红包了，快来看看吧.");
                                 resultMapDTO = wxRedPacketService.enterprisePayment(cashRedPacketParamMap);
 

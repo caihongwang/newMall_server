@@ -810,7 +810,7 @@ public class WX_OrderServiceImpl implements WX_OrderService {
                                                 enterprisePaymentMap.put("amount", ((int) (shopAmount * 100)) + "");
                                                 enterprisePaymentMap.put("openId", shopOpenId);
                                                 enterprisePaymentMap.put("reUserName", NewMallCode.WX_MINI_PROGRAM_NAME);
-                                                enterprisePaymentMap.put("wxPublicNumGhId", "gh_417c90af3488");
+                                                enterprisePaymentMap.put("wxPublicNumGhId", "gh_97b78683d2c9");
                                                 enterprisePaymentMap.put("customDesc", customDesc);
                                                 resultMapDTO = wxRedPacketService.enterprisePayment(enterprisePaymentMap);
 

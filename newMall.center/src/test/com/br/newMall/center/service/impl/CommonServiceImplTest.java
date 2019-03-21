@@ -80,8 +80,8 @@ public class CommonServiceImplTest {
         //获取accessToken
         Map<String, Object> accessTokenMap =
                 WX_PublicNumberUtil.getAccessToken(
-                        "wx07cf52be1444e4b7",
-                        "d6de12032cfe660253b96d5f2868a06c");
+                        "wx54847eda0638538e",
+                        "c602d2b8fb984603cc82d3747c9bbb64");
         if (accessTokenMap != null && accessTokenMap.size() > 0) {
             String accessToken = accessTokenMap.get("access_token") != null ? accessTokenMap.get("access_token").toString() : "";
             getTwoDimensionForWX(

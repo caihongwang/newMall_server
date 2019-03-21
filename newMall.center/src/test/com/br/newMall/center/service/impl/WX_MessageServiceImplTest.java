@@ -58,7 +58,7 @@ public class WX_MessageServiceImplTest {
         ResultMapDTO resultMapDTO = new ResultMapDTO();
         Map<String, Object> resultMap = Maps.newHashMap();
         logger.info("在service中根据OpenID列表群发-messageSend,请求-paramMap:" + paramMap);
-        //默认使用 【油价地图】公众号 来发送
+        //默认使用 【惠生活】公众号 来发送
         String appId = paramMap.get("appId")!=null?paramMap.get("appId").toString():"wxf768b49ad0a4630c";
         String secret = paramMap.get("secret")!=null?paramMap.get("secret").toString():"a481dd6bc40c9eec3e57293222e8246f";
         if(!"".equals(appId) && !"".equals(secret)){
@@ -94,7 +94,7 @@ public class WX_MessageServiceImplTest {
                                 dataMap.put("keyword1", keyword1Map);
 
                                 Map<String, Object> keyword2Map = Maps.newHashMap();
-                                keyword2Map.put("value", "【油价地图】");
+                                keyword2Map.put("value", "【惠生活】");
                                 dataMap.put("keyword2", keyword2Map);
 
                                 Map<String, Object> keyword3Map = Maps.newHashMap();

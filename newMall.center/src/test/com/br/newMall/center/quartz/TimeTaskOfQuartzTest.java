@@ -83,7 +83,7 @@ public class TimeTaskOfQuartzTest {
                             redPacketParamMap.put("amount", redPacketTotal);
                             redPacketParamMap.put("openId", openId);
                             redPacketParamMap.put("reUserName", NewMallCode.WX_MINI_PROGRAM_NAME);
-                            redPacketParamMap.put("wxPublicNumGhId", "gh_417c90af3488");
+                            redPacketParamMap.put("wxPublicNumGhId", "gh_97b78683d2c9");
                             redPacketParamMap.put("desc", NewMallCode.WX_MINI_PROGRAM_NAME + "发红包了，快来看看吧.");
                             ResultMapDTO resultMapDTO = wxRedPacketService.enterprisePayment(redPacketParamMap);
                             //3.发送成功，将已发送的红包进行记录，并保存.

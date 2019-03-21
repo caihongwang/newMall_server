@@ -834,7 +834,7 @@ public class WX_OrderServiceImplTest {
                                                 enterprisePaymentMap.put("amount", ((int) (shopAmount * 100)) + "");
                                                 enterprisePaymentMap.put("openId", shopOpenId);
                                                 enterprisePaymentMap.put("reUserName", NewMallCode.WX_MINI_PROGRAM_NAME);
-                                                enterprisePaymentMap.put("wxPublicNumGhId", "gh_417c90af3488");
+                                                enterprisePaymentMap.put("wxPublicNumGhId", "gh_97b78683d2c9");
                                                 enterprisePaymentMap.put("desc", NewMallCode.WX_MINI_PROGRAM_NAME + "发红包了，快来看看吧.");
                                                 resultMapDTO = wxRedPacketService.enterprisePayment(enterprisePaymentMap);
                                                 //TODO 在此处发起模板消息发送
