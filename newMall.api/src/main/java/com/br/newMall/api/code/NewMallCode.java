@@ -262,8 +262,8 @@ public class NewMallCode {
 
     //微信支付
     public static final String WX_PAY_API_SECRET = "Caihongwang52013Caihongwang52014";     //微信支付 api secret
-    public static final String WX_PAY_MCH_ID = "1345780701";     //微信支付 商家ID
-    public static final String WX_PAY_CERT_PATH = "/Users/caihongwang/Desktop/cert/apiclient_cert.p12";     //微信支付 商家证书
+    public static final String WX_PAY_MCH_ID = "1529014131";     //微信支付 商家ID
+    public static final String WX_PAY_CERT_PATH = "/opt/wx_cert/newMall/apiclient_cert.p12";     //微信支付 商家证书
 //    public static final String WX_PAY_DOMAIN = "http://172.30.5.91:8080/newMall";        //微信支付 域名  本机
     public static final String WX_PAY_DOMAIN = "https://www.91caihongwang.com";        //微信支付 域名  线上
     public static final String WX_RED_PACK_NUMBER = "1";     //微信红包总数：1个
