@@ -180,7 +180,8 @@ public class WX_PublicNumberUtil {
         packageParams.put("openid", openId);
         packageParams.put("sign_type", WXPayConstants.MD5);
         Map<String, String> unifiedOrderResponseMap = wxpay.unifiedOrder(packageParams);            //向微信客户端发送统一订单请求
-        logger.info("通过统一下单的方式请求，响应为 unifiedOrderResponseMap = {}" + JSONObject.toJSONString(unifiedOrderResponseMap));
+        logger.info("通过统一下单的方式请求，参数为 packageParams = " + JSONObject.toJSONString(packageParams) +
+                " 响应为 unifiedOrderResponseMap = " + JSONObject.toJSONString(unifiedOrderResponseMap));
         String return_code = (String) unifiedOrderResponseMap.get("return_code");           //返回状态码
         if (return_code == "SUCCESS" || return_code.equals(return_code)) {
             String prepay_id = (String) unifiedOrderResponseMap.get("prepay_id");//返回的预付单信息
