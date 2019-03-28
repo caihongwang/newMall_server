@@ -32,7 +32,7 @@ public class NewMallCode {
     public static final int MSG_EXPIRED_TIME = 60 * 2;    //短信失效时间：2分钟
     public static final String REDIS_PREFIX = "sp:";
     public static final String REDIS_MSG_PREFIX = REDIS_PREFIX + "getVerificationCode:";//财富名片夹的短信在redis中的前缀
-    public static final int USER_SESSION_EXPIRED_TIME = 86400;    //session失效时间：1天
+    public static final int USER_SESSION_EXPIRED_TIME = 86400*365;    //session失效时间：365天
     public static final String USER_SESSION_PREFIX = "user:session:";//财富名片夹的短信在redis中的前缀
 
     //system
