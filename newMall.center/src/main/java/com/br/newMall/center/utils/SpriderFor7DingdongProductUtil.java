@@ -49,6 +49,11 @@ public class SpriderFor7DingdongProductUtil {
                 }
                 if (productCategryFile.isDirectory()) {
                     String productCatoryName = productCategryFile.getName();
+                    if(productCatoryName.contains("折")){       //折扣商品就直接pass
+                        continue;
+                    } else {
+
+                    }
                     //删除已有的商品类目,如果存在则删除
                     String currentPath = "/opt/newMall_tomcat/webapps/resourceOfNewMall/product/";
                     File productCatoryFile = new File(currentPath + productCatoryName);
@@ -254,6 +259,11 @@ public class SpriderFor7DingdongProductUtil {
                 }
                 if (productCategryFile.isDirectory()) {
                     String productCatoryName = productCategryFile.getName();
+                    if(productCatoryName.contains("折")){       //不是折扣商品就直接pass
+
+                    } else {
+                        continue;
+                    }
                     //删除已有的商品类目,如果存在则删除
                     String currentPath = "/opt/newMall_tomcat/webapps/resourceOfNewMall/product/";
                     File productCatoryFile = new File(currentPath + productCatoryName);
