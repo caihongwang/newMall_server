@@ -222,21 +222,38 @@ public class SpriderFor7DingdongProductUtil {
                 break;
             }
         }
-        //整合SQL
-        String insertProductSql = "INSERT INTO new_mall.n_product\n" +
-                "(title, degist, descript, stock, head_img_url, describe_img_url,\n" +
-                " price, integral, category, status, create_time, update_time)\n" +
-                "VALUES (\n" +
-                "  '" + title + "',\n" +
-                "  '" + title + "',\n" +
-                "  '" + title + "',\n" +
-                "  '" + stock + "',\n" +
-                "  '" + headImgUrl + "',\n" +
-                "  '" + describeImgUrl + "',\n" +
-                "  99999,'" + integral + "', '" + productCatoryName + "', 0, \n" +
-                "  '2019-03-01 22:00:00', '2019-03-01 22:00:00');";
-        logger.info("商品名称【"+title+"】的图片信息和SQL保存成功.");
-        insertProductSqlList.add(insertProductSql);
+
+
+
+        Map<String, Object> productParamMap = Maps.newHashMap();
+        productParamMap.put("title", title);
+        List<Map<String, Object>> pruductList = wxProductDao.getSimpleProductByCondition(productParamMap);
+        if(pruductList != null && pruductList.size() > 0){
+            // 整合SQL
+            String updateProductSql = "update n_product np set " +
+                    "stock='"+stock+"', " +
+                    "integral='"+integral+"', " +
+                    "np.update_time = CURRENT_TIMESTAMP " +
+                    "where id = '"+pruductList.get(0).get("id").toString()+"'\n";
+            logger.info("商品名称【"+title+"】的图片信息和SQL保存成功.");
+            insertProductSqlList.add(updateProductSql);
+        } else {
+            //整合SQL
+            String insertProductSql = "INSERT INTO new_mall.n_product\n" +
+                    "(title, degist, descript, stock, head_img_url, describe_img_url,\n" +
+                    " price, integral, category, status, create_time, update_time)\n" +
+                    "VALUES (\n" +
+                    "  '" + title + "',\n" +
+                    "  '" + title + "',\n" +
+                    "  '" + title + "',\n" +
+                    "  '" + stock + "',\n" +
+                    "  '" + headImgUrl + "',\n" +
+                    "  '" + describeImgUrl + "',\n" +
+                    "  99999,'" + integral + "', '" + productCatoryName + "', 0, \n" +
+                    "  '2019-03-01 22:00:00', '2019-03-01 22:00:00');";
+            logger.info("商品名称【"+title+"】的图片信息和SQL保存成功.");
+            insertProductSqlList.add(insertProductSql);
+        }
         return insertProductSqlList;
     }
 
