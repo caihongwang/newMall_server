@@ -17,155 +17,6 @@
                     pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %M-%msg%xEx%n"/>
         </Console>
 
-        <!-- 1-框架运行中相关的日志配置 -->
-
-        <!-- rpc info级别的 -->
-        <RollingFile name="rpc-info" fileName="${LOG_HOME}/rpc-info.log"
-                     filePattern="logs/rpc-info.log.%d{MM-dd-yyyy}">
-            <ThresholdFilter level="info" onMatch="ACCEPT"
-                             onMismatch="DENY"/>
-            <PatternLayout
-                    pattern="%d{yyyy-MM-dd 'at' HH:mm:ss.SSS z} %-5level %c %M-%msg%xEx%n"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy modulate="false" interval="1"/>
-            </Policies>
-            <!-- 此行以下为自动清理日志的配置 -->
-            <DefaultRolloverStrategy>
-                <Delete basePath="./logs">
-                    <!-- glob 项为需要自动清理日志的pattern -->
-                    <IfFileName glob="*.log"/>
-                    <!-- 3d 表示自动清理掉3天以前的日志文件 -->
-                    <IfLastModified age="72H"/>
-                </Delete>
-            </DefaultRolloverStrategy>
-        </RollingFile>
-
-        <RollingFile name="rpc-trace-info"
-                     fileName="${LOG_HOME}/rpc-trace-info.log"
-                     filePattern="logs/rpc-trace-info.log.%d{MM-dd-yyyy}">
-            <ThresholdFilter level="info" onMatch="ACCEPT"
-                             onMismatch="DENY"/>
-            <PatternLayout
-                    pattern="%d{yyyy-MM-dd 'at' HH:mm:ss.SSS z} %-5level %msg%xEx%n"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy modulate="false" interval="1"/>
-            </Policies>
-            <!-- 此行以下为自动清理日志的配置 -->
-            <DefaultRolloverStrategy>
-                <Delete basePath="./logs">
-                    <!-- glob 项为需要自动清理日志的pattern -->
-                    <IfFileName glob="*.log"/>
-                    <!-- 3d 表示自动清理掉3天以前的日志文件 -->
-                    <IfLastModified age="72H"/>
-                </Delete>
-            </DefaultRolloverStrategy>
-        </RollingFile>
-
-        <!-- rpc error级别的 -->
-        <RollingFile name="rpc-error" fileName="${LOG_HOME}/rpc-error.log"
-                     filePattern="logs/rpc-error.log.%d{MM-dd-yyyy}">
-            <ThresholdFilter level="error" onMatch="ACCEPT"
-                             onMismatch="DENY"/>
-            <PatternLayout
-                    pattern="%d{yyyy-MM-dd 'at' HH:mm:ss.SSS z} %-5level %c %M-%msg%xEx%n"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy modulate="false" interval="1"/>
-            </Policies>
-            <!-- 此行以下为自动清理日志的配置 -->
-            <DefaultRolloverStrategy>
-                <Delete basePath="./logs">
-                    <!-- glob 项为需要自动清理日志的pattern -->
-                    <IfFileName glob="*.log"/>
-                    <!-- 3d 表示自动清理掉3天以前的日志文件 -->
-                    <IfLastModified age="72H"/>
-                </Delete>
-            </DefaultRolloverStrategy>
-        </RollingFile>
-
-        <!-- rpc debug级别的 -->
-        <RollingFile name="rpc-debug" fileName="${LOG_HOME}/rpc-debug.log"
-                     filePattern="logs/rpc-debug.log.%d{MM-dd-yyyy}">
-            <ThresholdFilter level="debug" onMatch="ACCEPT"
-                             onMismatch="DENY"/>
-            <PatternLayout
-                    pattern="%d{yyyy-MM-dd 'at' HH:mm:ss.SSS z} %-5level %c %M-%msg%xEx%n"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy modulate="false" interval="1"/>
-            </Policies>
-            <!-- 此行以下为自动清理日志的配置 -->
-            <DefaultRolloverStrategy>
-                <Delete basePath="./logs">
-                    <!-- glob 项为需要自动清理日志的pattern -->
-                    <IfFileName glob="*.log"/>
-                    <!-- 3d 表示自动清理掉3天以前的日志文件 -->
-                    <IfLastModified age="72H"/>
-                </Delete>
-            </DefaultRolloverStrategy>
-        </RollingFile>
-
-        <!--  rpc warn级别的 -->
-        <RollingFile name="rpc-warn" fileName="${LOG_HOME}/rpc-warn.log"
-                     filePattern="logs/rpc-warn.log.%d{MM-dd-yyyy}">
-            <ThresholdFilter level="warn" onMatch="ACCEPT"
-                             onMismatch="DENY"/>
-            <PatternLayout
-                    pattern="%d{yyyy-MM-dd 'at' HH:mm:ss.SSS z} %-5level %c %M-%msg%xEx%n"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy modulate="false" interval="1"/>
-            </Policies>
-            <!-- 此行以下为自动清理日志的配置 -->
-            <DefaultRolloverStrategy>
-                <Delete basePath="./logs">
-                    <!-- glob 项为需要自动清理日志的pattern -->
-                    <IfFileName glob="*.log"/>
-                    <!-- 3d 表示自动清理掉3天以前的日志文件 -->
-                    <IfLastModified age="72H"/>
-                </Delete>
-            </DefaultRolloverStrategy>
-        </RollingFile>
-
-        <!-- thrift warn级别的 -->
-        <RollingFile name="thrift-warn" fileName="${LOG_HOME}/thrift-warn.log"
-                     filePattern="logs/thrift-warn.log.%d{MM-dd-yyyy}">
-            <ThresholdFilter level="warn" onMatch="ACCEPT"
-                             onMismatch="DENY"/>
-            <PatternLayout
-                    pattern="%d{yyyy-MM-dd 'at' HH:mm:ss.SSS z} %-5level %c %M-%msg%xEx%n"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy modulate="false" interval="1"/>
-            </Policies>
-            <!-- 此行以下为自动清理日志的配置 -->
-            <DefaultRolloverStrategy>
-                <Delete basePath="./logs">
-                    <!-- glob 项为需要自动清理日志的pattern -->
-                    <IfFileName glob="*.log"/>
-                    <!-- 3d 表示自动清理掉3天以前的日志文件 -->
-                    <IfLastModified age="72H"/>
-                </Delete>
-            </DefaultRolloverStrategy>
-        </RollingFile>
-
-        <!-- thrift error级别的 -->
-        <RollingFile name="thrift-error" fileName="${LOG_HOME}/thrift-error.log"
-                     filePattern="logs/thrift-error.log.%d{MM-dd-yyyy}">
-            <ThresholdFilter level="error" onMatch="ACCEPT"
-                             onMismatch="DENY"/>
-            <PatternLayout
-                    pattern="%d{yyyy-MM-dd 'at' HH:mm:ss.SSS z} %-5level %c %M-%msg%xEx%n"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy modulate="false" interval="1"/>
-            </Policies>
-            <!-- 此行以下为自动清理日志的配置 -->
-            <DefaultRolloverStrategy>
-                <Delete basePath="./logs">
-                    <!-- glob 项为需要自动清理日志的pattern -->
-                    <IfFileName glob="*.log"/>
-                    <!-- 3d 表示自动清理掉3天以前的日志文件 -->
-                    <IfLastModified age="72H"/>
-                </Delete>
-            </DefaultRolloverStrategy>
-        </RollingFile>
-
         <!-- newMall info级别的 -->
         <RollingFile name="newMall-info"
                      fileName="${LOG_HOME}/newMall-info.log"
@@ -179,11 +30,11 @@
             </Policies>
             <!-- 此行以下为自动清理日志的配置 -->
             <DefaultRolloverStrategy>
-                <Delete basePath="./logs">
+                <Delete basePath="logs">
                     <!-- glob 项为需要自动清理日志的pattern -->
                     <IfFileName glob="*.log"/>
                     <!-- 3d 表示自动清理掉3天以前的日志文件 -->
-                    <IfLastModified age="72H"/>
+                    <IfLastModified age="24H"/>
                 </Delete>
             </DefaultRolloverStrategy>
         </RollingFile>
@@ -201,11 +52,11 @@
             </Policies>
             <!-- 此行以下为自动清理日志的配置 -->
             <DefaultRolloverStrategy>
-                <Delete basePath="./logs">
+                <Delete basePath="logs">
                     <!-- glob 项为需要自动清理日志的pattern -->
                     <IfFileName glob="*.log"/>
                     <!-- 3d 表示自动清理掉3天以前的日志文件 -->
-                    <IfLastModified age="72H"/>
+                    <IfLastModified age="24H"/>
                 </Delete>
             </DefaultRolloverStrategy>
         </RollingFile>
@@ -223,32 +74,19 @@
             </Policies>
             <!-- 此行以下为自动清理日志的配置 -->
             <DefaultRolloverStrategy>
-                <Delete basePath="./logs">
+                <Delete basePath="logs">
                     <!-- glob 项为需要自动清理日志的pattern -->
                     <IfFileName glob="*.log"/>
                     <!-- 3d 表示自动清理掉3天以前的日志文件 -->
-                    <IfLastModified age="72H"/>
+                    <IfLastModified age="24H"/>
                 </Delete>
             </DefaultRolloverStrategy>
         </RollingFile>
 
     </appenders>
+
     <!--然后定义logger，只有定义了logger并引入的appender，appender才会生效-->
     <loggers>
-        <!--建立一个默认的root的logger-->
-        <root level="debug">
-            <appender-ref ref="Console"/>
-        </root>
-
-        <!-- 框架运行中涉及到的日志 -->
-        <logger name="com.br.rpc" additivity="false">
-            <appender-ref ref="rpc-info"/>
-            <appender-ref ref="rpc-debug"/>
-            <appender-ref ref="rpc-warn"/>
-            <appender-ref ref="rpc-error"/>
-            <appenderRef ref="Console"/>
-        </logger>
-
         <logger name="com.br.newMall" additivity="false">
             <appender-ref ref="newMall-info"/>
             <appender-ref ref="newMall-error"/>
@@ -256,17 +94,5 @@
             <appenderRef ref="Console"/>
             <!--这段上正式的时候需要去掉-->
         </logger>
-
-        <logger name="com.br.rpc.common.log" additivity="false">
-            <appender-ref ref="rpc-trace-info"/>
-            <appenderRef ref="Console"/>
-        </logger>
-
-        <logger name="org.apache.thrift" additivity="false">
-            <appender-ref ref="thrift-error"/>
-            <appender-ref ref="thrift-warn"/>
-            <appenderRef ref="Console"/>
-        </logger>
-
     </loggers>
 </configuration>

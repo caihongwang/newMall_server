@@ -28,7 +28,7 @@ public class SpriderFor7DingdongProductUtil {
     public static final Logger logger = LoggerFactory.getLogger(SpriderFor7DingdongProductUtil.class);
 
     public static ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:center-context.xml");
-    public static WX_ProductDao wxProductDao = context.getBean("wx_ProductDao", WX_ProductDao.class);
+    public static WX_ProductDao wxProductDao = context.getBean("WX_ProductDao", WX_ProductDao.class);
 
     /**
      * 获取所有企叮咚的商品
@@ -83,7 +83,11 @@ public class SpriderFor7DingdongProductUtil {
                         List<Map<String, Object>> productList = JSONObject.parseObject(JSONObject.toJSONString(productData), List.class);
                         for(Map<String, Object> productMap : productList){
                             String goodsId = productMap.get("goods_id").toString();
-                            getSimpleProduct(productCatoryName, goodsId, productSqlList);
+                            try{
+                                getSimpleProduct(productCatoryName, goodsId, productSqlList);
+                            } catch (Exception e) {
+                                continue;
+                            }
                         }
                     }
                     //将所有的SQL存放到文件中去
@@ -249,7 +253,7 @@ public class SpriderFor7DingdongProductUtil {
                     "  '" + stock + "',\n" +
                     "  '" + headImgUrl + "',\n" +
                     "  '" + describeImgUrl + "',\n" +
-                    "  99999,'" + integral + "', '" + productCatoryName + "', 0, \n" +
+                    "  9.9,'" + integral + "', '" + productCatoryName + "', 0, \n" +
                     "  '2019-03-01 22:00:00', '2019-03-01 22:00:00');";
             logger.info("商品名称【"+title+"】的图片信息和SQL保存成功.");
             insertProductSqlList.add(insertProductSql);
@@ -364,6 +368,7 @@ public class SpriderFor7DingdongProductUtil {
                     .timeout(5000).get();
         } catch (IOException e) {
             e.printStackTrace();
+            return updateProductSqlList;
         }
         //获取 商品名称
         String title = "";
@@ -396,28 +401,38 @@ public class SpriderFor7DingdongProductUtil {
                 break;
             }
         }
-        Double price = 2.9;
+        Double price = 9.9;
         Double integral = 0.0;
         try {
             integral = Double.parseDouble(integralStr);
         } catch (Exception e) {
             integral = 0.0;
         }
-        if("1折以下".equals(deductionName)){            //1折
-            price = 2.9;
-            integral = integral * 1;
-        } else if("1-2折".equals(deductionName)){      //2折
-            price = 5.9;
-            integral = integral * 2;
-        } else if("2-3折".equals(deductionName)){      //3折
-            price = 8.9;
-            integral = integral * 3;
-        } else if("3-4折".equals(deductionName)){      //4折
-            price = 11.9;
-            integral = integral * 4;
-        } else if("4折以上".equals(deductionName)){     //5折
-            price = 13.9;
-            integral = integral * 5;
+//        if("1折以下".equals(deductionName)){            //1折
+//            price = 2.9;
+//            integral = integral * 1;
+//        } else if("1-2折".equals(deductionName)){      //2折
+//            price = 5.9;
+//            integral = integral * 2;
+//        } else if("2-3折".equals(deductionName)){      //3折
+//            price = 8.9;
+//            integral = integral * 3;
+//        } else if("3-4折".equals(deductionName)){      //4折
+//            price = 11.9;
+//            integral = integral * 4;
+//        } else if("4折以上".equals(deductionName)){     //5折
+//            price = 13.9;
+//            integral = integral * 5;
+//        }
+
+        if(integral <= 200){
+            price = 3.95;
+        } else if(integral > 200 && integral <= 1000){
+            price = 8.35;
+        } else if(integral > 1000){
+            price = 13.39;
+        } else {
+            price = 9.9;
         }
 
         //获取 商品库存
