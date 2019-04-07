@@ -7,15 +7,15 @@
 
     <!--先定义所有的appender-->
     <appenders>
-        <!--&lt;!&ndash;这个输出控制台的配置&ndash;&gt;-->
-        <!--<Console name="Console" target="SYSTEM_OUT">-->
-            <!--&lt;!&ndash;控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）&ndash;&gt;-->
-            <!--<ThresholdFilter level="trace" onMatch="ACCEPT"-->
-                             <!--onMismatch="DENY"/>-->
-            <!--&lt;!&ndash;这个都知道是输出日志的格式&ndash;&gt;-->
-            <!--<PatternLayout-->
-                    <!--pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %M-%msg%xEx%n"/>-->
-        <!--</Console>-->
+        <!--这个输出控制台的配置-->
+        <Console name="Console" target="SYSTEM_OUT">
+            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="trace" onMatch="ACCEPT"
+                             onMismatch="DENY"/>
+            <!--这个都知道是输出日志的格式-->
+            <PatternLayout
+                    pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %M-%msg%xEx%n"/>
+        </Console>
 
         <!-- newMall info级别的 -->
         <RollingFile name="newMall-info"
@@ -87,6 +87,12 @@
 
     <!--然后定义logger，只有定义了logger并引入的appender，appender才会生效-->
     <loggers>
+
+        <!--建立一个默认的root的logger-->
+        <root level="debug">
+            <appender-ref ref="Console"/>
+        </root>
+
         <logger name="com.br.newMall" additivity="false">
             <appender-ref ref="newMall-info"/>
             <appender-ref ref="newMall-error"/>

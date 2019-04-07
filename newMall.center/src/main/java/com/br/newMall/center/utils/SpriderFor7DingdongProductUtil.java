@@ -81,12 +81,14 @@ public class SpriderFor7DingdongProductUtil {
                         JSONObject productJsonObject = JSONObject.parseObject(productJson.toString());
                         JSONArray productData = productJsonObject.getJSONArray("data");
                         List<Map<String, Object>> productList = JSONObject.parseObject(JSONObject.toJSONString(productData), List.class);
-                        for(Map<String, Object> productMap : productList){
-                            String goodsId = productMap.get("goods_id").toString();
-                            try{
-                                getSimpleProduct(productCatoryName, goodsId, productSqlList);
-                            } catch (Exception e) {
-                                continue;
+                        if(productList != null && productList.size() > 0){
+                            for(Map<String, Object> productMap : productList){
+                                String goodsId = productMap.get("goods_id").toString();
+                                try{
+                                    getSimpleProduct(productCatoryName, goodsId, productSqlList);
+                                } catch (Exception e) {
+                                    continue;
+                                }
                             }
                         }
                     }
@@ -312,9 +314,15 @@ public class SpriderFor7DingdongProductUtil {
                         JSONObject productJsonObject = JSONObject.parseObject(productJson.toString());
                         JSONArray productData = productJsonObject.getJSONArray("data");
                         List<Map<String, Object>> productList = JSONObject.parseObject(JSONObject.toJSONString(productData), List.class);
-                        for(Map<String, Object> productMap : productList){
-                            String goodsId = productMap.get("goods_id").toString();
-                            updateProduct(productCatoryName, goodsId, productSqlList);
+                        if(productList != null && productList.size() > 0){
+                            for(Map<String, Object> productMap : productList){
+                                String goodsId = productMap.get("goods_id").toString();
+                                try{
+                                    updateProduct(productCatoryName, goodsId, productSqlList);
+                                } catch (Exception e) {
+                                    continue;
+                                }
+                            }
                         }
                     }
                     //将所有的SQL存放到文件中去
