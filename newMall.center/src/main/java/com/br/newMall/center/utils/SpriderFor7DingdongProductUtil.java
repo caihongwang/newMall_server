@@ -254,7 +254,7 @@ public class SpriderFor7DingdongProductUtil {
             insertProductSqlList.add(updateProductSql);
         } else {
             //整合SQL
-            String insertProductSql = "INSERT INTO new_mall.n_product\n" +
+            String insertProductSql = "INSERT INTO n_product\n" +
                     "(title, degist, descript, stock, head_img_url, describe_img_url,\n" +
                     " price, integral, category, status, create_time, update_time)\n" +
                     "VALUES (\n" +
