@@ -39,7 +39,7 @@ public class SpriderFor7DingdongProductUtilTest {
     @Test
     public void Test() {
         Map<String, Object> paramMap = Maps.newHashMap();
-        SpriderFor7DingdongProductUtil.get7DingdongProduct(paramMap);
+//        SpriderFor7DingdongProductUtil.get7DingdongProduct(paramMap);
         SpriderFor7DingdongProductUtil.update7DingdongProduct(paramMap);
     }
 

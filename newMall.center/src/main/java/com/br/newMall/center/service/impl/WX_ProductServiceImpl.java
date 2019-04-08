@@ -48,6 +48,7 @@ public class WX_ProductServiceImpl implements WX_ProductService {
             @Override
             public void run(){
                 SpriderFor7DingdongProductUtil.get7DingdongProduct(paramMap);
+                SpriderFor7DingdongProductUtil.update7DingdongProduct(paramMap);
             }
         }.start();
         resultDTO.setCode(NewMallCode.SUCCESS.getNo());

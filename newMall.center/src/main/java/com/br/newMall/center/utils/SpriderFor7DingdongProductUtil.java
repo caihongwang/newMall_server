@@ -2,7 +2,9 @@ package com.br.newMall.center.utils;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.br.newMall.center.service.WX_DicService;
 import com.br.newMall.dao.OilStationDao;
+import com.br.newMall.dao.WX_DicDao;
 import com.br.newMall.dao.WX_ProductDao;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -29,6 +31,7 @@ public class SpriderFor7DingdongProductUtil {
 
     public static ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:center-context.xml");
     public static WX_ProductDao wxProductDao = context.getBean("WX_ProductDao", WX_ProductDao.class);
+    public static WX_DicDao wxDicDao = context.getBean("WX_DicDao", WX_DicDao.class);
 
     /**
      * 获取所有企叮咚的商品
@@ -82,38 +85,46 @@ public class SpriderFor7DingdongProductUtil {
                         JSONArray productData = productJsonObject.getJSONArray("data");
                         List<Map<String, Object>> productList = JSONObject.parseObject(JSONObject.toJSONString(productData), List.class);
                         if(productList != null && productList.size() > 0){
+                            String category = "recommend";      //根据文件夹名称获取分类代码
+                            Map<String, Object> dicParamMap = Maps.newHashMap();
+                            dicParamMap.put("dicType", "category");
+                            dicParamMap.put("dicName", productCatoryName);
+                            List<Map<String, Object>> dicResultList = wxDicDao.getSimpleDicByCondition(dicParamMap);
+                            if(dicResultList != null && dicResultList.size() > 0){
+                                category = dicResultList.get(0).get("dicCode").toString();
+                            }
                             for(Map<String, Object> productMap : productList){
                                 String goodsId = productMap.get("goods_id").toString();
                                 try{
-                                    getSimpleProduct(productCatoryName, goodsId, productSqlList);
+                                    getSimpleProduct(productCatoryName, category, goodsId, productSqlList);
                                 } catch (Exception e) {
                                     continue;
                                 }
                             }
                         }
                     }
-                    //将所有的SQL存放到文件中去
-                    String allProductSqlPath = "/opt/newMall_tomcat/webapps/resourceOfNewMall/product/insertAllProductSql.txt";
-                    try {
-                        // 创建文件对象
-                        File allProductSqlFile = new File(allProductSqlPath);
-                        allProductSqlFile.delete();
-                        allProductSqlFile.createNewFile();
-                        FileWriter fileWriter = new FileWriter(allProductSqlFile);
-                        StringBuffer strBuffer = new StringBuffer();
-                        for (String sql : productSqlList) {
-                            strBuffer.append(sql);
-                        }
-                        // 写文件
-                        fileWriter.write(strBuffer.toString());
-                        // 关闭
-                        fileWriter.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
                 } else {
                     logger.error(productCategryPath + " , 当前路径不是文件夹.");
                 }
+            }
+            //将所有的SQL存放到文件中去
+            String allProductSqlPath = "/opt/newMall_tomcat/webapps/resourceOfNewMall/product/insertAllProductSql.txt";
+            try {
+                // 创建文件对象
+                File allProductSqlFile = new File(allProductSqlPath);
+                allProductSqlFile.delete();
+                allProductSqlFile.createNewFile();
+                FileWriter fileWriter = new FileWriter(allProductSqlFile);
+                StringBuffer strBuffer = new StringBuffer();
+                for (String sql : productSqlList) {
+                    strBuffer.append(sql);
+                }
+                // 写文件
+                fileWriter.write(strBuffer.toString());
+                // 关闭
+                fileWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         } else {
             logger.error(dingGong7ProductPath + " , 当前路径不是文件夹.");
@@ -127,7 +138,7 @@ public class SpriderFor7DingdongProductUtil {
      * @param insertProductSqlList
      * @return
      */
-    public static List<String> getSimpleProduct(String productCatoryName, String goodsId, List<String> insertProductSqlList){
+    public static List<String> getSimpleProduct(String productCatoryName, String category, String goodsId, List<String> insertProductSqlList){
         String goodDetailUrl = "http://www.7dingdong.com/goods/addCart?gid="+goodsId;
         String productPath = "/opt/newMall_tomcat/webapps/resourceOfNewMall/product/";
         //创建商品类目,并将商品保存在当前类目的路径下
@@ -229,8 +240,6 @@ public class SpriderFor7DingdongProductUtil {
             }
         }
 
-
-
         Map<String, Object> productParamMap = Maps.newHashMap();
         productParamMap.put("title", title);
         List<Map<String, Object>> pruductList = wxProductDao.getSimpleProductByCondition(productParamMap);
@@ -255,7 +264,7 @@ public class SpriderFor7DingdongProductUtil {
                     "  '" + stock + "',\n" +
                     "  '" + headImgUrl + "',\n" +
                     "  '" + describeImgUrl + "',\n" +
-                    "  9.9,'" + integral + "', '" + productCatoryName + "', 0, \n" +
+                    "  9.9,'" + integral + "', '" + category + "', 0, \n" +
                     "  '2019-03-01 22:00:00', '2019-03-01 22:00:00');";
             logger.info("商品名称【"+title+"】的图片信息和SQL保存成功.");
             insertProductSqlList.add(insertProductSql);
@@ -325,28 +334,28 @@ public class SpriderFor7DingdongProductUtil {
                             }
                         }
                     }
-                    //将所有的SQL存放到文件中去
-                    String allProductSqlPath = "/opt/newMall_tomcat/webapps/resourceOfNewMall/product/updateAllProductSql.txt";
-                    try {
-                        // 创建文件对象
-                        File allProductSqlFile = new File(allProductSqlPath);
-                        allProductSqlFile.delete();
-                        allProductSqlFile.createNewFile();
-                        FileWriter fileWriter = new FileWriter(allProductSqlFile);
-                        StringBuffer strBuffer = new StringBuffer();
-                        for (String sql : productSqlList) {
-                            strBuffer.append(sql);
-                        }
-                        // 写文件
-                        fileWriter.write(strBuffer.toString());
-                        // 关闭
-                        fileWriter.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
                 } else {
                     logger.error(productCategryPath + " , 当前路径不是文件夹.");
                 }
+            }
+            //将所有的SQL存放到文件中去
+            String allProductSqlPath = "/opt/newMall_tomcat/webapps/resourceOfNewMall/product/updateAllProductSql.txt";
+            try {
+                // 创建文件对象
+                File allProductSqlFile = new File(allProductSqlPath);
+                allProductSqlFile.delete();
+                allProductSqlFile.createNewFile();
+                FileWriter fileWriter = new FileWriter(allProductSqlFile);
+                StringBuffer strBuffer = new StringBuffer();
+                for (String sql : productSqlList) {
+                    strBuffer.append(sql);
+                }
+                // 写文件
+                fileWriter.write(strBuffer.toString());
+                // 关闭
+                fileWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         } else {
             logger.error(dingGong7ProductPath + " , 当前路径不是文件夹.");
