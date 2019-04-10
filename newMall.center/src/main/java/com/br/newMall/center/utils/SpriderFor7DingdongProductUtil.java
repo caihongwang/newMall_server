@@ -475,7 +475,7 @@ public class SpriderFor7DingdongProductUtil {
                     "integral='"+integral+"', " +
                     "deduction='"+deductionName+"', " +
                     "np.update_time = CURRENT_TIMESTAMP " +
-                    "where id = '"+pruductList.get(0).get("id").toString()+"'\n";
+                    "where id = '"+pruductList.get(0).get("id").toString()+"';\n";
             logger.info("商品名称【"+title+"】的图片信息和SQL保存成功.");
             updateProductSqlList.add(updateProductSql);
         }
